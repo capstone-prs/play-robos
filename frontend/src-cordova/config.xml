@@ -9,4 +9,10 @@
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-navigation href="about:*" />
+    <!-- <universal-links>
+        <host name="playrobos.page.link" scheme="https" />
+        <host name="playrobos.com" scheme="https">
+            <path url="/__/auth/callback" />
+        </host>
+    </universal-links> -->
 </widget>
