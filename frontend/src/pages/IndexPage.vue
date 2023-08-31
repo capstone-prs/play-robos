@@ -1,13 +1,15 @@
 <template>
-  <q-page class="row items-center justify-evenly">
-    Hello World!
-  </q-page>
+  <div>
+    <HomePage />
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import HomePage from './HomePage.vue';
 
 export default defineComponent({
-  name: 'IndexPage',
+    name: 'IndexPage',
+    components: { HomePage }
 });
 </script>
