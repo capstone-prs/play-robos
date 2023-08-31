@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="edu.prs.playrobos" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="prs.playrobos" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Play Robos</name>
     <description>A robotics-integrated programming platform design for children aged 5-11 years old. The main objective of this project it to develop the computational thinking abilities of children while lowering their passive screen time. Through Play Robos, we aim to foster the computational thinking minds of the younger generations.</description>
     <author email="dev@cordova.apache.org" href="https://cordova.apache.org">
@@ -9,10 +9,4 @@
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-navigation href="about:*" />
-    <!-- <universal-links>
-        <host name="playrobos.page.link" scheme="https" />
-        <host name="playrobos.com" scheme="https">
-            <path url="/__/auth/callback" />
-        </host>
-    </universal-links> -->
 </widget>
