@@ -11,7 +11,7 @@ Blockly.defineBlocksWithJsonArray(
       'check': 'Boolean'
     }
   ],
-  'colour': 230,
+  'colour': 187,
   'tooltip': '',
   'helpUrl': ''
 },
