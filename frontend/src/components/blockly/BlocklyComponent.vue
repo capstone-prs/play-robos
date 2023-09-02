@@ -5,7 +5,8 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
 import Blockly from 'blockly';
-import './blocks/stocks';
+import './blocks/stocks'
+import { level1 } from './toolbox/toolbox'
 
 export default defineComponent({
   name: 'BlocklyComponent',
@@ -14,12 +15,9 @@ export default defineComponent({
 
     onMounted(() => {
       Blockly.inject(blocklyContainer.value, {
-        // can be tried to export as another file or add logic to the toolbox to render needed toolbox per level
-        toolbox: `<xml>
-            <block width="200" type="wink"></block>
-            <block type="blink"></block>
-            <block type="eye_roll"></block>
-        </xml>`,
+        // refer to toolbox.js file, we can define more levels from there,
+        // future handling may be passing the level number as props to this component
+        toolbox: level1,
         trashcan: true,
         grid:
         {
@@ -29,31 +27,19 @@ export default defineComponent({
           snap: true
         },
          zoom: {
-          // controls: true,
-          // wheel: true,
-          startScale: 1.5, // Adjust to your desired scale factor
+          startScale: 1.5,
           maxScale: 3,
           minScale: 0.3,
           scaleSpeed: 1.2,
         },
-        // theme: {
-        //   name: 'custom',
-        //   'blockStyles': {
-        //     'list_blocks': {
-        //       'colourPrimary': '#4a148c',
-        //       'colourSecondary': '#AD7BE9',
-        //       'colourTertiary': '#CDB6E9'
-        //     }
-        //   },
-        //   'categoryStyles': {
-        //     'list_category': {
-        //       'colour': '#4a148c'
-        //     }
-        //   },
-        //   'componentStyles': {
-        //     'workspaceBackgroundColour': '#1e1e1e'
-        //   },
-        // }
+        theme: {
+          name: 'custom',
+          'componentStyles': {
+            'workspaceBackgroundColour': '#FFFFFF',
+            'flyoutBackgroundColour': '#D0D0D0',
+            'flyoutOpacity': 0.7,
+          },
+        }
       });
     });
 
