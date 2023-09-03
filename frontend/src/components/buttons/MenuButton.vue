@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-btn round>
-      <q-icon name="img:/menu-btn.png" size="xl" />
+      <q-icon name="img:/menu-btn.svg" size="50px" />
     </q-btn>
   </div>
 </template>
