@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-btn class="glossy hitchcut" rounded color="yellow" text-color="blue">
+    <q-btn class="glossy hitchcut" size="lg" rounded color="yellow" text-color="blue">
       {{ textLabel }}
     </q-btn>
   </div>
@@ -12,7 +12,7 @@ import { defineComponent } from 'vue';
 export default defineComponent({
   name: 'ActionButton',
   props: {
-    'textLabel': String
+    'textLabel': String,
   },
   setup(props) {
     // const textLabel = props['text-label'];
@@ -25,7 +25,7 @@ export default defineComponent({
 <style>
   @font-face {
     font-family: hitchcut ;
-    src: url('../../../public/./fonts/Hitchcut-Regular.woff');
+    src: url('/fonts/Hitchcut-Regular.woff');
   }
 
   .hitchcut {

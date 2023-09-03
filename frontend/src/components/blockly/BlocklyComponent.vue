@@ -85,11 +85,11 @@ export default defineComponent({
   position: absolute;
   z-index: 2;
   padding-top: 5px;
-  left: 73%;
+  left: 68%;
 }
 
 .buttons {
-  padding: 2px;
+  padding: 8px;
 }
 
 .check {
