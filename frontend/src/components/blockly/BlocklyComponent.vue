@@ -4,18 +4,18 @@
     <div class="overlay-container">
       <div class="row">
         <div class="col-6 check">
-          <ActionButton text-label="CHECK" />
+          <ActionButton text-label="CHECK" data-testid="check-btn" />
         </div>
-        <div class="col-3 buttons">
+        <div class="col-3 buttons" data-testid="help-btn">
           <HelpButton />
         </div>
-        <div class="col-3 buttons">
+        <div class="col-3 buttons" data-testid="menu-btn" >
           <MenuButton />
         </div>
       </div>
     </div>
 
-    <div ref="blocklyContainer" class="blockly-container"></div>
+    <div ref="blocklyContainer" class="blockly-container" data-testid="blockly-container"></div>
 
   </div>
 

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-btn class="glossy hitchcut" size="lg" rounded color="yellow" text-color="blue">
+    <q-btn class="glossy hitchcut" size="lg" rounded color="yellow" text-color="blue" data-testid="action-btn">
       {{ textLabel }}
     </q-btn>
   </div>
