@@ -50,7 +50,7 @@
 import login from '../../firebase/auth';
 import { ref } from 'vue'
 import '../../css/style.css'
-import PlayRobosLogo from '../../assets/PlayRobosLogo1.png';
+import PlayRobos1 from '../../assets/PlayRobos1.svg';
 import { useQuasar } from 'quasar'
 
 
@@ -62,7 +62,7 @@ export default {
 
 
     return {
-      image: PlayRobosLogo,
+      image: PlayRobos1,
       logInModal: ref(false),
 
 

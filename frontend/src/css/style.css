@@ -20,10 +20,11 @@
     font-size: 35px; /* Adjust the font size as needed */
     color: #333; /* Adjust the text color */
     font-family: "hitchcut";
+    src: url('/fonts/Hitchcut-Regular.woff');
     font-weight: bold;
   }
   .element {
-    background-image: url('../assets/v1015-101a.jpg');
+    background-image: url('../assets/image2vector.svg');
     background-repeat: no-repeat;
     background-size: cover;
     background-size: 100% auto;

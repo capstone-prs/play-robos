@@ -77,7 +77,7 @@
 <script>
 import { signup } from '../../firebase/auth';
 import '../../css/style.css'
-import PlayRobosLogo from '../../assets/PlayRobosLogo1.png';
+import PlayRobos1 from '../../assets/PlayRobos1.svg';
 import { useQuasar } from 'quasar'
 import { ref } from 'vue';
 export default {
@@ -87,7 +87,7 @@ export default {
 
     return {
 
-      image: PlayRobosLogo,
+      image: PlayRobos1,
       signInModal: ref(false),
 
       triggerNotify(type, message) {
