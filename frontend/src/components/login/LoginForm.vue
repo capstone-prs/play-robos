@@ -1,72 +1,108 @@
 <template>
-  <div class="login-form">
-    <h2>Log in</h2>
-    <form @submit.prevent="submitForm">
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" v-model="email" required />
-      </div>
-      <div class="form-group">
-        <label for="password">Password:</label>
-        <input type="password" id="password" v-model="password" required />
-      </div>
+  <div class="q-pa-md q-gutter-sm">
+    <q-btn label="Log In" class="kid-button-log-in" @click="logInModal = true" />
 
-      <button type="submit" @click="submit">Log in</button>
-      <p v-if="error" class="error">{{ error }}</p>
-    </form>
-    <h3>{{ log }}</h3>
+    <q-dialog rounded outlined v-model="logInModal" no-refocus no-hide-on-route-change>
+      <q-card style="width: 700px; height: 400px;">
+        <form @submit.prevent.stop="submit">
+          <div class="element-login">
+            <q-btn icon="close" flat round dense v-close-popup />
+            <div class="container-logo-login">
+              <img :src="image" class="centered-image" alt="PlayRobosLogo" />
+            </div>
+
+
+            <q-card-section class="authInputContainer ">
+              <q-input class="authInputsBig" rounded outlined v-model="email" id="email" type="email" label="Email"
+                :error='error'>
+
+                <template v-slot:prepend>
+                  <q-icon name="person" />
+                </template>
+              </q-input>
+            </q-card-section>
+
+
+            <q-card-section class="authInputContainer">
+              <q-input class="authInputsBig" rounded outlined v-model="password" id="password" label="Password"
+                :error="error" type="password">
+                <template v-slot:prepend>
+                  <q-icon name="lock" />
+                </template>
+              </q-input>
+            </q-card-section>
+
+
+
+            <p v-if="error" class="error text-h6 text-red q-mb-md text-center">{{ error }}</p>
+            <div class="container-auth-modal">
+              <q-btn class="kid-button-log-in" @click="submit" label="Log In" type="submit" />
+            </div>
+          </div>
+        </form>
+      </q-card>
+
+    </q-dialog>
   </div>
 </template>
 
 <script>
 import login from '../../firebase/auth';
+import { ref } from 'vue'
+import '../../css/style.css'
+import PlayRobosLogo from '../../assets/PlayRobosLogo1.png';
+import { useQuasar } from 'quasar'
+
+
 export default {
+  name:'LoginForm',
+  setup() {
+  const $q = useQuasar()
+
+
+    return {
+      image: PlayRobosLogo,
+      logInModal: ref(false),
+
+
+
+    triggerNotify(type, message) {
+    $q.notify({
+      type: type,
+      message: message,
+    });
+
+    },
+
+    }
+  },
   data() {
+
+
     return {
       email: '',
       password: '',
-
-      error: '',
+      error: false,
+      errorMessage: ''
     };
+
   },
   methods: {
-    async submit() {
-      // this.email = '';
-      // this.password = '';
-      // this.error = '';
 
-      return login(this.email, this.password)
-        .then(() => (this.error = 'success'))
-        .catch((error) => (this.error = error));
+    async submit() {
+      try {
+        await login(this.email, this.password);
+        this.triggerNotify('success', 'Successful Login');
+        this.error = 'success';
+
+      } catch (error) {
+        this.triggerNotify('negative', 'Login Failed: Invalid credentials');
+        this.error = true;
+        this.password = ''; // Clear the password field
+
+      }
     },
+
   },
 };
 </script>
-
-<style>
-.login-form {
-  max-width: 300px;
-  margin: 0 auto;
-}
-.form-group {
-  margin-bottom: 1rem;
-}
-label {
-  display: block;
-  font-weight: bold;
-}
-input {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-button {
-  padding: 0.5rem 1rem;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-</style>

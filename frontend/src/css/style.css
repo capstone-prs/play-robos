@@ -1,0 +1,118 @@
+
+
+
+
+/* LOG IN------------- */
+.container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 40vh; /* Adjust the container height as needed */
+    
+  }
+  .centered-image {
+    max-width: 100%; /* Ensure the image doesn't exceed its container */
+    max-height: 100%; /* Ensure the image doesn't exceed its container */
+  }
+  .text {
+    margin: -10px 20px 20px 20px; /* Adjust the margin to control spacing around the text */
+    text-align: center; /* Center the text horizontally */
+    font-size: 35px; /* Adjust the font size as needed */
+    color: #333; /* Adjust the text color */
+    font-family: "Baloo", sans-serif;
+    font-weight: bold;
+  }
+  .element {
+    background-image: url('../assets/v1015-101a.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-size: 100% auto;
+  }
+  .button-container {
+    display: flex;
+    gap: 10px; /* Adjust the gap value to control spacing between buttons */
+    justify-content: center; /* Center buttons horizontally */
+    margin: -90px 20px 20px 20px;
+  }
+  .kid-button-sign-in {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #FBDE4E; /* Bright and playful button color */
+    border: none;
+    border-radius: 20px; /* Rounded button shape */
+    font-family: "Baloo", sans-serif; /* Playful font */
+    font-size: 16px;
+    color: #fff; /* White text color */
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+  .kid-button-log-in {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #FE66C4; /* Bright and playful button color */
+    border: none;
+    border-radius: 20px; /* Rounded button shape */
+    font-family: "Baloo", sans-serif; /* Playful font */
+    font-size: 16px;
+    color: #fff; /* White text color */
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+  .element-login {
+    background-color: #01D3FF;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-size: 100% auto;
+  }
+  .rounded-input {
+    border-radius: 30px; /* Adjust the radius as needed */
+    background-color: white; /* Set the background color to white */
+    padding: -10px; /* Adjust the padding as needed */
+    text-align: center; /* Center the text horizontally */
+    font-size: 35px; /* Adjust the font size as needed */
+    color: #333; /* Adjust the text color */
+    font-family: "Baloo", sans-serif;
+    font-weight: bold;
+  }
+  .container-auth-modal {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 58vh; /* Set the container height to cover the entire viewport height */
+    margin: -75px 20px 0px 20px; /* Remove any margins */
+    padding: 0; /* Remove any padding */
+    
+  }
+  .container-logo-login {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 39vh; 
+    padding: 0px 10px;
+    margin: -50px 20px 0px 20px;  
+  }
+  .authInputContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* Adjust the height as needed */
+    margin: -10px 20px 0px 20px
+    
+  }
+  
+  .authInputsBig {
+    border-radius: 40px; /* Make it circular */
+    background-color: white;
+    padding: 0px 0px; /* Adjust padding as needed */
+  }
+  .authInputsSmall {
+    max-width: 110px; /* Adjust the max-width to your preferred value */
+    border-radius: 30px; /* Add rounded corners */
+    text-align: center; /* Center the text horizontally */
+    background-color: white; /* Set the background color to white */
+    padding: 0px 0px; /* Adjust padding as needed */
+  }
