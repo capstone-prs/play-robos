@@ -1,24 +1,42 @@
 <template>
   <q-layout view="hHh lpR fFf">
     <q-header class="transparent row q-pa-md">
-      <div class="col">
-      <div class="row" >
-        <HelpButton />
-        <AchievementButton />
-      </div>
+      <div class="col-3">
+        <div class="row float-left" >
+          <div class="col q-pl-sm">
+            <HelpButton />
+          </div>
+
+          <div class="col q-pl-sm">
+            <AchievementButton />
+          </div>
+        </div>
       </div>
 
       <div class="col-6">
         Insert Level Board Here
       </div>
-      <div class="col">
-        <div class="row" >
-          <SoundButton />
-          <MusicButton />
-          <MenuButton />
+
+      <div class="col-3">
+        <div class="row float-right" >
+          <div class="col q-pr-sm">
+           <SoundButton />
+          </div>
+
+          <div class="col q-pr-sm">
+            <MusicButton />
+          </div>
+
+          <div class="col q-pr-sm">
+            <MenuButton />
+          </div>
         </div>
-        </div>
+      </div>
     </q-header>
+
+    <q-page-container class="fixed-center">
+      <SettingComponent />
+    </q-page-container>
   </q-layout>
 </template>
 
@@ -29,12 +47,13 @@ import AchievementButton from '../components/buttons/AchievementButton.vue';
 import SoundButton from '../components/buttons/SoundButton.vue';
 import MusicButton from '../components/buttons/MusicButton.vue';
 import MenuButton from '../components/buttons/MenuButton.vue';
+import SettingComponent from '../components/SettingComponent.vue';
 
 console.log('here')
 
 export default defineComponent({
     name: 'HomePage',
-    components: { HelpButton, AchievementButton, SoundButton, MusicButton, MenuButton }
+    components: { HelpButton, AchievementButton, SoundButton, MusicButton, MenuButton, SettingComponent }
 });
 </script>
 
