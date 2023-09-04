@@ -5,7 +5,7 @@
       <q-card style="width: 700px; height: 400px;">
         <form @submit.prevent.stop="submitForm" class="q-gutter-md">
           <div class="element-login">
-            <q-btn icon="close" flat round dense v-close-popup />
+            <q-btn class="glossy" round color="red" icon="close" style="margin-top: 5px;" @click="signInModal = false" />
 
             <div class="container">
               <!-- Use the imported image -->
@@ -140,6 +140,8 @@ export default {
 
       return signup(this.email, this.password)
         .then(() => {this.triggerNotify('positive', 'Successful Sign In')
+        
+
       this.error=''})
         .catch((error) => {
           this.triggerNotify('negative', 'SignIn Failed: Invalid credentials');

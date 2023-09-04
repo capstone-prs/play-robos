@@ -8,7 +8,7 @@
 
 
           <div class="element-login">
-            <q-btn icon="close" flat round dense v-close-popup />
+            <q-btn class="glossy" round color="red" icon="close" style="margin-top: 5px;" @click="logInModal = false" />
             <div class="container-logo-login">
               <img :src="image" class="centered-image" alt="PlayRobosLogo" />
             </div>
