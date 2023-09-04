@@ -1,41 +1,135 @@
 <template>
-  <div class="signup-form">
-    <h2>Sign Up</h2>
-    <form @submit.prevent="submitForm">
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" v-model="email" required />
-      </div>
-      <div class="form-group">
-        <label for="password">Password:</label>
-        <input type="password" id="password" v-model="password" required />
-      </div>
-      <div class="form-group">
-        <label for="rePassword">Re-enter Password:</label>
-        <input type="password" id="rePassword" v-model="rePassword" required />
-      </div>
-      <button type="submit" @click="submit">Sign Up</button>
-      <p v-if="error" class="error">{{ error }}</p>
-    </form>
-    <h3>{{ log }}</h3>
+  <div class="q-pa-md q-gutter-sm">
+    <q-btn label="Sign Up" class="kid-button-sign-in " @click="signInModal = true" />
+    <q-dialog rounded outlined v-model="signInModal">
+      <q-card style="width: 700px; height: 400px;">
+        <form @submit.prevent.stop="submitForm" class="q-gutter-md">
+          <div class="element-login">
+            <q-btn icon="close" flat round dense v-close-popup />
+
+            <div class="container">
+              <!-- Use the imported image -->
+              <img :src="image" class="centered-image" alt="PlayRobosLogo" />
+            </div>
+
+
+            <!-- <q-card-section class="authInputContainer ">
+              <q-input class="authInputsBig" id="name" ref="nameRef" rounded outlined v-model="name" label="Your name">
+                <template v-slot:prepend>
+                </template>
+              </q-input>
+            </q-card-section>
+
+
+            <q-card-section class="authInputContainer">
+              <q-input class="authInputsSmall" ref="ageRef" rounded outlined v-model="age" type="number" label="age">
+                <template v-slot:prepend>
+                </template>
+              </q-input>
+
+
+              <div class="q-pa-md" style="max-width: 300px">
+                <q-select class="authInputsSmall" rounded outlined v-model="genderModal" :options="gender" label="Gender">
+                  <template v-slot:prepend>
+                  </template>
+                </q-select>
+              </div>
+            </q-card-section> -->
+
+
+
+            <q-card-section class="authInputContainer">
+              <q-input class="authInputsBig" id="email" rounded outlined v-model="email" label="Email" :error="isError">
+                <template v-slot:prepend>
+                </template>
+              </q-input>
+            </q-card-section>
+
+
+            <q-card-section class="authInputContainer">
+              <q-input class="authInputsBig" rounded outlined v-model="password" id="password" label="Password"
+                :error='isError' type="password">
+                <template v-slot:prepend>
+                </template>
+              </q-input>
+            </q-card-section>
+
+            <q-card-section class="authInputContainer">
+              <q-input class="authInputsBig" rounded outlined v-model="rePassword" id="rePassword" :error='isError'
+                label="Confirm Password" type="password">
+                <template v-slot:prepend>
+                </template>
+              </q-input>
+            </q-card-section>
+
+            <p v-if="error" class="error text-h6 text-red q-mb-md text-center">{{ error }}</p>
+            <div class="container-auth-modal">
+              <q-btn class='kid-button-sign-in' @click="submit" label="Submit" type="submit" />
+             
+            </div>
+          </div>
+        </form>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
 <script>
 import { signup } from '../../firebase/auth';
+import '../../css/style.css'
+import PlayRobosLogo from '../../assets/PlayRobosLogo1.png';
+import { useQuasar } from 'quasar'
+import { ref } from 'vue';
 export default {
+  name: 'SignupForm',
+  setup() {
+    const $q = useQuasar()
+
+    return {
+
+      image: PlayRobosLogo,
+      signInModal: ref(false),
+
+      triggerNotify(type, message) {
+    $q.notify({
+      type: type,
+      message: message,
+    });
+      }
+
+    }
+  },
+
   data() {
     return {
       email: '',
       password: '',
       rePassword: '',
+      isError: 'false',
       error: '',
+      errorMessage: ''
     };
   },
   methods: {
-    submit() {
+    async submit() {
+      const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
+      if (!emailRegex.test(this.email)) {
+        this.error = 'Invalid email address';
+        this.isError = true 
+        this.triggerNotify('negative', 'SignIn Failed: Invalid credentials');
+        return;
+      };
+
+
       if (this.password !== this.rePassword) {
         this.error = "Passwords don't match!";
+        this.triggerNotify('negative', 'SignIn Failed: Invalid credentials');
+        return;
+      }
+
+      if (this.password === '') {
+        this.error = 'Password cannot be empty';
+        this.triggerNotify('negative', 'SignIn Failed: Invalid credentials');
         return;
       }
 
@@ -45,37 +139,16 @@ export default {
       // this.error = '';
 
       return signup(this.email, this.password)
-        .then(() => (this.error = 'success'))
-        .catch((error) => (this.error = error));
+        .then(() => {this.triggerNotify('positive', 'Successful Sign In')
+      this.error=''})
+        .catch((error) => {
+          this.triggerNotify('negative', 'SignIn Failed: Invalid credentials');
+          this.isError = true
+          this.error = error
+        });
     },
   },
 };
 </script>
 
-<style>
-.signup-form {
-  max-width: 300px;
-  margin: 0 auto;
-}
-.form-group {
-  margin-bottom: 1rem;
-}
-label {
-  display: block;
-  font-weight: bold;
-}
-input {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-button {
-  padding: 0.5rem 1rem;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-</style>
+
