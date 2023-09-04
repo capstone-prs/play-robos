@@ -68,6 +68,7 @@
     background-repeat: no-repeat;
     background-size: cover;
     background-size: 100% auto;
+    overflow: hidden;
   }
   .rounded-input {
     border-radius: 30px; /* Adjust the radius as needed */
@@ -108,7 +109,9 @@
   .authInputsBig {
     border-radius: 40px; /* Make it circular */
     background-color: white;
-    padding: 0px 0px; /* Adjust padding as needed */
+    padding: 0px 0px;
+    width: 65%
+     /* Adjust padding as needed */
   }
   .authInputsSmall {
     max-width: 110px; /* Adjust the max-width to your preferred value */
@@ -117,3 +120,6 @@
     background-color: white; /* Set the background color to white */
     padding: 0px 0px; /* Adjust padding as needed */
   }
+
+
+  

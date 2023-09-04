@@ -2,9 +2,11 @@
   <div class="q-pa-md q-gutter-sm">
     <q-btn label="Log In" class="kid-button-log-in" @click="logInModal = true" />
 
-    <q-dialog rounded outlined v-model="logInModal" no-refocus no-hide-on-route-change>
+    <q-dialog rounded outlined v-model="logInModal"  no-refocus no-hide-on-route-change>
       <q-card style="width: 700px; height: 400px;">
         <form @submit.prevent.stop="submit">
+
+
           <div class="element-login">
             <q-btn icon="close" flat round dense v-close-popup />
             <div class="container-logo-login">
