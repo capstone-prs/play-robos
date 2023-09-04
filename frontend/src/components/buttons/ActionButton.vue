@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-btn class="glossy hitchcut" size="lg" rounded color="yellow" text-color="blue" data-testid="action-btn">
-      {{ textLabel }}
+      {{ label }}
     </q-btn>
   </div>
 </template>
@@ -12,11 +12,13 @@ import { defineComponent } from 'vue';
 export default defineComponent({
   name: 'ActionButton',
   props: {
-    'textLabel': String,
+    textLabel: String,
   },
   setup(props) {
     // const textLabel = props['text-label'];
-    return props['textLabel']
+    return {
+      label: props.textLabel
+    }
   },
 })
 
