@@ -14,7 +14,7 @@
 
             <q-card-section class="authInputContainer ">
               <q-input class="authInputsBig" rounded outlined v-model="email" id="email" type="email" label="Email"
-                :error='error'>
+                :error='isError'>
 
                 <template v-slot:prepend>
                   <q-icon name="person" />
@@ -25,7 +25,7 @@
 
             <q-card-section class="authInputContainer">
               <q-input class="authInputsBig" rounded outlined v-model="password" id="password" label="Password"
-                :error="error" type="password">
+                :error="isError" type="password">
                 <template v-slot:prepend>
                   <q-icon name="lock" />
                 </template>
@@ -52,6 +52,7 @@ import { ref } from 'vue'
 import '../../css/style.css'
 import PlayRobosLogo from '../../assets/PlayRobosLogo1.png';
 import { useQuasar } from 'quasar'
+
 
 
 export default {
@@ -83,7 +84,8 @@ export default {
       email: '',
       password: '',
       error: false,
-      errorMessage: ''
+      errorMessage: '',
+      isError:false
     };
 
   },
@@ -92,12 +94,14 @@ export default {
     async submit() {
       try {
         await login(this.email, this.password);
-        this.triggerNotify('success', 'Successful Login');
-        this.error = 'success';
+        this.triggerNotify('positive', 'Successful Login');
+        this.isError = false;
+        this.error = '';
 
       } catch (error) {
         this.triggerNotify('negative', 'Login Failed: Invalid credentials');
-        this.error = true;
+        this.error = '';
+        this.isError = true;
         this.password = ''; // Clear the password field
 
       }
