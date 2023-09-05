@@ -1,6 +1,7 @@
 <template>
-  <div class="q-pa-md q-gutter-sm">
-    <q-btn label="Log In" class="kid-button-log-in" @click="logInModal = true" />
+  <div >
+    
+ <action-button :textLabel="Text" class='text' @click="logInModal = true"></action-button>
 
     <q-dialog  :maximized="maximizedToggle" rounded outlined v-model="logInModal"  no-refocus no-hide-on-route-change>
       <q-card style="width: 100vw; height: 100vw;">
@@ -9,11 +10,7 @@
 
             <q-btn class="glossy" round color="red" icon="close" style="position: absolute; margin: 10px 0px;  right: 20px;"  @click="logInModal = false" />
             
-            <div class="container">
-              <img :src="image" class="centered-image" alt="PlayRobosLogo" />
-            </div>
-
-
+            <div class="groupedLogIn">
             <q-card-section class="authInputContainer ">
               <q-input class="authInputsBig" rounded outlined v-model="email" id="email" type="email" label="Email"
                 :error='isError'>
@@ -34,11 +31,11 @@
               </q-input>
             </q-card-section>
 
-
+</div>
 
             <p v-if="error" class="error text-h6 text-red q-mb-md text-center">{{ error }}</p>
             <div class="container-auth-modal">
-              <q-btn class="kid-button-log-in" @click="submit" label="Log In" type="submit" />
+              <action-button :textLabel="Text" class='text'  @click="submit" type="submit"></action-button>
             </div>
           </div>
         </form>
@@ -54,20 +51,24 @@ import { ref } from 'vue'
 import '../../css/style.css'
 import PlayRobos1 from '../../assets/PlayRobos1.svg';
 import { useQuasar } from 'quasar'
-
+import ActionButton from '../buttons/ActionButton.vue';
 
 
 export default {
   name:'LoginForm',
+  components: {
+    'action-button': ActionButton, // Register the ActionButton component
+  },
   setup() {
   const $q = useQuasar()
 
 
     return {
+      Text: 'Log In',
       image: PlayRobos1,
       logInModal: ref(false),
       maximizedToggle: ref(true),
-
+      ActionButton,
 
     triggerNotify(type, message) {
     $q.notify({

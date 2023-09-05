@@ -1,19 +1,14 @@
 <template>
-  <div class="q-pa-md q-gutter-sm">
-    <q-btn label="Sign Up" class="kid-button-sign-in " @click="signInModal = true" />
+  <div >
+    <action-button :textLabel="Text" class='text' @click="signInModal = true"></action-button>
 
 
     <q-dialog :maximized="maximizedToggle" rounded outlined v-model="signInModal">
       <q-card style="width: 100vw; height: 100vw;">
         <form @submit.prevent.stop="submitForm" class="q-gutter-md">
           <div class="element-login">
-
             <q-btn class="glossy" round color="red" icon="close" style="position: absolute; margin: 10px 0px;  right: 20px;"  @click="signInModal = false" />
-            <div class="container">
-              <!-- Use the imported image -->
-              <img :src="image" class="centered-image" alt="PlayRobosLogo" />
-            </div>
-
+            
 
             <!-- <q-card-section class="authInputContainer ">
               <q-input class="authInputsBig" id="name" ref="nameRef" rounded outlined v-model="name" label="Your name">
@@ -39,7 +34,7 @@
             </q-card-section> -->
 
 
-
+            <div class="groupedSignIn">
             <q-card-section class="authInputContainer">
               <q-input class="authInputsBig" id="email" rounded outlined v-model="email" label="Email" :error="isError">
                 <template v-slot:prepend>
@@ -63,11 +58,10 @@
                 </template>
               </q-input>
             </q-card-section>
-
+</div>
             <p v-if="error" class="error text-h6 text-red q-mb-md text-center">{{ error }}</p>
             <div class="container-auth-modal">
-              <q-btn class='kid-button-sign-in' @click="submit" label="Submit" type="submit" />
-             
+              <action-button :textLabel="Text" class='text' @click="submit"></action-button>
             </div>
           </div>
         </form>
@@ -82,13 +76,19 @@ import '../../css/style.css'
 import PlayRobos1 from '../../assets/PlayRobos1.svg';
 import { useQuasar } from 'quasar'
 import { ref } from 'vue';
+import ActionButton from '../buttons/ActionButton.vue';
+
 export default {
   name: 'SignupForm',
+  components: {
+    'action-button': ActionButton, // Register the ActionButton component
+  },
   setup() {
     const $q = useQuasar()
 
     return {
-
+      ActionButton,
+      Text:'Sign in',
       image: PlayRobos1,
       signInModal: ref(false),
       maximizedToggle: ref(true),
@@ -144,7 +144,7 @@ export default {
       return signup(this.email, this.password)
         .then(() => {this.triggerNotify('positive', 'Successful Sign In')
         
-
+        this.logInModal  = (false)
       this.error=''})
         .catch((error) => {
           this.triggerNotify('negative', 'SignIn Failed: Invalid credentials');

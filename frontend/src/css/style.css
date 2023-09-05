@@ -11,13 +11,13 @@
     
   }
   .centered-image {
-    max-width: 100%; /* Ensure the image doesn't exceed its container */
-    max-height: 100%; /* Ensure the image doesn't exceed its container */
+    max-width: 80%; /* Ensure the image doesn't exceed its container */
+    max-height: 80%; /* Ensure the image doesn't exceed its container */
   }
   .text {
-    margin: -10px 20px 20px 20px; /* Adjust the margin to control spacing around the text */
+    margin: -30px 20px 20px 20px; /* Adjust the margin to control spacing around the text */
     text-align: center; /* Center the text horizontally */
-    font-size: 35px; /* Adjust the font size as needed */
+    font-size: 50px; /* Adjust the font size as needed */
     color: #333; /* Adjust the text color */
     font-family: "hitchcut";
     src: url('/fonts/Hitchcut-Regular.woff');
@@ -31,9 +31,10 @@
   }
   .button-container {
     display: flex;
-    gap: 10px; /* Adjust the gap value to control spacing between buttons */
+    gap: 0px;
     justify-content: center; /* Center buttons horizontally */
-    margin: -90px 20px 20px 20px;
+    margin: -130px 0px 0px 0px;
+    
   }
   .kid-button-sign-in {
     display: inline-block;
@@ -41,17 +42,20 @@
     background-color: #FBDE4E; /* Bright and playful button color */
     border: none;
     border-radius: 20px; /* Rounded button shape */
-    font-family: "Baloo", sans-serif; /* Playful font */
+    font-family: hitchcut ;
+    src: url('/fonts/Hitchcut-Regular.woff');
     font-size: 16px;
     color: #fff; /* White text color */
     cursor: pointer;
     text-align: center;
     text-decoration: none;
     transition: background-color 0.3s ease;
+    
   }
   .kid-button-log-in {
     display: inline-block;
-    padding: 10px 20px;
+    size: lg;
+    padding: 10px 0px;
     background-color: #FE66C4; /* Bright and playful button color */
     border: none;
     border-radius: 20px; /* Rounded button shape */
@@ -87,23 +91,21 @@
     height: 58vh; /* Set the container height to cover the entire viewport height */
     margin: -75px 20px 0px 20px; /* Remove any margins */
     padding: 0; /* Remove any padding */
-    
   }
-  .container-logo-login {
-    display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-    height: 39vh; 
-    padding: 0px 10px;
-    margin: -50px 20px 0px 20px;  
-  }
+
   .authInputContainer{
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100%; /* Adjust the height as needed */
-    margin: -10px 20px 0px 20px
-    
+      padding: 10;
+    margin: 0px 20px 10px 10px
+  }
+  .groupedLogIn{
+    padding: 54px 0px 40px 0px;  
+  }
+  .groupedSignIn{
+    padding: 30px 0px 0px 0px;  
   }
   
   .authInputsBig {
