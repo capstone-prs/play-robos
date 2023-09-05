@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="hHh lpR fFf">
+  <q-layout view="hHh lpR fFf" class="bg">
     <q-header class="transparent row q-pa-md">
       <div class="col-3">
         <div class="row float-left" >
@@ -13,8 +13,8 @@
         </div>
       </div>
 
-      <div class="col-6">
-        Insert Level Board Here
+      <div class="col level-board" align="center">
+        <LevelBoard levelNumber="1" levelGoal="Wake up Robo" levelReward="50" />
       </div>
 
       <div class="col-3">
@@ -48,20 +48,24 @@ import SoundButton from '../components/buttons/SoundButton.vue';
 import MusicButton from '../components/buttons/MusicButton.vue';
 import MenuButton from '../components/buttons/MenuButton.vue';
 import SettingComponent from '../components/SettingComponent.vue';
+import LevelBoard from '../components/LevelBoard.vue';
 
 console.log('here')
 
 export default defineComponent({
     name: 'HomePage',
-    components: { HelpButton, AchievementButton, SoundButton, MusicButton, MenuButton, SettingComponent }
+    components: { HelpButton, AchievementButton, SoundButton, MusicButton, MenuButton, SettingComponent, LevelBoard }
 });
 </script>
 
 <style>
-  body {
-  background: rgb(225,229,242) !important;
+  .bg {
   background: linear-gradient(180deg, rgba(225,229,242,1) 5%, rgb(169, 209, 248) 35%, rgba(157,202,255,1) 100%) !important;
-  width: 100vh !important;
+  width: 100% !important;
   height: 100vh !important;
+  }
+
+  .level-board {
+    z-index: 2;
   }
 </style>
