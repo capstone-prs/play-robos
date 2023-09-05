@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-card flat style="height: 320px; width: 250px;" class="transparent">
+    <q-card flat style="height: 250px; width: 250px;" class="transparent">
       <img :src="url">
 
       <q-card-actions align="center">
