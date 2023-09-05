@@ -1,12 +1,14 @@
 <template>
   <div class="q-pa-md q-gutter-sm">
     <q-btn label="Sign Up" class="kid-button-sign-in " @click="signInModal = true" />
-    <q-dialog rounded outlined v-model="signInModal">
-      <q-card style="width: 700px; height: 400px;">
+
+
+    <q-dialog :maximized="maximizedToggle" rounded outlined v-model="signInModal">
+      <q-card style="width: 100vw; height: 100vw;">
         <form @submit.prevent.stop="submitForm" class="q-gutter-md">
           <div class="element-login">
-            <q-btn class="glossy" round color="red" icon="close" style="margin-top: 5px;" @click="signInModal = false" />
 
+            <q-btn class="glossy" round color="red" icon="close" style="position: absolute; margin: 10px 0px;  right: 20px;"  @click="signInModal = false" />
             <div class="container">
               <!-- Use the imported image -->
               <img :src="image" class="centered-image" alt="PlayRobosLogo" />
@@ -89,6 +91,7 @@ export default {
 
       image: PlayRobos1,
       signInModal: ref(false),
+      maximizedToggle: ref(true),
 
       triggerNotify(type, message) {
     $q.notify({

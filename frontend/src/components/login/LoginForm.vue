@@ -2,14 +2,14 @@
   <div class="q-pa-md q-gutter-sm">
     <q-btn label="Log In" class="kid-button-log-in" @click="logInModal = true" />
 
-    <q-dialog rounded outlined v-model="logInModal"  no-refocus no-hide-on-route-change>
-      <q-card style="width: 700px; height: 400px;">
-        <form @submit.prevent.stop="submit">
-
-
+    <q-dialog  :maximized="maximizedToggle" rounded outlined v-model="logInModal"  no-refocus no-hide-on-route-change>
+      <q-card style="width: 100vw; height: 100vw;">
+        <form @submit.prevent.stop="submit" class="q-gutter-md">
           <div class="element-login">
-            <q-btn class="glossy" round color="red" icon="close" style="margin-top: 5px;" @click="logInModal = false" />
-            <div class="container-logo-login">
+
+            <q-btn class="glossy" round color="red" icon="close" style="position: absolute; margin: 10px 0px;  right: 20px;"  @click="logInModal = false" />
+            
+            <div class="container">
               <img :src="image" class="centered-image" alt="PlayRobosLogo" />
             </div>
 
@@ -66,7 +66,7 @@ export default {
     return {
       image: PlayRobos1,
       logInModal: ref(false),
-
+      maximizedToggle: ref(true),
 
 
     triggerNotify(type, message) {
