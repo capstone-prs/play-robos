@@ -17,6 +17,8 @@
 
       <q-card-actions align="center" class="bg-white text-teal">
         <q-btn flat label="Cancel" class="text-blue" v-close-popup />
+
+        <!-- Add handler for log out here -->
         <q-btn flat label="Yes" class="text-pink" v-close-popup />
       </q-card-actions>
     </q-card>
