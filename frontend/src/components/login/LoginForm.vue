@@ -10,7 +10,7 @@
 
             <q-btn class="glossy" round color="red" icon="close" style="position: absolute; margin: 10px 0px;  right: 20px;"  @click="logInModal = false" />
             
-            <div class="groupedLogIn">
+          <div class="groupedLogIn">
             <q-card-section class="authInputContainer ">
               <q-input class="authInputsBig" rounded outlined v-model="email" id="email" type="email" label="Email"
                 :error='isError'>
@@ -30,6 +30,7 @@
                 </template>
               </q-input>
             </q-card-section>
+            <p v-if="errorMessage" class="text text-red " style="font-size: 20px;">{{ errorMessage }}</p>
 
 </div>
 
@@ -100,12 +101,15 @@ export default {
         this.triggerNotify('positive', 'Successful Login');
         this.isError = false;
         this.error = '';
+        this.errorMessage = ''
+        this.logInModal ='false'
 
       } catch (error) {
         this.triggerNotify('negative', 'Login Failed: Invalid credentials');
         this.error = '';
         this.isError = true;
-        this.password = ''; // Clear the password field
+        this.password = ''; 
+        this.errorMessage = 'Invalid credentials'
 
       }
     },

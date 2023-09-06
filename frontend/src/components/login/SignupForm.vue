@@ -35,12 +35,14 @@
 
 
             <div class="groupedSignIn">
+              
             <q-card-section class="authInputContainer">
               <q-input class="authInputsBig" id="email" rounded outlined v-model="email" label="Email" :error="isError">
                 <template v-slot:prepend>
                 </template>
               </q-input>
             </q-card-section>
+            <p v-if="errorMessageEmail" class="text text-red " style="font-size: 20px;">{{ errorMessageEmail }}</p>
 
 
             <q-card-section class="authInputContainer">
@@ -50,6 +52,7 @@
                 </template>
               </q-input>
             </q-card-section>
+            <p v-if="errorMessagePass" class="text text-red " style="font-size: 20px;">{{ errorMessagePass }}</p>
 
             <q-card-section class="authInputContainer">
               <q-input class="authInputsBig" rounded outlined v-model="rePassword" id="rePassword" :error='isError'
@@ -58,8 +61,11 @@
                 </template>
               </q-input>
             </q-card-section>
-</div>
-            <p v-if="error" class="error text-h6 text-red q-mb-md text-center">{{ error }}</p>
+            <p v-if="errorMessagePass" class="text text-red " style="font-size: 20px;">{{ errorMessagePass }}</p>
+
+
+            </div>
+
             <div class="container-auth-modal">
               <action-button :textLabel="Text" class='text' @click="submit"></action-button>
             </div>
@@ -110,41 +116,31 @@ export default {
       rePassword: '',
       isError: 'false',
       error: '',
-      errorMessage: ''
+      errorMessageEmail: '',
+      errorMessagePass: '',
+      errorMessageRePass: ''
     };
   },
   methods: {
     async submit() {
       const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
-      if (!emailRegex.test(this.email)) {
-        this.error = 'Invalid email address';
-        this.isError = true 
+      if (!emailRegex.test(this.email) || this.errorMessageEmail==='' ||this.errorMessagePass==='' || this.errorMessageRePass!==this.errorMessagePass) {
+        this.errorMessageEmail = 'Invalid email address'
+        this.errorMessagePass = 'Email is required'
+        this.errorMessagePass = 'Password is required'
+        this.errorMessageRePass = 'Password is different'
         this.triggerNotify('negative', 'SignIn Failed: Invalid credentials');
+        this.isError = true;
         return;
       };
 
 
-      if (this.password !== this.rePassword) {
-        this.error = "Passwords don't match!";
-        this.triggerNotify('negative', 'SignIn Failed: Invalid credentials');
-        return;
-      }
-
-      if (this.password === '') {
-        this.error = 'Password cannot be empty';
-        this.triggerNotify('negative', 'SignIn Failed: Invalid credentials');
-        return;
-      }
-
-      // this.email = '';
-      // this.password = '';
-      // this.rePassword = '';
-      // this.error = '';
-
       return signup(this.email, this.password)
-        .then(() => {this.triggerNotify('positive', 'Successful Sign In')
-        
-        this.logInModal  = (false)
+        .then(() => {this.triggerNotify('positive', 'Successful Sign In'),
+      this.logInModal  = (false)
+      this.errorMessageEmail = ''
+      this.errorMessagePass = ''
+      this.errorMessageRePass = ''
       this.error=''})
         .catch((error) => {
           this.triggerNotify('negative', 'SignIn Failed: Invalid credentials');
