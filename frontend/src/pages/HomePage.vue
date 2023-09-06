@@ -14,7 +14,7 @@
       </div>
 
       <div class="col level-board" align="center">
-        <LevelBoard levelNumber="1" levelGoal="Wake up Robo" levelReward="50" />
+        <LevelBoard levelNumber="1" levelGoal="Wake up" levelReward="50" />
       </div>
 
       <div class="col-3">
