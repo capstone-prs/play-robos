@@ -22,7 +22,7 @@
   
   <script>
   import { defineComponent } from 'vue';
-  import PlayRobosLogo from '../../assets/PlayRobosLogo1.png';
+  import PlayRobos1 from '../../assets/PlayRobos1.svg';
   import LoginForm from '../../components/login/LoginForm.vue';
   import SignupForm from '../../components/login/SignupForm.vue';
   import '../../css/style.css'
@@ -31,7 +31,7 @@
     name: 'HomePage',
     data() {
       return {
-        image: PlayRobosLogo,
+        image: PlayRobos1,
       };
     },
     components:{

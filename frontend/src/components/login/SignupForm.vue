@@ -1,17 +1,14 @@
 <template>
-  <div class="q-pa-md q-gutter-sm">
-    <q-btn label="Sign Up" class="kid-button-sign-in " @click="signInModal = true" />
-    <q-dialog rounded outlined v-model="signInModal">
-      <q-card style="width: 700px; height: 400px;">
+  <div >
+    <action-button :textLabel="Text" class='text' @click="signInModal = true"></action-button>
+
+
+    <q-dialog :maximized="maximizedToggle" rounded outlined v-model="signInModal">
+      <q-card style="width: 100vw; height: 100vw;">
         <form @submit.prevent.stop="submitForm" class="q-gutter-md">
           <div class="element-login">
-            <q-btn icon="close" flat round dense v-close-popup />
-
-            <div class="container">
-              <!-- Use the imported image -->
-              <img :src="image" class="centered-image" alt="PlayRobosLogo" />
-            </div>
-
+            <q-btn class="glossy" round color="red" icon="close" style="position: absolute; margin: 10px 0px;  right: 20px;"  @click="signInModal = false" />
+            
 
             <!-- <q-card-section class="authInputContainer ">
               <q-input class="authInputsBig" id="name" ref="nameRef" rounded outlined v-model="name" label="Your name">
@@ -37,13 +34,15 @@
             </q-card-section> -->
 
 
-
+            <div class="groupedSignIn">
+              
             <q-card-section class="authInputContainer">
               <q-input class="authInputsBig" id="email" rounded outlined v-model="email" label="Email" :error="isError">
                 <template v-slot:prepend>
                 </template>
               </q-input>
             </q-card-section>
+            <p v-if="errorMessageEmail" class="text text-red " style="font-size: 20px;">{{ errorMessageEmail }}</p>
 
 
             <q-card-section class="authInputContainer">
@@ -53,6 +52,7 @@
                 </template>
               </q-input>
             </q-card-section>
+            <p v-if="errorMessagePass" class="text text-red " style="font-size: 20px;">{{ errorMessagePass }}</p>
 
             <q-card-section class="authInputContainer">
               <q-input class="authInputsBig" rounded outlined v-model="rePassword" id="rePassword" :error='isError'
@@ -61,11 +61,13 @@
                 </template>
               </q-input>
             </q-card-section>
+            <p v-if="errorMessagePass" class="text text-red " style="font-size: 20px;">{{ errorMessagePass }}</p>
 
-            <p v-if="error" class="error text-h6 text-red q-mb-md text-center">{{ error }}</p>
+
+            </div>
+
             <div class="container-auth-modal">
-              <q-btn class='kid-button-sign-in' @click="submit" label="Submit" type="submit" />
-             
+              <action-button :textLabel="Text" class='text' @click="submit"></action-button>
             </div>
           </div>
         </form>
@@ -77,18 +79,25 @@
 <script>
 import { signup } from '../../firebase/auth';
 import '../../css/style.css'
-import PlayRobosLogo from '../../assets/PlayRobosLogo1.png';
+import PlayRobos1 from '../../assets/PlayRobos1.svg';
 import { useQuasar } from 'quasar'
 import { ref } from 'vue';
+import ActionButton from '../buttons/ActionButton.vue';
+
 export default {
   name: 'SignupForm',
+  components: {
+    'action-button': ActionButton, // Register the ActionButton component
+  },
   setup() {
     const $q = useQuasar()
 
     return {
-
-      image: PlayRobosLogo,
+      ActionButton,
+      Text:'Sign in',
+      image: PlayRobos1,
       signInModal: ref(false),
+      maximizedToggle: ref(true),
 
       triggerNotify(type, message) {
     $q.notify({
@@ -107,39 +116,31 @@ export default {
       rePassword: '',
       isError: 'false',
       error: '',
-      errorMessage: ''
+      errorMessageEmail: '',
+      errorMessagePass: '',
+      errorMessageRePass: ''
     };
   },
   methods: {
     async submit() {
       const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
-      if (!emailRegex.test(this.email)) {
-        this.error = 'Invalid email address';
-        this.isError = true 
+      if (!emailRegex.test(this.email) || this.errorMessageEmail==='' ||this.errorMessagePass==='' || this.errorMessageRePass!==this.errorMessagePass) {
+        this.errorMessageEmail = 'Invalid email address'
+        this.errorMessagePass = 'Email is required'
+        this.errorMessagePass = 'Password is required'
+        this.errorMessageRePass = 'Password is different'
         this.triggerNotify('negative', 'SignIn Failed: Invalid credentials');
+        this.isError = true;
         return;
       };
 
 
-      if (this.password !== this.rePassword) {
-        this.error = "Passwords don't match!";
-        this.triggerNotify('negative', 'SignIn Failed: Invalid credentials');
-        return;
-      }
-
-      if (this.password === '') {
-        this.error = 'Password cannot be empty';
-        this.triggerNotify('negative', 'SignIn Failed: Invalid credentials');
-        return;
-      }
-
-      // this.email = '';
-      // this.password = '';
-      // this.rePassword = '';
-      // this.error = '';
-
       return signup(this.email, this.password)
-        .then(() => {this.triggerNotify('positive', 'Successful Sign In')
+        .then(() => {this.triggerNotify('positive', 'Successful Sign In'),
+      this.logInModal  = (false)
+      this.errorMessageEmail = ''
+      this.errorMessagePass = ''
+      this.errorMessageRePass = ''
       this.error=''})
         .catch((error) => {
           this.triggerNotify('negative', 'SignIn Failed: Invalid credentials');
