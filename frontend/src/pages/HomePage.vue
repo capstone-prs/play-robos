@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="hHh lpR fFf" class="bg">
+  <q-layout view="hHh lpR fFf" class="bg" data-test-id="homepage">
     <q-header class="transparent row q-pa-md">
       <div class="col-3">
         <div class="row float-left">
@@ -13,7 +13,12 @@
         </div>
       </div>
       <div class="col level-board" align="center">
-        <LevelBoard levelNumber="1" levelGoal="Wake up" levelReward="50" />
+        <LevelBoard
+          levelNumber="1"
+          levelGoal="Wake up"
+          levelReward="50"
+          data-test-id="level-board"
+        />
       </div>
 
       <div class="col-3">
@@ -27,15 +32,18 @@
           </div>
 
           <div class="col q-pr-sm">
-            <MenuButton @open-dialog="openMenuDialog" />
-            <MenuDialog v-model="isMenuDialogVisible" />
+            <MenuButton @open-dialog="openMenuDialog" data-test-id="menu-btn" />
+            <MenuDialog
+              v-model="isMenuDialogVisible"
+              data-test-id="menu-dialog"
+            />
           </div>
         </div>
       </div>
     </q-header>
 
     <q-page-container class="fixed-center">
-      <SettingComponent />
+      <SettingComponent data-test-id="setting-component" />
     </q-page-container>
   </q-layout>
 </template>
