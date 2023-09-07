@@ -1,10 +1,21 @@
 <template>
-  <q-dialog v-model="showDialog" style="background-color: transparent">
+  <q-dialog
+    v-model="showDialog"
+    style="background-color: transparent"
+    data-test-id="menu-dialog"
+  >
     <q-card>
       <q-card-section class="row items-center card-title" style="width: 400px">
         <div class="text-h4 futura">Menu</div>
         <q-space />
-        <q-btn icon="close" color="white" size="md" flat v-close-popup />
+        <q-btn
+          icon="close"
+          color="white"
+          size="md"
+          flat
+          v-close-popup
+          data-test-id="close-btn"
+        />
       </q-card-section>
 
       <q-card-section class="centered">
@@ -12,8 +23,15 @@
       </q-card-section>
 
       <q-card-section class="q-pt-none centered">
-        <ActionButton text-label="Logout" @click="openLogoutDialog" />
-        <LogoutDialog v-model="isLogoutDialogVisible" />
+        <ActionButton
+          text-label="Logout"
+          @click="openLogoutDialog"
+          data-test-id="logout-btn"
+        />
+        <LogoutDialog
+          v-model="isLogoutDialogVisible"
+          data-test-id="logout-dialog"
+        />
       </q-card-section>
     </q-card>
   </q-dialog>
