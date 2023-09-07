@@ -19,7 +19,7 @@
   </q-dialog>
 </template>
 
-<script>
+<script lang="ts">
 import LogoutDialog from './LogoutDialog.vue';
 import ActionButton from './buttons/ActionButton.vue';
 import ToggleButton from './buttons/ToggleButton.vue';

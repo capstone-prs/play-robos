@@ -23,7 +23,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, ref } from 'vue';
 import CardComponent from './CardComponent.vue';
 import ActionButton from './buttons/ActionButton.vue';

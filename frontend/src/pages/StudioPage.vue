@@ -8,7 +8,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { ref, defineComponent } from 'vue';
 import BlocklyComponent from '../components/blockly/BlocklyComponent.vue';
 

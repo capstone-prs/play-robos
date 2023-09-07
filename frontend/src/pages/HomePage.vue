@@ -40,7 +40,7 @@
   </q-layout>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent, ref } from 'vue';
 import HelpButton from '../components/buttons/HelpButton.vue';
 import AchievementButton from '../components/buttons/AchievementButton.vue';
@@ -64,7 +64,6 @@ export default defineComponent({
     SettingComponent,
     LevelBoard,
     MenuDialog,
-    MenuButton,
   },
   setup() {
     const isMenuDialogVisible = ref(false);
