@@ -34,6 +34,7 @@ export default defineComponent({
     imageUrl: String,
   },
   setup() {
+    // to change when card component is fixed to handle touchscreen swipe
     const imageUrls = ['/setting1.svg', '/setting3.svg', '/setting1.svg'];
     const slide = ref(1);
 

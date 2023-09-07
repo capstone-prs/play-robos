@@ -2,9 +2,9 @@
   <div class="board">
     <img src="/level-board.svg" style="width: 90; height: 90px" />
 
-    <div class="level absolute-center">Level: {{ levNumber }}</div>
-    <div class="goal absolute-center">Goal: {{ levGoal }}</div>
-    <div class="reward absolute-center">Reward: {{ levRew }}</div>
+    <div class="level absolute-center">Level: {{ levelNumber }}</div>
+    <div class="goal absolute-center">Goal: {{ levelGoal }}</div>
+    <div class="reward absolute-center">Reward: {{ levelReward }}</div>
   </div>
 </template>
 
@@ -17,13 +17,6 @@ export default defineComponent({
     levelNumber: String,
     levelGoal: String,
     levelReward: String,
-  },
-  setup(props) {
-    return {
-      levNumber: props.levelNumber,
-      levGoal: props.levelGoal,
-      levRew: props.levelReward,
-    };
   },
 });
 </script>
