@@ -1,19 +1,23 @@
 <template>
   <div>
-    <q-carousel
-      swipeable
-      animated
-      navigation
-      v-model="slide"
-      infinite
-      class="transparent"
-    >
-      <q-carousel-slide :name="1">
-        <CardComponent imageUrl="/setting1.svg" />
-      </q-carousel-slide>
-
-      <q-carousel-slide :name="3">
-        <CardComponent imageUrl="/setting3.svg" />
+    <q-carousel swipeable animated v-model="slide" infinite class="transparent">
+      <q-carousel-slide :name="1" class="column no-wrap">
+        <div
+          class="row items-center q-gutter-md q-col-gutter no-wrap"
+          align="center"
+        >
+          <CardComponent
+            v-for="(imageUrl, index) in imageUrls"
+            :key="index"
+            :imageUrl="imageUrl"
+            :class="{ 'active-card': index === slide }"
+            class="col-4"
+            style="width: 200px"
+          />
+        </div>
+        <q-card-actions class="q-mt-md" align="center">
+          <ActionButton text-label="Play" />
+        </q-card-actions>
       </q-carousel-slide>
     </q-carousel>
   </div>
@@ -22,18 +26,29 @@
 <script>
 import { defineComponent, ref } from 'vue';
 import CardComponent from './CardComponent.vue';
+import ActionButton from './buttons/ActionButton.vue';
 
 export default defineComponent({
   name: 'SettingComponent',
   props: {
     imageUrl: String,
   },
-  setup(props) {
+  setup() {
+    const imageUrls = ['/setting1.svg', '/setting3.svg', '/setting1.svg'];
+    const slide = ref(1);
+
     return {
-      image: props.imageUrl,
-      slide: ref(1),
+      imageUrls,
+      slide,
     };
   },
-  components: { CardComponent },
+  components: { CardComponent, ActionButton },
 });
 </script>
+
+<style>
+.active-card {
+  transform: scale(1.2);
+  transition: transform 0.3s;
+}
+</style>

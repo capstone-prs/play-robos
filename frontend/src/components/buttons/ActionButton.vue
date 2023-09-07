@@ -1,7 +1,14 @@
 <template>
   <div>
-    <q-btn class="glossy hitchcut" size="lg" rounded color="yellow" text-color="blue" data-testid="action-btn">
-      {{ label }}
+    <q-btn
+      class="glossy hitchcut"
+      size="lg"
+      rounded
+      color="yellow"
+      text-color="blue"
+      data-testid="action-btn"
+    >
+      {{ textLabel }}
     </q-btn>
   </div>
 </template>
@@ -14,23 +21,16 @@ export default defineComponent({
   props: {
     textLabel: String,
   },
-  setup(props) {
-    // const textLabel = props['text-label'];
-    return {
-      label: props.textLabel
-    }
-  },
-})
-
+});
 </script>
 
 <style>
-  @font-face {
-    font-family: hitchcut ;
-    src: url('/fonts/Hitchcut-Regular.woff');
-  }
+@font-face {
+  font-family: hitchcut;
+  src: url('/fonts/Hitchcut-Regular.woff');
+}
 
-  .hitchcut {
-    font-family: 'hitchcut';
-  }
+.hitchcut {
+  font-family: 'hitchcut';
+}
 </style>

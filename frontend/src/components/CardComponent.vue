@@ -1,17 +1,16 @@
 <template>
   <div>
-    <q-card flat style="height: 200px; width: 180px;" class="transparent q-mt-lg">
-      <img :src="url">
-
-      <q-card-actions class="q-mt-md" align="center">
-        <ActionButton text-label="Play" />
-      </q-card-actions>
+    <q-card
+      flat
+      style="height: 170px; width: 150px"
+      class="transparent q-mt-lg"
+    >
+      <img :src="url" />
     </q-card>
   </div>
 </template>
 
 <script>
-import ActionButton from './buttons/ActionButton.vue';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
@@ -19,11 +18,11 @@ export default defineComponent({
   props: {
     imageUrl: String,
   },
-  components: { ActionButton },
+  components: {},
   setup(props) {
     return {
       url: props.imageUrl,
-    }
-  }
-})
+    };
+  },
+});
 </script>
