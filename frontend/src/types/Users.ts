@@ -1,8 +1,8 @@
 export interface User {
   name: string;
   age: number;
-  gender: gender;
+  gender: Gender;
   UID: string;
 }
-type gender = 'male' | 'famale';
+export type Gender = 'Male' | 'Famale';
 export type NewUser = Omit<User, 'UID'>;
