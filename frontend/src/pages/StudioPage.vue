@@ -3,25 +3,35 @@
     <BlocklyComponent
       id="blockly2"
       :options="options"
-      ref="foo"
+      ref="blockly"
     ></BlocklyComponent>
   </div>
 </template>
 
-<script setup>
-import { ref } from 'vue';
+<script lang="ts">
+import { ref, defineComponent } from 'vue';
 import BlocklyComponent from '../components/blockly/BlocklyComponent.vue';
 
-const foo = ref();
-const options = {
-  media: 'media/',
-  grid: {
-    spacing: 25,
-    length: 3,
-    colour: '#ccc',
-    snap: true,
+export default defineComponent({
+  name: 'StudioPage',
+  setup() {
+    const blockly = ref();
+    const options = {
+      media: 'media/',
+      grid: {
+        spacing: 25,
+        length: 3,
+        colour: '#ccc',
+        snap: true,
+      },
+    };
+    return {
+      blockly,
+      options,
+    };
   },
-};
+  components: { BlocklyComponent },
+});
 </script>
 
 <style>

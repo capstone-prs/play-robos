@@ -5,10 +5,8 @@
     <!-- <SignupForm />
     <LoginForm /> -->
 
-
     <AuthPage />
-
-
+    <!-- <HomePage /> -->
   </div>
 </template>
 
@@ -25,11 +23,8 @@ import { defineComponent } from 'vue';
 export default defineComponent({
   name: 'IndexPage',
   components: {
-
-
-
-
-    AuthPage
+    AuthPage,
+    // HomePage
   },
 
   methods: {},
