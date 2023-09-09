@@ -3,7 +3,7 @@ import { installQuasarPlugin } from '@quasar/quasar-app-extension-testing-unit-v
 // import { mount } from '@vue/test-utils';
 import { expect, it, vi, describe } from 'vitest';
 import { DocumentReference, doc, setDoc } from 'firebase/firestore';
-import { NewUser } from 'src/types/Users';
+import { NewUser } from '../types/users';
 import getUser, { addUser } from './firestore';
 
 installQuasarPlugin();
@@ -29,7 +29,7 @@ describe('Firebase Functions', () => {
     const userData: NewUser = {
       name: 'Juan',
       age: 3,
-      gender: 'male',
+      gender: 'Male',
     };
     const uid = 'user123';
 

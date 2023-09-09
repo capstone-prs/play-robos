@@ -1,155 +1,258 @@
 <template>
-  <div >
-    <action-button :textLabel="Text" class='text' @click="signInModal = true"></action-button>
+  <div class="full-width column justify-center">
+    <form @submit.prevent.stop="submit" class="q-gutter-md">
+      <div class="element-login">
+        <q-btn
+          class="glossy"
+          round
+          color="red"
+          icon="arrow_back"
+          style="position: absolute; left: 20px; top: 10px"
+          @click="navigateBack"
+        />
+        <div style="margin: 5% 0 5% 0">
+          <q-card-section class="authInputContainer">
+            <q-input
+              class="authInputsBig"
+              id="name"
+              :ref="data.name.ref"
+              rounded
+              outlined
+              v-model="data.name.model.value"
+              label="Your name"
+              :rules="data.name.rules"
+              lazyRules
+            >
+              <template v-slot:prepend> <q-icon name="person" /></template>
+            </q-input>
+          </q-card-section>
 
+          <q-card-section class="authInputContainer">
+            <q-input
+              :ref="data.age.ref"
+              class="authInputsSmall"
+              rounded
+              outlined
+              v-model="data.age.model.value"
+              type="number"
+              label="Age"
+              :rules="data.age.rules"
+              lazyRules
+            >
+              <template v-slot:prepend>
+                <q-icon name="add_circle" />
+              </template>
+            </q-input>
 
-    <q-dialog :maximized="maximizedToggle" rounded outlined v-model="signInModal">
-      <q-card style="width: 100vw; height: 100vw;">
-        <form @submit.prevent.stop="submitForm" class="q-gutter-md">
-          <div class="element-login">
-            <q-btn class="glossy" round color="red" icon="close" style="position: absolute; margin: 10px 0px;  right: 20px;"  @click="signInModal = false" />
-            
+            <q-select
+              class="authInputsSmall"
+              rounded
+              outlined
+              :ref="data.gender.ref"
+              v-model="data.gender.model.value"
+              :options="data.gender.options"
+              label="Gender"
+              style="margin-left: 5%"
+              :rules="data.gender.rules"
+              lazyRules
+            >
+              <template v-slot:prepend>
+                <q-icon name="wc" />
+              </template>
+            </q-select>
+          </q-card-section>
 
-            <!-- <q-card-section class="authInputContainer ">
-              <q-input class="authInputsBig" id="name" ref="nameRef" rounded outlined v-model="name" label="Your name">
+          <div class="groupedSignIn">
+            <q-card-section class="authInputContainer">
+              <q-input
+                :ref="data.email.ref"
+                class="authInputsBig"
+                rounded
+                outlined
+                v-model="data.email.model.value"
+                id="email"
+                type="email"
+                label="Email"
+                :error="data.email.isError.value"
+                :errorMessage="data.email.errorMessage.value"
+                :rules="data.email.rules"
+                :onChange="
+                  () => {
+                    if (data.email.isError.value) {
+                      data.email.isError.value = false;
+                      data.email.errorMessage.value = '';
+                    }
+                  }
+                "
+                lazyRules
+              >
                 <template v-slot:prepend>
+                  <q-icon name="mail" />
                 </template>
               </q-input>
             </q-card-section>
 
-
             <q-card-section class="authInputContainer">
-              <q-input class="authInputsSmall" ref="ageRef" rounded outlined v-model="age" type="number" label="age">
-                <template v-slot:prepend>
-                </template>
-              </q-input>
-
-
-              <div class="q-pa-md" style="max-width: 300px">
-                <q-select class="authInputsSmall" rounded outlined v-model="genderModal" :options="gender" label="Gender">
-                  <template v-slot:prepend>
-                  </template>
-                </q-select>
-              </div>
-            </q-card-section> -->
-
-
-            <div class="groupedSignIn">
-              
-            <q-card-section class="authInputContainer">
-              <q-input class="authInputsBig" id="email" rounded outlined v-model="email" label="Email" :error="isError">
-                <template v-slot:prepend>
-                </template>
+              <q-input
+                :ref="data.password.ref"
+                class="authInputsBig"
+                rounded
+                outlined
+                v-model="data.password.model.value"
+                id="password"
+                label="Password"
+                type="password"
+                :rules="data.password.rules"
+                lazyRules
+              >
+                <template v-slot:prepend> <q-icon name="lock" /></template>
               </q-input>
             </q-card-section>
-            <p v-if="errorMessageEmail" class="text text-red " style="font-size: 20px;">{{ errorMessageEmail }}</p>
-
 
             <q-card-section class="authInputContainer">
-              <q-input class="authInputsBig" rounded outlined v-model="password" id="password" label="Password"
-                :error='isError' type="password">
-                <template v-slot:prepend>
-                </template>
+              <q-input
+                :ref="data.rePassword.ref"
+                class="authInputsBig"
+                rounded
+                outlined
+                v-model="data.rePassword.model.value"
+                id="rePassword"
+                label="Confirm Password"
+                type="password"
+                :rules="data.rePassword.rules"
+                lazyRules
+                aria-required
+              >
+                <template v-slot:prepend> <q-icon name="lock" /></template>
               </q-input>
             </q-card-section>
-            <p v-if="errorMessagePass" class="text text-red " style="font-size: 20px;">{{ errorMessagePass }}</p>
-
-            <q-card-section class="authInputContainer">
-              <q-input class="authInputsBig" rounded outlined v-model="rePassword" id="rePassword" :error='isError'
-                label="Confirm Password" type="password">
-                <template v-slot:prepend>
-                </template>
-              </q-input>
-            </q-card-section>
-            <p v-if="errorMessagePass" class="text text-red " style="font-size: 20px;">{{ errorMessagePass }}</p>
-
-
-            </div>
-
-            <div class="container-auth-modal">
-              <action-button :textLabel="Text" class='text' @click="submit"></action-button>
-            </div>
           </div>
-        </form>
-      </q-card>
-    </q-dialog>
+        </div>
+        <div class="">
+          <ActionButton
+            :textLabel="Text"
+            class="text"
+            @click="submit"
+            :isDisabled="isSubmitted"
+          ></ActionButton>
+        </div>
+      </div>
+    </form>
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import { signup } from '../../firebase/auth';
-import '../../css/style.css'
-import PlayRobos1 from '../../assets/PlayRobos1.svg';
-import { useQuasar } from 'quasar'
+import '../../css/style.css';
+import { QInput, useQuasar } from 'quasar';
 import { ref } from 'vue';
 import ActionButton from '../buttons/ActionButton.vue';
+import { useRouter } from 'vue-router';
+import { addUser } from '../../firebase/firestore';
+import { Gender } from '../../types/users';
+import validate from '../../utils/signUpUtils';
 
-export default {
-  name: 'SignupForm',
-  components: {
-    'action-button': ActionButton, // Register the ActionButton component
+const $q = useQuasar();
+const router = useRouter();
+
+const Text = 'sign up';
+
+const triggerNotify = (type: string, message: string) => {
+  $q.notify({
+    type: type,
+    message: message,
+  });
+};
+const validateRePassword = (val: string) =>
+  validate('REPASSWORD', data.password.model.value ?? '')(val);
+
+const navigateBack = () => router.go(-1);
+
+const isSubmitted = ref(false);
+const data = {
+  name: {
+    ref: ref<QInput | null>(null),
+    model: ref<string>(''),
+    rules: [validate('NAME')],
   },
-  setup() {
-    const $q = useQuasar()
-
-    return {
-      ActionButton,
-      Text:'Sign in',
-      image: PlayRobos1,
-      signInModal: ref(false),
-      maximizedToggle: ref(true),
-
-      triggerNotify(type, message) {
-    $q.notify({
-      type: type,
-      message: message,
-    });
-      }
-
-    }
+  gender: {
+    ref: ref<QInput | null>(null),
+    model: ref<Gender>(),
+    options: ['Male', 'Female'],
+    rules: [validate('GENDER')],
   },
-
-  data() {
-    return {
-      email: '',
-      password: '',
-      rePassword: '',
-      isError: 'false',
-      error: '',
-      errorMessageEmail: '',
-      errorMessagePass: '',
-      errorMessageRePass: ''
-    };
+  age: {
+    ref: ref<QInput | null>(null),
+    model: ref<number>(),
+    rules: [validate('AGE')],
   },
-  methods: {
-    async submit() {
-      const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
-      if (!emailRegex.test(this.email) || this.errorMessageEmail==='' ||this.errorMessagePass==='' || this.errorMessageRePass!==this.errorMessagePass) {
-        this.errorMessageEmail = 'Invalid email address'
-        this.errorMessagePass = 'Email is required'
-        this.errorMessagePass = 'Password is required'
-        this.errorMessageRePass = 'Password is different'
-        this.triggerNotify('negative', 'SignIn Failed: Invalid credentials');
-        this.isError = true;
-        return;
-      };
-
-
-      return signup(this.email, this.password)
-        .then(() => {this.triggerNotify('positive', 'Successful Sign In'),
-      this.logInModal  = (false)
-      this.errorMessageEmail = ''
-      this.errorMessagePass = ''
-      this.errorMessageRePass = ''
-      this.error=''})
-        .catch((error) => {
-          this.triggerNotify('negative', 'SignIn Failed: Invalid credentials');
-          this.isError = true
-          this.error = error
-        });
-    },
+  email: {
+    ref: ref<QInput | null>(null),
+    model: ref<string>(''),
+    rules: [validate('EMAIL')],
+    isError: ref(false),
+    errorMessage: ref<string>(''),
+  },
+  password: {
+    ref: ref<QInput | null>(null),
+    model: ref<string>(''),
+    rules: [validate('PASSWORD')],
+  },
+  rePassword: {
+    ref: ref<QInput | null>(null),
+    model: ref<string>(''),
+    rules: [validateRePassword],
   },
 };
+
+const submit = () => {
+  isSubmitted.value = true;
+  Object.values(data).map((field) => field.ref.value?.validate());
+
+  const hasErrors = Object.values(data).some(
+    (field) => field.ref.value?.hasError
+  );
+
+  if (hasErrors) {
+    isSubmitted.value = false;
+    return triggerNotify('negative', 'SignIn Failed: Invalid credentials');
+  }
+  isSubmitted.value = true;
+
+  return signup(data.email.model.value, data.password.model.value)
+    .then((newUser) => {
+      if (
+        data.name.model.value &&
+        data.gender.model.value &&
+        data.age.model.value
+      ) {
+        return addUser(
+          {
+            name: data.name.model.value,
+            gender: data.gender.model.value,
+            age: data.age.model.value,
+          },
+          newUser.user.uid
+        )
+          .then(() => triggerNotify('positive', 'Successful Sign In'))
+          .then(() => router.push('/home'));
+      }
+      throw new Error('Invalid');
+    })
+    .catch((error) => {
+      isSubmitted.value = false;
+      data.password.model.value = '';
+      data.rePassword.model.value = '';
+      data.email.isError.value = true;
+
+      if (error.code === 'auth/email-already-in-use') {
+        data.email.errorMessage.value = 'Email already in used';
+      } else if (error.code === 'auth/invalid-email') {
+        data.email.errorMessage.value = 'Invalid email';
+      }
+
+      return triggerNotify('negative', 'SignUn Failed: Invalid credentials');
+    });
+};
 </script>
-
-
+../../types/users

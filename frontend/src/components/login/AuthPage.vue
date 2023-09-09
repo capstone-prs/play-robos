@@ -1,46 +1,56 @@
 <template>
-    <div class="element">
-      <div class="container">
-        <!-- Use the imported image -->
-        <img :src="image" class="centered-image" alt="PlayRobosLogo"  />
-      </div>
-      <h2 class="text">
-        <span style="color: #006DF0;">Play</span>
-        <span style="color: #FE66C4;">Robo</span>
-        <span style="color: #FBDE4E;">S</span>
-      </h2>
-      <q-space />
-      <div class="container">
-        <div class="button-container">
-          <LoginForm/>
-          <SignupForm/>
-          
+  <div class="element">
+    <div class="container">
+      <!-- Use the imported image -->
+      <img
+        src="../../assets/PlayRobos1.svg"
+        class="centered-image"
+        alt="PlayRobosLogo"
+      />
+    </div>
+    <h2 class="text">
+      <span style="color: #006df0">Play</span>
+      <span style="color: #fe66c4">Robo</span>
+      <span style="color: #fbde4e">S</span>
+    </h2>
+    <q-space />
+    <div class="container">
+      <div class="button-container">
+        <div class="q-pa-md q-gutter-sm">
+          <ActionButton textLabel="Log In" @click="navigateToLogin" />
+        </div>
+        <div class="q-pa-md q-gutter-sm">
+          <ActionButton textLabel="Sign Up" @click="navigateToSignup" />
         </div>
       </div>
     </div>
-  </template>
-  
-  <script>
-  import { defineComponent } from 'vue';
-  import PlayRobos1 from '../../assets/PlayRobos1.svg';
-  import LoginForm from '../../components/login/LoginForm.vue';
-  import SignupForm from '../../components/login/SignupForm.vue';
-  import '../../css/style.css'
-  
-  export default defineComponent({
-    name: 'HomePage',
-    data() {
-      return {
-        image: PlayRobos1,
-      };
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent } from 'vue';
+import ActionButton from '../buttons/ActionButton.vue';
+import { useRouter } from 'vue-router';
+
+import '../../css/style.css';
+
+export default defineComponent({
+  name: 'HomePage',
+
+  components: {
+    ActionButton,
+  },
+  setup() {
+    const router = useRouter();
+    return { router };
+  },
+  methods: {
+    navigateToLogin() {
+      return this.router.push('/login');
     },
-    components:{
-        LoginForm,
-        SignupForm
-      
+    navigateToSignup() {
+      return this.router.push('/signup');
     },
-  
-  
-  });
-  </Script>
-  
+  },
+});
+</script>
