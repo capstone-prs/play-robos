@@ -7,6 +7,7 @@
       color="yellow"
       text-color="blue"
       data-testid="action-btn"
+      :disable="isDisabled"
     >
       {{ textLabel }}
     </q-btn>
@@ -19,7 +20,14 @@ import { defineComponent } from 'vue';
 export default defineComponent({
   name: 'ActionButton',
   props: {
-    textLabel: String,
+    textLabel: {
+      type: String,
+      required: true,
+    },
+    isDisabled: {
+      type: Boolean,
+      default: false,
+    },
   },
 });
 </script>

@@ -1,119 +1,120 @@
 <template>
-  <div >
-    
- <action-button :textLabel="Text" class='text' @click="logInModal = true"></action-button>
+  <div class="full-width column justify-center">
+    <form @submit.prevent.stop="submit" class="q-gutter-md">
+      <div class="element-login">
+        <q-btn
+          class="glossy"
+          round
+          color="red"
+          icon="arrow_back"
+          style="position: absolute; left: 20px; top: 10px"
+          @click="navigateBack"
+        />
 
-    <q-dialog  :maximized="maximizedToggle" rounded outlined v-model="logInModal"  no-refocus no-hide-on-route-change>
-      <q-card style="width: 100vw; height: 100vw;">
-        <form @submit.prevent.stop="submit" class="q-gutter-md">
-          <div class="element-login">
+        <div class="groupedLogIn">
+          <q-card-section class="authInputContainer">
+            <q-input
+              class="authInputsBig"
+              rounded
+              outlined
+              v-model="data.email.value"
+              id="email"
+              type="email"
+              label="Email"
+              :error="data.isError.value"
+            >
+              <template v-slot:prepend>
+                <q-icon name="mail" />
+              </template>
+            </q-input>
+          </q-card-section>
+          <q-card-section class="authInputContainer">
+            <q-input
+              class="authInputsBig"
+              rounded
+              outlined
+              v-model="data.password.value"
+              id="password"
+              label="Password"
+              :error="data.isError.value"
+              type="password"
+            >
+              <template v-slot:prepend>
+                <q-icon name="lock" />
+              </template>
+            </q-input>
+          </q-card-section>
+          <p
+            v-if="data.errorMessage.value"
+            class="text text-red"
+            style="font-size: 20px"
+          >
+            {{ data.errorMessage.value }}
+          </p>
+        </div>
 
-            <q-btn class="glossy" round color="red" icon="close" style="position: absolute; margin: 10px 0px;  right: 20px;"  @click="logInModal = false" />
-            
-          <div class="groupedLogIn">
-            <q-card-section class="authInputContainer ">
-              <q-input class="authInputsBig" rounded outlined v-model="email" id="email" type="email" label="Email"
-                :error='isError'>
-
-                <template v-slot:prepend>
-                  <q-icon name="person" />
-                </template>
-              </q-input>
-            </q-card-section>
-
-
-            <q-card-section class="authInputContainer">
-              <q-input class="authInputsBig" rounded outlined v-model="password" id="password" label="Password"
-                :error="isError" type="password">
-                <template v-slot:prepend>
-                  <q-icon name="lock" />
-                </template>
-              </q-input>
-            </q-card-section>
-            <p v-if="errorMessage" class="text text-red " style="font-size: 20px;">{{ errorMessage }}</p>
-
-</div>
-
-            <p v-if="error" class="error text-h6 text-red q-mb-md text-center">{{ error }}</p>
-            <div class="container-auth-modal">
-              <action-button :textLabel="Text" class='text'  @click="submit" type="submit"></action-button>
-            </div>
-          </div>
-        </form>
-      </q-card>
-
-    </q-dialog>
+        <div class="container-auth-modal">
+          <ActionButton
+            :textLabel="Text"
+            class="text"
+            @click="submit"
+            type="submit"
+            :isDisabled="isSubmitted"
+          ></ActionButton>
+        </div>
+      </div>
+    </form>
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import login from '../../firebase/auth';
-import { ref } from 'vue'
-import '../../css/style.css'
-import PlayRobos1 from '../../assets/PlayRobos1.svg';
-import { useQuasar } from 'quasar'
+import { ref } from 'vue';
+import '../../css/style.css';
+
+import { useQuasar } from 'quasar';
 import ActionButton from '../buttons/ActionButton.vue';
+import { useRouter } from 'vue-router';
 
+const $q = useQuasar();
+const router = useRouter();
 
-export default {
-  name:'LoginForm',
-  components: {
-    'action-button': ActionButton, // Register the ActionButton component
-  },
-  setup() {
-  const $q = useQuasar()
+const Text = ref('Log In');
+const isSubmitted = ref(false);
+const data = {
+  email: ref<string>(''),
+  password: ref<string>(''),
+  error: ref<string>(''),
+  errorMessage: ref<string>(''),
+  isError: ref(false),
+};
 
+const triggerNotify = (type: string, message: string) =>
+  $q.notify({
+    type: type,
+    message: message,
+  });
 
-    return {
-      Text: 'Log In',
-      image: PlayRobos1,
-      logInModal: ref(false),
-      maximizedToggle: ref(true),
-      ActionButton,
+const navigateBack = () => {
+  return router.go(-1);
+};
 
-    triggerNotify(type, message) {
-    $q.notify({
-      type: type,
-      message: message,
+const submit = () => {
+  isSubmitted.value = true;
+  return login(data.email.value, data.password.value)
+    .then(() => {
+      data.isError.value = false;
+      data.error.value = '';
+      data.errorMessage.value = '';
+      return triggerNotify('positive', 'Successful Login');
+    })
+    .then(() => router.push('/home'))
+    .catch(() => {
+      isSubmitted.value = false;
+      data.isError.value = true;
+      data.password.value = '';
+      data.errorMessage.value = 'Invalid credentials';
+      return triggerNotify('negative', 'Login Failed: Invalid credentials');
     });
-
-    },
-
-    }
-  },
-  data() {
-
-
-    return {
-      email: '',
-      password: '',
-      error: false,
-      errorMessage: '',
-      isError:false
-    };
-
-  },
-  methods: {
-
-    async submit() {
-      try {
-        await login(this.email, this.password);
-        this.triggerNotify('positive', 'Successful Login');
-        this.isError = false;
-        this.error = '';
-        this.errorMessage = ''
-        this.logInModal ='false'
-
-      } catch (error) {
-        this.triggerNotify('negative', 'Login Failed: Invalid credentials');
-        this.error = '';
-        this.isError = true;
-        this.password = ''; 
-        this.errorMessage = 'Invalid credentials'
-
-      }
-    },
-
-  },
 };
 </script>
