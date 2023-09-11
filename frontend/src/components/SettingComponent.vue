@@ -7,7 +7,7 @@
           align="center"
         >
           <CardComponentVue
-            v-for="(imageUrl, index) in $props.imageUrls"
+            v-for="(imageUrl, index) in props.imageUrls"
             :key="index"
             :imageUrl="imageUrl"
             :class="{ 'active-card': index === slide }"
