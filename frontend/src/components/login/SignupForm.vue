@@ -10,7 +10,7 @@
           style="position: absolute; left: 20px; top: 10px"
           @click="navigateBack"
         />
-        <div style="margin: 5% 0 5% 0">
+        <div>
           <q-card-section class="authInputContainer">
             <q-input
               class="authInputsBig"
@@ -128,7 +128,7 @@
             </q-card-section>
           </div>
         </div>
-        <div class="">
+        <div class="container-auth-modal-signup">
           <ActionButton
             :textLabel="Text"
             class="text"
