@@ -7,10 +7,6 @@ export const level1 = {
             },
             {
               'kind': 'block',
-              'type': 'blink'
-            },
-            {
-              'kind': 'block',
               'type': 'look_up'
             },  
             {
@@ -97,9 +93,6 @@ export const level1 = {
               'kind': 'block',
               'type': 'all_together'
             },
-            {
-              'kind': 'block',
-              'type': 'all_parts'
-            }
+
           ]
         }

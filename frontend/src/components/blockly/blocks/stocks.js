@@ -39,15 +39,6 @@ Blockly.defineBlocksWithJsonArray(
   'helpUrl': ''
 },
 {
-  'type': 'blink',
-  'message0': 'blink',
-  'previousStatement': null,
-  'nextStatement': null,
-  'colour': 90,
-  'tooltip': '',
-  'helpUrl': ''
-},
-{
   'type': 'look_up',
   'message0': 'look up %1',
   'args0': [
