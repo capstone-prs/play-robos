@@ -1,27 +1,24 @@
-
-
-
-
 /* LOG IN------------- */
-.container {
+  .container {
     display: flex;
     justify-content: center; /* Center horizontally */
     align-items: center; /* Center vertically */
-    height: 50vh; /* Adjust the container height as needed */
-
+    height: 38.5vh; /* Adjust the container height as needed */
   }
   .centered-image {
     max-width: 80%; /* Ensure the image doesn't exceed its container */
     max-height: 80%; /* Ensure the image doesn't exceed its container */
+    margin-top: 50px; /* Adjust the margin to push the logo below */
   }
   .text {
-    margin: -30px 20px 20px 20px; /* Adjust the margin to control spacing around the text */
+    margin: 20px 20px 50px 20px; /* Adjust the margin to control spacing around the text */
     text-align: center; /* Center the text horizontally */
-    font-size: 50px; /* Adjust the font size as needed */
+    font-size: 70px; /* Adjust the font size as needed */
     color: #333; /* Adjust the text color */
     font-family: "hitchcut";
     src: url('/fonts/Hitchcut-Regular.woff');
     font-weight: bold;
+    text-shadow: 4px 4px 2px rgba(15, 11, 11, 0.6); /*Add text shadow */
   }
   .element {
     background-image: url('../assets/image2vector.svg');
@@ -68,10 +65,11 @@
     transition: background-color 0.3s ease;
   }
   .element-login {
-    background-color: #01D3FF;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-size: 100% auto;
+    background: linear-gradient(180deg,
+        #31d7f8 20%,
+        rgb(114, 221, 237) 45%,
+        rgb(177, 243, 255) 100%);
+    height: 100vh;
     overflow: hidden;
   }
   .rounded-input {
@@ -88,8 +86,17 @@
     display: flex;
     justify-content: center; /* Center horizontally */
     align-items: center; /* Center vertically */
-    margin: 0px 20px 0px 20px; /* Remove any margins */
-    padding: 0; /* Remove any padding */
+    margin: -80px 20px -20px 20px; /* Remove any margins */
+  }
+
+  .container-auth-modal-signup {
+    display: flex;
+    justify-content: center;
+    /* Center horizontally */
+    align-items: center;
+    /* Center vertically */
+    margin: -50px 20px -30px 20px;
+    /* Remove any margins */
   }
 
   .authInputContainer{
@@ -97,8 +104,8 @@
     justify-content: center;
     align-items: center;
     height: 100%; /* Adjust the height as needed */
-      padding: 10;
-    margin: 0px 20px 10px 10px
+    padding: 10;
+    margin: 10px 20px 10px 10px;
   }
   .groupedLogIn{
     padding: 54px 0px 40px 0px;
@@ -122,11 +129,15 @@
     padding: 0px 0px; /* Adjust padding as needed */
   }
 
+  @font-face {
+    font-family: futura;
+    src: url('/fonts/FuturaLT.woff');
+  }
 
   .q-field__messages {
     font-size: 15px; /* Adjust the font size as needed */
     color: #333; /* Adjust the text color */
-    font-family: "hitchcut";
-    src: url('/fonts/Hitchcut-Regular.woff');
-    color: red;
+    font-family: futura;
+    src: url('/fonts/FuturaLT.woff');
+    color: rgb(220, 0, 0);
   }

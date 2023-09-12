@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="hHh lpR fFf" class="bg">
+  <q-layout view="hHh lpR fFf" class="bg" data-test-id="homepage">
     <q-header class="transparent row q-pa-md">
       <div class="col-3">
         <div class="row float-left">
@@ -13,7 +13,12 @@
         </div>
       </div>
       <div class="col level-board" align="center">
-        <LevelBoard levelNumber="1" levelGoal="Wake up" levelReward="50" />
+        <LevelBoard
+          levelNumber="1"
+          levelGoal="Wake up"
+          levelReward="50"
+          data-test-id="level-board"
+        />
       </div>
 
       <div class="col-3">
@@ -27,21 +32,36 @@
           </div>
 
           <div class="col q-pr-sm">
-            <MenuButton @open-dialog="openMenuDialog" />
-            <MenuDialog v-model="isMenuDialogVisible" />
+            <MenuButton @open-dialog="openMenuDialog" data-test-id="menu-btn" />
+            <MenuDialog
+              v-model="isMenuDialogVisible"
+              data-test-id="menu-dialog"
+              :data-for-homepage="dataForHomepage"
+              @update:data-for-homepage="updateData"
+            />
           </div>
         </div>
       </div>
     </q-header>
 
     <q-page-container class="fixed-center">
-      <SettingComponent />
+      <SettingComponent
+        v-if="dataForHomepage == '5-7'"
+        :image-urls="['/setting1.svg', '/setting3.svg', '/setting1.svg']"
+        data-test-id="setting-component"
+      />
+
+      <SettingComponent
+        v-if="dataForHomepage == '8-11'"
+        :image-urls="['/setting2.svg', '/setting4.svg', '/setting2.svg']"
+        data-test-id="setting-component"
+      />
     </q-page-container>
   </q-layout>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue';
+<script setup lang="ts">
+import { ref } from 'vue';
 import HelpButton from '../components/buttons/HelpButton.vue';
 import AchievementButton from '../components/buttons/AchievementButton.vue';
 import SoundButton from '../components/buttons/SoundButton.vue';
@@ -51,33 +71,16 @@ import LevelBoard from '../components/LevelBoard.vue';
 import MenuDialog from '../components/MenuDialog.vue';
 import MenuButton from '../components/buttons/MenuButton.vue';
 
-console.log('here');
+const isMenuDialogVisible = ref(false);
+const openMenuDialog = () => {
+  isMenuDialogVisible.value = true;
+};
 
-export default defineComponent({
-  name: 'HomePage',
-  components: {
-    HelpButton,
-    AchievementButton,
-    SoundButton,
-    MusicButton,
-    MenuButton,
-    SettingComponent,
-    LevelBoard,
-    MenuDialog,
-  },
-  setup() {
-    const isMenuDialogVisible = ref(false);
+let dataForHomepage = ref('5-7');
 
-    const openMenuDialog = () => {
-      isMenuDialogVisible.value = true;
-    };
-
-    return {
-      isMenuDialogVisible,
-      openMenuDialog,
-    };
-  },
-});
+const updateData = (newData: string) => {
+  dataForHomepage.value = newData;
+};
 </script>
 
 <style>
