@@ -2,14 +2,15 @@
   <div class="full-width column justify-center">
     <form @submit.prevent.stop="submit" class="q-gutter-md">
       <div class="element-login">
-        <q-btn
-          class="glossy"
-          round
-          color="red"
-          icon="arrow_back"
-          style="position: absolute; left: 20px; top: 10px"
-          @click="navigateBack"
-        />
+        <div class="wrap" style="padding: 10px 0px 0px 10px">
+          <q-btn
+            class="glossy"
+            round
+            color="red"
+            icon="arrow_back"
+            @click="navigateBack"
+          />
+        </div>
         <div>
           <q-card-section class="authInputContainer">
             <q-input
