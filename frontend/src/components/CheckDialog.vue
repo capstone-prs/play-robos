@@ -4,6 +4,7 @@
       <q-card-section class="row">
         <q-space />
         <q-btn
+          data-testid="close-btn"
           icon="close"
           color="pink-4"
           size="md"
@@ -24,8 +25,12 @@
           color="amber-4"
           text-color="blue"
           @click="openUploadDialog"
+          data-testid="upload-btn"
         />
-        <UploadDialog v-model="isUploadDialogOpen" />
+        <UploadDialog
+          v-model="isUploadDialogOpen"
+          data-testid="upload-dialog"
+        />
       </q-card-section>
     </q-card>
   </q-dialog>

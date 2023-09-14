@@ -8,7 +8,7 @@
             data-testid="check-btn"
             @click="openUploadDialog"
           />
-          <CheckDialog v-model="isDialogOpen" />
+          <CheckDialog v-model="isDialogOpen" data-testid="check-dialog" />
         </div>
 
         <div class="col-3 buttons" data-testid="help-btn">
