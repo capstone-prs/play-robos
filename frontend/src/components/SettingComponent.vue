@@ -16,7 +16,8 @@
           />
         </div>
         <q-card-actions class="q-mt-md" align="center">
-          <ActionButtonVue text-label="Play" />
+          <ActionButtonVue text-label="Play" @click="openPlayDialog" />
+          <PlayDialog v-model="showPlayDialog" />
         </q-card-actions>
 
         <div class ="col 3 q-pl-sm " style="margin-top: -65px;" align="left">
@@ -30,6 +31,7 @@
 
 <script setup lang="ts">
 import CardComponentVue from './CardComponent.vue';
+import PlayDialog from './PlayDialog.vue';
 import ActionButtonVue from './buttons/ActionButton.vue';
 import { ref } from 'vue';
 import robotConnectButton from '../components/buttons/robotConnectButton.vue' 
@@ -37,6 +39,11 @@ import robotConnectButton from '../components/buttons/robotConnectButton.vue'
 const props = defineProps<{
   imageUrls: Array<string>;
 }>();
+
+const showPlayDialog = ref(false);
+const openPlayDialog = () => {
+  showPlayDialog.value = true;
+};
 
 const slide = ref(1);
 </script>
