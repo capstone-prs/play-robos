@@ -31,6 +31,5 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import ActionButton from './buttons/ActionButton.vue';
 const isUploadDialogOpen = ref(false);
 </script>
