@@ -2,21 +2,19 @@
   <div class="workspace-container">
     <div class="overlay-container">
       <div class="row">
-        <div class="col-4 check">
-          <ActionButton text-label="CHECK" data-testid="check-btn" />
-        </div>
-        <div class="col-4 check">
+        <div class="col-6 check">
           <ActionButton
-            text-label="UPLOAD"
+            text-label="CHECK"
             data-testid="check-btn"
-            color="pink"
-            text-color="white"
+            @click="openUploadDialog"
           />
+          <CheckDialog v-model="isDialogOpen" data-testid="check-dialog" />
         </div>
-        <div class="col-2 buttons" data-testid="help-btn">
+
+        <div class="col-3 buttons" data-testid="help-btn">
           <HelpButton />
         </div>
-        <div class="col-2 buttons" data-testid="menu-btn">
+        <div class="col-3 buttons" data-testid="menu-btn">
           <MenuButton />
         </div>
       </div>
@@ -38,10 +36,15 @@ import { level1 } from './toolbox/toolbox';
 import MenuButton from '../buttons/MenuButton.vue';
 import HelpButton from '../buttons/HelpButton.vue';
 import ActionButton from '../buttons/ActionButton.vue';
+import CheckDialog from '../CheckDialog.vue';
 
 export default defineComponent({
   name: 'BlocklyComponent',
   setup() {
+    const isDialogOpen = ref(false);
+    const openUploadDialog = () => {
+      isDialogOpen.value = true;
+    };
     const blocklyContainer = ref<string | Element>('');
     onMounted(() => {
       Blockly.inject(blocklyContainer.value, {
@@ -56,7 +59,7 @@ export default defineComponent({
           snap: true,
         },
         zoom: {
-          startScale: 1.5,
+          startScale: 1.3,
           maxScale: 3,
           minScale: 0.3,
           scaleSpeed: 1.2,
@@ -73,9 +76,16 @@ export default defineComponent({
     });
     return {
       blocklyContainer,
+      openUploadDialog,
+      isDialogOpen,
     };
   },
-  components: { MenuButton, HelpButton, ActionButton },
+  components: {
+    MenuButton,
+    HelpButton,
+    ActionButton,
+    CheckDialog,
+  },
 });
 </script>
 
@@ -94,7 +104,7 @@ export default defineComponent({
   position: absolute;
   z-index: 2;
   padding-top: 5px;
-  left: 55%;
+  left: 68%;
 }
 
 .buttons {
