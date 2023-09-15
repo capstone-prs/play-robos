@@ -4,7 +4,7 @@
    <q-card style="width: 100%; height: 100%">
 
       <q-card-section align="center">
-        <q-card-section style="margin-top: -10px;"> 
+        <q-card-section style="margin-top: 10px;margin-bottom: -15px;"> 
         <q-spinner-rings style="color:  #096CEF" size="120px"  />
       </q-card-section>
         <text-subtitle2 class="text" style="font-size:30px;">
