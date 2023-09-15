@@ -60,8 +60,9 @@
         :image-urls="['/setting2.svg', '/setting4.svg', '/setting2.svg']"
         data-test-id="setting-component"
       />
+      
       <div  style="margin-top: -165px; margin-bottom: 120px; " align="left">
-            <robotConnectButton text-label="Play" @click = "openFindingRobot" />
+            <robotConnectButton  @click = "openFindingRobot" />
             <FindingDialog v-model="findingRobotDialog"/>
           </div>
     </q-page-container>
@@ -84,6 +85,7 @@ import MenuButton from '../components/buttons/MenuButton.vue';
 import robotConnectButton from '../components/buttons/robotConnectButton.vue' 
 import FindingDialog from '../components/FindingDialog.vue';
 const isMenuDialogVisible = ref(false);
+
 const openMenuDialog = () => {
   isMenuDialogVisible.value = true;
 };
