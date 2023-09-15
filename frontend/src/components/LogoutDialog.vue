@@ -6,12 +6,12 @@
     transition-show="scale"
     transition-hide="scale"
   >
-    <q-card class="bg-blue text-white" style="width: 300px">
+    <q-card class="bg-blue text-white " style="width: 300px">
       <q-card-section>
         <div class="text-h6">We're sad to see you leave</div>
       </q-card-section>
 
-      <q-card-section class="q-pt-none">
+      <q-card-section class="q-pt-none ">
         Are you sure you want to log out?
       </q-card-section>
 
@@ -19,26 +19,38 @@
         <q-btn flat label="Cancel" class="text-blue" v-close-popup />
 
         <!-- Add handler for log out here -->
-        <q-btn flat label="Yes" class="text-pink" v-close-popup />
+        <q-btn @click = 'handleLogout' flat label="OK" class="text-red" v-close-popup />
+
+
+
       </q-card-actions>
     </q-card>
   </q-dialog>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
+import { useRouter } from 'vue-router';
+import { logout } from '../firebase/auth';
+import { ref } from 'vue';
 
-export default defineComponent({
-  name: 'LogoutDialog',
-  props: {
-    value: Boolean,
-  },
-  data() {
-    return {
-      secondDialog: false,
-    };
-  },
-});
+const router = useRouter();
+const secondDialog = ref(false);
+const handleLogout = () => {
+  logout()
+        .then(() => {
+          console.log('logout');
+          router.push('/#/')
+        })
+   
+        .catch((error) => {
+          console.error('Logout failed:', error);
+          // Handle any errors that may occur during logout
+        });
+      }
+
+
+
+
 </script>
 
 <style>
