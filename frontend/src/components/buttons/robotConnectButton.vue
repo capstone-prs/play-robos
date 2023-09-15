@@ -1,7 +1,7 @@
 <template>
     <div>
-      <q-btn >
-        <q-icon name="img:/connect-btn.svg" size="60px" />
+      <q-btn flat style="padding: 0%;" >
+        <q-icon  P name="img:/connect-btn.svg" size="50px" />
       </q-btn>
     </div>
   </template>
