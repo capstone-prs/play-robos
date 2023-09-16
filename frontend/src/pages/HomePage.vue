@@ -10,7 +10,11 @@
           <div class="col q-pl-sm">
             <AchievementButton />
           </div>
+
+ 
+
         </div>
+   
       </div>
       <div class="col level-board" align="center">
         <LevelBoard
@@ -43,21 +47,29 @@
         </div>
       </div>
     </q-header>
-
+    
     <q-page-container class="fixed-center">
       <SettingComponent
         v-if="dataForHomepage == '5-7'"
         :image-urls="['/setting1.svg', '/setting3.svg', '/setting1.svg']"
         data-test-id="setting-component"
       />
-
+    
       <SettingComponent
         v-if="dataForHomepage == '8-11'"
         :image-urls="['/setting2.svg', '/setting4.svg', '/setting2.svg']"
         data-test-id="setting-component"
       />
+      
+      <div  style="margin-top: -165px; margin-bottom: 120px; " align="left">
+            <robotConnectButton  @click = "openFindingRobot" />
+            <FindingDialog v-model="findingRobotDialog"/>
+          </div>
     </q-page-container>
+
+    
   </q-layout>
+  
 </template>
 
 <script setup lang="ts">
@@ -70,11 +82,20 @@ import SettingComponent from '../components/SettingComponent.vue';
 import LevelBoard from '../components/LevelBoard.vue';
 import MenuDialog from '../components/MenuDialog.vue';
 import MenuButton from '../components/buttons/MenuButton.vue';
-
+import robotConnectButton from '../components/buttons/robotConnectButton.vue' 
+import FindingDialog from '../components/FindingDialog.vue';
 const isMenuDialogVisible = ref(false);
+
 const openMenuDialog = () => {
   isMenuDialogVisible.value = true;
 };
+
+
+
+const findingRobotDialog = ref(false)
+const openFindingRobot = () => {
+  findingRobotDialog.value = true
+}
 
 let dataForHomepage = ref('5-7');
 
@@ -98,4 +119,10 @@ const updateData = (newData: string) => {
 .level-board {
   z-index: 2;
 }
+
+.responsive-container {
+    margin-top: -165px;
+    margin-bottom: 120px;
+    text-align: left;
+  }
 </style>

@@ -20,6 +20,7 @@
           <PlayDialog v-model="showPlayDialog" />
         </q-card-actions>
       </q-carousel-slide>
+      
     </q-carousel>
   </div>
 </template>
@@ -29,6 +30,7 @@ import CardComponentVue from './CardComponent.vue';
 import PlayDialog from './PlayDialog.vue';
 import ActionButtonVue from './buttons/ActionButton.vue';
 import { ref } from 'vue';
+
 
 const props = defineProps<{
   imageUrls: Array<string>;

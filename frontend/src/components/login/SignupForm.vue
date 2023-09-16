@@ -132,6 +132,8 @@
         <div class="container-auth-modal-signup">
           <ActionButton
             :textLabel="Text"
+            color="pink-12"
+            text-color="white"
             class="text"
             @click="submit"
             :isDisabled="isSubmitted"
