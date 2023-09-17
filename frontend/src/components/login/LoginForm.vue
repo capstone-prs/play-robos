@@ -46,7 +46,7 @@
           </q-card-section>
           <p
             v-if="data.errorMessage.value"
-            class="text text-red"
+            class="errorPrompt text-red"
             style="font-size: 20px"
           >
             {{ data.errorMessage.value }}
