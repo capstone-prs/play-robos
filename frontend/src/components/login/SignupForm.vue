@@ -1,7 +1,7 @@
 <template>
   <div class="full-width column justify-center">
     <form @submit.prevent.stop="submit" class="q-gutter-md">
-      <div class="element-login">
+      <div class="element-signup">
         <div class="wrap" style="padding: 10px 0px 0px 10px">
           <q-btn
             class="glossy"

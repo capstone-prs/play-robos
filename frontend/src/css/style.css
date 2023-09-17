@@ -5,6 +5,7 @@
   align-items: center; /* Center vertically */
   height: 38.5vh; /* Adjust the container height as needed */
 }
+
 .centered-image {
   max-width: 80%; /* Ensure the image doesn't exceed its container */
   max-height: 80%; /* Ensure the image doesn't exceed its container */
@@ -63,6 +64,17 @@
   transition: background-color 0.3s ease;
 }
 .element-login {
+  background: linear-gradient(
+    180deg,
+    #31d7f8 20%,
+    rgb(114, 221, 237) 45%,
+    rgb(177, 243, 255) 100%
+  );
+  height: 100vh;
+  overflow: hidden;
+}
+
+.element-signup {
   background: linear-gradient(
     180deg,
     #31d7f8 20%,
