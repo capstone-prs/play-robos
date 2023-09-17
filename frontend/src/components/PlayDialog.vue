@@ -29,12 +29,27 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import ActionButton from './buttons/ActionButton.vue';
+import { useQuasar } from 'quasar';
 
 const openPlayDialog = ref(false);
+const $q = useQuasar();
 
 const router = useRouter();
 const navigateToStudio = () => {
+  showLoading();
   return router.push('/studio');
+};
+
+const showLoading = () => {
+  $q.loading.show({
+    spinnerColor: 'white',
+    backgroundColor: 'black',
+    message: 'Preparing your studio',
+  });
+
+  setTimeout(() => {
+    $q.loading.hide();
+  }, 4000);
 };
 </script>
 

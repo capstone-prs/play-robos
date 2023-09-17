@@ -1,7 +1,7 @@
 <template>
   <div class="full-width column justify-center">
     <form @submit.prevent.stop="submit" class="q-gutter-md">
-      <div class="element-login">
+      <div class="element-signup">
         <div class="wrap" style="padding: 10px 0px 0px 10px">
           <q-btn
             class="glossy"
@@ -208,6 +208,18 @@ const data = {
   },
 };
 
+const showLoading = () => {
+  $q.loading.show({
+    spinnerColor: 'white',
+    backgroundColor: 'blue-10',
+    message: 'Setting everthing up...',
+  });
+
+  setTimeout(() => {
+    $q.loading.hide();
+  }, 3000);
+};
+
 const submit = () => {
   isSubmitted.value = true;
   Object.values(data).map((field) => field.ref.value?.validate());
@@ -238,10 +250,14 @@ const submit = () => {
           newUser.user.uid
         )
           .then(() => triggerNotify('positive', 'Successful Sign In'))
-          .then(() => router.push('/home'));
+          .then(() => {
+            router.push('/home');
+            showLoading();
+          });
       }
       throw new Error('Invalid');
     })
+
     .catch((error) => {
       isSubmitted.value = false;
       data.password.model.value = '';

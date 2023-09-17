@@ -46,7 +46,7 @@
           </q-card-section>
           <p
             v-if="data.errorMessage.value"
-            class="text text-red"
+            class="errorPrompt text-red"
             style="font-size: 20px"
           >
             {{ data.errorMessage.value }}
@@ -89,6 +89,18 @@ const data = {
   isError: ref(false),
 };
 
+const showLoading = () => {
+  $q.loading.show({
+    spinnerColor: 'white',
+    backgroundColor: 'blue-10',
+    message: 'Setting everthing up...',
+  });
+
+  setTimeout(() => {
+    $q.loading.hide();
+  }, 3000);
+};
+
 const triggerNotify = (type: string, message: string) =>
   $q.notify({
     type: type,
@@ -108,7 +120,10 @@ const submit = () => {
       data.errorMessage.value = '';
       return triggerNotify('positive', 'Successful Login');
     })
-    .then(() => router.push('/home'))
+    .then(() => {
+      router.push('/home');
+      showLoading();
+    })
     .catch(() => {
       isSubmitted.value = false;
       data.isError.value = true;
