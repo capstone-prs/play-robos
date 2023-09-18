@@ -124,7 +124,7 @@ Blockly.defineBlocksWithJsonArray(
 },
 {
   'type': 'look_up_left',
-  'message0': 'Look Upper Left %1',
+  'message0': 'look upper left %1',
   'args0': [
     {
       'type': 'field_image',
@@ -181,7 +181,7 @@ Blockly.defineBlocksWithJsonArray(
 },
 {
   'type': 'close_eyes',
-  'message0': 'Close Eyes %1',
+  'message0': 'close eyes %1',
   'args0': [
     {
       'type': 'field_image',
@@ -538,7 +538,7 @@ Blockly.defineBlocksWithJsonArray(
   ],
   'previousStatement': null,
   'nextStatement': null,
-  'colour': 120,
+  'colour': 20,
   'tooltip': '',
   'helpUrl': ''
 },
@@ -576,7 +576,7 @@ Blockly.defineBlocksWithJsonArray(
   ],
   'previousStatement': null,
   'nextStatement': null,
-  'colour': 45,
+  'colour': 145,
   'tooltip': '',
   'helpUrl': ''
 },
@@ -595,7 +595,7 @@ Blockly.defineBlocksWithJsonArray(
   ],
   'previousStatement': null,
   'nextStatement': null,
-  'colour': 270,
+  'colour': 30,
   'tooltip': '',
   'helpUrl': ''
 },
