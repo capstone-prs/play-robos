@@ -25,7 +25,7 @@ import raise150Right from'../../../assets/raise150.svg'
 import raise120Right from'../../../assets/raise120.svg'
 import raise60Left from'../../../assets/raise60Left.svg'
 import raise150Left from '../../../assets/raiseLeft150.svg'
-import raise120Left from '../../../assets/raiseLeft120.svg'
+import raise120Left from '../../../assets/raiseleft120.svg'
 Blockly.defineBlocksWithJsonArray(
 [{
   'type': 'normal_look',
@@ -653,6 +653,41 @@ Blockly.defineBlocksWithJsonArray(
   'previousStatement': null,
   'nextStatement': null,
   'colour': 175,
+  'tooltip': '',
+  'helpUrl': ''
+},
+{
+  'type': 'all_part',
+  'message0': 'eyes %1 head %2 left arm %3 right arm %4 left leg %5 right leg %6',
+  'args0': [
+    {
+      'type': 'input_statement',
+      'name': 'eyes'
+    },
+    {
+      'type': 'input_statement',
+      'name': 'head'
+    },
+    {
+      'type': 'input_statement',
+      'name': 'left_arm'
+    },
+    {
+      'type': 'input_statement',
+      'name': 'right_arm'
+    },
+    {
+      'type': 'input_statement',
+      'name': 'left_leg'
+    },
+    {
+      'type': 'input_statement',
+      'name': 'right_leg'
+    }
+  ],
+  'previousStatement': null,
+  'nextStatement': null,
+  'colour': 330,
   'tooltip': '',
   'helpUrl': ''
 }

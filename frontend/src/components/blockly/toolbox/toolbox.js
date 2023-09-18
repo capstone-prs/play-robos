@@ -131,6 +131,10 @@ export const level1 = {
               'kind': 'block',
               'type': 'time_block'
             },
+            {
+              'kind': 'block',
+              'type': 'all_part'
+            }
 
           ]
         }
