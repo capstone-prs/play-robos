@@ -171,38 +171,83 @@ javascriptGenerator.forBlock['all_parts'] = function (block, generator) {
   return collatedCode;
 };
 
-// javascript.javascriptGenerator.forBlock['left_wheel_forward'] = function (
-//   block,
-//   generator
-// ) {
-//   // TODO: Assemble javascript into code variable.
-//   var code = '...\n';
-//   return code;
-// };
+javascriptGenerator.forBlock['normal_head'] = function () {
+  var code = '000000';
+  return code;
+};
 
-// javascript.javascriptGenerator.forBlock['right_wheel_forward'] = function (
-//   block,
-//   generator
-// ) {
-//   // TODO: Assemble javascript into code variable.
-//   var code = '...\n';
-//   return code;
-// };
+javascriptGenerator.forBlock['normal_left_arm'] = function () {
+  var code = '000000';
+  return code;
+};
 
-// javascript.javascriptGenerator.forBlock['right_wheel_backward'] = function (
-//   block,
-//   generator
-// ) {
-//   // TODO: Assemble javascript into code variable.
-//   var code = '...\n';
-//   return code;
-// };
+javascriptGenerator.forBlock['raise_left_arm_60_'] = function () {
+  var code = '001000';
+  return code;
+};
 
-// javascript.javascriptGenerator.forBlock['left_wheel_backward'] = function (
-//   block,
-//   generator
-// ) {
-//   // TODO: Assemble javascript into code variable.
-//   var code = '...\n';
-//   return code;
-// };
+javascriptGenerator.forBlock['raise_left_arm_90_'] = function () {
+  // TODO: Assemble javascript into code variable.
+  var code = '002000';
+  return code;
+};
+
+javascriptGenerator.forBlock['raise_left_arm_120'] = function () {
+  var code = '003000';
+  return code;
+};
+
+javascriptGenerator.forBlock['raise_left_arm_150'] = function () {
+  var code = '004000';
+  return code;
+};
+
+javascriptGenerator.forBlock['raise_left_arm_180_'] = function () {
+  var code = '005000';
+  return code;
+};
+
+javascriptGenerator.forBlock['raise_right_arm_60_'] = function () {
+  var code = '000100';
+  return code;
+};
+
+javascriptGenerator.forBlock['raise_right_arm_90_'] = function () {
+  var code = '000200';
+  return code;
+};
+
+javascriptGenerator.forBlock['raise_right_arm_120_'] = function () {
+  var code = '000300';
+  return code;
+};
+
+javascriptGenerator.forBlock['raise_right_arm_150_'] = function () {
+  var code = '000400';
+  return code;
+};
+
+javascriptGenerator.forBlock['raise_right_arm_180_'] = function () {
+  var code = '000500';
+  return code;
+};
+
+javascriptGenerator.forBlock['left_wheel_forward'] = function () {
+  var code = '000010';
+  return code;
+};
+
+javascriptGenerator.forBlock['left_wheel_backward'] = function () {
+  var code = '000020';
+  return code;
+};
+
+javascriptGenerator.forBlock['right_wheel_forward'] = function () {
+  var code = '000001';
+  return code;
+};
+
+javascriptGenerator.forBlock['right_wheel_backward'] = function () {
+  var code = '00002';
+  return code;
+};
