@@ -70,7 +70,7 @@ onMounted(() => {
       colour: '#ccc',
     },
     zoom: {
-      startScale: 1.3,
+      startScale: 1.0,
       maxScale: 3,
       minScale: 0.3,
       scaleSpeed: 0.3,
