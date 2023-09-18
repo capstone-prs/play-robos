@@ -17,7 +17,15 @@ import closeEyes from '../../../assets/closeEyes.svg'
 import semiClose from '../../../assets/semiCLose.svg'
 import halfRaiseRightArm from '../../../assets/halfRaiseRightArm.svg'
 import halfRaiseLeftArm from '../../../assets/halfRaiseLeftArm.svg'
+import normalArms from '../../../assets/normalArms.svg'
 import duration from '../../../assets/duration.svg'
+import normalLook from '../../../assets/NormalLook.svg'
+import raise60Right from'../../../assets/raise60.svg'
+import raise150Right from'../../../assets/raise150.svg'
+import raise120Right from'../../../assets/raise120.svg'
+import raise60Left from'../../../assets/raise60Left.svg'
+import raise150Left from '../../../assets/raiseLeft150.svg'
+import raise120Left from '../../../assets/raiseLeft120.svg'
 Blockly.defineBlocksWithJsonArray(
 [{
   'type': 'normal_look',
@@ -228,83 +236,6 @@ Blockly.defineBlocksWithJsonArray(
   'tooltip': '',
   'helpUrl': ''
 },
-
-{
-  'type': 'left_arm_raise',
-  'message0': 'raise left arm %1',
-  'args0': [
-    {
-      'type': 'field_image',
-      'src': raisHandLeft,
-      'width': 25,
-      'height': 25,
-      'alt': '*',
-      'flipRtl': false
-    }
-  ],
-  'previousStatement': null,
-  'nextStatement': null,
-  'colour': 345,
-  'tooltip': '',
-  'helpUrl': ''
-},
-{
-  'type': 'right_arm_raise',
-  'message0': 'raise right arm %1',
-  'args0': [
-    {
-      'type': 'field_image',
-      'src': raisHandRight,
-      'width': 25,
-      'height': 25,
-      'alt': '*',
-      'flipRtl': false
-    }
-  ],
-  'previousStatement': null,
-  'nextStatement': null,
-  'colour': 315,
-  'tooltip': '',
-  'helpUrl': ''
-},
-{
-  'type': 'half_right_arm_raise',
-  'message0': 'half raise right arm %1',
-  'args0': [
-    {
-      'type': 'field_image',
-      'src': halfRaiseRightArm,
-      'width': 25,
-      'height': 25,
-      'alt': '*',
-      'flipRtl': false
-    }
-  ],
-  'previousStatement': null,
-  'nextStatement': null,
-  'colour': 75,
-  'tooltip': '',
-  'helpUrl': ''
-},
-{
-  'type': 'half_left_arm_raise',
-  'message0': 'half raise left arm %1',
-  'args0': [
-    {
-      'type': 'field_image',
-      'src': halfRaiseLeftArm,
-      'width': 25,
-      'height': 25,
-      'alt': '*',
-      'flipRtl': false
-    }
-  ],
-  'previousStatement': null,
-  'nextStatement': null,
-  'colour': 125,
-  'tooltip': '',
-  'helpUrl': ''
-},
 {
   'type': 'left_wheel_forward',
   'message0': 'left wheel forward ',
@@ -487,6 +418,256 @@ Blockly.defineBlocksWithJsonArray(
   'previousStatement': null,
   'nextStatement': null,
   'colour': 0,
+  'tooltip': '',
+  'helpUrl': ''
+},
+
+/////////////////////////////////////////////////
+
+{
+  'type': 'normal_head',
+  'message0': 'normal head %1',
+  'args0': [
+    {
+      'type': 'field_image',
+      'src': normalLook,
+      'width': 25,
+      'height': 25,
+      'alt': '*',
+      'flipRtl': false
+    }
+  ],
+  'previousStatement': null,
+  'nextStatement': null,
+  'colour': 360,
+  'tooltip': '',
+  'helpUrl': ''
+},
+{
+  'type': 'normal_arms',
+  'message0': 'normal arms  %1',
+  'args0': [
+    {
+      'type': 'field_image',
+      'src': normalArms,
+      'width': 25,
+      'height': 25,
+      'alt': '*',
+      'flipRtl': false
+    }
+  ],
+  'previousStatement': null,
+  'nextStatement': null,
+  'colour': 75,
+  'tooltip': '',
+  'helpUrl': ''
+},
+{
+  'type': 'normal_right_arm',
+  'message0': 'normal right arm %1',
+  'args0': [
+    {
+      'type': 'field_image',
+      'src': 'https://www.gstatic.com/codesite/ph/images/star_on.gif',
+      'width': 15,
+      'height': 15,
+      'alt': '*',
+      'flipRtl': false
+    }
+  ],
+  'previousStatement': null,
+  'nextStatement': null,
+  'colour': 300,
+  'tooltip': '',
+  'helpUrl': ''
+},
+{
+  'type': 'raise_left_arm_60_',
+  'message0': 'raise left arm 60° %1',
+  'args0': [
+    {
+      'type': 'field_image',
+      'src': raise60Left,
+      'width': 25,
+      'height': 25,
+      'alt': '*',
+      'flipRtl': false
+    }
+  ],
+  'previousStatement': null,
+  'nextStatement': null,
+  'colour': 135,
+  'tooltip': '',
+  'helpUrl': ''
+},
+{
+  'type': 'raise_left_arm_180_',
+  'message0': 'raise left arm 180° %1',
+  'args0': [
+    {
+      'type': 'field_image',
+      'src': raisHandLeft,
+      'width': 25,
+      'height': 25,
+      'alt': '*',
+      'flipRtl': false
+    }
+  ],
+  'previousStatement': null,
+  'nextStatement': null,
+  'colour': 270,
+  'tooltip': '',
+  'helpUrl': ''
+},
+{
+  'type': 'raise_left_arm_150',
+  'message0': 'raise left arm 150 ° %1',
+  'args0': [
+    {
+      'type': 'field_image',
+      'src': raise150Left,
+      'width': 25,
+      'height': 25,
+      'alt': '*',
+      'flipRtl': false
+    }
+  ],
+  'previousStatement': null,
+  'nextStatement': null,
+  'colour': 300,
+  'tooltip': '',
+  'helpUrl': ''
+},
+{
+  'type': 'raise_left_arm_120',
+  'message0': 'raise left arm 120 ° %1',
+  'args0': [
+    {
+      'type': 'field_image',
+      'src': raise120Left,
+      'width': 25,
+      'height': 25,
+      'alt': '*',
+      'flipRtl': false
+    }
+  ],
+  'previousStatement': null,
+  'nextStatement': null,
+  'colour': 120,
+  'tooltip': '',
+  'helpUrl': ''
+},
+{
+  'type': 'raise_right_arm_60_',
+  'message0': 'raise right arm 60° %1',
+  'args0': [
+    {
+      'type': 'field_image',
+      'src': raise60Right,
+      'width': 25,
+      'height': 25,
+      'alt': '*',
+      'flipRtl': false
+    }
+  ],
+  'previousStatement': null,
+  'nextStatement': null,
+  'colour': 45,
+  'tooltip': '',
+  'helpUrl': ''
+},
+{
+  'type': 'raise_right_arm_120_',
+  'message0': 'raise right arm 120° %1',
+  'args0': [
+    {
+      'type': 'field_image',
+      'src': raise120Right,
+      'width': 25,
+      'height': 25,
+      'alt': '*',
+      'flipRtl': false
+    }
+  ],
+  'previousStatement': null,
+  'nextStatement': null,
+  'colour': 45,
+  'tooltip': '',
+  'helpUrl': ''
+},
+{
+  'type': 'raise_right_arm_150_',
+  'message0': 'raise right arm 150° %1',
+  'args0': [
+    {
+      'type': 'field_image',
+      'src': raise150Right,
+      'width': 25,
+      'height': 25,
+      'alt': '*',
+      'flipRtl': false
+    }
+  ],
+  'previousStatement': null,
+  'nextStatement': null,
+  'colour': 270,
+  'tooltip': '',
+  'helpUrl': ''
+},
+{
+  'type': 'raise_right_arm_180_',
+  'message0': 'raise right arm 180° %1',
+  'args0': [
+    {
+      'type': 'field_image',
+      'src': raisHandRight,
+      'width': 25,
+      'height': 25,
+      'alt': '*',
+      'flipRtl': false
+    }
+  ],
+  'previousStatement': null,
+  'nextStatement': null,
+  'colour': 320,
+  'tooltip': '',
+  'helpUrl': ''
+},
+{
+  'type': 'raise_right_arm_90_',
+  'message0': 'raise right arm 90° %1',
+  'args0': [
+    {
+      'type': 'field_image',
+      'src': halfRaiseRightArm,
+      'width': 25,
+      'height': 25,
+      'alt': '*',
+      'flipRtl': false
+    }
+  ],
+  'previousStatement': null,
+  'nextStatement': null,
+  'colour': 75,
+  'tooltip': '',
+  'helpUrl': ''
+},
+{
+  'type': 'raise_left_arm_90_',
+  'message0': 'raise left arm 90° %1',
+  'args0': [
+    {
+      'type': 'field_image',
+      'src': halfRaiseLeftArm,
+      'width': 25,
+      'height': 25,
+      'alt': '*',
+      'flipRtl': false
+    }
+  ],
+  'previousStatement': null,
+  'nextStatement': null,
+  'colour': 175,
   'tooltip': '',
   'helpUrl': ''
 }
