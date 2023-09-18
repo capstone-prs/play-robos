@@ -294,7 +294,7 @@ Blockly.defineBlocksWithJsonArray([
   {
     type: 'all_parts',
     message0:
-      'eyes %1 head %2 neck %3 left arm %4 right arm %5 left leg %6 right leg %7',
+      'eyes %1 head %2 left arm %3 right arm %4 left leg %5 right leg %6',
     args0: [
       {
         type: 'input_statement',
@@ -303,10 +303,6 @@ Blockly.defineBlocksWithJsonArray([
       {
         type: 'input_statement',
         name: 'head',
-      },
-      {
-        type: 'input_statement',
-        name: 'neck',
       },
       {
         type: 'input_statement',
