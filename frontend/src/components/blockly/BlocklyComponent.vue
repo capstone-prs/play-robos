@@ -5,8 +5,8 @@
         <div class="col-4 buttons" data-testid="help-btn" @click="showCode">
           <ActionButton
             text-label="UNDO"
-            color="blue-4"
-            text-color="yellow-4"
+            color="pink-3"
+            text-color="white"
             @click="undo"
           />
         </div>
