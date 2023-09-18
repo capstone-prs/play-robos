@@ -2,7 +2,15 @@
   <div class="workspace-container">
     <div class="overlay-container">
       <div class="row">
-        <div class="col-6 check">
+        <div class="col-4 buttons" data-testid="help-btn" @click="showCode">
+          <ActionButton
+            text-label="UNDO"
+            color="blue-4"
+            text-color="yellow-4"
+            @click="undo"
+          />
+        </div>
+        <div class="col-4 check">
           <ActionButton
             text-label="CHECK"
             data-testid="check-btn"
@@ -11,10 +19,10 @@
           <CheckDialog v-model="isDialogOpen" data-testid="check-dialog" />
         </div>
 
-        <div class="col-3 buttons" data-testid="help-btn" @click="showCode">
+        <div class="col-2 buttons" data-testid="help-btn" @click="showCode">
           <HelpButton />
         </div>
-        <div class="col-3 buttons" data-testid="menu-btn">
+        <div class="col-2 buttons" data-testid="menu-btn">
           <MenuButton />
         </div>
       </div>
@@ -47,6 +55,7 @@ const openUploadDialog = () => {
 };
 
 let generator: any = '';
+let undo: any = '';
 
 const blocklyContainer = ref<string | Element>('');
 onMounted(() => {
@@ -80,6 +89,9 @@ onMounted(() => {
     return javascriptGenerator.workspaceToCode(workspace as Blockly.Workspace);
   };
   workspace.addChangeListener(generator);
+  undo = () => {
+    workspace.undo(false);
+  };
 });
 
 const showCode = () => {
@@ -102,7 +114,7 @@ const showCode = () => {
   position: absolute;
   z-index: 2;
   padding-top: 5px;
-  left: 68%;
+  left: 60%;
 }
 
 .buttons {
