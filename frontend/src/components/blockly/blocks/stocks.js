@@ -292,21 +292,6 @@ Blockly.defineBlocksWithJsonArray(
   'helpUrl': ''
 },
 {
-  'type': 'all_together',
-  'message0': 'all together %1',
-  'args0': [
-    {
-      'type': 'input_statement',
-      'name': 'NAME'
-    }
-  ],
-  'previousStatement': null,
-  'nextStatement': null,
-  'colour': 195,
-  'tooltip': '',
-  'helpUrl': ''
-},
-{
   'type': 'all_parts',
   'message0': 'eyes %1 head %2 neck %3 left arm %4 right arm %5 left leg %6 right leg %7',
   'args0': [
