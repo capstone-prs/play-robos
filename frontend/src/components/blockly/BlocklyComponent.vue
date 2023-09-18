@@ -62,7 +62,7 @@ export default defineComponent({
           startScale: 1.3,
           maxScale: 3,
           minScale: 0.3,
-          scaleSpeed: 1.2,
+          scaleSpeed: 1.0,
         },
         theme: {
           name: 'custom',
