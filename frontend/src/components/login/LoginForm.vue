@@ -98,7 +98,7 @@ const showLoading = () => {
 
   setTimeout(() => {
     $q.loading.hide();
-  }, 3000);
+  }, 4000);
 };
 
 const triggerNotify = (type: string, message: string) =>
