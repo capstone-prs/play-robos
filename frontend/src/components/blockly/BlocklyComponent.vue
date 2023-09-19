@@ -2,13 +2,8 @@
   <div class="workspace-container">
     <div class="overlay-container">
       <div class="row">
-        <div class="col-4 buttons" data-testid="help-btn" @click="showCode">
-          <ActionButton
-            text-label="UNDO"
-            color="pink-3"
-            text-color="white"
-            @click="undo"
-          />
+        <div class="col-4 buttons" data-testid="help-btn" @click="undo">
+          <ActionButton text-label="UNDO" color="pink-3" text-color="white" />
         </div>
         <div class="col-4 check">
           <ActionButton
@@ -19,7 +14,7 @@
           <CheckDialog v-model="isDialogOpen" data-testid="check-dialog" />
         </div>
 
-        <div class="col-2 buttons" data-testid="help-btn" @click="showCode">
+        <div class="col-2 buttons" data-testid="help-btn">
           <HelpButton />
         </div>
         <div class="col-2 buttons" data-testid="menu-btn">
@@ -94,9 +89,9 @@ onMounted(() => {
   };
 });
 
-const showCode = () => {
-  console.log(generator());
-};
+// const showCode = () => {
+//   console.log(generator());
+// };
 </script>
 
 <style>
