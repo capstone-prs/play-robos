@@ -2,14 +2,6 @@
   <div class="workspace-container">
     <div class="overlay-container">
       <div class="row">
-        <div class="col-4 buttons" data-testid="help-btn" @click="showCode">
-          <ActionButton
-            text-label="UNDO"
-            color="pink-3"
-            text-color="white"
-            @click="undo"
-          />
-        </div>
         <div class="col-4 check">
           <ActionButton
             text-label="CHECK"
@@ -18,7 +10,9 @@
           />
           <CheckDialog v-model="isDialogOpen" data-testid="check-dialog" />
         </div>
-
+        <div class="col-3 buttons" data-testid="help-btn" @click="showCode">
+          <UndoButton @click="undo"/>
+        </div>
         <div class="col-2 buttons" data-testid="help-btn" @click="showCode">
           <HelpButton />
         </div>
@@ -48,6 +42,7 @@ import HelpButton from '../buttons/HelpButton.vue';
 import ActionButton from '../buttons/ActionButton.vue';
 import CheckDialog from '../CheckDialog.vue';
 import { javascriptGenerator } from 'blockly/javascript';
+import UndoButton from '../buttons/UndoButton.vue';
 
 const isDialogOpen = ref(false);
 const openUploadDialog = () => {
