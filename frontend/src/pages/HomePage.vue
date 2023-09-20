@@ -62,7 +62,7 @@
       <div style="padding-top: 240px">
         <robotConnectButton @click="openPairingDialogAfterDelay" />
         <FindingDialog v-model="findingRobotDialog" />
-        <PairingDialog v-model="ispairingDialog" />
+        <pairingDialog v-model="ispairingDialog" />
       </div>
     </q-col>
   </q-layout>
@@ -80,7 +80,7 @@ import MenuDialog from '../components/MenuDialog.vue';
 import MenuButton from '../components/buttons/MenuButton.vue';
 import robotConnectButton from '../components/buttons/robotConnectButton.vue';
 import FindingDialog from '../components/FindingDialog.vue';
-import PairingDialog from '../components/PairingDialog.vue';
+import pairingDialog from '../components/PairingDialog.vue';
 const isMenuDialogVisible = ref(false);
 
 const openMenuDialog = () => {
