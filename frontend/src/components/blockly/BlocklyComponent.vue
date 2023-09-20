@@ -88,10 +88,6 @@ onMounted(() => {
     workspace.undo(false);
   };
 });
-
-// const showCode = () => {
-//   console.log(generator());
-// };
 </script>
 
 <style>
