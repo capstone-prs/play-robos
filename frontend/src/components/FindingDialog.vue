@@ -1,40 +1,36 @@
 <template>
-   <q-dialog
-   v-model=" isFindingDialogOpen ">
-   <q-card style="width: 100%; height: 100%">
-
+  <q-dialog v-model="isFindingDialogOpen">
+    <q-card style="width: 100%; height: 100%">
       <q-card-section align="center">
-        <q-card-section style="margin-top: 10px;margin-bottom: -15px;"> 
-        <q-spinner-rings style="color:  #096CEF" size="120px"  />
-      </q-card-section>
-        <text-subtitle2 class="text" style="font-size:30px;">
-        <span style="color:#fbde4e ">Finding...</span>
-        <span style="color: #fe66c4">Please Wait</span>
-      
-      </text-subtitle2 >
-      <div style="margin-top: 25px;">
-        <ActionButton  text-label="Cancel" color = "red-14"  text-color="white"  v-close-popup />
-      </div>
+        <q-card-section style="margin-top: 10px; margin-bottom: -15px">
+          <q-spinner-rings style="color: #096cef" size="120px" />
+        </q-card-section>
+        <text-subtitle2 class="text" style="font-size: 30px">
+          <span style="color: #fbde4e">Finding...</span>
+          <span style="color: #fe66c4">Please Wait</span>
+        </text-subtitle2>
+        <div style="margin-top: 25px">
+          <ActionButton
+            text-label="Cancel"
+            color="red-14"
+            text-color="white"
+            v-close-popup
+          />
+        </div>
       </q-card-section>
     </q-card>
   </q-dialog>
 </template>
-  
+
 <script setup lang="ts">
-import {ref} from 'vue'
+import { ref } from 'vue';
 import ActionButton from './buttons/ActionButton.vue';
 import '../css/style.css';
-import { QSpinnerRings } from 'quasar'
-
-
+import { QSpinnerRings } from 'quasar';
 
 const isFindingDialogOpen = ref(false);
-
-
-
-
 </script>
-  
+
 <style scoped>
 .overlay-background {
   position: fixed;
