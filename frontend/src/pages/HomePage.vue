@@ -81,6 +81,7 @@ import MenuButton from '../components/buttons/MenuButton.vue';
 import robotConnectButton from '../components/buttons/robotConnectButton.vue';
 import FindingDialog from '../components/FindingDialog.vue';
 import PairingDialog from '../components/PairingDialog.vue';
+
 const isMenuDialogVisible = ref(false);
 
 const openMenuDialog = () => {
