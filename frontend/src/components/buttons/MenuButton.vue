@@ -1,6 +1,6 @@
 <template>
   <q-btn round @click="openDialog">
-    <q-icon name="img:/menu-btn.svg" size="50px" />
+    <q-icon name="img:/menu-btn.svg" size="50px" data-testid="menu-btn" />
   </q-btn>
 </template>
 

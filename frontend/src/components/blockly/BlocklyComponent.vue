@@ -2,6 +2,9 @@
   <div class="workspace-container">
     <div class="overlay-container">
       <div class="row">
+        <div class="col-4 buttons" data-testid="help-btn" align="left">
+          <UndoButton @click="undo" />
+        </div>
         <div class="col-4 check">
           <ActionButton
             text-label="CHECK"
@@ -9,9 +12,6 @@
             @click="openUploadDialog"
           />
           <CheckDialog v-model="isDialogOpen" data-testid="check-dialog" />
-        </div>
-        <div class="col-3 buttons" data-testid="help-btn">
-          <UndoButton @click="undo" />
         </div>
         <div class="col-2 buttons" data-testid="help-btn">
           <HelpButton />

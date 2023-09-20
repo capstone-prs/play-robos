@@ -7,6 +7,7 @@
     rounded
     toggle-color="amber"
     :options="options"
+    data-testid="toggle-btn"
   >
     <template v-slot:one />
     <template v-slot:two />

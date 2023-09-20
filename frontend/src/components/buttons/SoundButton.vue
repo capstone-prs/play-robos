@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-btn round>
-      <q-icon name="img:/sound-btn.svg" size="50px" />
+      <q-icon name="img:/sound-btn.svg" size="50px" data-testid="sound-btn" />
     </q-btn>
   </div>
 </template>
@@ -13,4 +13,3 @@ export default defineComponent({
   name: 'SoundButton',
 });
 </script>
-
