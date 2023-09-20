@@ -6,10 +6,4 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-
-export default defineComponent({
-  name: 'HelpButton',
-});
-</script>
+<script setup lang="ts"></script>
