@@ -1,4 +1,5 @@
 export const levels = [
+  //level 0
   {
     kind: 'flyoutToolbox',
     contents: [
@@ -8,6 +9,7 @@ export const levels = [
       },
     ],
   },
+  //level 1
   {
     kind: 'flyoutToolbox',
     contents: [
@@ -141,6 +143,80 @@ export const levels = [
       {
         kind: 'block',
         type: 'all_parts',
+      },
+    ],
+  },
+  //level 2
+  {
+    kind: 'flyoutToolbox',
+    contents: [
+      {
+        kind: 'block',
+        type: 'normal_look',
+      },
+      {
+        kind: 'block',
+        type: 'close_eyes',
+      },
+    ],
+  },
+
+  //level 3
+  {
+    kind: 'flyoutToolbox',
+    contents: [
+      {
+        kind: 'block',
+        type: 'normal_look',
+      },
+      {
+        kind: 'block',
+        type: 'close_eyes',
+      },
+    ],
+  },
+
+  //level 4
+  {
+    kind: 'flyoutToolbox',
+    contents: [
+      {
+        kind: 'block',
+        type: 'normal_look',
+      },
+      {
+        kind: 'block',
+        type: 'close_eyes',
+      },
+    ],
+  },
+
+  //level 5
+  {
+    kind: 'flyoutToolbox',
+    contents: [
+      {
+        kind: 'block',
+        type: 'normal_look',
+      },
+      {
+        kind: 'block',
+        type: 'close_eyes',
+      },
+    ],
+  },
+
+  //level 6
+  {
+    kind: 'flyoutToolbox',
+    contents: [
+      {
+        kind: 'block',
+        type: 'normal_look',
+      },
+      {
+        kind: 'block',
+        type: 'close_eyes',
       },
     ],
   },

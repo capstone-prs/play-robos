@@ -1,9 +1,9 @@
 <template>
   <div class="board">
     <img src="/level-board.svg" style="width: 90; height: 90px" />
-    <div class="level absolute-center">Level: {{ levelNumber }}</div>
-    <div class="goal absolute-center">Goal: {{ levelGoal }}</div>
-    <div class="reward absolute-center">Reward: {{ levelReward }}</div>
+    <div class="level absolute-center">Setting: {{ levelNumber }}</div>
+    <div class="goal absolute-center">Context: {{ levelGoal }}</div>
+    <div class="reward absolute-center">Mission: {{ levelReward }}</div>
   </div>
 </template>
 

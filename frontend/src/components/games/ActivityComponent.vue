@@ -69,7 +69,7 @@ const openPlayDialog = () => {
 }
 
 .title {
-  background-color: rgb(255, 255, 209);
+  background-color: rgb(232, 255, 230);
 }
 
 @font-face {
