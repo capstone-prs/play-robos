@@ -4,8 +4,8 @@
       class="glossy hitchcut"
       size="lg"
       rounded
-      :color="$props.color"
-      :text-color="$props.textColor"
+      :color="color"
+      :text-color="textColor"
       data-testid="action-btn"
       :disable="isDisabled"
     >
@@ -14,28 +14,23 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-
-export default defineComponent({
-  name: 'ActionButton',
-  props: {
-    textLabel: {
-      type: String,
-      required: true,
-    },
-    isDisabled: {
-      type: Boolean,
-      default: false,
-    },
-    color: {
-      type: String,
-      default: 'yellow',
-    },
-    textColor: {
-      type: String,
-      default: 'blue',
-    },
+<script setup lang="ts">
+defineProps({
+  textLabel: {
+    type: String,
+    required: true,
+  },
+  isDisabled: {
+    type: Boolean,
+    default: false,
+  },
+  color: {
+    type: String,
+    default: 'yellow',
+  },
+  textColor: {
+    type: String,
+    default: 'blue',
   },
 });
 </script>

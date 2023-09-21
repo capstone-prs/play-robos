@@ -43,7 +43,6 @@
         </div>
       </div>
     </q-header>
-   
 
     <q-page-container class="fixed-center">
       <SettingComponent
@@ -57,20 +56,16 @@
         :image-urls="['/setting2.svg', '/setting4.svg', '/setting2.svg']"
         data-test-id="setting-component"
       />
-
     </q-page-container>
 
-    <q-col
-      class="q-gutter-lg ">
-      <div style="padding-top: 240px;">
+    <q-col class="q-gutter-lg">
+      <div style="padding-top: 240px">
         <robotConnectButton @click="openPairingDialogAfterDelay" />
         <FindingDialog v-model="findingRobotDialog" />
-        <pairingDialog v-model="ispairingDialog"/>
+        <!-- <PairingDialog v-model="ispairingDialog" /> -->
       </div>
     </q-col>
   </q-layout>
-
-
 </template>
 
 <script setup lang="ts">
@@ -85,7 +80,8 @@ import MenuDialog from '../components/MenuDialog.vue';
 import MenuButton from '../components/buttons/MenuButton.vue';
 import robotConnectButton from '../components/buttons/robotConnectButton.vue';
 import FindingDialog from '../components/FindingDialog.vue';
-import pairingDialog from '../components/pairingDialog.vue'
+// import PairingDialog from '../components/PairingDialog.vue';
+
 const isMenuDialogVisible = ref(false);
 
 const openMenuDialog = () => {
@@ -126,15 +122,11 @@ const updateData = (newData: string) => {
   height: 100vh !important;
 }
 
-
 .responsive-container {
-  
   margin-top: -165px;
   margin-bottom: 120px;
   margin-left: 20px;
   text-align: left;
-  display: flex
+  display: flex;
 }
-
-
 </style>
