@@ -1,237 +1,62 @@
+#include <Arduino.h>
 #include <LedControl.h>
+#include <eyes.h>
+#include <eyesPattern.h>
 
-typedef struct
+EyesConvertion eyes[]{
+    {"0", normal},
+    {"a", semiClose},
+    {"b", lookLeft},
+    {"c", lookRight},
+    {"d", lookUp},
+    {"e", lookUpLeft},
+    {"f", lookUpRight},
+    {"g", winkLeft},
+    {"h", winkRight},
+    {"i", close},
+};
+
+const int numberOfDevices = 2;
+const int eyesDINpin = 11;
+const int eyesCLKpin = 13;
+const int eyesCSpin = 12;
+
+LedControl lc = LedControl(eyesDINpin, eyesCLKpin, eyesCSpin, numberOfDevices);
+
+void setupEyes()
 {
-    int right[8];
-    int left[8];
-} Eyes;
+    lc.shutdown(0, false); // Wake up the display (not shut down)
+    lc.shutdown(1, false); // Wake up the display (not shut down)
+    lc.setIntensity(0, 8); // Set the brightness (0-15)
+    lc.setIntensity(1, 8); // Set the brightness (0-15)
+    lc.clearDisplay(0);    // Clear the display
+    lc.clearDisplay(1);    // Clear the display
+}
 
-Eyes normal = {
+Eyes findEyesValue(String key)
+{
+    int eyesLen = sizeof(eyes) / sizeof(eyes[0]);
+    for (int i = 0; i < eyesLen; i++)
     {
-        B00000000,
-        B00011110,
-        B00111111,
-        B00110011,
-        B00110011,
-        B00110011,
-        B00011110,
-        B00000000,
-    },
+        if (eyes[i].key == key)
+        {
+            return eyes[i].value;
+        }
+    };
+
+    return normal;
+}
+
+void displayEyes(Eyes inp)
+{
+    for (int i = 0; i < 8; i++)
     {
-        B00000000,
-        B01111000,
-        B11111100,
-        B11001100,
-        B11001100,
-        B11001100,
-        B01111000,
-        B00000000,
-    },
+        lc.setRow(0, i, inp.right[i]);
+        lc.setRow(1, i, inp.left[i]);
+    };
 };
 
-Eyes semiClose = {
-    {
-        B00000000,
-        B00000000,
-        B00000000,
-        B00011110,
-        B00110011,
-        B00110011,
-        B00011110,
-        B00000000,
-    },
-    {
-        B00000000,
-        B00000000,
-        B00000000,
-        B01111000,
-        B11001100,
-        B11001100,
-        B01111000,
-        B00000000,
-    },
-};
-
-Eyes lookRight = {
-    {
-        B00000000,
-        B00011110,
-        B00111111,
-        B00111001,
-        B00111001,
-        B00111001,
-        B00011110,
-        B00000000,
-    },
-    {
-        B00000000,
-        B01111000,
-        B11111100,
-        B11100100,
-        B11100100,
-        B11100100,
-        B01111000,
-        B00000000,
-    },
-};
-
-Eyes lookLeft = {
-    {
-        B00000000,
-        B00011110,
-        B00111111,
-        B00100111,
-        B00100111,
-        B00100111,
-        B00011110,
-        B00000000,
-    },
-    {
-        B00000000,
-        B01111000,
-        B11111100,
-        B10011100,
-        B10011100,
-        B10011100,
-        B01111000,
-        B00000000,
-    },
-};
-
-Eyes lookUp = {
-    {
-        B00000000,
-        B00011110,
-        B00110011,
-        B00110011,
-        B00111111,
-        B00111111,
-        B00011110,
-        B00000000,
-    },
-    {
-        B00000000,
-        B01111000,
-        B11001100,
-        B11001100,
-        B11111100,
-        B11111100,
-        B01111000,
-        B00000000,
-    },
-};
-
-Eyes lookUpLeft = {
-    {
-        B00000000,
-        B00011110,
-        B00100111,
-        B00100111,
-        B00111111,
-        B00111111,
-        B00011110,
-        B00000000,
-    },
-    {
-        B00000000,
-        B01111000,
-        B10011100,
-        B10011100,
-        B11111100,
-        B11111100,
-        B01111000,
-        B00000000,
-    },
-};
-
-Eyes lookUpRight = {
-    {
-        B00000000,
-        B00011110,
-        B00111001,
-        B00111001,
-        B00111111,
-        B00111111,
-        B00011110,
-        B00000000,
-    },
-    {
-        B00000000,
-        B01111000,
-        B11100100,
-        B11100100,
-        B11111100,
-        B11111100,
-        B01111000,
-        B00000000,
-    },
-};
-
-Eyes winkRight = {
-    {
-        B00000000,
-        B00000000,
-        B00000000,
-        B00011110,
-        B00111111,
-        B00011110,
-        B00000000,
-        B00000000,
-    },
-    {
-        B00000000,
-        B01111000,
-        B11111100,
-        B11001100,
-        B11001100,
-        B11001100,
-        B01111000,
-        B00000000,
-    },
-};
-
-Eyes winkLeft = {
-    {
-        B00000000,
-        B00011110,
-        B00111111,
-        B00110011,
-        B00110011,
-        B00110011,
-        B00011110,
-        B00000000,
-    },
-    {
-        B00000000,
-        B00000000,
-        B00000000,
-        B01111000,
-        B11111100,
-        B01111000,
-        B00000000,
-        B00000000,
-    },
-};
-
-Eyes close = {
-    {
-        B00000000,
-        B00000000,
-        B00000000,
-        B00011110,
-        B00111111,
-        B00011110,
-        B00000000,
-        B00000000,
-    },
-    {
-        B00000000,
-        B00000000,
-        B00000000,
-        B01111000,
-        B11111100,
-        B01111000,
-        B00000000,
-        B00000000,
-    },
-};
+void displayEyeKey(String i)
+{
+    displayEyes(findEyesValue(i));
+}
