@@ -19,7 +19,7 @@
         />
       </q-card-section>
       <q-card-section align="center">
-        <action-button text-label="ENTER" @click="navigateToStudio" />
+        <action-button text-label="ENTER" @click="navigateToStudio(levelNum)" />
       </q-card-section>
     </q-card>
   </q-dialog>
@@ -31,13 +31,20 @@ import { useRouter } from 'vue-router';
 import ActionButton from './buttons/ActionButton.vue';
 import { useQuasar } from 'quasar';
 
+defineProps({
+  levelNum: {
+    type: Number,
+    required: true,
+  },
+});
+
 const openPlayDialog = ref(false);
 const $q = useQuasar();
 
 const router = useRouter();
-const navigateToStudio = () => {
+const navigateToStudio = (paramVal: number) => {
   showLoading();
-  return router.push('/studio');
+  return router.push({ name: 'studio', params: { param: paramVal - 1 } });
 };
 
 const showLoading = () => {

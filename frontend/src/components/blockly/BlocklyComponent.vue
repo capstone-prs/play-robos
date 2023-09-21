@@ -36,18 +36,28 @@ import * as Blockly from 'blockly';
 import './blocks/stocks';
 import './blocks/generator';
 
-import { level1 } from './toolbox/toolbox';
+import * as Toolbox from './toolbox/toolbox';
 import MenuButton from '../buttons/MenuButton.vue';
 import HelpButton from '../buttons/HelpButton.vue';
 import ActionButton from '../buttons/ActionButton.vue';
 import CheckDialog from '../CheckDialog.vue';
 import { javascriptGenerator } from 'blockly/javascript';
 import UndoButton from '../buttons/UndoButton.vue';
+import { useRouter } from 'vue-router';
 
+const route = useRouter().currentRoute;
+const levelNumber = parseInt(route.value.params.param as string);
 const isDialogOpen = ref(false);
 const openUploadDialog = () => {
   isDialogOpen.value = true;
 };
+
+defineProps({
+  toolbox: {
+    type: Object,
+    required: true,
+  },
+});
 
 let generator: any = '';
 let undo: any = '';
@@ -57,7 +67,7 @@ onMounted(() => {
   let workspace = Blockly.inject(blocklyContainer.value, {
     // refer to toolbox.js file, we can define more levels from there,
     // future handling may be passing the level number as props to this component
-    toolbox: level1,
+    toolbox: Toolbox.levels[levelNumber],
     trashcan: true,
     grid: {
       spacing: 20,
