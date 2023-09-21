@@ -4,8 +4,8 @@
       class="glossy hitchcut"
       size="lg"
       rounded
-      color="yellow"
-      text-color="blue"
+      :color="$props.color"
+      :text-color="$props.textColor"
       data-testid="action-btn"
       :disable="isDisabled"
     >
@@ -27,6 +27,14 @@ export default defineComponent({
     isDisabled: {
       type: Boolean,
       default: false,
+    },
+    color: {
+      type: String,
+      default: 'yellow',
+    },
+    textColor: {
+      type: String,
+      default: 'blue',
     },
   },
 });

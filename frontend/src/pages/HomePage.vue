@@ -43,6 +43,7 @@
         </div>
       </div>
     </q-header>
+   
 
     <q-page-container class="fixed-center">
       <SettingComponent
@@ -56,8 +57,20 @@
         :image-urls="['/setting2.svg', '/setting4.svg', '/setting2.svg']"
         data-test-id="setting-component"
       />
+
     </q-page-container>
+
+    <q-col
+      class="q-gutter-lg ">
+      <div style="padding-top: 240px;">
+        <robotConnectButton @click="openPairingDialogAfterDelay" />
+        <FindingDialog v-model="findingRobotDialog" />
+        <pairingDialog v-model="ispairingDialog"/>
+      </div>
+    </q-col>
   </q-layout>
+
+
 </template>
 
 <script setup lang="ts">
@@ -70,11 +83,29 @@ import SettingComponent from '../components/SettingComponent.vue';
 import LevelBoard from '../components/LevelBoard.vue';
 import MenuDialog from '../components/MenuDialog.vue';
 import MenuButton from '../components/buttons/MenuButton.vue';
-
+import robotConnectButton from '../components/buttons/robotConnectButton.vue';
+import FindingDialog from '../components/FindingDialog.vue';
+import pairingDialog from '../components/pairingDialog.vue'
 const isMenuDialogVisible = ref(false);
+
 const openMenuDialog = () => {
   isMenuDialogVisible.value = true;
 };
+
+const findingRobotDialog = ref(false);
+const ispairingDialog = ref(false);
+
+function openPairingDialogAfterDelay() {
+  // Set isFindingDialogOpen to true if it's not already open
+  if (!findingRobotDialog.value) {
+    findingRobotDialog.value = true;
+  }
+
+  // After a 5-second delay, set ispairingDialog to true
+  setTimeout(() => {
+    ispairingDialog.value = true;
+  }, 5000); // 5000 milliseconds (5 seconds)
+}
 
 let dataForHomepage = ref('5-7');
 
@@ -95,7 +126,15 @@ const updateData = (newData: string) => {
   height: 100vh !important;
 }
 
-.level-board {
-  z-index: 2;
+
+.responsive-container {
+  
+  margin-top: -165px;
+  margin-bottom: 120px;
+  margin-left: 20px;
+  text-align: left;
+  display: flex
 }
+
+
 </style>
