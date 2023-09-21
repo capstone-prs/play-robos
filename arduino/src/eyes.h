@@ -1,22 +1,15 @@
 #ifndef EYES_H
 #define EYES_H
 #include <Arduino.h>
+#include <eyesPattern.h>
 
 typedef struct
 {
-    int right[8];
-    int left[8];
-} Eyes;
+    String key;
+    Eyes value;
+} EyesConvertion;
 
-extern Eyes normal;
-extern Eyes semiClose;
-extern Eyes lookRight;
-extern Eyes lookLeft;
-extern Eyes lookUp;
-extern Eyes lookUpLeft;
-extern Eyes lookUpRight;
-extern Eyes winkRight;
-extern Eyes winkLeft;
-extern Eyes close;
+void setupEyes();
+void displayEyeKey(String i);
 
-#endif
+#endif // EYES_DISPLAY_H
