@@ -27,8 +27,21 @@
 import CardComponentVue from './CardComponent.vue';
 import ActionButtonVue from './buttons/ActionButton.vue';
 import { useRouter } from 'vue-router';
-
 import { ref } from 'vue';
+import { useQuasar } from 'quasar';
+
+const $q = useQuasar();
+const showLoading = () => {
+  $q.loading.show({
+    spinnerColor: 'white',
+    backgroundColor: 'black',
+    message: 'Loading...',
+  });
+
+  setTimeout(() => {
+    $q.loading.hide();
+  }, 2000);
+};
 
 const props = defineProps<{
   imageUrls: Array<string>;
@@ -38,6 +51,7 @@ const slide = ref(1);
 const router = useRouter();
 
 const navigateToActivities = () => {
+  showLoading();
   return router.push('/activity');
 };
 </script>
