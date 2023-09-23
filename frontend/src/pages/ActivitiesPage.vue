@@ -106,7 +106,7 @@ const navigateBack = () => {
     rgba(157, 202, 255, 1) 100%
   ) !important;
   width: 100% !important;
-  height: 100vh !important;
+  height: 100% !important;
 }
 
 .responsive-container {

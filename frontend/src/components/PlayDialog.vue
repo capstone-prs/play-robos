@@ -5,9 +5,11 @@
     transition-show="scale"
     transition-hide="scale"
   >
-    <q-card style="width: 500px; height: 200px">
-      <q-card-section class="row items-center">
-        <div class="text-h4 play-dialog">Level:</div>
+    <q-card style="width: 450px; height: 250px">
+      <q-card-section class="row items-center q-pa-md">
+        <div class="play-level-text">
+          LEVEL: <span style="color: rgb(116, 201, 11)">{{ levelNum }}</span>
+        </div>
         <q-space />
         <q-btn
           icon="close"
@@ -17,6 +19,15 @@
           v-close-popup
           data-test-id="close-btn"
         />
+      </q-card-section>
+      <q-card-section>
+        <div class="row">
+          <q-icon name="img:/goal.svg" size="35px"> </q-icon>
+          <div class="text-h6 play-dialog">Goal: {{ goalTitle }}</div>
+          <q-space />
+          <q-icon name="img:/coin.svg" size="35px"> </q-icon>
+          <div class="text-h6 play-dialog">Reward: {{ reward }}</div>
+        </div>
       </q-card-section>
       <q-card-section align="center">
         <action-button text-label="PLAY" @click="navigateToStudio(levelNum)" />
@@ -33,6 +44,14 @@ import { useQuasar } from 'quasar';
 
 defineProps({
   levelNum: {
+    type: Number,
+    required: true,
+  },
+  goalTitle: {
+    type: String,
+    required: true,
+  },
+  reward: {
     type: Number,
     required: true,
   },
@@ -66,8 +85,21 @@ const showLoading = () => {
   src: url('/fonts/FuturaLT.woff');
 }
 
+@font-face {
+  font-family: hitchcut;
+  src: url('/fonts/Hitchcut-Regular.woff');
+}
+
 .play-dialog {
   font-family: 'futura';
-  color: blue;
+  color: rgb(0, 0, 0);
+  padding-left: 5px;
+}
+
+.play-level-text {
+  font-family: 'hitchcut';
+  color: rgb(255, 240, 29);
+  font-size: 40px;
+  text-shadow: 3px 0px 2px rgba(9, 39, 0, 0.6);
 }
 </style>

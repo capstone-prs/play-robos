@@ -23,7 +23,12 @@
       </q-item-section>
     </q-card>
 
-    <PlayDialog :level-num="levelNum" v-model="showPlayDialog" />
+    <PlayDialog
+      :level-num="levelNum"
+      v-model="showPlayDialog"
+      :goal-title="goalTitle"
+      :reward="reward"
+    />
   </div>
 </template>
 
