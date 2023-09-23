@@ -19,7 +19,7 @@
         />
       </q-card-section>
       <q-card-section align="center">
-        <action-button text-label="ENTER" @click="navigateToStudio(levelNum)" />
+        <action-button text-label="PLAY" @click="navigateToStudio(levelNum)" />
       </q-card-section>
     </q-card>
   </q-dialog>
