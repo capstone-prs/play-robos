@@ -11,7 +11,11 @@
             data-testid="check-btn"
             @click="openUploadDialog"
           />
-          <CheckDialog v-model="isDialogOpen" data-testid="check-dialog" />
+          <CheckDialog
+            v-model="isDialogOpen"
+            data-testid="check-dialog"
+            :correct="checkProgram()"
+          />
         </div>
         <div class="col-2 buttons" data-testid="help-btn">
           <HelpButton />
@@ -44,11 +48,13 @@ import CheckDialog from '../CheckDialog.vue';
 import { javascriptGenerator } from 'blockly/javascript';
 import UndoButton from '../buttons/UndoButton.vue';
 import { useRouter } from 'vue-router';
+import * as Levels from '../games/levelDetails';
 
 const route = useRouter().currentRoute;
 const levelNumber = parseInt(route.value.params.param as string);
 const isDialogOpen = ref(false);
 const openUploadDialog = () => {
+  checkProgram();
   isDialogOpen.value = true;
 };
 
@@ -59,7 +65,11 @@ defineProps({
   },
 });
 
-let generator: any = '';
+const rightCode = Levels.levels[levelNumber].correctCode;
+
+let generator: () => string = () => {
+  return '';
+};
 let undo: any = '';
 
 const blocklyContainer = ref<string | Element>('');
@@ -90,14 +100,29 @@ onMounted(() => {
     },
   });
 
+  let generatedCode = '';
   generator = () => {
-    return javascriptGenerator.workspaceToCode(workspace as Blockly.Workspace);
+    generatedCode = javascriptGenerator.workspaceToCode(
+      workspace as Blockly.Workspace
+    );
+    console.log(generatedCode);
+    return generatedCode;
   };
   workspace.addChangeListener(generator);
   undo = () => {
     workspace.undo(false);
   };
 });
+
+const checkProgram = () => {
+  if (rightCode === generator()) {
+    console.log('true');
+    return true;
+  } else {
+    console.log('false');
+    return false;
+  }
+};
 </script>
 
 <style>

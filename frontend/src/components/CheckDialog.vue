@@ -1,5 +1,5 @@
 <template>
-  <q-dialog v-model="isDialogOpen" persistent>
+  <q-dialog v-model="isDialogOpen" persistent v-if="correct">
     <q-card style="width: 100%; height: 100%">
       <q-card-section class="row">
         <q-space />
@@ -34,12 +34,54 @@
       </q-card-section>
     </q-card>
   </q-dialog>
+
+  <q-dialog v-model="isDialogOpen" persistent v-else-if="!correct">
+    <q-card style="width: 100%; height: 100%">
+      <q-card-section class="row">
+        <q-space />
+        <q-btn
+          data-testid="close-btn"
+          icon="close"
+          color="pink-4"
+          size="md"
+          round
+          v-close-popup
+          data-test-id="close-btn"
+        />
+      </q-card-section>
+      <q-card-section align="center">
+        <div class="text-h2 correct-text">INCORRECT</div>
+        <div class="text-h6 detail-text">Check your program and try again.</div>
+      </q-card-section>
+      <q-card-section align="center">
+        <ActionButton
+          text-label="UPLOAD"
+          color="amber-4"
+          text-color="blue"
+          @click="openUploadDialog"
+          data-testid="upload-btn"
+          :is-disabled="true"
+        />
+        <UploadDialog
+          v-model="isUploadDialogOpen"
+          data-testid="upload-dialog"
+        />
+      </q-card-section>
+    </q-card>
+  </q-dialog>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
 import ActionButton from './buttons/ActionButton.vue';
 import UploadDialog from './UploadDialog.vue';
+
+defineProps({
+  correct: {
+    type: Boolean,
+    required: true,
+  },
+});
 
 const isDialogOpen = ref(false);
 const isUploadDialogOpen = ref(false);

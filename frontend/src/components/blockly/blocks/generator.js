@@ -167,7 +167,7 @@ javascriptGenerator.forBlock['all_parts'] = function (block, generator) {
   // join the array of code to string since blockly generator expects a string return
   const collatedCode = code.join('');
 
-  console.log(code);
+  // console.log(code);
   return collatedCode;
 };
 

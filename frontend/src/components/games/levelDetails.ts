@@ -21,7 +21,7 @@ export const levels: Level[] = [
     goalTitle: 'Look left, look right.',
     reward: 50,
     toolbox: Toolbox.levels[1],
-    correctCode: '200000',
+    correctCode: 'c21000',
   },
   {
     levelNum: 3,
