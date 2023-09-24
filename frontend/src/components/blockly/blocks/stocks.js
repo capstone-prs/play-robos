@@ -264,68 +264,156 @@ Blockly.defineBlocksWithJsonArray([
     tooltip: '',
     helpUrl: '',
   },
-
   {
-    type: 'time_block',
-    message0: 'Duration:  %1 sec %2',
-    args0: [
+    'type': 'time_block',
+    'message0': 'Duration:  %1 sec %2',
+    'args0': [
       {
-        type: 'field_number',
-        name: 'NAME',
-        value: 0,
-        min: 1,
-        max: 10,
+        'type': 'field_dropdown',
+        'name': 'sec',
+        'options': [
+          [
+            '0',
+            '0'
+          ],
+          [
+            '1',
+            'OPTIONNAME'
+          ],
+          [
+            '2',
+            'OPTIONNAME'
+          ],
+          [
+            '3',
+            'OPTIONNAME'
+          ],
+          [
+            '4',
+            'OPTIONNAME'
+          ],
+          [
+            '5',
+            'OPTIONNAME'
+          ],
+          [
+            '6',
+            'OPTIONNAME'
+          ],
+          [
+            '7',
+            'OPTIONNAME'
+          ],
+          [
+            '8',
+            'OPTIONNAME'
+          ],
+          [
+            '9',
+            'OPTIONNAME'
+          ]
+        ]
       },
       {
-        type: 'field_image',
-        src: duration,
-        width: 25,
-        height: 25,
-        alt: '*',
-        flipRtl: false,
-      },
+        'type': 'field_image',
+        'src': 'https://scontent.xx.fbcdn.net/v/t1.15752-9/266034106_460957615459094_139905987208103686_n.png?stp=dst-png_p403x403&_nc_cat=109&ccb=1-7&_nc_sid=aee45a&_nc_ohc=upfTqFh2n-MAX_taXAr&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AdSNobJf9yaB2gTq2kC8LMr79LbKhSOEPr4blCBHoqTkMw&oe=65257B06',
+        'width': 20,
+        'height': 20,
+        'alt': '*',
+        'flipRtl': false
+      }
     ],
-    previousStatement: null,
-    nextStatement: null,
-    colour: 60,
-    tooltip: '',
-    helpUrl: '',
+    'previousStatement': null,
+    'nextStatement': null,
+    'colour': 60,
+    'tooltip': '',
+    'helpUrl': ''
   },
   {
-    type: 'all_parts',
-    message0:
-      'eyes %1 head %2 left arm %3 right arm %4 left leg %5 right leg %6',
-    args0: [
+    'type': 'all_parts',
+    'message0': 'Duration: %1 sec %2 eyes %3 head %4 left arm %5 right arm %6 left leg %7 right leg %8',
+    'args0': [
       {
-        type: 'input_statement',
-        name: 'eyes',
+        'type': 'field_dropdown',
+        'name': 'NAME',
+        'options': [
+          [
+            '0',
+            '0'
+          ],
+          [
+            '1',
+            '1'
+          ],
+          [
+            '2',
+            '2'
+          ],
+          [
+            '3',
+            '3'
+          ],
+          [
+            '4',
+            '4'
+          ],
+          [
+            '5',
+            '5'
+          ],
+          [
+            '6',
+            '6'
+          ],
+          [
+            '7',
+            '7'
+          ],
+          [
+            '8',
+            '8'
+          ],
+          [
+            '9',
+            '9'
+          ]
+        ]
       },
       {
-        type: 'input_statement',
-        name: 'head',
+        'type': 'input_dummy'
       },
       {
-        type: 'input_statement',
-        name: 'left_arm',
+        'type': 'input_statement',
+        'name': 'eyes',
+        'check': 'eye'
       },
       {
-        type: 'input_statement',
-        name: 'right_arm',
+        'type': 'input_statement',
+        'name': 'head',
+        'check': 'head'
       },
       {
-        type: 'input_statement',
-        name: 'left_leg',
+        'type': 'input_statement',
+        'name': 'left_arm'
       },
       {
-        type: 'input_statement',
-        name: 'right_leg',
+        'type': 'input_statement',
+        'name': 'right_arm'
       },
+      {
+        'type': 'input_statement',
+        'name': 'left_leg'
+      },
+      {
+        'type': 'input_statement',
+        'name': 'right_leg'
+      }
     ],
-    previousStatement: null,
-    nextStatement: null,
-    colour: 330,
-    tooltip: '',
-    helpUrl: '',
+    'previousStatement': null,
+    'nextStatement': null,
+    'colour': 40,
+    'tooltip': '',
+    'helpUrl': ''
   },
   {
     type: 'right_wheel_forward',
