@@ -19,8 +19,13 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../pages/HomePage.vue'),
   },
   {
-    path: '/studio',
+    path: '/studio/:param',
+    name: 'studio',
     component: () => import('../pages/StudioPage.vue'),
+  },
+  {
+    path: '/activity',
+    component: () => import('../pages/ActivitiesPage.vue'),
   },
 
   // Always leave this as last one,
