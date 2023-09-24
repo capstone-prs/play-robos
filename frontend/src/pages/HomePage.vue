@@ -60,7 +60,7 @@
 
     <q-page-container class="fixed-bottom-left q-pl-lg q-pb-md">
       <div class="">
-        <robotConnectButton @click="openPairingDialogAfterDelay" />
+        <RobotConnectButton @click="openPairingDialogAfterDelay" />
         <FindingDialog v-model="findingRobotDialog" />
         <!-- <PairingDialog v-model="ispairingDialog" /> -->
       </div>
@@ -78,7 +78,7 @@ import SettingComponent from '../components/SettingComponent.vue';
 import LevelBoard from '../components/LevelBoard.vue';
 import MenuDialog from '../components/MenuDialog.vue';
 import MenuButton from '../components/buttons/MenuButton.vue';
-import robotConnectButton from '../components/buttons/ConnectButton.vue';
+import RobotConnectButton from '../components/buttons/RobotConnectButton.vue'
 import FindingDialog from '../components/FindingDialog.vue';
 // import PairingDialog from '../components/PairingDialog.vue';
 
