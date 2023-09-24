@@ -78,7 +78,7 @@ import SettingComponent from '../components/SettingComponent.vue';
 import LevelBoard from '../components/LevelBoard.vue';
 import MenuDialog from '../components/MenuDialog.vue';
 import MenuButton from '../components/buttons/MenuButton.vue';
-import robotConnectButton from '../components/buttons/RobotConnectButton.vue';
+import robotConnectButton from '../components/buttons/ConnectButton.vue';
 import FindingDialog from '../components/FindingDialog.vue';
 // import PairingDialog from '../components/PairingDialog.vue';
 
