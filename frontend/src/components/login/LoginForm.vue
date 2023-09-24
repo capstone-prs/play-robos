@@ -92,7 +92,7 @@ const data = {
 const showLoading = () => {
   $q.loading.show({
     spinnerColor: 'white',
-    backgroundColor: 'blue-10',
+    backgroundColor: 'black',
     message: 'Setting everthing up...',
   });
 
