@@ -125,7 +125,6 @@ javascriptGenerator.forBlock['time_block'] = function (block) {
 javascriptGenerator.forBlock['all_parts'] = function (block, generator) {
   // initialize the code to be return by this generator
   var code = ['0', '0', '0', '0', '0', '0'];
-
   // get all the blocks nested in the all_parts block
   var statements_eyes = generator.statementToCode(block, 'eyes');
   var statements_head = generator.statementToCode(block, 'head');
@@ -133,13 +132,13 @@ javascriptGenerator.forBlock['all_parts'] = function (block, generator) {
   var statements_right_arm = generator.statementToCode(block, 'right_arm');
   var statements_left_leg = generator.statementToCode(block, 'left_leg');
   var statements_right_leg = generator.statementToCode(block, 'right_leg');
+  var duration_field = block.getFieldValue('NAME');
 
   // f(x) to handle the positioning of the data to its correct index in the code
   function positionData(theString, position) {
     const codeString = theString
       .split('')
       .filter((block) => block.trim() !== '');
-    console.log(codeString);
     const codeObj = codeString.map((char) => ({ character: char }));
     codeObj.forEach((char) => {
       if (codeObj.indexOf(char) === position) {
@@ -165,7 +164,7 @@ javascriptGenerator.forBlock['all_parts'] = function (block, generator) {
   }
 
   // join the array of code to string since blockly generator expects a string return
-  const collatedCode = code.join('');
+  const collatedCode = code.join('') + duration_field;
 
   // console.log(code);
   return collatedCode;
