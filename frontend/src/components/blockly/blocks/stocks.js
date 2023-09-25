@@ -265,75 +265,6 @@ Blockly.defineBlocksWithJsonArray([
     helpUrl: '',
   },
   {
-    'type': 'time_block',
-    'message0': 'Duration:  %1 sec %2 %3',
-    'args0': [
-      {
-        'type': 'field_dropdown',
-        'name': 'sec',
-        'options': [
-          [
-            '0',
-            '0'
-          ],
-          [
-            '1',
-            '1'
-          ],
-          [
-            '2',
-            '2'
-          ],
-          [
-            '3',
-            '3'
-          ],
-          [
-            '4',
-            '4'
-          ],
-          [
-            '5',
-            '5'
-          ],
-          [
-            '6',
-            '6'
-          ],
-          [
-            '7',
-            '7'
-          ],
-          [
-            '8',
-            '8'
-          ],
-          [
-            '9',
-            '9'
-          ]
-        ]
-      },
-      {
-        'type': 'field_image',
-        'src': duration,
-        'width': 20,
-        'height': 20,
-        'alt': '*',
-        'flipRtl': false
-      },
-      {
-        'type': 'input_statement',
-        'name': 'duration'
-      }
-    ],
-    'previousStatement': null,
-    'nextStatement': null,
-    'colour': 60,
-    'tooltip': '',
-    'helpUrl': ''
-  },
-  {
     'type': 'all_parts',
     'message0': 'Duration: %1 sec %2 eyes %3 head %4 left arm %5 right arm %6 left leg %7 right leg %8',
     'args0': [
@@ -416,6 +347,75 @@ Blockly.defineBlocksWithJsonArray([
     'previousStatement': null,
     'nextStatement': null,
     'colour': 40,
+    'tooltip': '',
+    'helpUrl': ''
+  },
+  {
+    'type': 'time_block',
+    'message0': 'Duration:  %1 sec %2 %3',
+    'args0': [
+      {
+        'type': 'field_dropdown',
+        'name': 'sec',
+        'options': [
+          [
+            '0',
+            '0'
+          ],
+          [
+            '1',
+            '1'
+          ],
+          [
+            '2',
+            '2'
+          ],
+          [
+            '3',
+            '3'
+          ],
+          [
+            '4',
+            '4'
+          ],
+          [
+            '5',
+            '5'
+          ],
+          [
+            '6',
+            '6'
+          ],
+          [
+            '7',
+            '7'
+          ],
+          [
+            '8',
+            '8'
+          ],
+          [
+            '9',
+            '9'
+          ]
+        ]
+      },
+      {
+        'type': 'field_image',
+        'src': duration,
+        'width': 20,
+        'height': 20,
+        'alt': '*',
+        'flipRtl': false
+      },
+      {
+        'type': 'input_statement',
+        'name': 'duration'
+      }
+    ],
+    'previousStatement': null,
+    'nextStatement': null,
+    'colour': 60,
     'tooltip': '',
     'helpUrl': ''
   },
