@@ -266,7 +266,7 @@ Blockly.defineBlocksWithJsonArray([
   },
   {
     'type': 'time_block',
-    'message0': 'Duration:  %1 sec %2',
+    'message0': 'Duration:  %1 sec %2 %3',
     'args0': [
       {
         'type': 'field_dropdown',
@@ -278,49 +278,53 @@ Blockly.defineBlocksWithJsonArray([
           ],
           [
             '1',
-            'OPTIONNAME'
+            '1'
           ],
           [
             '2',
-            'OPTIONNAME'
+            '2'
           ],
           [
             '3',
-            'OPTIONNAME'
+            '3'
           ],
           [
             '4',
-            'OPTIONNAME'
+            '4'
           ],
           [
             '5',
-            'OPTIONNAME'
+            '5'
           ],
           [
             '6',
-            'OPTIONNAME'
+            '6'
           ],
           [
             '7',
-            'OPTIONNAME'
+            '7'
           ],
           [
             '8',
-            'OPTIONNAME'
+            '8'
           ],
           [
             '9',
-            'OPTIONNAME'
+            '9'
           ]
         ]
       },
       {
         'type': 'field_image',
-        'src': 'https://scontent.xx.fbcdn.net/v/t1.15752-9/266034106_460957615459094_139905987208103686_n.png?stp=dst-png_p403x403&_nc_cat=109&ccb=1-7&_nc_sid=aee45a&_nc_ohc=upfTqFh2n-MAX_taXAr&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AdSNobJf9yaB2gTq2kC8LMr79LbKhSOEPr4blCBHoqTkMw&oe=65257B06',
+        'src': duration,
         'width': 20,
         'height': 20,
         'alt': '*',
         'flipRtl': false
+      },
+      {
+        'type': 'input_statement',
+        'name': 'duration'
       }
     ],
     'previousStatement': null,
