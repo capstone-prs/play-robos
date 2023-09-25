@@ -50,7 +50,7 @@
         />
       </q-card-section>
       <q-card-section align="center">
-        <div class="text-h2 correct-text">INCORRECT</div>
+        <div class="text-h2 incorrect-text">INCORRECT</div>
         <div class="text-h6 detail-text">Check your program and try again.</div>
       </q-card-section>
       <q-card-section align="center">
@@ -105,6 +105,12 @@ const openUploadDialog = () => {
   font-family: 'hitchcut';
   color: rgb(255, 222, 37);
   text-shadow: 3px 0px 2px rgba(0, 120, 112, 0.6);
+}
+
+.incorrect-text {
+  font-family: 'hitchcut';
+  color: rgb(236, 74, 49);
+  text-shadow: 3px 0px 2px rgba(248, 239, 0, 0.906);
 }
 
 .detail-text {
