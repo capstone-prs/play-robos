@@ -17,10 +17,18 @@
     <div class="container">
       <div class="button-container">
         <div class="q-pa-md q-gutter-sm">
-          <ActionButton textLabel="Log In" @click="navigateToLogin" />
+          <ActionButton
+            textLabel="Log In"
+            @click="navigateToLogin"
+            data-testid="login-btn"
+          />
         </div>
         <div class="q-pa-md q-gutter-sm">
-          <ActionButton textLabel="Sign Up" @click="navigateToSignup" />
+          <ActionButton
+            textLabel="Sign Up"
+            @click="navigateToSignup"
+            data-testid="signup-btn"
+          />
         </div>
       </div>
     </div>

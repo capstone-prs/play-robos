@@ -6,12 +6,12 @@
     transition-show="scale"
     transition-hide="scale"
   >
-    <q-card class="bg-blue text-white " style="width: 300px">
+    <q-card class="bg-blue text-white" style="width: 300px">
       <q-card-section>
         <div class="text-h6">We're sad to see you leave</div>
       </q-card-section>
 
-      <q-card-section class="q-pt-none ">
+      <q-card-section class="q-pt-none">
         Are you sure you want to log out?
       </q-card-section>
 
@@ -19,10 +19,13 @@
         <q-btn flat label="Cancel" class="text-blue" v-close-popup />
 
         <!-- Add handler for log out here -->
-        <q-btn @click = 'handleLogout' flat label="OK" class="text-red" v-close-popup />
-
-
-
+        <q-btn
+          @click="handleLogout"
+          flat
+          label="OK"
+          class="text-red"
+          v-close-popup
+        />
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -37,20 +40,16 @@ const router = useRouter();
 const secondDialog = ref(false);
 const handleLogout = () => {
   logout()
-        .then(() => {
-          console.log('logout');
-          router.push('/#/')
-        })
-   
-        .catch((error) => {
-          console.error('Logout failed:', error);
-          // Handle any errors that may occur during logout
-        });
-      }
+    .then(() => {
+      console.log('logout');
+      router.push('/#/');
+    })
 
-
-
-
+    .catch((error: any) => {
+      console.error('Logout failed:', error);
+      // Handle any errors that may occur during logout
+    });
+};
 </script>
 
 <style>

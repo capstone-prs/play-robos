@@ -43,34 +43,20 @@
         </div>
       </div>
     </q-header>
-
-    <q-page-container class="fixed-center">
-      <SettingComponent
-        v-if="dataForHomepage == '5-7'"
-        :image-urls="['/setting1.svg', '/setting3.svg', '/setting1.svg']"
-        data-test-id="setting-component"
-      />
-
-      <SettingComponent
-        v-if="dataForHomepage == '8-11'"
-        :image-urls="['/setting2.svg', '/setting4.svg', '/setting2.svg']"
-        data-test-id="setting-component"
-      />
-    </q-page-container>
-
-    <q-page-container class="fixed-bottom-left q-pl-lg q-pb-md">
-      <div style="padding-top: 240px">
-        <RobotConnectButton
-          :loading-handler="
-            (isLoading) => {
-              findingRobotDialog = isLoading;
-            }
-          "
-          :open-bt-setting-handler="() => (isPairingDialog = true)"
-        />
-
-        <FindingDialog v-model="findingRobotDialog" />
-        <PairingDialog v-model="isPairingDialog" />
+    <q-page-container>
+      <div class="row" align="center">
+        <div class="col-2" v-for="level in Levels.levels" :key="level.levelNum">
+          <ActivityComponent
+            :level-num="level.levelNum"
+            :goal-title="level.goalTitle"
+            :reward="level.reward"
+            :toolbox="level.toolbox"
+            :correct-code="level.correctCode"
+          />
+        </div>
+      </div>
+      <div class="row q-mt-xl q-ml-md">
+        <ActionButton text-label="HOME" @click="navigateBack" />
       </div>
     </q-page-container>
   </q-layout>
@@ -78,17 +64,19 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+
 import HelpButton from '../components/buttons/HelpButton.vue';
 import AchievementButton from '../components/buttons/AchievementButton.vue';
 import SoundButton from '../components/buttons/SoundButton.vue';
 import MusicButton from '../components/buttons/MusicButton.vue';
-import SettingComponent from '../components/SettingComponent.vue';
 import LevelBoard from '../components/LevelBoard.vue';
 import MenuDialog from '../components/MenuDialog.vue';
 import MenuButton from '../components/buttons/MenuButton.vue';
-import RobotConnectButton from '../components/buttons/RobotConnectButton.vue';
-import FindingDialog from '../components/FindingDialog.vue';
-import PairingDialog from '../components/pairingDialog.vue';
+import ActivityComponent from '../components/games/ActivityComponent.vue';
+import ActionButton from '../components/buttons/ActionButton.vue';
+import * as Levels from '../components/games/levelDetails';
+// import PairingDialog from '../components/PairingDialog.vue';
 
 const isMenuDialogVisible = ref(false);
 
@@ -96,13 +84,16 @@ const openMenuDialog = () => {
   isMenuDialogVisible.value = true;
 };
 
-const findingRobotDialog = ref(false);
-const isPairingDialog = ref(false);
-
 let dataForHomepage = ref('5-7');
 
 const updateData = (newData: string) => {
   dataForHomepage.value = newData;
+};
+
+const router = useRouter();
+
+const navigateBack = () => {
+  return router.go(-1);
 };
 </script>
 
@@ -115,7 +106,7 @@ const updateData = (newData: string) => {
     rgba(157, 202, 255, 1) 100%
   ) !important;
   width: 100% !important;
-  height: 100vh !important;
+  height: 100% !important;
 }
 
 .responsive-container {

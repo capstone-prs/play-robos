@@ -38,4 +38,3 @@ const bluetoothConnect = () =>
     props.openBtSettingHandler
   );
 </script>
-./bluetoothUtils

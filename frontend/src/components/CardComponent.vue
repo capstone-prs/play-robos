@@ -10,13 +10,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-
-export default defineComponent({
-  name: 'CardComponent',
-  props: {
-    imageUrl: String,
-  },
+<script setup lang="ts">
+defineProps({
+  imageUrl: String,
 });
 </script>

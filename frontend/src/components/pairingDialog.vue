@@ -2,10 +2,10 @@
   <q-dialog v-model="isPairingDialogOpen">
     <q-card style="width: 100%; height: 100%">
       <q-card-section align="center">
-        <text-subtitle2 class="text" style="font-size: 30px">
+        <text class="text" style="font-size: 30px">
           <span style="color: #fbde4e">Instructions for</span>
           <span style="color: #fe66c4">Opening BT</span>
-        </text-subtitle2>
+        </text>
         <div style="margin-top: 25px">
           <ActionButton
             text-label="Open"
@@ -47,4 +47,3 @@ const isPairingDialogOpen = ref(false);
   z-index: 999; /* Make sure the overlay is on top of everything else */
 }
 </style>
-./buttons/bluetoothUtils
