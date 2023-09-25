@@ -115,11 +115,32 @@ javascriptGenerator.forBlock['raise_right_arm_180_'] = function () {
   return code;
 };
 
-javascriptGenerator.forBlock['time_block'] = function (block) {
-  var number_name = block.getFieldValue('NAME');
+javascriptGenerator.forBlock['time_block'] = function (block, generator) {
+  var code = ['0', '0', '0', '0', '0', '0'];
+  var dropdown_sec = block.getFieldValue('sec');
+  var statements_duration = generator.statementToCode(block, 'duration');
 
-  var code = `${number_name}\n`;
-  return code;
+  const codeString = statements_duration
+    .split('')
+    .filter((block) => block.trim() !== '');
+
+  function positionData(position) {
+    const codeObj = codeString.map((char) => ({ character: char }));
+    codeObj.forEach((char) => {
+      if (codeObj.indexOf(char) === position) {
+        code[position] = char.character;
+      }
+    });
+  }
+
+  var i = 0;
+  for (i; i <= 5; i++) {
+    positionData(i);
+  }
+
+  const collatedCode = code.join('') + dropdown_sec;
+
+  return collatedCode;
 };
 
 javascriptGenerator.forBlock['all_parts'] = function (block, generator) {
