@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-btn flat style="padding: 0%">
+    <q-btn round>
       <q-icon P name="img:/connect-btn.svg" size="50px" />
     </q-btn>
   </div>

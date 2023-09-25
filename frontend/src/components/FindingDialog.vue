@@ -5,10 +5,10 @@
         <q-card-section style="margin-top: 10px; margin-bottom: -15px">
           <q-spinner-rings style="color: #096cef" size="120px" />
         </q-card-section>
-        <text-subtitle2 class="text" style="font-size: 30px">
+        <text class="text " style="font-size: 30px">
           <span style="color: #fbde4e">Finding...</span>
           <span style="color: #fe66c4">Please Wait</span>
-        </text-subtitle2>
+        </text>
         <div style="margin-top: 25px">
           <ActionButton
             text-label="Cancel"
