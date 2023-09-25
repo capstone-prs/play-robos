@@ -1,6 +1,6 @@
 import { getDoc, doc, setDoc } from 'firebase/firestore';
 import { db } from '../boot/firebase';
-import { NewUser } from '../types/users';
+import { NewUser } from '../types/Users';
 
 export const addUser = (data: NewUser, uid: string) =>
   setDoc(doc(db, 'users', uid), {
