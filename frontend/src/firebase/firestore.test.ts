@@ -3,8 +3,10 @@ import { installQuasarPlugin } from '@quasar/quasar-app-extension-testing-unit-v
 // import { mount } from '@vue/test-utils';
 import { expect, it, vi, describe } from 'vitest';
 import { DocumentReference, doc, setDoc } from 'firebase/firestore';
-import { NewUser } from '../types/users';
+import { NewUser } from '../types/Users';
 import getUser, { addUser } from './firestore';
+import { signOut } from 'firebase/auth';
+import { logout } from './auth';
 
 installQuasarPlugin();
 
@@ -15,6 +17,11 @@ vi.mock('firebase/firestore', () => ({
   }),
   setDoc: vi.fn(),
   doc: vi.fn(),
+}));
+
+vi.mock('firebase/auth', () => ({
+  getAuth: vi.fn(),
+  signOut: vi.fn(),
 }));
 
 vi.mock('src/boot/firebase', () => ({
@@ -46,5 +53,12 @@ describe('Firebase Functions', () => {
     getUser(uid).then(() => {
       expect(doc).toHaveBeenCalledWith(expect.anything(), 'users', uid);
     });
+  });
+
+  it('should logout the user', async () => {
+    // vi.mocked(getAuth).mockResolvedValueOnce({} as Auth)
+    // vi.mocked(signOut).resolves()
+    await logout();
+    expect(signOut).toHaveBeenCalledOnce();
   });
 });
