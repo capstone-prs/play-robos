@@ -1,119 +1,37 @@
 import { javascriptGenerator } from 'blockly/javascript';
 
-javascriptGenerator.forBlock['normal_look'] = function () {
-  var code = '000000';
-  return code;
-};
+const blocks = [
+  { name: 'normal_look', code: '000000\n' },
+  { name: 'look_up', code: 'd00000\n' },
+  { name: 'semi_close', code: 'a00000\n' },
+  { name: 'look_right', code: 'c00000\n' },
+  { name: 'look_left', code: 'b00000\n' },
+  { name: 'look_up_left', code: 'e00000\n' },
+  { name: 'look_up_right', code: 'f00000\n' },
+  { name: 'wink_right', code: 'h00000\n' },
+  { name: 'wink_left', code: 'g00000\n' },
+  { name: 'close_eyes', code: 'i00000\n' },
+  { name: 'head_trun_left', code: '010000\n' },
+  { name: 'turn_head_right', code: '020000\n' },
+  { name: 'normal_head', code: '000000\n' },
+  { name: 'normal_left_arm', code: '000000\n' },
+  { name: 'raise__left_arm_60_', code: '001000\n' },
+  { name: 'raise_left_arm_120', code: '003000\n' },
+  { name: 'raise_left_arm_150', code: '004000\n' },
+  { name: 'raise_left_arm_180_', code: '005000\n' },
+  { name: 'normal_right_arm', code: '000000\n' },
+  { name: 'raise_right_arm_60_', code: '000100\n' },
+  { name: 'raise_right_arm_120_', code: '000300\n' },
+  { name: 'raise_right_arm_150_', code: '000400\n' },
+  { name: 'raise_right_arm_180_', code: '000500\n' },
+];
 
-javascriptGenerator.forBlock['look_up'] = function () {
-  var code = 'd00000';
-  return code;
-};
-
-javascriptGenerator.forBlock['semi_close'] = function () {
-  var code = 'a00000\n';
-  return code;
-};
-
-javascriptGenerator.forBlock['look_right'] = function () {
-  var code = 'c00000\n';
-  return code;
-};
-
-javascriptGenerator.forBlock['look_left'] = function () {
-  var code = 'b00000\n';
-  return code;
-};
-
-javascriptGenerator.forBlock['look_up_left'] = function () {
-  var code = 'e00000\n';
-  return code;
-};
-
-javascriptGenerator.forBlock['look_up_right'] = function () {
-  var code = 'f00000\n';
-  return code;
-};
-
-javascriptGenerator.forBlock['wink_right'] = function () {
-  var code = 'h00000\n';
-  return code;
-};
-
-javascriptGenerator.forBlock['wink_left'] = function () {
-  var code = 'g00000\n';
-  return code;
-};
-
-javascriptGenerator.forBlock['close_eyes'] = function () {
-  var code = 'i00000\n';
-  return code;
-};
-
-javascriptGenerator.forBlock['head_trun_left'] = function () {
-  var code = '010000\n';
-  return code;
-};
-
-javascriptGenerator.forBlock['turn_head_right'] = function () {
-  var code = '020000';
-  return code;
-};
-
-javascriptGenerator.forBlock['normal_head'] = function () {
-  var code = '000000\n';
-  return code;
-};
-
-javascriptGenerator.forBlock['normal_left_arm'] = function () {
-  var code = '000000\n';
-  return code;
-};
-
-javascriptGenerator.forBlock['raise__left_arm_60_'] = function () {
-  var code = '001000\n';
-  return code;
-};
-
-javascriptGenerator.forBlock['raise_left_arm_120'] = function () {
-  var code = '003000\n';
-  return code;
-};
-
-javascriptGenerator.forBlock['raise_left_arm_150'] = function () {
-  var code = '004000\n';
-  return code;
-};
-
-javascriptGenerator.forBlock['raise_left_arm_180_'] = function () {
-  var code = '005000\n';
-  return code;
-};
-
-javascriptGenerator.forBlock['normal_right_arm'] = function () {
-  var code = '000000\n';
-  return code;
-};
-
-javascriptGenerator.forBlock['raise_right_arm_60_'] = function () {
-  var code = '001000\n';
-  return code;
-};
-
-javascriptGenerator.forBlock['raise_right_arm_120_'] = function () {
-  var code = '003000\n';
-  return code;
-};
-
-javascriptGenerator.forBlock['raise_right_arm_150_'] = function () {
-  var code = '004000\n';
-  return code;
-};
-
-javascriptGenerator.forBlock['raise_right_arm_180_'] = function () {
-  var code = '005000\n';
-  return code;
-};
+blocks.forEach((block) => {
+  return (javascriptGenerator.forBlock[block.name] = function () {
+    var code = block.code;
+    return code;
+  });
+});
 
 javascriptGenerator.forBlock['time_block'] = function (block, generator) {
   var code = ['0', '0', '0', '0', '0', '0'];
@@ -187,87 +105,5 @@ javascriptGenerator.forBlock['all_parts'] = function (block, generator) {
   // join the array of code to string since blockly generator expects a string return
   const collatedCode = code.join('') + duration_field;
 
-  // console.log(code);
   return collatedCode;
-};
-
-javascriptGenerator.forBlock['normal_head'] = function () {
-  var code = '000000';
-  return code;
-};
-
-javascriptGenerator.forBlock['normal_left_arm'] = function () {
-  var code = '000000';
-  return code;
-};
-
-javascriptGenerator.forBlock['raise_left_arm_60_'] = function () {
-  var code = '001000';
-  return code;
-};
-
-javascriptGenerator.forBlock['raise_left_arm_90_'] = function () {
-  // TODO: Assemble javascript into code variable.
-  var code = '002000';
-  return code;
-};
-
-javascriptGenerator.forBlock['raise_left_arm_120'] = function () {
-  var code = '003000';
-  return code;
-};
-
-javascriptGenerator.forBlock['raise_left_arm_150'] = function () {
-  var code = '004000';
-  return code;
-};
-
-javascriptGenerator.forBlock['raise_left_arm_180_'] = function () {
-  var code = '005000';
-  return code;
-};
-
-javascriptGenerator.forBlock['raise_right_arm_60_'] = function () {
-  var code = '000100';
-  return code;
-};
-
-javascriptGenerator.forBlock['raise_right_arm_90_'] = function () {
-  var code = '000200';
-  return code;
-};
-
-javascriptGenerator.forBlock['raise_right_arm_120_'] = function () {
-  var code = '000300';
-  return code;
-};
-
-javascriptGenerator.forBlock['raise_right_arm_150_'] = function () {
-  var code = '000400';
-  return code;
-};
-
-javascriptGenerator.forBlock['raise_right_arm_180_'] = function () {
-  var code = '000500';
-  return code;
-};
-
-javascriptGenerator.forBlock['left_wheel_forward'] = function () {
-  var code = '000010';
-  return code;
-};
-
-javascriptGenerator.forBlock['left_wheel_backward'] = function () {
-  var code = '000020';
-  return code;
-};
-
-javascriptGenerator.forBlock['right_wheel_forward'] = function () {
-  var code = '000001';
-  return code;
-};
-
-javascriptGenerator.forBlock['right_wheel_backward'] = function () {
-  var code = '00002';
-  return code;
 };
