@@ -6,7 +6,7 @@ export const bluetoothSerial: BluetoothSerial = window.cordova?.require(
   'cordova-plugin-bluetooth-serial.bluetoothSerial'
 );
 
-const BT_DEVICE = 'JDY-33-SPP';
+const BT_DEVICE = 'HC-05';
 
 const getBondedBluetoothDevice = (btSerial: BluetoothSerial) =>
   new Promise<BluetoothDevice>((res, rej) => {
@@ -118,6 +118,33 @@ const bluetoothConnectDevice = (
         }
       })
       .catch(reject);
+  });
+
+export const isCorrectMessage = (message: string) => {
+  const regEx = /^(0|[a-i])[0-2][0-6]{2}[0-2]{2}$/;
+  return regEx.test(message);
+};
+
+export const bluetoothWrite = (btSerial: BluetoothSerial, message: string) =>
+  new Promise<void>((resolve, reject) => {
+    if (isCorrectMessage(message)) {
+      btSerial.write(
+        `<${message}>\n`,
+        () => resolve(),
+        (error) => reject(error)
+      );
+      resolve();
+    } else {
+      reject(`Not valid message: ${message}`);
+    }
+  });
+
+export const bluetoothRead = (btSerial: BluetoothSerial) =>
+  new Promise<string>((resolve, reject) => {
+    btSerial.read(
+      (message) => resolve(message),
+      (error) => reject(error)
+    );
   });
 
 export default bluetoothConnectDevice;
