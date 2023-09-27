@@ -24,6 +24,10 @@ const blocks = [
   { name: 'raise_right_arm_120_', code: '000300\n' },
   { name: 'raise_right_arm_150_', code: '000400\n' },
   { name: 'raise_right_arm_180_', code: '000500\n' },
+  { name: 'right_wheel_backward', code: '000000\n' },
+  { name: 'right_wheel_forward', code: '000000\n' },
+  { name: 'left_wheel_forward', code: '000000\n' },
+  { name: 'left_wheel_backward', code: '000000\n' },
 ];
 
 blocks.forEach((block) => {
