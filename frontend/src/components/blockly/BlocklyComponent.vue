@@ -14,7 +14,7 @@
           <CheckDialog
             v-model="isDialogOpen"
             data-testid="check-dialog"
-            :correct="checkProgram()"
+            :correct="isProgramCorrect"
           />
         </div>
         <div class="col-2 buttons" data-testid="help-btn">
@@ -64,17 +64,23 @@ defineProps({
     required: true,
   },
 });
-
-const rightCode = Levels.levels[levelNumber].correctCode;
-
-let generator: () => string = () => {
-  return '';
+const workspace = ref<Blockly.Workspace>();
+const generator = () => {
+  if (workspace.value) {
+    const value = javascriptGenerator.workspaceToCode(workspace.value);
+    console.log(value);
+    return value;
+  }
 };
-let undo: any = '';
+const undo = () => {
+  if (workspace.value) {
+    workspace.value.undo(false);
+  }
+};
 
 const blocklyContainer = ref<string | Element>('');
 onMounted(() => {
-  let workspace = Blockly.inject(blocklyContainer.value, {
+  workspace.value = Blockly.inject(blocklyContainer.value, {
     // refer to toolbox.js file, we can define more levels from there,
     // future handling may be passing the level number as props to this component
     toolbox: Toolbox.levels[levelNumber],
@@ -100,27 +106,15 @@ onMounted(() => {
     },
   });
 
-  let generatedCode = '';
-  generator = () => {
-    generatedCode = javascriptGenerator.workspaceToCode(
-      workspace as Blockly.Workspace
-    );
-    console.log(generatedCode);
-    return generatedCode;
-  };
-  workspace.addChangeListener(generator);
-  undo = () => {
-    workspace.undo(false);
-  };
+  workspace.value.addChangeListener(generator);
 });
-
+const isProgramCorrect = ref(false);
+const rightCode = Levels.levels[levelNumber].correctCode;
 const checkProgram = () => {
   if (rightCode === generator()) {
-    console.log('true');
-    return true;
+    isProgramCorrect.value = true;
   } else {
-    console.log('false');
-    return false;
+    isProgramCorrect.value = false;
   }
 };
 </script>
