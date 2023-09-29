@@ -14,11 +14,11 @@ void displayHeadKey(String key)
 {
     if (key == "1")
     {
-        servoHead.write(0); // TURN LEFT
+        servoHead.write(60); // TURN LEFT
     }
     else if (key == "2")
     {
-        servoHead.write(60); // TURN RIGHT
+        servoHead.write(0); // TURN RIGHT
     }
     else
     {
