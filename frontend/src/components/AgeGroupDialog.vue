@@ -6,7 +6,7 @@
   >
     <q-card>
       <q-card-section class="row items-center card-title" style="width: 400px">
-        <div class="text-h4 futura">Menu</div>
+        <div class="text-h6 futura">Switch Age Group</div>
         <q-space />
         <q-btn
           icon="close"
@@ -18,17 +18,10 @@
         />
       </q-card-section>
 
-      <q-card-section class="centered"> </q-card-section>
-
       <q-card-section class="q-pt-none centered">
-        <ActionButton
-          text-label="Logout"
-          @click="openLogoutDialog"
-          data-test-id="logout-btn"
-        />
-        <LogoutDialog
-          v-model="isLogoutDialogVisible"
-          data-test-id="logout-dialog"
+        <ToggleButton
+          v-model="selectedOption"
+          @update:model-value="updateDataAndNotify"
         />
       </q-card-section>
     </q-card>
@@ -36,22 +29,23 @@
 </template>
 
 <script setup lang="ts">
-import LogoutDialog from './LogoutDialog.vue';
-import ActionButton from './buttons/ActionButton.vue';
 import { ref } from 'vue';
+import ToggleButton from './buttons/ToggleButton.vue';
+import { useQuasar } from 'quasar';
 
 defineProps({
   value: Boolean,
   dataForHomepage: String,
 });
 
-const isLogoutDialogVisible = ref(false);
+const $q = useQuasar();
 const showDialog = ref(false);
-// initializes the selected option age group using the value from home
 
-// opens the logout dialog
-const openLogoutDialog = () => {
-  isLogoutDialogVisible.value = true;
+const selectedOption = ref($q.localStorage.getItem('age_group'));
+const emit = defineEmits(['update:openDialog', 'update:dataForHomepage']);
+
+const updateDataAndNotify = () => {
+  emit('update:dataForHomepage', selectedOption.value);
 };
 </script>
 
