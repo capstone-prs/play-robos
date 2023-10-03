@@ -109,7 +109,11 @@ onMounted(() => {
   workspace.value.addChangeListener(generator);
 });
 const isProgramCorrect = ref(false);
-const rightCode = Levels.levels[levelNumber].correctCode;
+
+// to-fix: must render correct code based on correct age group, setting, and level
+const rightCode = Levels.levels_5_7[levelNumber].Levels[0].correctCode;
+
+// to-improve: tranform into computed property
 const checkProgram = () => {
   if (rightCode === generator()) {
     isProgramCorrect.value = true;
