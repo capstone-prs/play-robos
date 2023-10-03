@@ -1,17 +1,13 @@
 <template>
   <div class="board">
     <img src="/level-board.svg" style="width: 90; height: 90px" />
-    <div class="level absolute-center">Setting: {{ levelNumber }}</div>
-    <div class="goal absolute-center">Context: {{ levelGoal }}</div>
-    <div class="reward absolute-center">Mission: {{ levelReward }}</div>
+    <div class="goal absolute-center">{{ settingName }}</div>
   </div>
 </template>
 
 <script setup lang="ts">
 defineProps({
-  levelNumber: String,
-  levelGoal: String,
-  levelReward: String,
+  settingName: String,
 });
 </script>
 

@@ -18,12 +18,7 @@
         />
       </q-card-section>
 
-      <q-card-section class="centered">
-        <ToggleButton
-          v-model="selectedOption"
-          @update:model-value="updateDataAndNotify"
-        />
-      </q-card-section>
+      <q-card-section class="centered"> </q-card-section>
 
       <q-card-section class="q-pt-none centered">
         <ActionButton
@@ -43,31 +38,20 @@
 <script setup lang="ts">
 import LogoutDialog from './LogoutDialog.vue';
 import ActionButton from './buttons/ActionButton.vue';
-import ToggleButton from './buttons/ToggleButton.vue';
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 
-const props = defineProps({
+defineProps({
   value: Boolean,
   dataForHomepage: String,
 });
 
 const isLogoutDialogVisible = ref(false);
+const showDialog = ref(false);
+// initializes the selected option age group using the value from home
 
+// opens the logout dialog
 const openLogoutDialog = () => {
   isLogoutDialogVisible.value = true;
-};
-
-const showDialog = ref(false);
-const selectedOption = ref('5-7');
-const emit = defineEmits(['update:openDialog', 'update:dataForHomepage']);
-
-watch(selectedOption, () => {
-  emit('update:openDialog', props.value);
-  console.log('Data from Menu dialog', selectedOption.value);
-});
-
-const updateDataAndNotify = () => {
-  emit('update:dataForHomepage', selectedOption.value);
 };
 </script>
 

@@ -1,6 +1,8 @@
 import * as Toolbox from '../blockly/toolbox/toolbox';
+import Settings_5_7 from './levels_5_7.json';
+import Settings_8_11 from './levels_8_11.json';
 
-interface Level {
+export interface Level {
   levelNum: number;
   goalTitle: string;
   reward: number;
@@ -8,47 +10,26 @@ interface Level {
   correctCode: string;
 }
 
-export const levels: Level[] = [
-  {
-    levelNum: 1,
-    goalTitle: 'Wake up Zappy!',
-    reward: 100,
-    toolbox: Toolbox.levels[0],
-    correctCode: '1000000',
-  },
-  {
-    levelNum: 2,
-    goalTitle: 'Look left, look right.',
-    reward: 50,
-    toolbox: Toolbox.levels[1],
-    correctCode: 'c210000',
-  },
-  {
-    levelNum: 3,
-    goalTitle: 'Close-open!',
-    reward: 80,
-    toolbox: Toolbox.levels[2],
-    correctCode: '2000000',
-  },
-  {
-    levelNum: 4,
-    goalTitle: 'Wink at me!',
-    reward: 70,
-    toolbox: Toolbox.levels[1],
-    correctCode: '2000000',
-  },
-  {
-    levelNum: 5,
-    goalTitle: 'Let Zappy blink.',
-    reward: 80,
-    toolbox: Toolbox.levels[1],
-    correctCode: '2000000',
-  },
-  {
-    levelNum: 6,
-    goalTitle: 'Shook head.',
-    reward: 30,
-    toolbox: Toolbox.levels[2],
-    correctCode: '2000000',
-  },
-];
+export interface Setting {
+  SettingName: string;
+  SettingImage: string;
+  SettingBg: string;
+  Levels: Array<Level>;
+}
+
+const preprocess: (settings: Setting[]) => Setting[] = (settings) => {
+  const levels: Array<Level> = [];
+  settings.map((setting) => {
+    return setting.Levels.map((level) => {
+      level.toolbox = Toolbox.levels[level.levelNum];
+      levels.push();
+    });
+  });
+  return {
+    ...settings,
+    Levels: levels,
+  };
+};
+
+export const levels_5_7: Setting[] = preprocess(Settings_5_7);
+export const levels_8_11: Setting[] = preprocess(Settings_8_11);

@@ -1,0 +1,94 @@
+[
+  {
+    "SettingName": "Nox Cave",
+    "SettingImage": "/setting1.svg",
+    "SettingBg": "/bgs/nox-cave.svg",
+    "Levels": [
+      {
+        "levelNum": 1,
+        "goalTitle": "Wake up Zappy!",
+        "reward": 100,
+        "toolbox": {},
+        "correctCode": ""
+      },
+      {
+        "levelNum": 2,
+        "goalTitle": "Look left, look right.",
+        "reward": 50,
+        "toolbox": {},
+        "correctCode": "c210000"
+      },
+      {
+        "levelNum": 3,
+        "goalTitle": "Close-open!",
+        "reward": 80,
+        "toolbox": {},
+        "correctCode": "2000000"
+      },
+      {
+        "levelNum": 4,
+        "goalTitle": "Wink at me!",
+        "reward": 70,
+        "toolbox": {},
+        "correctCode": "2000000"
+      },
+      {
+        "levelNum": 5,
+        "goalTitle": "Let Zappy blink.",
+        "reward": 80,
+        "toolbox": {},
+        "correctCode": "2000000"
+      },
+      {
+        "levelNum": 6,
+        "goalTitle": "Shook head.",
+        "reward": 30,
+        "toolbox": {},
+        "correctCode": "2000000"
+      }
+    ]
+  },
+  {
+    "SettingName": "Long Island",
+    "SettingImage": "/setting3.svg",
+    "SettingBg": "bgs/long-island.svg",
+    "Levels": [
+      {
+        "levelNum": 1,
+        "goalTitle": "Wake up Zappy!",
+        "reward": 100,
+        "toolbox": {},
+        "correctCode": ""
+      },
+      {
+        "levelNum": 2,
+        "goalTitle": "Look left, look right.",
+        "reward": 50,
+        "toolbox": {},
+        "correctCode": "c210000"
+      }
+    ]
+  },
+
+  {
+    "SettingName": "Beach Cove",
+    "SettingImage": "/setting2.svg",
+    "SettingBg": "bgs/beach-cove.svg",
+    "Levels": [
+      {
+        "levelNum": 1,
+        "goalTitle": "Wake up Zappy!",
+        "reward": 100,
+        "toolbox": {},
+        "correctCode": ""
+      },
+      {
+        "levelNum": 2,
+        "goalTitle": "Look left, look right.",
+        "reward": 50,
+        "toolbox": {},
+        "correctCode": "c210000"
+      }
+    ]
+  }
+]

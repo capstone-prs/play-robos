@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-card
-      class="my-card level-text q-ml-sm q-mr-sm q-mt-sm"
+      class="my-card level-text q-ml-sm q-mr-sm q-mt-sm q-mb-sm"
       @click="openPlayDialog"
     >
       <q-item class="title">
@@ -68,13 +68,16 @@ const openPlayDialog = () => {
 <style>
 .my-card {
   width: 100%;
-  max-width: 120px;
+  max-width: 80%;
+  max-height: 100%;
+  height: 120px;
   border-radius: 10px;
   cursor: pointer;
 }
 
 .title {
   background-color: rgb(232, 255, 230);
+  max-height: 80%;
 }
 
 @font-face {
