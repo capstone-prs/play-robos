@@ -2,7 +2,7 @@
   {
     "SettingName": "Nox Cave",
     "SettingImage": "/setting3.svg",
-    "SettingBg": "/sample-bg.svg",
+    "SettingBg": "bgs/nox-cave.svg",
     "Levels": [
       {
         "levelNum": 1,
@@ -51,7 +51,7 @@
   {
     "SettingName": "Long Island",
     "SettingImage": "/setting4.svg",
-    "SettingBg": "/sample-bg.svg",
+    "SettingBg": "bgs/long-island.svg",
     "Levels": [
       {
         "levelNum": 1,
@@ -70,9 +70,9 @@
     ]
   },
   {
-    "SettingName": "Long Island",
+    "SettingName": "Beach Cove",
     "SettingImage": "/setting1.svg",
-    "SettingBg": "/sample-bg.svg",
+    "SettingBg": "bgs/beach-cove.svg",
     "Levels": [
       {
         "levelNum": 1,
