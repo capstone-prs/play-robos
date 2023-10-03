@@ -152,7 +152,7 @@ import { ref } from 'vue';
 import ActionButton from '../buttons/ActionButton.vue';
 import { useRouter } from 'vue-router';
 import { addUser } from '../../firebase/firestore';
-import { Gender } from '../../types/users';
+import { Gender } from '../../types/Users';
 import validate from '../../utils/signUpUtils';
 
 const $q = useQuasar();
@@ -268,9 +268,14 @@ const submit = () => {
         data.email.errorMessage.value = 'Email already in used';
       } else if (error.code === 'auth/invalid-email') {
         data.email.errorMessage.value = 'Invalid email';
+      } else if (error.code === 'auth/network-request-failed') {
+        return triggerNotify(
+          'negative',
+          'SignUp Failed: No Internet Connection'
+        );
       }
 
-      return triggerNotify('negative', 'SignUn Failed: Invalid credentials');
+      return triggerNotify('negative', 'SignUp Failed: Invalid credentials');
     });
 };
 </script>

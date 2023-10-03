@@ -2,7 +2,10 @@
   <div class="workspace-container">
     <div class="overlay-container">
       <div class="row">
-        <div class="col-4 buttons" data-testid="help-btn" align="left">
+        <div class="col-2 buttons" data-testid="help-btn">
+          <ActionButton text-label="U" data-testid="check-btn" @click="write" />
+        </div>
+        <div class="col-2 buttons" data-testid="help-btn" align="left">
           <UndoButton @click="undo" />
         </div>
         <div class="col-4 check">
@@ -49,10 +52,12 @@ import { javascriptGenerator } from 'blockly/javascript';
 import UndoButton from '../buttons/UndoButton.vue';
 import { useRouter } from 'vue-router';
 import * as Levels from '../games/levelDetails';
+import { bluetoothWrite, bluetoothSerial } from 'src/utils/bluetoothUtils';
 
 const route = useRouter().currentRoute;
 const levelNumber = parseInt(route.value.params.param as string);
 const isDialogOpen = ref(false);
+
 const openUploadDialog = () => {
   checkProgram();
   isDialogOpen.value = true;
@@ -65,12 +70,13 @@ defineProps({
   },
 });
 const workspace = ref<Blockly.Workspace>();
-const generator = () => {
+const generator = (): string => {
   if (workspace.value) {
     const value = javascriptGenerator.workspaceToCode(workspace.value);
     console.log(value);
     return value;
   }
+  throw new Error('Error at blocks generator');
 };
 const undo = () => {
   if (workspace.value) {
@@ -119,6 +125,46 @@ const checkProgram = () => {
     isProgramCorrect.value = true;
   } else {
     isProgramCorrect.value = false;
+  }
+};
+
+const robotState = ref({
+  eyes: '0',
+  head: '0',
+  leftArm: '0',
+  rightArm: '0',
+  leftLeg: '0',
+  rightLeg: '0',
+});
+
+const write = async () => {
+  robotState.value = {
+    eyes: '0',
+    head: '0',
+    leftArm: '0',
+    rightArm: '0',
+    leftLeg: '0',
+    rightLeg: '0',
+  };
+  bluetoothWrite(bluetoothSerial, '000000');
+  const codes = generator()
+    .trimEnd()
+    .split('\n')
+    .map((code) => JSON.parse(code));
+  console.log('codes:', codes);
+
+  for (var code of codes) {
+    console.log('execute code:', code, { ...robotState.value, ...code });
+    robotState.value = { ...robotState.value, ...code };
+    console.log('current State', robotState.value);
+
+    const { eyes, head, leftArm, rightArm, leftLeg, rightLeg } =
+      robotState.value;
+    bluetoothWrite(
+      bluetoothSerial,
+      eyes + head + leftArm + rightArm + leftLeg + rightLeg
+    );
+    await new Promise((resolve) => setTimeout(resolve, 1000));
   }
 };
 </script>
