@@ -24,7 +24,8 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../pages/StudioPage.vue'),
   },
   {
-    path: '/activity',
+    path: '/activity/:param',
+    name: 'activity',
     component: () => import('../pages/ActivitiesPage.vue'),
   },
 
