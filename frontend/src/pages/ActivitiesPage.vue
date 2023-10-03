@@ -97,7 +97,6 @@ const openMenuDialog = () => {
   isMenuDialogVisible.value = true;
 };
 
-//some shitty code, terribly need improvements
 const dataForHomepage = ref('8-11');
 
 const getSettingImage = computed(() => {
@@ -129,20 +128,13 @@ const navigateBack = () => {
 };
 
 const setBackgroundImage = computed(() => ({
-  backgroundImage: `url(${getSettingImage.value})`, // Set the background image URL
-  backgroundSize: 'cover', // You can customize other background properties here
-  // Add more background properties as needed
+  backgroundImage: `url(${getSettingImage.value})`,
+  backgroundSize: 'cover',
 }));
 </script>
 
 <style>
 .bg-activity {
-  /* background: linear-gradient(
-    180deg,
-    rgba(225, 229, 242, 1) 5%,
-    rgb(169, 209, 248) 35%,
-    rgba(157, 202, 255, 1) 100%
-  ) !important; */
   background-size: cover;
   width: 100% !important;
   height: 100% !important;
