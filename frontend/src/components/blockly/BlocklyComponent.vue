@@ -27,6 +27,15 @@
           <MenuButton />
         </div>
       </div>
+      <div class="row">
+        <div class="col">
+          <q-dialog seamless position="right" v-model="showDialog">
+            <q-card class="q-pa-sm" align="center" style="width: 100px">
+              <img src="/prs-gif.gif" style="size: 20px" />
+            </q-card>
+          </q-dialog>
+        </div>
+      </div>
     </div>
 
     <div
@@ -57,6 +66,7 @@ import { bluetoothWrite, bluetoothSerial } from 'src/utils/bluetoothUtils';
 const route = useRouter().currentRoute;
 const levelNumber = parseInt(route.value.params.param as string);
 const isDialogOpen = ref(false);
+const showDialog = ref(true);
 
 const openUploadDialog = () => {
   checkProgram();
