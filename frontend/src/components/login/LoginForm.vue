@@ -7,7 +7,7 @@
           round
           color="red"
           icon="arrow_back"
-          style="position: absolute; left: 20px; top: 10px"
+          style="position: fixed; left: 20px; top: 20px"
           @click="navigateBack"
         />
 
@@ -43,7 +43,13 @@
                 <q-icon name="lock" />
               </template>
             </q-input>
+
           </q-card-section>
+          <div class="q-pb-xs">
+          <ForgetPassDialog  v-model="isForgetPasswordOpen"/>
+          <q-btn flat rounded color="primary" label="Forget password" style="position: fixed; left:20%;" 
+          @click="openForgetPassword()"/>
+        </div>
           <p
             v-if="data.errorMessage.value"
             class="errorPrompt text-red"
@@ -53,7 +59,7 @@
           </p>
         </div>
 
-        <div class="container-auth-modal">
+        <div class="container-auth-modal q-pt-lg">
           <ActionButton
             :textLabel="Text"
             class="text"
@@ -74,10 +80,18 @@ import '../../css/style.css';
 
 import { useQuasar } from 'quasar';
 import ActionButton from '../buttons/ActionButton.vue';
+import ForgetPassDialog from '../../components/ForgetPassDialog.vue'
 import { useRouter } from 'vue-router';
 
 const $q = useQuasar();
 const router = useRouter();
+
+
+const isForgetPasswordOpen = ref(false);
+
+const openForgetPassword =()=>{
+  isForgetPasswordOpen.value = true;
+};
 
 const Text = ref('Log In');
 const isSubmitted = ref(false);
@@ -109,7 +123,7 @@ const triggerNotify = (type: string, message: string) =>
 
 const navigateBack = () => {
   return router.go(-1);
-};
+}; 
 
 const submit = () => {
   isSubmitted.value = true;
