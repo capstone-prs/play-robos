@@ -45,8 +45,8 @@ const handleLogout = () => {
       router.push('/#/');
     })
 
-    .catch((error: any) => {
-      console.error('Logout failed:', error);
+    .catch(() => {
+      console.error('Logout failed:');
       // Handle any errors that may occur during logout
     });
 };
