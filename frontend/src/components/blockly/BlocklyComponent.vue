@@ -60,18 +60,16 @@ import CheckDialog from '../CheckDialog.vue';
 import { javascriptGenerator } from 'blockly/javascript';
 import UndoButton from '../buttons/UndoButton.vue';
 import { useRouter } from 'vue-router';
-import * as Levels from '../games/levelDetails';
 import { bluetoothWrite, bluetoothSerial } from 'src/utils/bluetoothUtils';
 
 const route = useRouter().currentRoute;
-const levelNumber = parseInt(route.value.params.param as string);
+const routeParam = route.value.params.param as string;
 const isDialogOpen = ref(false);
 const showDialog = ref(true);
-
-const openUploadDialog = () => {
-  checkProgram();
-  isDialogOpen.value = true;
-};
+const splitParams = routeParam.split(' ');
+const levelNum = parseInt(splitParams[0]);
+const correctCode = splitParams[1]; // to-fix: handle as object or sting to object?
+const isProgramCorrect = ref(false);
 
 defineProps({
   toolbox: {
@@ -79,6 +77,18 @@ defineProps({
     required: true,
   },
 });
+
+const checkProgram = () => {
+  correctCode === generator()
+    ? (isProgramCorrect.value = true)
+    : (isProgramCorrect.value = false);
+};
+
+const openUploadDialog = () => {
+  checkProgram();
+  isDialogOpen.value = true;
+};
+
 const workspace = ref<Blockly.Workspace>();
 const generator = (): string => {
   if (workspace.value) {
@@ -99,7 +109,7 @@ onMounted(() => {
   workspace.value = Blockly.inject(blocklyContainer.value, {
     // refer to toolbox.js file, we can define more levels from there,
     // future handling may be passing the level number as props to this component
-    toolbox: Toolbox.levels[levelNumber],
+    toolbox: Toolbox.levels[levelNum],
     trashcan: true,
     grid: {
       spacing: 20,
@@ -124,19 +134,6 @@ onMounted(() => {
 
   workspace.value.addChangeListener(generator);
 });
-const isProgramCorrect = ref(false);
-
-// to-fix: must render correct code based on correct age group, setting, and level
-const rightCode = Levels.levels_5_7[levelNumber].Levels[0].correctCode;
-
-// to-improve: tranform into computed property
-const checkProgram = () => {
-  if (rightCode === generator()) {
-    isProgramCorrect.value = true;
-  } else {
-    isProgramCorrect.value = false;
-  }
-};
 
 const robotState = ref({
   eyes: '0',

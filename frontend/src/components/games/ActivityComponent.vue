@@ -28,6 +28,7 @@
       v-model="showPlayDialog"
       :goal-title="goalTitle"
       :reward="reward"
+      :correct-code="correctCode"
     />
   </div>
 </template>
