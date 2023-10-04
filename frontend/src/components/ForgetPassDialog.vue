@@ -7,15 +7,15 @@
         </q-card-section>
   
         <q-card-section class="q-pt-none font-face">
-          Below Please Input Your Used E-mail
+          Enter your email address below.
 
         </q-card-section>
         <q-card-section class="q-pt-none q-pd-nonde futura">
-          After Succesfully Inputting Your E-Mail pls check your E-mail Inbox
+          After confirming, please check your inbox to reset your password.
         </q-card-section>
   
         <q-card-section class="q-pt-none">
-          <q-input class="authInputsBig" rounded outlined v-model="data.emailReset.value" id="email" label="E-mail"
+          <q-input class="authInputsBig" rounded outlined v-model="data.emailReset.value" id="email" label="Email address"
             type="email" :error="data.isError.value">
           </q-input>
         </q-card-section>
