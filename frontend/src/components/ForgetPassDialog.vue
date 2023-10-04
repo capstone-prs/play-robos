@@ -1,25 +1,28 @@
 <template>
-    <q-dialog style="background-color: transparent" v-model="isForgetPasswordOpen" 
+    <q-dialog class="q-pb" style="background-color: transparent" v-model="isForgetPasswordOpen" 
       transition-hide="scale">
-      <q-card class="bg-blue text-white" align='center' style="width: 450px">
+      <q-card class="bg-blue text-white" align='center' style="width: 500px">
         <q-card-section>
-          <div class="text-h6">Forgot Your Password?</div>
+          <div class="text-h5">Forgot Your Password?</div>
+        </q-card-section>
+  
+        <q-card-section class="q-pt-none font-face">
+          Below Please Input Your Used E-mail
+
+        </q-card-section>
+        <q-card-section class="q-pt-none q-pd-nonde futura">
+          After Succesfully Inputting Your E-Mail pls check your E-mail Inbox
         </q-card-section>
   
         <q-card-section class="q-pt-none">
-          Below Please Input Your Used E-mail
-        </q-card-section>
-  
-        <q-card-section class="">
           <q-input class="authInputsBig" rounded outlined v-model="data.emailReset.value" id="email" label="E-mail"
             type="email" :error="data.isError.value">
           </q-input>
         </q-card-section>
-        <q-card-actions align="center" class="bg-white text-teal">
-          <q-btn flat label="Cancel" class="text-red" v-close-popup />
+        <q-card-actions class="bg-white text-teal ">
+          <q-btn style="position: relative; left: 20%;" flat label="Cancel" class="text-grey" v-close-popup />
 
-          <q-btn @click="submitReset" flat label="OK" class="text-green"/>
-
+          <q-btn  style="position: relative; left: 50%;" @click="submitReset" flat label="CONFIRM" class="text-red"/>
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -29,6 +32,7 @@
   import { ref } from 'vue';
   import { resetPassword } from '../firebase/auth';
   import { useQuasar } from 'quasar';
+  import '../css/style.css';
   
   const isForgetPasswordOpen = ref(false);
   const data = {

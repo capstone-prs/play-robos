@@ -47,7 +47,7 @@
           </q-card-section>
           <div class="q-pb-xs">
           <ForgetPassDialog  v-model="isForgetPasswordOpen"/>
-          <q-btn flat rounded color="primary" label="Forget password" style="position: fixed; left:20%;" 
+          <q-btn flat rounded color="dark" label="Forgot password" style="position: fixed; left:20%;" 
           @click="openForgetPassword()"/>
         </div>
           <p
