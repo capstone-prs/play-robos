@@ -42,7 +42,7 @@ import { useRouter } from 'vue-router';
 import ActionButton from './buttons/ActionButton.vue';
 import { useQuasar } from 'quasar';
 
-defineProps({
+const props = defineProps({
   levelNum: {
     type: Number,
     required: true,
@@ -55,6 +55,10 @@ defineProps({
     type: Number,
     required: true,
   },
+  correctCode: {
+    type: String,
+    required: true,
+  },
 });
 
 const openPlayDialog = ref(false);
@@ -63,7 +67,10 @@ const $q = useQuasar();
 const router = useRouter();
 const navigateToStudio = (paramVal: number) => {
   showLoading();
-  return router.push({ name: 'studio', params: { param: paramVal - 1 } });
+  return router.push({
+    name: 'studio',
+    params: { param: paramVal - 1 + ' ' + props.correctCode },
+  });
 };
 
 const showLoading = () => {
