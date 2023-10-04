@@ -26,6 +26,8 @@
         <div class="q-pa-md q-gutter-sm">
           <ActionButton
             textLabel="Sign Up"
+            color="pink-12"
+            text-color="white"
             @click="navigateToSignup"
             data-testid="signup-btn"
           />
