@@ -3,7 +3,7 @@
   display: flex;
   justify-content: center; /* Center horizontally */
   align-items: center; /* Center vertically */
-  height: 38.5vh; /* Adjust the container height as needed */
+  height: 34.5vh; /* Adjust the container height as needed */
 }
 
 .centered-image {
@@ -156,7 +156,7 @@
 .errorPrompt {
   font-family: futura;
   src: url('/fonts/FuturaLT.woff');
-  margin: 20px 20px 50px 20px;
+  margin: 20px 20px -36px 20px;
   /* Adjust the margin to control spacing around the text */
   text-align: center;
   /* Center the text horizontally */
