@@ -30,7 +30,7 @@ const validate = (inputForms: InputForms, prev?: string) => (val: string) => {
 
     case 'AGE':
       if (!isValidAge(Number(val))) {
-        return 'Enter a Age Range 5-11';
+        return 'Enter Age Between 5-11';
       }
       return true;
 
