@@ -4,14 +4,14 @@
       <div class="col-3">
         <div class="row float-left">
           <div class="col q-pl-sm">
-            <HelpButton />
+            <HelpButton id="help-btn" />
           </div>
 
           <div class="col q-pl-sm">
-            <AchievementButton />
+            <AchievementButton id="achievement-btn" />
           </div>
           <div class="col q-pl-sm">
-            <AgeGroupButton @click="openAgeGroupDialog" />
+            <AgeGroupButton @click="openAgeGroupDialog" id="age-group-btn" />
             <AgeGroupDialog
               v-model="isAgeGroupDialogVisible"
               @update:data-for-homepage="updateData"
@@ -24,15 +24,19 @@
       <div class="col-3">
         <div class="row float-right">
           <div class="col q-pr-sm">
-            <SoundButton />
+            <SoundButton id="sound-btn" />
           </div>
 
           <div class="col q-pr-sm">
-            <MusicButton />
+            <MusicButton id="music-btn" />
           </div>
 
           <div class="col q-pr-sm">
-            <MenuButton @open-dialog="openMenuDialog" data-test-id="menu-btn" />
+            <MenuButton
+              @open-dialog="openMenuDialog"
+              data-test-id="menu-btn"
+              id="menu-btn"
+            />
             <MenuDialog
               v-model="isMenuDialogVisible"
               data-test-id="menu-dialog"
@@ -60,6 +64,7 @@
             }
           "
           :open-bt-setting-handler="() => (isPairingDialog = true)"
+          id="robot-btn"
         />
 
         <FindingDialog v-model="findingRobotDialog" />
@@ -70,7 +75,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import HelpButton from '../components/buttons/HelpButton.vue';
 import AchievementButton from '../components/buttons/AchievementButton.vue';
 import SoundButton from '../components/buttons/SoundButton.vue';
@@ -85,6 +90,10 @@ import * as Levels from '../components/games/levelDetails';
 import AgeGroupButton from '../components/buttons/AgeGroupButton.vue';
 import AgeGroupDialog from '../components/AgeGroupDialog.vue';
 import { useQuasar } from 'quasar';
+import introJS from 'intro.js';
+import 'intro.js/introjs.css';
+import introConfig from '../onboarding/intro.json';
+import { Options } from 'intro.js/src/option';
 
 const $q = useQuasar();
 const isMenuDialogVisible = ref(false);
@@ -92,6 +101,23 @@ const isAgeGroupDialogVisible = ref(false);
 const findingRobotDialog = ref(false);
 const isPairingDialog = ref(false);
 const dataForHomepage = ref($q.localStorage.getItem('age_group') as string);
+const intro = introJS();
+
+// introdoces a walkthrough on homepage launch
+onMounted(() => {
+  startOnboarding();
+});
+
+const startOnboarding = () => {
+  const hasCompletedOnboarding = sessionStorage.getItem(
+    'hasCompletedOnboarding'
+  );
+  if (hasCompletedOnboarding != 'true') {
+    intro.setOptions(introConfig as Partial<Options>);
+    intro.start();
+    sessionStorage.setItem('hasCompletedOnboarding', 'true');
+  }
+};
 
 // makes the method a computed property to simplify access to the method
 const getSettingsToDisplay = computed(() => {
