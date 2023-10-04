@@ -22,7 +22,7 @@ describe('Validation Functions', () => {
     expect(validate('NAME')('')).toBe('Name is Required');
     expect(validate('AGE')('')).toBe('Age is Required');
     expect(validate('AGE')('0')).toBe('Enter Age Between 5-11');
-    expect(validate('AGE')('2')).toBe(true);
+    expect(validate('AGE')('5')).toBe(true);
 
     // Add more test cases as needed
   });
