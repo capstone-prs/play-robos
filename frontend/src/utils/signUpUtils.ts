@@ -2,7 +2,7 @@ import { InputForms } from '../types/signUpForm';
 
 export const isEmpty = (val: number | string | null) =>
   val === '' || val === null;
-export const isValidAge = (val: number) => val > 0 && val < 100;
+export const isValidAge = (val: number) => val >= 5 && val <= 11;
 
 const validate = (inputForms: InputForms, prev?: string) => (val: string) => {
   if (isEmpty(val)) {
@@ -21,7 +21,7 @@ const validate = (inputForms: InputForms, prev?: string) => (val: string) => {
         return 'Confirm Password is Required';
       default:
         return true;
-    }
+  }
   }
   switch (inputForms) {
     case 'NAME':
@@ -30,7 +30,7 @@ const validate = (inputForms: InputForms, prev?: string) => (val: string) => {
 
     case 'AGE':
       if (!isValidAge(Number(val))) {
-        return 'Enter a valid age';
+        return 'Enter Age Between 5-11';
       }
       return true;
 

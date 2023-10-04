@@ -41,7 +41,7 @@
               lazyRules
             >
               <template v-slot:prepend>
-                <q-icon name="add_circle" />
+                <q-icon name="img:/age-icon.svg " size="30px" />
               </template>
             </q-input>
 
@@ -124,7 +124,8 @@
                 lazyRules
                 aria-required
               >
-                <template v-slot:prepend> <q-icon name="lock" /></template>
+                <template v-slot:prepend> <q-icon name="lock" />
+                </template>
               </q-input>
             </q-card-section>
           </div>

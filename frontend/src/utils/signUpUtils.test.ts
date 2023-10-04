@@ -10,7 +10,7 @@ describe('Validation Functions', () => {
   });
 
   it('isValidAge function should work correctly', () => {
-    expect(isValidAge(25)).toBe(true);
+    expect(isValidAge(25)).toBe(false);
     expect(isValidAge(0)).toBe(false);
     expect(isValidAge(-5)).toBe(false);
     expect(isValidAge(101)).toBe(false);
@@ -21,8 +21,8 @@ describe('Validation Functions', () => {
     // Example:
     expect(validate('NAME')('')).toBe('Name is Required');
     expect(validate('AGE')('')).toBe('Age is Required');
-    expect(validate('AGE')('0')).toBe('Enter a valid age');
-    expect(validate('AGE')('2')).toBe(true);
+    expect(validate('AGE')('0')).toBe('Enter Age Between 5-11');
+    expect(validate('AGE')('5')).toBe(true);
 
     // Add more test cases as needed
   });
