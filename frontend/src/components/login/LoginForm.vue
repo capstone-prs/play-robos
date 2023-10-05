@@ -94,6 +94,7 @@ const router = useRouter();
 const isForgetPasswordOpen = ref(false);
 
 const openForgetPassword =()=>{
+  soundEffect();
   isForgetPasswordOpen.value = true;
 };
 

@@ -20,7 +20,7 @@
           </q-input>
         </q-card-section>
         <q-card-actions class="bg-white text-teal ">
-          <q-btn style="position: relative; left: 20%;" flat label="Cancel" class="text-grey" v-close-popup />
+          <q-btn style="position: relative; left: 20%;" flat label="Cancel" @click="soundEffect()" class="text-grey" v-close-popup />
 
           <q-btn  style="position: relative; left: 50%;" @click="submitReset" flat label="CONFIRM" class="text-red"/>
         </q-card-actions>
@@ -32,6 +32,8 @@
   import { ref } from 'vue';
   import { resetPassword } from '../firebase/auth';
   import { useQuasar } from 'quasar';
+  import {soundEffect} from './../utils/SoundUtils'
+  import errorSnd from './../assets/sounds/errorSnd.mp3'
   import '../css/style.css';
   
   const isForgetPasswordOpen = ref(false);
@@ -51,11 +53,13 @@
   const submitReset = () => {
     return resetPassword(data.emailReset.value)
       .then(() => {
+        soundEffect();
         data.isError.value = false;
         triggerNotify('positive', 'Check your Email');
         isForgetPasswordOpen.value =false
       })
       .catch(() => {
+        soundEffect(errorSnd);
         data.isError.value = true;
         triggerNotify('negative', 'Invalid Email');
         console.log(isForgetPasswordOpen.value)
