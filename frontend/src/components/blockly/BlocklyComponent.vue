@@ -71,13 +71,6 @@ const levelNum = parseInt(splitParams[0]);
 const correctCode = splitParams[1]; // to-fix: handle as object or sting to object?
 const isProgramCorrect = ref(false);
 
-defineProps({
-  toolbox: {
-    type: Object,
-    required: true,
-  },
-});
-
 const checkProgram = () => {
   correctCode === generator()
     ? (isProgramCorrect.value = true)
