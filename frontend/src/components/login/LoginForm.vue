@@ -82,6 +82,10 @@ import { useQuasar } from 'quasar';
 import ActionButton from '../buttons/ActionButton.vue';
 import ForgetPassDialog from '../../components/ForgetPassDialog.vue'
 import { useRouter } from 'vue-router';
+import click from '../../assets/sounds/click.mp3'
+import back from '../../assets/sounds/back.mp3'
+import errorSnd from '../../assets/sounds/errorSnd.mp3'
+import {soundEffect} from '../../utils/SoundUtils'
 
 const $q = useQuasar();
 const router = useRouter();
@@ -122,7 +126,8 @@ const triggerNotify = (type: string, message: string) =>
   });
 
 const navigateBack = () => {
-  return router.go(-1);
+  soundEffect(back);
+  return router.go(-1)
 }; 
 
 const submit = () => {
@@ -132,6 +137,7 @@ const submit = () => {
       data.isError.value = false;
       data.error.value = '';
       data.errorMessage.value = '';
+      soundEffect(click);
       return triggerNotify('positive', 'Successful Login');
     })
     .then(() => {
@@ -140,6 +146,7 @@ const submit = () => {
     })
     .catch(() => {
       isSubmitted.value = false;
+      soundEffect(errorSnd);
       data.isError.value = true;
       data.password.value = '';
       data.errorMessage.value = 'Invalid credentials';
