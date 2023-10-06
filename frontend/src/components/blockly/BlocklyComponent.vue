@@ -52,7 +52,7 @@ import * as Blockly from 'blockly';
 import './blocks/stocks';
 import './blocks/generator';
 
-import * as Toolbox from './toolbox/toolbox';
+import * as Toolbox from './toolbox/typetoolbox';
 import MenuButton from '../buttons/MenuButton.vue';
 import HelpButton from '../buttons/HelpButton.vue';
 import ActionButton from '../buttons/ActionButton.vue';
@@ -70,13 +70,6 @@ const splitParams = routeParam.split(' ');
 const levelNum = parseInt(splitParams[0]);
 const correctCode = splitParams[1]; // to-fix: handle as object or sting to object?
 const isProgramCorrect = ref(false);
-
-defineProps({
-  toolbox: {
-    type: Object,
-    required: true,
-  },
-});
 
 const checkProgram = () => {
   correctCode === generator()
@@ -109,7 +102,7 @@ onMounted(() => {
   workspace.value = Blockly.inject(blocklyContainer.value, {
     // refer to toolbox.js file, we can define more levels from there,
     // future handling may be passing the level number as props to this component
-    toolbox: Toolbox.levels[levelNum],
+    toolbox: Toolbox.toolbox[levelNum],
     trashcan: true,
     grid: {
       spacing: 20,
