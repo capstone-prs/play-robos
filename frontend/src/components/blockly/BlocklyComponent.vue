@@ -24,7 +24,8 @@
           <HelpButton />
         </div>
         <div class="col-2 buttons" data-testid="menu-btn">
-          <MenuButton />
+          <MenuButton @click="openMenuDialog"/>
+          <MenuActivityDialog v-model="showMenuActivity"/>
         </div>
       </div>
       <div class="row">
@@ -61,7 +62,7 @@ import { javascriptGenerator } from 'blockly/javascript';
 import UndoButton from '../buttons/UndoButton.vue';
 import { useRouter } from 'vue-router';
 import { bluetoothWrite, bluetoothSerial } from 'src/utils/bluetoothUtils';
-
+import MenuActivityDialog from '../../components/MenuActivityDialog.vue'
 
 const route = useRouter().currentRoute;
 const routeParam = route.value.params.param as string;
@@ -71,6 +72,7 @@ const splitParams = routeParam.split(' ');
 const levelNum = parseInt(splitParams[0]);
 const correctCode = splitParams[1]; // to-fix: handle as object or sting to object?
 const isProgramCorrect = ref(false);
+const showMenuActivity = ref(false);
 
 const checkProgram = () => {
   correctCode === generator()
@@ -88,12 +90,14 @@ const arrayOfGifs = ([
 const gifForLevel = arrayOfGifs[levelNum]
 
 
-
-
 const openUploadDialog = () => {
   checkProgram();
   isDialogOpen.value = true;
 };
+
+const openMenuDialog = () => {
+  showMenuActivity.value = true
+}
 
 const workspace = ref<Blockly.Workspace>();
 const generator = (): string => {
