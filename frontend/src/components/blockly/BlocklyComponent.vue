@@ -31,7 +31,7 @@
         <div class="col">
           <q-dialog seamless position="right" v-model="showDialog">
             <q-card class="q-pa-sm" align="center" style="width: 100px">
-              <img src="/prs-gif.gif" style="size: 20px" />
+              <img :src=gifForLevel style="size: 20px" />
             </q-card>
           </q-dialog>
         </div>
@@ -62,6 +62,7 @@ import UndoButton from '../buttons/UndoButton.vue';
 import { useRouter } from 'vue-router';
 import { bluetoothWrite, bluetoothSerial } from 'src/utils/bluetoothUtils';
 
+
 const route = useRouter().currentRoute;
 const routeParam = route.value.params.param as string;
 const isDialogOpen = ref(false);
@@ -76,6 +77,18 @@ const checkProgram = () => {
     ? (isProgramCorrect.value = true)
     : (isProgramCorrect.value = false);
 };
+const arrayOfGifs = ([
+  '/look.svg',
+  '/prs-gif.gif',
+  '/close-open.gif',
+  '/wink-left-right.gif',
+  '/blink.gif',
+  '/head-left-right.gif'
+]);
+const gifForLevel = arrayOfGifs[levelNum]
+
+
+
 
 const openUploadDialog = () => {
   checkProgram();
