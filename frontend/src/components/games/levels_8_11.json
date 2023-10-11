@@ -1,92 +1,99 @@
 [
   {
-    "SettingName": "Nox Cave",
-    "SettingImage": "/setting3.svg",
-    "SettingBg": "bgs/nox-cave.svg",
+    "SettingName": "Lone Home",
+    "SettingImage": "/lone-home-setting.svg",
+    "SettingBg": "bgs/lone-home.svg",
     "Levels": [
       {
         "levelNum": 1,
         "goalTitle": "Wake up Zappy!",
         "reward": 100,
         "toolbox": {},
-        "correctCode": ""
+        "correctCode": []
       },
       {
         "levelNum": 2,
-        "goalTitle": "Look left, look right.",
-        "reward": 50,
+        "goalTitle": "Blink your worries away",
+        "reward": 100,
         "toolbox": {},
-        "correctCode": "c210000"
+        "correctCode": []
       },
       {
         "levelNum": 3,
-        "goalTitle": "Close-open!",
-        "reward": 80,
+        "goalTitle": "Stretch lightly",
+        "reward": 100,
         "toolbox": {},
-        "correctCode": "2000000"
+        "correctCode": []
       },
       {
         "levelNum": 4,
-        "goalTitle": "Wink at me!",
-        "reward": 70,
+        "goalTitle": "Suspicious looks",
+        "reward": 120,
         "toolbox": {},
-        "correctCode": "2000000"
+        "correctCode": []
       },
       {
         "levelNum": 5,
         "goalTitle": "Let Zappy blink.",
         "reward": 80,
         "toolbox": {},
-        "correctCode": "2000000"
-      },
-      {
-        "levelNum": 6,
-        "goalTitle": "Shook head.",
-        "reward": 30,
-        "toolbox": {},
-        "correctCode": "2000000"
+        "correctCode": []
       }
     ]
   },
   {
-    "SettingName": "Long Island",
-    "SettingImage": "/setting4.svg",
-    "SettingBg": "bgs/long-island.svg",
+    "SettingName": "Bright Day Out",
+    "SettingImage": "/day-out-setting.svg",
+    "SettingBg": "bgs/day-out.svg",
     "Levels": [
       {
         "levelNum": 1,
-        "goalTitle": "Wake up Zappy!",
-        "reward": 100,
+        "goalTitle": "Too bright, can't see!",
+        "reward": 80,
         "toolbox": {},
-        "correctCode": ""
+        "correctCode": []
       },
       {
         "levelNum": 2,
-        "goalTitle": "Look left, look right.",
-        "reward": 50,
+        "goalTitle": "Stretch hard",
+        "reward": 80,
         "toolbox": {},
-        "correctCode": "c210000"
+        "correctCode": []
+      },
+      {
+        "levelNum": 3,
+        "goalTitle": "Twice on the right",
+        "reward": 70,
+        "toolbox": {},
+        "correctCode": []
+      },
+      {
+        "levelNum": 4,
+        "goalTitle": "Nothing left",
+        "reward": 80,
+        "toolbox": {},
+        "correctCode": []
+      },
+      {
+        "levelNum": 5,
+        "goalTitle": "Saw something",
+        "reward": 70,
+        "toolbox": {},
+        "correctCode": []
       }
     ]
   },
   {
-    "SettingName": "Beach Cove",
-    "SettingImage": "/setting1.svg",
-    "SettingBg": "bgs/beach-cove.svg",
+    "SettingName": "Silent Meadow",
+    "SettingImage": "/silent-meadow-setting.svg",
+    "SettingBg": "bgs/silent-meadow.svg",
     "Levels": [
       {
         "levelNum": 1,
-        "goalTitle": "Wake up Zappy!",
-        "reward": 100,
+        "goalTitle": "Explore the meadow",
+        "reward": 150,
         "toolbox": {},
-        "correctCode": ""
-      },
-      {
-        "levelNum": 2,
-        "goalTitle": "Look left, look right.",
-        "reward": 50,
-        "toolbox": {},
-        "correctCode": "c210000"
+        "correctCode": []
       }
     ]
   }
