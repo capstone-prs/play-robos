@@ -119,13 +119,13 @@ const navigateBack = () => {
 };
 
 const submit = () => {
+  soundEffect(click);
   isSubmitted.value = true;
   return login(data.email.value, data.password.value)
     .then(() => {
       data.isError.value = false;
       data.error.value = '';
       data.errorMessage.value = '';
-      soundEffect(click);
       return triggerNotify('positive', 'Successful Login');
     })
     .then(() => {
