@@ -3,7 +3,7 @@ import { ToolboxDefinition } from 'blockly/core/utils/toolbox';
 // define blocks for each setting. NOTE: To-change based on activities
 const setting1 = [
   'normal_look',
-  'look_up',
+  'close_eyes',
   'look_right',
   'look_left',
   'look_up_left',
@@ -47,7 +47,7 @@ const getBlocks = (setting: Array<string>) => {
 };
 
 // export the toolbox of each setting
-export const toolbox: Array<ToolboxDefinition> = [
+export const toolbox_5_7: Array<ToolboxDefinition> = [
   {
     kind: 'flyoutToolbox',
     contents: getBlocks(setting1),
@@ -61,3 +61,5 @@ export const toolbox: Array<ToolboxDefinition> = [
     contents: getBlocks(setting3),
   },
 ];
+
+export const toolbox_8_11: Array<ToolboxDefinition> = [];
