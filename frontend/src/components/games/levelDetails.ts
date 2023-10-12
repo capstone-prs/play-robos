@@ -7,7 +7,7 @@ export interface Level {
   goalTitle: string;
   reward: number;
   toolbox: object;
-  correctCode: Array<object>;
+  correctCode: Array<string>;
 }
 
 export interface Setting {
