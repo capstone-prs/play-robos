@@ -54,6 +54,7 @@
           :key="level.levelNum"
         >
           <ActivityComponent
+            :setting-num="settingNumber"
             :level-num="level.levelNum"
             :goal-title="level.goalTitle"
             :reward="level.reward"
