@@ -32,7 +32,7 @@ const blocks: BlockGeneratorType[] = [
   },
   {
     name: 'raise_left_arm_90_',
-    data: { leftArm: '1' },
+    data: { leftArm: '2' },
   },
   {
     name: 'raise_left_arm_120',
@@ -56,7 +56,7 @@ const blocks: BlockGeneratorType[] = [
   },
   {
     name: 'raise_right_arm_90_',
-    data: { rightArm: '1' },
+    data: { rightArm: '2' },
   },
   {
     name: 'raise_right_arm_120_',
