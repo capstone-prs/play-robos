@@ -9,35 +9,39 @@
         "goalTitle": "Wake up Zappy!",
         "reward": 100,
         "toolbox": {},
-        "correctCode": []
+        "correctCode": ["{ 'eyes': '0' }"]
       },
       {
         "levelNum": 2,
         "goalTitle": "Blink your worries away",
         "reward": 100,
         "toolbox": {},
-        "correctCode": []
+        "correctCode": [
+          "{ 'eyes': 'i' },{ 'eyes': '0' },{ 'eyes': 'i' },{ 'eyes': '0' },{ 'eyes': 'i' },{ 'eyes': '0' },{ 'eyes': 'i' }"
+        ]
       },
       {
         "levelNum": 3,
         "goalTitle": "Stretch lightly",
         "reward": 100,
         "toolbox": {},
-        "correctCode": []
+        "correctCode": ["{ 'leftArm': '3' },{ 'rightArm': '3' }"]
       },
       {
         "levelNum": 4,
         "goalTitle": "Suspicious looks",
         "reward": 120,
         "toolbox": {},
-        "correctCode": []
+        "correctCode": [
+          "{ 'head':'1' },{ 'eyes':'c' },{ 'head':'2' },{ 'eyes':'b' }"
+        ]
       },
       {
         "levelNum": 5,
-        "goalTitle": "Let Zappy blink.",
+        "goalTitle": "Arms forward, raise!",
         "reward": 80,
         "toolbox": {},
-        "correctCode": []
+        "correctCode": ["{'leftArm': '3' },{'rightArm': '3' }"]
       }
     ]
   },
@@ -51,7 +55,9 @@
         "goalTitle": "Too bright, can't see!",
         "reward": 80,
         "toolbox": {},
-        "correctCode": []
+        "correctCode": [
+          "{ 'eyes': '0' },{ 'eyes': 'i' },{ 'eyes': '0' },{ 'eyes': 'i' },{ 'eyes': '0' },{ 'eyes': 'i' }"
+        ]
       },
       {
         "levelNum": 2,
