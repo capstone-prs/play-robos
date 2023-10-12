@@ -73,8 +73,6 @@ const settingNum = parseInt(splitParams[0]);
 const correctCode = splitParams[1]; // to-fix: handle as object or sting to object?
 const isProgramCorrect = ref(false);
 
-console.log(splitParams);
-
 const checkProgram = () => {
   correctCode === generator()
     ? (isProgramCorrect.value = true)
@@ -100,7 +98,6 @@ const undo = () => {
     workspace.value.undo(false);
   }
 };
-console.log(levelNum);
 const blocklyContainer = ref<string | Element>('');
 onMounted(() => {
   workspace.value = Blockly.inject(blocklyContainer.value, {
