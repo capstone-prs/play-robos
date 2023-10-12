@@ -104,17 +104,6 @@ const bluetoothConnectDevice = (
             .then((message) => {
               loadingHandler(false);
               successHandler(message);
-
-              bluetoothSerial.subscribe(
-                '\n',
-                function (data) {
-                  console.log(data, 'read');
-                },
-                function (data) {
-                  console.log(data);
-                }
-              );
-
               resolve();
             })
             .catch((error) => {
@@ -178,4 +167,15 @@ export const bluetoothRead = (btSerial: BluetoothSerial) =>
     );
   });
 
+export const btListenser = (btSerial: BluetoothSerial) => {
+  btSerial.subscribe(
+    '\n',
+    function (data) {
+      console.log(data, 'read');
+    },
+    function (data) {
+      console.log(data);
+    }
+  );
+};
 export default bluetoothConnectDevice;

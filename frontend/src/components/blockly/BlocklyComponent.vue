@@ -65,6 +65,7 @@ import {
   bluetoothSerial,
   bluetoothWriteStart,
   bluetoothWriteEnd,
+  btListenser,
 } from 'src/utils/bluetoothUtils';
 
 const route = useRouter().currentRoute;
@@ -139,6 +140,8 @@ onMounted(() => {
   });
 
   workspace.value.addChangeListener(generator);
+
+  btListenser(bluetoothSerial);
 });
 
 const robotState = ref({
