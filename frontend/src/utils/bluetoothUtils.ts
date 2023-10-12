@@ -104,6 +104,17 @@ const bluetoothConnectDevice = (
             .then((message) => {
               loadingHandler(false);
               successHandler(message);
+
+              bluetoothSerial.subscribe(
+                '\n',
+                function (data) {
+                  console.log(data, 'read');
+                },
+                function (data) {
+                  console.log(data);
+                }
+              );
+
               resolve();
             })
             .catch((error) => {
@@ -137,6 +148,26 @@ export const bluetoothWrite = (btSerial: BluetoothSerial, message: string) =>
     } else {
       reject(`Not valid message: ${message}`);
     }
+  });
+
+export const bluetoothWriteStart = (btSerial: BluetoothSerial) =>
+  new Promise<void>((resolve, reject) => {
+    btSerial.write(
+      '^\n',
+      () => resolve(),
+      (error) => reject(error)
+    );
+    resolve();
+  });
+
+export const bluetoothWriteEnd = (btSerial: BluetoothSerial) =>
+  new Promise<void>((resolve, reject) => {
+    btSerial.write(
+      '$\n',
+      () => resolve(),
+      (error) => reject(error)
+    );
+    resolve();
   });
 
 export const bluetoothRead = (btSerial: BluetoothSerial) =>
