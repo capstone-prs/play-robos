@@ -46,7 +46,7 @@ const setting3_5_7 = [
   'close_eyes',
 ];
 
-// export the toolbox of each setting
+// export the toolbox of each setting. NOTE: To improve
 export const toolbox_5_7: Array<ToolboxDefinition> = [
   {
     kind: 'flyoutToolbox',
@@ -97,6 +97,7 @@ const setting3_5_8 = [
   'close_eyes',
 ];
 
+// NOTE: To improve
 export const toolbox_8_11: Array<ToolboxDefinition> = [
   {
     kind: 'flyoutToolbox',
