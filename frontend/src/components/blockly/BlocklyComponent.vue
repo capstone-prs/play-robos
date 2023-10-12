@@ -61,15 +61,19 @@ import { javascriptGenerator } from 'blockly/javascript';
 import UndoButton from '../buttons/UndoButton.vue';
 import { useRouter } from 'vue-router';
 import { bluetoothWrite, bluetoothSerial } from 'src/utils/bluetoothUtils';
+import { split } from 'cypress/types/lodash';
 
 const route = useRouter().currentRoute;
 const routeParam = route.value.params.param as string;
 const isDialogOpen = ref(false);
 const showDialog = ref(true);
 const splitParams = routeParam.split(' ');
-const levelNum = parseInt(splitParams[0]);
+const levelNum = parseInt(splitParams[1]);
+const settingNum = parseInt(splitParams[0]);
 const correctCode = splitParams[1]; // to-fix: handle as object or sting to object?
 const isProgramCorrect = ref(false);
+
+console.log(splitParams);
 
 const checkProgram = () => {
   correctCode === generator()
@@ -96,13 +100,13 @@ const undo = () => {
     workspace.value.undo(false);
   }
 };
-
+console.log(levelNum);
 const blocklyContainer = ref<string | Element>('');
 onMounted(() => {
   workspace.value = Blockly.inject(blocklyContainer.value, {
     // refer to toolbox.js file, we can define more levels from there,
     // future handling may be passing the level number as props to this component
-    toolbox: Toolbox.toolbox[levelNum],
+    toolbox: Toolbox.toolbox[settingNum],
     trashcan: true,
     grid: {
       spacing: 20,
