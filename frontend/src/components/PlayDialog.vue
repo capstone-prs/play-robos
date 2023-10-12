@@ -32,7 +32,7 @@
       <q-card-section align="center">
         <action-button
           text-label="PLAY"
-          @click="navigateToStudio(settingNum, levelNum)"
+          @click="navigateToStudio(settingNum, levelNum, ageGroup)"
         />
       </q-card-section>
     </q-card>
@@ -46,6 +46,10 @@ import ActionButton from './buttons/ActionButton.vue';
 import { useQuasar } from 'quasar';
 
 const props = defineProps({
+  ageGroup: {
+    type: String,
+    required: true,
+  },
   settingNum: {
     type: Number,
     required: true,
@@ -72,11 +76,15 @@ const openPlayDialog = ref(false);
 const $q = useQuasar();
 
 const router = useRouter();
-const navigateToStudio = (levNum: number, settNum: number) => {
+const navigateToStudio = (
+  levNum: number,
+  settNum: number,
+  ageGroup: string
+) => {
   showLoading();
   return router.push({
     name: 'studio',
-    params: { param: levNum + ' ' + settNum + ' ' + props.correctCode },
+    params: { param: levNum + ' ' + settNum + ' ' + ageGroup },
   });
 };
 

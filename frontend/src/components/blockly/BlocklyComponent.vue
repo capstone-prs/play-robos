@@ -47,7 +47,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import * as Blockly from 'blockly';
 import './blocks/stocks';
 import './blocks/generator';
@@ -70,6 +70,7 @@ const showDialog = ref(true);
 const splitParams = routeParam.split(' ');
 const levelNum = parseInt(splitParams[1]);
 const settingNum = parseInt(splitParams[0]);
+const ageGroup = splitParams[2];
 const correctCode = splitParams[1]; // to-fix: handle as object or sting to object?
 const isProgramCorrect = ref(false);
 
@@ -98,12 +99,19 @@ const undo = () => {
     workspace.value.undo(false);
   }
 };
+
+const toolbox = computed(() => {
+  return ageGroup === '5-7'
+    ? Toolbox.toolbox_5_7[settingNum]
+    : Toolbox.toolbox_8_11[settingNum];
+});
+
 const blocklyContainer = ref<string | Element>('');
 onMounted(() => {
   workspace.value = Blockly.inject(blocklyContainer.value, {
     // refer to toolbox.js file, we can define more levels from there,
     // future handling may be passing the level number as props to this component
-    toolbox: Toolbox.toolbox[settingNum],
+    toolbox: toolbox.value,
     trashcan: true,
     grid: {
       spacing: 20,
