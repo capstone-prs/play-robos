@@ -45,7 +45,7 @@ import { useRouter } from 'vue-router';
 import ActionButton from './buttons/ActionButton.vue';
 import { useQuasar } from 'quasar';
 
-const props = defineProps({
+defineProps({
   ageGroup: {
     type: String,
     required: true,

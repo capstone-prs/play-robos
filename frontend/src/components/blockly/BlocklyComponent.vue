@@ -61,14 +61,13 @@ import { javascriptGenerator } from 'blockly/javascript';
 import UndoButton from '../buttons/UndoButton.vue';
 import { useRouter } from 'vue-router';
 import { bluetoothWrite, bluetoothSerial } from 'src/utils/bluetoothUtils';
-import { split } from 'cypress/types/lodash';
 
 const route = useRouter().currentRoute;
 const routeParam = route.value.params.param as string;
 const isDialogOpen = ref(false);
 const showDialog = ref(true);
 const splitParams = routeParam.split(' ');
-const levelNum = parseInt(splitParams[1]);
+const levelNum = parseInt(splitParams[1]); // to be use for check program
 const settingNum = parseInt(splitParams[0]);
 const ageGroup = splitParams[2];
 const correctCode = splitParams[1]; // to-fix: handle as object or sting to object?
