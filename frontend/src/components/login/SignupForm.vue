@@ -41,7 +41,7 @@
               lazyRules
             >
               <template v-slot:prepend>
-                <q-icon name="add_circle" />
+                <q-icon name="img:/age-icon.svg " size="30px" />
               </template>
             </q-input>
 
@@ -124,7 +124,8 @@
                 lazyRules
                 aria-required
               >
-                <template v-slot:prepend> <q-icon name="lock" /></template>
+                <template v-slot:prepend> <q-icon name="lock" />
+                </template>
               </q-input>
             </q-card-section>
           </div>
@@ -154,7 +155,9 @@ import { useRouter } from 'vue-router';
 import { addUser } from '../../firebase/firestore';
 import { Gender } from '../../types/Users';
 import validate from '../../utils/signUpUtils';
-
+import {soundEffect} from '../../utils/SoundUtils'
+import errorSnd from '../../assets/sounds/errorSnd.mp3'
+import back from '../../assets/sounds/back.mp3'
 const $q = useQuasar();
 const router = useRouter();
 
@@ -169,7 +172,10 @@ const triggerNotify = (type: string, message: string) => {
 const validateRePassword = (val: string) =>
   validate('REPASSWORD', data.password.model.value ?? '')(val);
 
-const navigateBack = () => router.go(-1);
+const navigateBack = () =>{
+  soundEffect(back);
+  router.go(-1);
+}
 
 const isSubmitted = ref(false);
 const data = {
@@ -230,8 +236,10 @@ const submit = () => {
 
   if (hasErrors) {
     isSubmitted.value = false;
+    soundEffect(errorSnd);
     return triggerNotify('negative', 'SignIn Failed: Invalid credentials');
   }
+ 
   isSubmitted.value = true;
 
   return signup(data.email.model.value, data.password.model.value)
@@ -251,6 +259,7 @@ const submit = () => {
         )
           .then(() => triggerNotify('positive', 'Successful Sign In'))
           .then(() => {
+            soundEffect();
             router.push('/home');
             showLoading();
           });

@@ -1,6 +1,11 @@
 <template>
-  <q-layout view="hHh lpR fFf" class="bg" data-test-id="homepage">
-    <q-header class="transparent row q-pa-md">
+  <q-layout
+    view="hHh lpR fFf"
+    class="bg-activity"
+    :style="setBackgroundImage"
+    data-test-id="homepage"
+  >
+    <q-header elevated class="bg-white row q-pa-md">
       <div class="col-3">
         <div class="row float-left">
           <div class="col q-pl-sm">
@@ -13,12 +18,10 @@
         </div>
       </div>
       <div class="col level-board" align="center">
-        <LevelBoard
-          levelNumber="1"
-          levelGoal="Wake up"
-          levelReward="50"
-          data-test-id="level-board"
-        />
+        <div class="setting-level-text">
+          <!-- to change settings name -->
+          <span style="color: rgb(244, 240, 0)"> {{ getSettingName }}</span>
+        </div>
       </div>
 
       <div class="col-3">
@@ -36,7 +39,7 @@
             <MenuDialog
               v-model="isMenuDialogVisible"
               data-test-id="menu-dialog"
-              :data-for-homepage="dataForHomepage"
+              :data-for-homepage="ageGroup"
               @update:data-for-homepage="updateData"
             />
           </div>
@@ -44,9 +47,15 @@
       </div>
     </q-header>
     <q-page-container>
-      <div class="row" align="center">
-        <div class="col-2" v-for="level in Levels.levels" :key="level.levelNum">
+      <div class="row q-mt-lg" align="center">
+        <div
+          class="col-3"
+          v-for="level in determineLevelsToDisplay"
+          :key="level.levelNum"
+        >
           <ActivityComponent
+            :age-group="ageGroup"
+            :setting-num="settingNumber"
             :level-num="level.levelNum"
             :goal-title="level.goalTitle"
             :reward="level.reward"
@@ -55,36 +64,59 @@
           />
         </div>
       </div>
-      <div class="row q-mt-xl q-ml-md">
-        <ActionButton text-label="HOME" @click="navigateBack" />
-      </div>
     </q-page-container>
+    <q-footer class="transparent">
+      <div class="home row q-ml-md q-mb-md">
+        <PreviousButton @click="navigateBack" />
+      </div>
+    </q-footer>
   </q-layout>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 import HelpButton from '../components/buttons/HelpButton.vue';
 import AchievementButton from '../components/buttons/AchievementButton.vue';
 import SoundButton from '../components/buttons/SoundButton.vue';
 import MusicButton from '../components/buttons/MusicButton.vue';
-import LevelBoard from '../components/LevelBoard.vue';
 import MenuDialog from '../components/MenuDialog.vue';
 import MenuButton from '../components/buttons/MenuButton.vue';
 import ActivityComponent from '../components/games/ActivityComponent.vue';
-import ActionButton from '../components/buttons/ActionButton.vue';
 import * as Levels from '../components/games/levelDetails';
-// import PairingDialog from '../components/PairingDialog.vue';
+import PreviousButton from '../components/buttons/PreviousButton.vue';
 
 const isMenuDialogVisible = ref(false);
+const route = useRouter().currentRoute;
+const levelNumber = route.value.params.param as string;
+const splitParams = levelNumber.split(' ');
+const ageGroup = splitParams[0];
+const settingNumber = parseInt(splitParams[1]);
 
 const openMenuDialog = () => {
   isMenuDialogVisible.value = true;
 };
 
-let dataForHomepage = ref('5-7');
+const dataForHomepage = ref('8-11');
+
+const getSettingImage = computed(() => {
+  return ageGroup === '5-7'
+    ? Levels.levels_5_7[settingNumber].SettingBg
+    : Levels.levels_8_11[settingNumber].SettingBg;
+});
+
+const getSettingName = computed(() => {
+  return ageGroup === '5-7'
+    ? Levels.levels_5_7[settingNumber].SettingName
+    : Levels.levels_8_11[settingNumber].SettingName;
+});
+
+const determineLevelsToDisplay = computed(() => {
+  return ageGroup === '5-7'
+    ? Levels.levels_5_7[settingNumber].Levels
+    : Levels.levels_8_11[settingNumber].Levels;
+});
 
 const updateData = (newData: string) => {
   dataForHomepage.value = newData;
@@ -95,18 +127,22 @@ const router = useRouter();
 const navigateBack = () => {
   return router.go(-1);
 };
+
+const setBackgroundImage = computed(() => ({
+  backgroundImage: `url(${getSettingImage.value})`,
+  backgroundSize: 'cover',
+}));
 </script>
 
 <style>
-.bg {
-  background: linear-gradient(
-    180deg,
-    rgba(225, 229, 242, 1) 5%,
-    rgb(169, 209, 248) 35%,
-    rgba(157, 202, 255, 1) 100%
-  ) !important;
+.bg-activity {
+  background-size: cover;
   width: 100% !important;
   height: 100% !important;
+}
+
+.home {
+  background-color: none !important;
 }
 
 .responsive-container {
@@ -115,5 +151,11 @@ const navigateBack = () => {
   margin-left: 20px;
   text-align: left;
   display: flex;
+}
+
+.setting-level-text {
+  font-family: 'hitchcut';
+  font-size: 40px;
+  text-shadow: 3px 0px 2px rgba(70, 71, 0, 0.55);
 }
 </style>

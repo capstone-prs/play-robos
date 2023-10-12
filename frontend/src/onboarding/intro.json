@@ -1,0 +1,40 @@
+{
+  "steps": [
+    {
+      "element": "#help-btn",
+      "intro": "Click here for help",
+      "position": "bottom"
+    },
+    {
+      "element": "#achievement-btn",
+      "intro": "Click here to view progress and achievements",
+      "position": "bottom"
+    },
+    {
+      "element": "#age-group-btn",
+      "intro": "Click here to switch age group",
+      "position": "bottom"
+    },
+    {
+      "element": "#sound-btn",
+      "intro": "Click here to on or off sound effects",
+      "position": "bottom"
+    },
+    {
+      "element": "#music-btn",
+      "intro": "Click here to on or off background music",
+      "position": "bottom"
+    },
+    {
+      "element": "#menu-btn",
+      "intro": "Click here to see more actions",
+      "position": "bottom"
+    },
+    {
+      "element": "#robot-btn",
+      "intro": "Click here to connect to the robot",
+      "position": "bottom"
+    }
+  ],
+  "exitOnOverlayClick": false
+}

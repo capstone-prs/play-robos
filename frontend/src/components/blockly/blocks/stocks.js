@@ -273,10 +273,6 @@ Blockly.defineBlocksWithJsonArray([
         'name': 'NAME',
         'options': [
           [
-            '0',
-            '0'
-          ],
-          [
             '1',
             '1'
           ],
@@ -311,6 +307,14 @@ Blockly.defineBlocksWithJsonArray([
           [
             '9',
             '9'
+          ],
+          [
+            '0',
+            '0'
+          ],
+          [
+            '0.5',
+            '0.5'
           ]
         ]
       },
@@ -359,10 +363,6 @@ Blockly.defineBlocksWithJsonArray([
         'name': 'sec',
         'options': [
           [
-            '0',
-            '0'
-          ],
-          [
             '1',
             '1'
           ],
@@ -397,6 +397,14 @@ Blockly.defineBlocksWithJsonArray([
           [
             '9',
             '9'
+          ],
+          [
+            '0',
+            '0'
+          ],
+          [
+            '0.5',
+            '0.5'
           ]
         ]
       },

@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-card
-      class="my-card level-text q-ml-sm q-mr-sm q-mt-sm"
+      class="my-card level-text q-ml-sm q-mr-sm q-mt-sm q-mb-sm"
       @click="openPlayDialog"
     >
       <q-item class="title">
@@ -24,10 +24,13 @@
     </q-card>
 
     <PlayDialog
+      :age-group="ageGroup"
+      :setting-num="settingNum"
       :level-num="levelNum"
       v-model="showPlayDialog"
       :goal-title="goalTitle"
       :reward="reward"
+      :correct-code="correctCode"
     />
   </div>
 </template>
@@ -37,6 +40,14 @@ import { ref } from 'vue';
 import PlayDialog from '../PlayDialog.vue';
 
 defineProps({
+  ageGroup: {
+    type: String,
+    required: true,
+  },
+  settingNum: {
+    type: Number,
+    required: true,
+  },
   levelNum: {
     type: Number,
     required: true,
@@ -54,7 +65,7 @@ defineProps({
     required: true,
   },
   correctCode: {
-    type: String,
+    type: Array<string>,
     required: true,
   },
 });
@@ -68,13 +79,16 @@ const openPlayDialog = () => {
 <style>
 .my-card {
   width: 100%;
-  max-width: 120px;
+  max-width: 80%;
+  max-height: 100%;
+  height: 120px;
   border-radius: 10px;
   cursor: pointer;
 }
 
 .title {
   background-color: rgb(232, 255, 230);
+  max-height: 80%;
 }
 
 @font-face {

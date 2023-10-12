@@ -1,0 +1,10 @@
+import click from 'assets/sounds/click.mp3'
+import { Howl} from 'howler';
+
+export const soundEffect = (sound:string=click)=>{
+    const toPLay = new Howl({src:[sound]})
+    toPLay.load();
+    return toPLay.play();
+  };
+
+  

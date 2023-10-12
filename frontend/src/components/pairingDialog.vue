@@ -43,8 +43,8 @@
                 </div>
               </q-carousel-slide>
               <q-carousel-slide name="instruc3" class="column no-wrap flex-center">
-                <q-icon name="img:/instruc-3.svg" size="190px" class="absolute flex-center"/>
-                <div class="q-mt-auto q-pt-xl">
+                <q-icon name="img:/instruc-3.svg" size="190px"/>
+                <div class="q-mt-auto q-pt-auto q-mb-xl">
                   <text class="futura" style="font-size: 20px">
                     <span style="color: #fe66c4">Put Password </span>
                     <span style="color: #fbde4e">1234</span>

@@ -27,6 +27,15 @@
           <MenuButton />
         </div>
       </div>
+      <div class="row">
+        <div class="col">
+          <q-dialog seamless position="right" v-model="showDialog">
+            <q-card class="q-pa-sm" align="center" style="width: 100px">
+              <img src="/prs-gif.gif" style="size: 20px" />
+            </q-card>
+          </q-dialog>
+        </div>
+      </div>
     </div>
 
     <div
@@ -38,12 +47,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import * as Blockly from 'blockly';
 import './blocks/stocks';
 import './blocks/generator';
 
-import * as Toolbox from './toolbox/toolbox';
+import * as Toolbox from './toolbox/typetoolbox';
 import MenuButton from '../buttons/MenuButton.vue';
 import HelpButton from '../buttons/HelpButton.vue';
 import ActionButton from '../buttons/ActionButton.vue';
@@ -51,7 +60,6 @@ import CheckDialog from '../CheckDialog.vue';
 import { javascriptGenerator } from 'blockly/javascript';
 import UndoButton from '../buttons/UndoButton.vue';
 import { useRouter } from 'vue-router';
-import * as Levels from '../games/levelDetails';
 import {
   bluetoothWrite,
   bluetoothSerial,
@@ -60,20 +68,27 @@ import {
 } from 'src/utils/bluetoothUtils';
 
 const route = useRouter().currentRoute;
-const levelNumber = parseInt(route.value.params.param as string);
+const routeParam = route.value.params.param as string;
 const isDialogOpen = ref(false);
+const showDialog = ref(true);
+const splitParams = routeParam.split(' ');
+const levelNum = parseInt(splitParams[1]); // to be use for check program
+const settingNum = parseInt(splitParams[0]);
+const ageGroup = splitParams[2];
+const correctCode = splitParams[1]; // to-fix: handle as object or sting to object?
+const isProgramCorrect = ref(false);
+
+const checkProgram = () => {
+  correctCode === generator()
+    ? (isProgramCorrect.value = true)
+    : (isProgramCorrect.value = false);
+};
 
 const openUploadDialog = () => {
   checkProgram();
   isDialogOpen.value = true;
 };
 
-defineProps({
-  toolbox: {
-    type: Object,
-    required: true,
-  },
-});
 const workspace = ref<Blockly.Workspace>();
 const generator = (): string => {
   if (workspace.value) {
@@ -89,12 +104,18 @@ const undo = () => {
   }
 };
 
+const toolbox = computed(() => {
+  return ageGroup === '5-7'
+    ? Toolbox.toolbox_5_7[settingNum]
+    : Toolbox.toolbox_8_11[settingNum];
+});
+
 const blocklyContainer = ref<string | Element>('');
 onMounted(() => {
   workspace.value = Blockly.inject(blocklyContainer.value, {
     // refer to toolbox.js file, we can define more levels from there,
     // future handling may be passing the level number as props to this component
-    toolbox: Toolbox.levels[levelNumber],
+    toolbox: toolbox.value,
     trashcan: true,
     grid: {
       spacing: 20,
@@ -119,15 +140,6 @@ onMounted(() => {
 
   workspace.value.addChangeListener(generator);
 });
-const isProgramCorrect = ref(false);
-const rightCode = Levels.levels[levelNumber].correctCode;
-const checkProgram = () => {
-  if (rightCode === generator()) {
-    isProgramCorrect.value = true;
-  } else {
-    isProgramCorrect.value = false;
-  }
-};
 
 const robotState = ref({
   eyes: '0',

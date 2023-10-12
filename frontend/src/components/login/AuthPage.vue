@@ -26,6 +26,8 @@
         <div class="q-pa-md q-gutter-sm">
           <ActionButton
             textLabel="Sign Up"
+            color="pink-12"
+            text-color="white"
             @click="navigateToSignup"
             data-testid="signup-btn"
           />
@@ -35,30 +37,26 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
 import ActionButton from '../buttons/ActionButton.vue';
 import { useRouter } from 'vue-router';
-
+import { soundEffect } from 'src/utils/SoundUtils';
 import '../../css/style.css';
 
-export default defineComponent({
-  name: 'HomePage',
+const router = useRouter();
 
-  components: {
-    ActionButton,
-  },
-  setup() {
-    const router = useRouter();
-    return { router };
-  },
-  methods: {
-    navigateToLogin() {
-      return this.router.push('/login');
-    },
-    navigateToSignup() {
-      return this.router.push('/signup');
-    },
-  },
-});
+
+
+      
+
+const navigateToLogin = () => {
+    soundEffect();
+    router.push('/login');
+  }
+
+ const navigateToSignup =()=> {
+    soundEffect();
+      return router.push('/signup');
+    }
+
 </script>
