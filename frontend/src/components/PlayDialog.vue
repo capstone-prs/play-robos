@@ -5,8 +5,8 @@
     transition-show="scale"
     transition-hide="scale"
   >
-    <q-card style="width: 450px; height: 250px">
-      <q-card-section class="row items-center q-pa-md">
+    <q-card style="width: 65%; height: 65%">
+      <q-card-section class="row items-center q-pt-md q-pb-xs q-pl-md q-pr-md">
         <div class="play-level-text">
           LEVEL: <span style="color: rgb(116, 201, 11)">{{ levelNum }}</span>
         </div>
@@ -22,14 +22,14 @@
       </q-card-section>
       <q-card-section>
         <div class="row">
-          <q-icon name="img:/goal.svg" size="35px"> </q-icon>
-          <div class="text-h6 play-dialog">Goal: {{ goalTitle }}</div>
+          <q-icon name="img:/goal.svg" size="25px"> </q-icon>
+          <div class="play-dialog" style="font-size: 130%;">Goal: {{ goalTitle }}</div>
           <q-space />
-          <q-icon name="img:/coin.svg" size="35px"> </q-icon>
-          <div class="text-h6 play-dialog">Reward: {{ reward }}</div>
+          <q-icon name="img:/coin.svg" size="25px"> </q-icon>
+          <div class="play-dialog" style="font-size: 130%;">Reward: {{ reward }}</div>
         </div>
       </q-card-section>
-      <q-card-section align="center">
+      <q-card-section align="center" class="q-pt-none" >
         <action-button text-label="PLAY" @click="navigateToStudio(levelNum)" />
       </q-card-section>
     </q-card>
@@ -106,7 +106,7 @@ const showLoading = () => {
 .play-level-text {
   font-family: 'hitchcut';
   color: rgb(255, 240, 29);
-  font-size: 40px;
+  font-size: 290%;
   text-shadow: 3px 0px 2px rgba(9, 39, 0, 0.6);
 }
 </style>
