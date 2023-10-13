@@ -84,7 +84,7 @@ const navigateToStudio = (
   showLoading();
   return router.push({
     name: 'studio',
-    params: { param: levNum + ' ' + settNum + ' ' + ageGroup },
+    params: { param: levNum + '/' + settNum + '/' + ageGroup },
   });
 };
 

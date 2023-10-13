@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="hHh lpR fFf" class="bg" data-test-id="homepage">
+  <q-layout view="hHh lpR fFf" class="bg" data-cy="homepage">
     <q-header class="transparent row q-pa-md">
       <div class="col-3">
         <div class="row float-left">
@@ -34,12 +34,12 @@
           <div class="col q-pr-sm">
             <MenuButton
               @open-dialog="openMenuDialog"
-              data-test-id="menu-btn"
+              data-cy="menu-btn"
               id="menu-btn"
             />
             <MenuDialog
               v-model="isMenuDialogVisible"
-              data-test-id="menu-dialog"
+              data-cy="menu-dialog"
               @update:data-for-homepage="updateData"
             />
           </div>
@@ -51,7 +51,7 @@
       <SettingComponent
         :key="dataForHomepage"
         :image-urls="getSettingsToDisplay"
-        data-test-id="setting-component"
+        data-cy="setting-component"
         :age-group="dataForHomepage"
       />
     </q-page-container>

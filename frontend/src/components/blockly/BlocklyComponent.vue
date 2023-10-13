@@ -2,28 +2,28 @@
   <div class="workspace-container">
     <div class="overlay-container">
       <div class="row">
-        <div class="col-2 buttons" data-testid="help-btn">
-          <ActionButton text-label="U" data-testid="check-btn" @click="write" />
+        <div class="col-2 buttons" data-cy="help-btn">
+          <ActionButton text-label="U" data-cy="check-btn" @click="write" />
         </div>
-        <div class="col-2 buttons" data-testid="help-btn" align="left">
+        <div class="col-2 buttons" data-cy="help-btn" align="left">
           <UndoButton @click="undo" />
         </div>
         <div class="col-4 check">
           <ActionButton
             text-label="CHECK"
-            data-testid="check-btn"
+            data-cy="check-btn"
             @click="openUploadDialog"
           />
           <CheckDialog
             v-model="isDialogOpen"
-            data-testid="check-dialog"
+            data-cy="check-dialog"
             :correct="isProgramCorrect"
           />
         </div>
-        <div class="col-2 buttons" data-testid="help-btn">
+        <div class="col-2 buttons" data-cy="help-btn">
           <HelpButton />
         </div>
-        <div class="col-2 buttons" data-testid="menu-btn">
+        <div class="col-2 buttons" data-cy="menu-btn">
           <MenuButton />
         </div>
       </div>
@@ -41,7 +41,7 @@
     <div
       ref="blocklyContainer"
       class="blockly-container"
-      data-testid="blockly-container"
+      data-cy="blockly-container"
     ></div>
   </div>
 </template>
@@ -66,7 +66,7 @@ const route = useRouter().currentRoute;
 const routeParam = route.value.params.param as string;
 const isDialogOpen = ref(false);
 const showDialog = ref(true);
-const splitParams = routeParam.split(' ');
+const splitParams = routeParam.split('/');
 const levelNum = parseInt(splitParams[1]); // to be use for check program
 const settingNum = parseInt(splitParams[0]);
 const ageGroup = splitParams[2];

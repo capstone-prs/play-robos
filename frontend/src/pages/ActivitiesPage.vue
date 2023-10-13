@@ -3,17 +3,17 @@
     view="hHh lpR fFf"
     class="bg-activity"
     :style="setBackgroundImage"
-    data-test-id="homepage"
+    data-cy="activities-page"
   >
     <q-header elevated class="bg-white row q-pa-md">
       <div class="col-3">
         <div class="row float-left">
           <div class="col q-pl-sm">
-            <HelpButton />
+            <HelpButton data-cy="help-btn" />
           </div>
 
           <div class="col q-pl-sm">
-            <AchievementButton />
+            <AchievementButton data-cy="achievement-btn" />
           </div>
         </div>
       </div>
@@ -27,18 +27,18 @@
       <div class="col-3">
         <div class="row float-right">
           <div class="col q-pr-sm">
-            <SoundButton />
+            <SoundButton data-cy="sound-btn" />
           </div>
 
           <div class="col q-pr-sm">
-            <MusicButton />
+            <MusicButton data-cy="music-btn" />
           </div>
 
           <div class="col q-pr-sm">
-            <MenuButton @open-dialog="openMenuDialog" data-test-id="menu-btn" />
+            <MenuButton @open-dialog="openMenuDialog" data-cy="menu-btn" />
             <MenuDialog
               v-model="isMenuDialogVisible"
-              data-test-id="menu-dialog"
+              data-cy="menu-dialog"
               :data-for-homepage="ageGroup"
               @update:data-for-homepage="updateData"
             />
@@ -67,7 +67,7 @@
     </q-page-container>
     <q-footer class="transparent">
       <div class="home row q-ml-md q-mb-md">
-        <PreviousButton @click="navigateBack" />
+        <PreviousButton @click="navigateBack" data-cy="previous-btn" />
       </div>
     </q-footer>
   </q-layout>

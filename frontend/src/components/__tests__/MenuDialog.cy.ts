@@ -12,22 +12,22 @@ describe('Menu dialog', () => {
   });
 
   it('should render the menu dialog', () => {
-    cy.get('[data-test-id="menu-dialog"]').should('exist');
+    cy.dataCy('menu-dialog').should('exist');
   });
 
   it('should close the menu dialog when close icon is clicked', () => {
-    cy.get('[data-test-id="close-btn"]')
+    cy.dataCy('close-btn')
       .click()
       .then(() => {
-        cy.get('[data-test-id="menu-dialog"]').should('not.exist');
+        cy.dataCy('menu-dialog').should('not.exist');
       });
   });
 
   it('should open the logout dialog when logout button is clicked', () => {
-    cy.get('[data-test-id="logout-btn"]')
+    cy.dataCy('logout-btn')
       .click()
       .then(() => {
-        cy.get('[data-test-id="logout-dialog"]').should('exist');
+        cy.dataCy('logout-dialog').should('exist');
       });
   });
 });
