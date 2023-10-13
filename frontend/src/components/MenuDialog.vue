@@ -18,7 +18,7 @@
         />
       </q-card-section>
 
-      <q-card-section class="centered">
+      <q-card-section class="centered" v-if='router.currentRoute.value.path!=="/home"'>
         <q-btn
           @click="atHome"
           color="pink-12"
@@ -29,8 +29,9 @@
           <q-icon name="home" />
           Home
         </q-btn>
-      </q-card-section>
-      <q-card-section class="q-pt-none centered">
+      </q-card-section >
+
+      <q-card-section class="q-pt-md centered">
         <ActionButton
           text-label="Logout"
           @click="openLogoutDialog"
