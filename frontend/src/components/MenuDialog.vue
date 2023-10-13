@@ -18,9 +18,20 @@
         />
       </q-card-section>
 
-      <q-card-section class="centered"> </q-card-section>
+      <q-card-section class="centered" v-if='router.currentRoute.value.path!=="/home"'>
+        <q-btn
+          @click="atHome"
+          color="pink-12"
+          class="glossy hitchcut"
+          size="lg"
+          rounded
+        >
+          <q-icon name="home" />
+          Home
+        </q-btn>
+      </q-card-section >
 
-      <q-card-section class="q-pt-none centered">
+      <q-card-section class="q-pt-md centered">
         <ActionButton
           text-label="Logout"
           @click="openLogoutDialog"
@@ -39,10 +50,12 @@
 import LogoutDialog from './LogoutDialog.vue';
 import ActionButton from './buttons/ActionButton.vue';
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 defineProps({
   value: Boolean,
-  dataForHomepage: String,
+  dataForHomepage: String
 });
 
 const isLogoutDialogVisible = ref(false);
@@ -52,6 +65,10 @@ const showDialog = ref(false);
 // opens the logout dialog
 const openLogoutDialog = () => {
   isLogoutDialogVisible.value = true;
+};
+
+const atHome = () => {
+  return router.push('/home');
 };
 </script>
 

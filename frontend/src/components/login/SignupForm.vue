@@ -227,6 +227,7 @@ const showLoading = () => {
 };
 
 const submit = () => {
+  soundEffect();
   isSubmitted.value = true;
   Object.values(data).map((field) => field.ref.value?.validate());
 
@@ -235,8 +236,8 @@ const submit = () => {
   );
 
   if (hasErrors) {
-    isSubmitted.value = false;
     soundEffect(errorSnd);
+    isSubmitted.value = false;
     return triggerNotify('negative', 'SignIn Failed: Invalid credentials');
   }
  
@@ -259,7 +260,6 @@ const submit = () => {
         )
           .then(() => triggerNotify('positive', 'Successful Sign In'))
           .then(() => {
-            soundEffect();
             router.push('/home');
             showLoading();
           });
@@ -283,7 +283,6 @@ const submit = () => {
           'SignUp Failed: No Internet Connection'
         );
       }
-
       return triggerNotify('negative', 'SignUp Failed: Invalid credentials');
     });
 };

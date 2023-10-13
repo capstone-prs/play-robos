@@ -1,63 +1,65 @@
 <template>
   <q-dialog v-model="isPairingDialogOpen">
-    <q-card style="width: 100%; height: 100%">
-      <q-btn
-          class="glossy "
-          round
-          color="red"
+    <q-card style="width: 65%; height: 90%">
+      <q-card-section class="row items-center card-title" >
+        <div class="text-h4 futura">Instructions</div>
+        <q-space />
+        <q-btn
           icon="close"
+          color="white"
+          size="md"
+          flat
           v-close-popup
-          style="position: ; left: 500px; top: 10px"
+          data-test-id="close-btn"
         />
+      </q-card-section>
       <q-card-section align="center">
-        <text class="text" style="font-size: 20px">
-          <span style="color: #fbde4e">Instructions for </span>
-          <span style="color: #fe66c4">Pairing Robot</span>
-        </text>
-        <div class="q-pa-md">
+        <div class="q-pa-none">
           <div class="q-gutter-md">
             <q-carousel v-model="slide" 
-              transition-prev="scale" 
-              transition-next="scale" 
-              swipeable animated
-              control-color="white" 
-              navigation padding arrows height="300px"
-              class="bg-primary text-white shadow-1 rounded-borders">
+            swipeable
+            animated
+              navigation 
+              padding 
+              control-color="amber"
+              arrows
+              height="300px"
+              class="transparent">
 
               <q-carousel-slide name="instruc1" class="column no-wrap flex-center">
-                <q-icon name="img:/instruc-1.svg" size="250px" class="absolute flex-center" />
+                <q-icon name="img:/instruc1.gif" size="170px" class="absolute flex-center" />
                 <div class="q-mt-auto q-pt-xl">
                   <text class="futura" style="font-size: 20px">
-                    <span style="color: #fbde4e">Turn On </span>
+                    <span style="color: #096cef">Turn On </span>
                     <span style="color: #fe66c4">BlueTooth</span>
                   </text>
                 </div>
               </q-carousel-slide>
                     <q-carousel-slide name="instruc2" class="column no-wrap flex-center">
-                <q-icon name="img:/instruc-2.svg" size="270px" class="absolute flex-center"/>
+                <q-icon name="img:/instruc2.gif" size="170px" class="absolute flex-center"/>
                 <div class="q-mt-auto q-pt-xl">
                   <text class="futura" style="font-size: 20px">
-                    <span style="color: #fbde4e">Click On </span>
+                    <span style="color: #096cef">Click On </span>
                     <span style="color: #fe66c4">device HC-05</span>
                   </text>
                 </div>
               </q-carousel-slide>
               <q-carousel-slide name="instruc3" class="column no-wrap flex-center">
-                <q-icon name="img:/instruc-3.svg" size="190px"/>
-                <div class="q-mt-auto q-pt-auto q-mb-xl">
+                <q-icon name="img:/instruc3.gif" size="170px"/>
+                <div class="q-mt-auto ">
                   <text class="futura" style="font-size: 20px">
                     <span style="color: #fe66c4">Put Password </span>
-                    <span style="color: #fbde4e">1234</span>
+                    <span style="color: #096cef">1234</span>
                     <span style="color: #fe66c4"> and </span>
-                    <span style="color: #fbde4e">click ok</span>  
+                    <span style="color: #096cef">click ok</span>  
                   </text>
                 </div>
               </q-carousel-slide>
             </q-carousel>
           </div>
         </div>
-        <div>
-          <ActionButton text-label="Open Bluetooth" color="green" text-color="white"
+        <div class ='q-pt-none' style="position: absolute; top: 80%; left:32%;">
+          <ActionButton size="md" text-label="Open Bluetooth" color="green" text-color="white"
             @click="() => openBluetoothSetting(bluetoothSerial)" v-close-popup />
         </div>
       </q-card-section>
