@@ -1,26 +1,21 @@
 import ActionButton from '../buttons/ActionButton.vue';
 
 describe('ActionButton Component', () => {
-  it('renders a text-label', () => {
-    const textLabel = 'Check'
+  it('contains a Check label', () => {
     cy.mount(ActionButton, {
       props: {
-        textLabel: textLabel
-      }
+        textLabel: 'Check',
+      },
     });
+    cy.dataCy('action-btn').should('contain', 'Check');
+  });
 
-    cy.get('[data-testid="action-btn"]').should('contain', textLabel);
-  })
-
-
-   it('renders another text-label', () => {
-    const textLabel = 'Play'
+  it('containes a Enter label', () => {
     cy.mount(ActionButton, {
       props: {
-        textLabel: textLabel
-      }
+        textLabel: 'Enter',
+      },
     });
-
-    cy.get('[data-testid="action-btn"]').should('contain', textLabel);
-  })
-})
+    cy.dataCy('action-btn').should('contain', 'Enter');
+  });
+});

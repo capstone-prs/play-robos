@@ -6,7 +6,7 @@
       rounded
       :color="color"
       :text-color="textColor"
-      data-testid="action-btn"
+      data-cy="action-btn"
       :disable="isDisabled"
     >
       {{ textLabel }}
