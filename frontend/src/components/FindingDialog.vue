@@ -1,22 +1,33 @@
 <template>
   <q-dialog v-model="isFindingDialogOpen">
-    <q-card style="width: 100%; height: 100%">
+    <q-card style="width: 60%; height: 90%">
+      <q-card-section class="row items-center card-title" >
+        <div class="text-h4 futura">Finding</div>
+        <q-space />
+        <q-btn
+          icon="close"
+          color="white"
+          size="md"
+          flat
+          v-close-popup
+          data-test-id="close-btn"
+        />
+      </q-card-section>
       <q-card-section align="center">
-        <q-card-section style="margin-top: 10px; margin-bottom: -15px">
-          <q-spinner-rings style="color: #096cef" size="120px" />
+        <q-card-section >
+          <q-spinner-rings style="color: #096cef" size="90px" />
         </q-card-section>
-        <text class="text " style="font-size: 30px">
-          <span style="color: #fbde4e">Finding...</span>
+        <text class="text " style="font-size: 200%">
           <span style="color: #fe66c4">Please Wait</span>
         </text>
-        <div style="margin-top: 25px">
+        <!-- <div class="q-pt-lg">
           <ActionButton
             text-label="Cancel"
             color="red-14"
             text-color="white"
             v-close-popup
           />
-        </div>
+        </div> -->
       </q-card-section>
     </q-card>
   </q-dialog>
@@ -24,7 +35,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import ActionButton from './buttons/ActionButton.vue';
+// import ActionButton from './buttons/ActionButton.vue';
 import '../css/style.css';
 import { QSpinnerRings } from 'quasar';
 
