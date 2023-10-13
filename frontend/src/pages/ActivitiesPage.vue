@@ -54,6 +54,8 @@
           :key="level.levelNum"
         >
           <ActivityComponent
+            :age-group="ageGroup"
+            :setting-num="settingNumber"
             :level-num="level.levelNum"
             :goal-title="level.goalTitle"
             :reward="level.reward"
@@ -84,7 +86,6 @@ import MenuButton from '../components/buttons/MenuButton.vue';
 import ActivityComponent from '../components/games/ActivityComponent.vue';
 import * as Levels from '../components/games/levelDetails';
 import PreviousButton from '../components/buttons/PreviousButton.vue';
-// import PairingDialog from '../components/PairingDialog.vue';
 
 const isMenuDialogVisible = ref(false);
 const route = useRouter().currentRoute;

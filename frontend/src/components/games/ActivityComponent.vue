@@ -24,6 +24,8 @@
     </q-card>
 
     <PlayDialog
+      :age-group="ageGroup"
+      :setting-num="settingNum"
       :level-num="levelNum"
       v-model="showPlayDialog"
       :goal-title="goalTitle"
@@ -38,6 +40,14 @@ import { ref } from 'vue';
 import PlayDialog from '../PlayDialog.vue';
 
 defineProps({
+  ageGroup: {
+    type: String,
+    required: true,
+  },
+  settingNum: {
+    type: Number,
+    required: true,
+  },
   levelNum: {
     type: Number,
     required: true,
@@ -55,7 +65,7 @@ defineProps({
     required: true,
   },
   correctCode: {
-    type: String,
+    type: Array<string>,
     required: true,
   },
 });

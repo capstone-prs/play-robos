@@ -57,7 +57,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import * as Blockly from 'blockly';
 import './blocks/stocks';
 import './blocks/generator';
@@ -70,7 +70,13 @@ import CheckDialog from '../CheckDialog.vue';
 import { javascriptGenerator } from 'blockly/javascript';
 import UndoButton from '../buttons/UndoButton.vue';
 import { useRouter } from 'vue-router';
-import { bluetoothWrite, bluetoothSerial } from 'src/utils/bluetoothUtils';
+import {
+  bluetoothWrite,
+  bluetoothSerial,
+  bluetoothWriteStart,
+  bluetoothWriteEnd,
+  btListenser,
+} from 'src/utils/bluetoothUtils';
 import MenuDialog from '../../components/MenuDialog.vue'
 
 const route = useRouter().currentRoute;
@@ -78,7 +84,9 @@ const routeParam = route.value.params.param as string;
 const isDialogOpen = ref(false);
 const showDialog = ref(true);
 const splitParams = routeParam.split(' ');
-const levelNum = parseInt(splitParams[0]);
+const levelNum = parseInt(splitParams[1]); // to be use for check program
+const settingNum = parseInt(splitParams[0]);
+const ageGroup = splitParams[2];
 const correctCode = splitParams[1]; // to-fix: handle as object or sting to object?
 const isProgramCorrect = ref(false);
 const showMenuActivity = ref(false);
@@ -123,12 +131,18 @@ const undo = () => {
   }
 };
 
+const toolbox = computed(() => {
+  return ageGroup === '5-7'
+    ? Toolbox.toolbox_5_7[settingNum]
+    : Toolbox.toolbox_8_11[settingNum];
+});
+
 const blocklyContainer = ref<string | Element>('');
 onMounted(() => {
   workspace.value = Blockly.inject(blocklyContainer.value, {
     // refer to toolbox.js file, we can define more levels from there,
     // future handling may be passing the level number as props to this component
-    toolbox: Toolbox.toolbox[levelNum],
+    toolbox: toolbox.value,
     trashcan: true,
     grid: {
       spacing: 20,
@@ -152,6 +166,8 @@ onMounted(() => {
   });
 
   workspace.value.addChangeListener(generator);
+
+  btListenser(bluetoothSerial);
 });
 
 const robotState = ref({
@@ -172,7 +188,12 @@ const write = async () => {
     leftLeg: '0',
     rightLeg: '0',
   };
-  bluetoothWrite(bluetoothSerial, '000000');
+
+  await new Promise((resolve) => {
+    bluetoothWriteStart(bluetoothSerial).then(() => setTimeout(resolve, 1000));
+  });
+  // ;
+  // bluetoothWrite(bluetoothSerial, '000000');
   const codes = generator()
     .trimEnd()
     .split('\n')
@@ -192,6 +213,8 @@ const write = async () => {
     );
     await new Promise((resolve) => setTimeout(resolve, 1000));
   }
+
+  await bluetoothWriteEnd(bluetoothSerial);
 };
 </script>
 
