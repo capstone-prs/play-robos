@@ -3,7 +3,7 @@
     <form @submit.prevent.stop="submit" class="q-gutter-md">
       <div class="element-login">
         <q-btn class="glossy"
-         round color="red" icon="arrow_back" style="position: fixed; left: 20px; top: 20px"
+         round color="red" icon="arrow_back" style="position: absolute; left: 20px; top: 20px"
           @click="navigateBack" />
 
         <div class="groupedLogIn">
