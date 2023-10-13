@@ -1,13 +1,18 @@
 <template>
   <div>
     <q-card
+      data-cy="activity-card"
       class="my-card level-text q-ml-sm q-mr-sm q-mt-sm q-mb-sm"
       @click="openPlayDialog"
     >
       <q-item class="title">
         <q-item-section>
-          <q-item-label>Level: {{ levelNum }} </q-item-label>
-          <q-item-label caption>Goal: {{ goalTitle }} </q-item-label>
+          <q-item-label data-cy="level-label"
+            >Level: {{ levelNum }}
+          </q-item-label>
+          <q-item-label data-cy="goal-label"
+            >Goal: {{ goalTitle }}
+          </q-item-label>
         </q-item-section>
       </q-item>
 
@@ -16,8 +21,9 @@
       <q-item-section>
         <q-card-section horizontal>
           <q-card-section>
-            <q-icon name="img:/coin.svg" size="20px"> </q-icon>
-            <span>{{ reward }}</span>
+            <q-icon data-cy="coin-img" name="img:/coin.svg" size="20px">
+            </q-icon>
+            <span data-cy="reward-label">{{ reward }}</span>
           </q-card-section>
         </q-card-section>
       </q-item-section>
@@ -31,6 +37,7 @@
       :goal-title="goalTitle"
       :reward="reward"
       :correct-code="correctCode"
+      data-cy="play-dialog"
     />
   </div>
 </template>
