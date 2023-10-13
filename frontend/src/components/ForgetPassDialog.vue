@@ -51,9 +51,9 @@
   
   
   const submitReset = () => {
+    soundEffect();
     return resetPassword(data.emailReset.value)
       .then(() => {
-        soundEffect();
         data.isError.value = false;
         triggerNotify('positive', 'Check your Email');
         isForgetPasswordOpen.value =false
@@ -61,7 +61,7 @@
       .catch(() => {
         soundEffect(errorSnd);
         data.isError.value = true;
-        triggerNotify('negative', 'Invalid Email');
+        triggerNotify('negative', 'Email Does Not Exist');
         console.log(isForgetPasswordOpen.value)
       })
   }

@@ -5,8 +5,8 @@
     :style="setBackgroundImage"
     data-cy="activities-page"
   >
-    <q-header elevated class="bg-white row q-pa-md">
-      <div class="col-3">
+    <q-header elevated class="bg-white row q-pa-sm">
+      <div class="col-3 ">
         <div class="row float-left">
           <div class="col q-pl-sm">
             <HelpButton data-cy="help-btn" />

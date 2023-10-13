@@ -24,16 +24,28 @@
           <HelpButton />
         </div>
         <div class="col-2 buttons" data-cy="menu-btn">
-          <MenuButton />
+          <MenuButton @click="openMenuDialog" />
+          <MenuDialog v-model="showMenuActivity" />
         </div>
       </div>
       <div class="row">
         <div class="col">
-          <q-dialog seamless position="right" v-model="showDialog">
-            <q-card class="q-pa-sm" align="center" style="width: 100px">
-              <img src="/prs-gif.gif" style="size: 20px" />
-            </q-card>
-          </q-dialog>
+          <q-btn-dropdown
+            class="futura"
+            persistent
+            size="16"
+            glossy
+            menu-self="top left"
+            style="position: absolute; right: 0%; top: 130%"
+            rounded
+            color="primary"
+          >
+            <q-dialog seamless position="right" v-model="showDialog">
+              <q-card class="q-pa-sm" align="center" style="width: 100px">
+                <img :src="gifForLevel" style="size: 20px" />
+              </q-card>
+            </q-dialog>
+          </q-btn-dropdown>
         </div>
       </div>
     </div>
@@ -60,7 +72,14 @@ import CheckDialog from '../CheckDialog.vue';
 import { javascriptGenerator } from 'blockly/javascript';
 import UndoButton from '../buttons/UndoButton.vue';
 import { useRouter } from 'vue-router';
-import { bluetoothWrite, bluetoothSerial } from 'src/utils/bluetoothUtils';
+import {
+  bluetoothWrite,
+  bluetoothSerial,
+  bluetoothWriteStart,
+  bluetoothWriteEnd,
+  btListenser,
+} from 'src/utils/bluetoothUtils';
+import MenuDialog from '../../components/MenuDialog.vue';
 
 const route = useRouter().currentRoute;
 const routeParam = route.value.params.param as string;
@@ -72,16 +91,30 @@ const settingNum = parseInt(splitParams[0]);
 const ageGroup = splitParams[2];
 const correctCode = splitParams[1]; // to-fix: handle as object or sting to object?
 const isProgramCorrect = ref(false);
+const showMenuActivity = ref(false);
 
 const checkProgram = () => {
   correctCode === generator()
     ? (isProgramCorrect.value = true)
     : (isProgramCorrect.value = false);
 };
+const arrayOfGifs = [
+  '/look.svg',
+  '/prs-gif.gif',
+  '/close-open.gif',
+  '/wink-left-right.gif',
+  '/blink.gif',
+  '/head-left-right.gif',
+];
+const gifForLevel = arrayOfGifs[levelNum];
 
 const openUploadDialog = () => {
   checkProgram();
   isDialogOpen.value = true;
+};
+
+const openMenuDialog = () => {
+  showMenuActivity.value = true;
 };
 
 const workspace = ref<Blockly.Workspace>();
@@ -134,6 +167,8 @@ onMounted(() => {
   });
 
   workspace.value.addChangeListener(generator);
+
+  btListenser(bluetoothSerial);
 });
 
 const robotState = ref({
@@ -154,7 +189,12 @@ const write = async () => {
     leftLeg: '0',
     rightLeg: '0',
   };
-  bluetoothWrite(bluetoothSerial, '000000');
+
+  await new Promise((resolve) => {
+    bluetoothWriteStart(bluetoothSerial).then(() => setTimeout(resolve, 1000));
+  });
+  // ;
+  // bluetoothWrite(bluetoothSerial, '000000');
   const codes = generator()
     .trimEnd()
     .split('\n')
@@ -174,6 +214,8 @@ const write = async () => {
     );
     await new Promise((resolve) => setTimeout(resolve, 1000));
   }
+
+  await bluetoothWriteEnd(bluetoothSerial);
 };
 </script>
 
