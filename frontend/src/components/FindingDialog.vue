@@ -20,14 +20,7 @@
         <text class="text " style="font-size: 200%">
           <span style="color: #fe66c4">Please Wait</span>
         </text>
-        <!-- <div class="q-pt-lg">
-          <ActionButton
-            text-label="Cancel"
-            color="red-14"
-            text-color="white"
-            v-close-popup
-          />
-        </div> -->
+
       </q-card-section>
     </q-card>
   </q-dialog>
@@ -35,7 +28,6 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-// import ActionButton from './buttons/ActionButton.vue';
 import '../css/style.css';
 import { QSpinnerRings } from 'quasar';
 

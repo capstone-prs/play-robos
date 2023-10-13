@@ -3,7 +3,7 @@
   display: flex;
   justify-content: center; /* Center horizontally */
   align-items: center; /* Center vertically */
-  height: 34.8vh; /* Adjust the container height as needed */
+  height: 50vh; /* Adjust the container height as needed */
 }
 
 .centered-image {

@@ -14,10 +14,6 @@
         />
       </q-card-section>
       <q-card-section align="center">
-        <!-- <text class="futura" style="font-size: 16px">
-          <span style="color: #0000FF">Instructions for </span>
-          <span style="color: #fe66c4">Pairing Robot</span>
-        </text> -->
         <div class="q-pa-none">
           <div class="q-gutter-md">
             <q-carousel v-model="slide" 
