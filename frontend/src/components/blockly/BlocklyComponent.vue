@@ -25,16 +25,25 @@
         </div>
         <div class="col-2 buttons" data-testid="menu-btn">
           <MenuButton @click="openMenuDialog"/>
-          <MenuDialog v-model="showMenuActivity"/>
+          <MenuDialog v-model="showMenuActivity" />
         </div>
       </div>
       <div class="row">
         <div class="col">
-          <q-dialog seamless position="right" v-model="showDialog">
-            <q-card class="q-pa-sm" align="center" style="width: 100px">
-              <img :src=gifForLevel style="size: 20px" />
-            </q-card>
-          </q-dialog>
+          <q-btn-dropdown
+          class="futura"
+          persistent
+          size="16"
+          glossy
+          menu-self="top left"
+          style="position: absolute; right: 0%; top: 130%;" 
+          rounded color="primary">
+            <q-dialog seamless position="right" v-model="showDialog">
+              <q-card class="q-pa-sm" align="center" style="width: 100px">
+                <img :src=gifForLevel style="size: 20px" />
+              </q-card>
+            </q-dialog>
+        </q-btn-dropdown>
         </div>
       </div>
     </div>
