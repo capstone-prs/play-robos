@@ -60,7 +60,13 @@ import CheckDialog from '../CheckDialog.vue';
 import { javascriptGenerator } from 'blockly/javascript';
 import UndoButton from '../buttons/UndoButton.vue';
 import { useRouter } from 'vue-router';
-import { bluetoothWrite, bluetoothSerial } from 'src/utils/bluetoothUtils';
+import {
+  bluetoothWrite,
+  bluetoothSerial,
+  bluetoothWriteStart,
+  bluetoothWriteEnd,
+  btListenser,
+} from 'src/utils/bluetoothUtils';
 
 const route = useRouter().currentRoute;
 const routeParam = route.value.params.param as string;
@@ -134,6 +140,8 @@ onMounted(() => {
   });
 
   workspace.value.addChangeListener(generator);
+
+  btListenser(bluetoothSerial);
 });
 
 const robotState = ref({
@@ -154,7 +162,12 @@ const write = async () => {
     leftLeg: '0',
     rightLeg: '0',
   };
-  bluetoothWrite(bluetoothSerial, '000000');
+
+  await new Promise((resolve) => {
+    bluetoothWriteStart(bluetoothSerial).then(() => setTimeout(resolve, 1000));
+  });
+  // ;
+  // bluetoothWrite(bluetoothSerial, '000000');
   const codes = generator()
     .trimEnd()
     .split('\n')
@@ -174,6 +187,8 @@ const write = async () => {
     );
     await new Promise((resolve) => setTimeout(resolve, 1000));
   }
+
+  await bluetoothWriteEnd(bluetoothSerial);
 };
 </script>
 
