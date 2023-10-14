@@ -33,6 +33,7 @@
           <q-btn-dropdown
           class="futura"
           size="16"
+          persistent
           glossy
           menu-self="top left"
           style="position: absolute; right: 0%; top: 130%;" 
