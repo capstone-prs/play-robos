@@ -47,7 +47,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
+import { useQuasar } from 'quasar';
+import { ref, onMounted, computed, Ref } from 'vue';
 import * as Blockly from 'blockly';
 import './blocks/stocks';
 import './blocks/generator';
@@ -65,25 +66,74 @@ import {
   bluetoothSerial,
   bluetoothWriteStart,
   bluetoothWriteEnd,
+  onDisconnect,
   btListenser,
 } from 'src/utils/bluetoothUtils';
+import { TaskStatus } from 'src/types/Status';
 
+const $q = useQuasar();
 const route = useRouter().currentRoute;
 const routeParam = route.value.params.param as string;
 const isDialogOpen = ref(false);
 const showDialog = ref(true);
 const splitParams = routeParam.split(' ');
-const levelNum = parseInt(splitParams[1]); // to be use for check program
+// const levelNum = parseInt(splitParams[1]); // to be use for check program
 const settingNum = parseInt(splitParams[0]);
 const ageGroup = splitParams[2];
 const correctCode = splitParams[1]; // to-fix: handle as object or sting to object?
 const isProgramCorrect = ref(false);
+
+const router = useRouter();
+
+const taskStatus = ref<TaskStatus>('none');
+
+router.beforeEach(() => {
+  taskStatus.value = 'exit';
+  bluetoothSerial.unsubscribe();
+});
 
 const checkProgram = () => {
   correctCode === generator()
     ? (isProgramCorrect.value = true)
     : (isProgramCorrect.value = false);
 };
+
+const showStatus = (status: Ref<TaskStatus>) =>
+  new Promise<void>((resolve) => {
+    const notif = $q.notify({
+      group: false, // required to be updatable
+      timeout: 0,
+      spinner: true,
+      position: 'bottom-right',
+      message: 'Uploading file...',
+    });
+
+    const interval = setInterval(() => {
+      if (status.value === 'success') {
+        notif({
+          type: 'positive',
+          spinner: false, // we reset the spinner setting so the icon can be displayed
+          message: 'Uploading done!',
+          timeout: 1000, // we will timeout it in 2.5s
+        });
+        clearInterval(interval);
+        resolve();
+      } else if (status.value === 'error') {
+        notif({
+          type: 'negative',
+          spinner: false, // we reset the spinner setting so the icon can be displayed
+          message: 'Upload Failed',
+          timeout: 1000, // we will timeout it in 2.5s
+        });
+        clearInterval(interval);
+        resolve();
+      } else if (status.value === 'exit') {
+        notif();
+        clearInterval(interval);
+        resolve();
+      }
+    }, 500);
+  });
 
 const openUploadDialog = () => {
   checkProgram();
@@ -112,6 +162,7 @@ const toolbox = computed(() => {
 });
 
 const blocklyContainer = ref<string | Element>('');
+
 onMounted(() => {
   workspace.value = Blockly.inject(blocklyContainer.value, {
     // refer to toolbox.js file, we can define more levels from there,
@@ -141,7 +192,30 @@ onMounted(() => {
 
   workspace.value.addChangeListener(generator);
 
-  btListenser(bluetoothSerial);
+  btListenser(
+    bluetoothSerial,
+    (data: string) => {
+      if (data === '(200)\n') {
+        taskStatus.value = 'success';
+      } else if (data === '(400)\n') {
+        taskStatus.value = 'error';
+      }
+      console.log('reading', data, taskStatus.value, JSON.stringify(data));
+    },
+    (e) =>
+      $q.notify({
+        type: 'negative',
+        message: e,
+      })
+  );
+
+  onDisconnect(bluetoothSerial, () => {
+    taskStatus.value = 'error';
+    $q.notify({
+      type: 'negative',
+      message: 'Bluetooth Device is Disconnected',
+    });
+  });
 });
 
 const robotState = ref({
@@ -163,28 +237,33 @@ const write = async () => {
     rightLeg: '0',
   };
 
-  await new Promise((resolve) => {
-    bluetoothWriteStart(bluetoothSerial).then(() => setTimeout(resolve, 1000));
-  });
-  // ;
-  // bluetoothWrite(bluetoothSerial, '000000');
+  await new Promise((resolve, reject) =>
+    bluetoothWriteStart(bluetoothSerial)
+      .then(() => {
+        taskStatus.value = 'none';
+        showStatus(taskStatus);
+      })
+      .then(() => setTimeout(resolve, 1000))
+      .catch(reject)
+  ).catch((e) => $q.notify({ type: 'negative', message: e }));
+
   const codes = generator()
     .trimEnd()
     .split('\n')
     .map((code) => JSON.parse(code));
-  console.log('codes:', codes);
 
   for (var code of codes) {
-    console.log('execute code:', code, { ...robotState.value, ...code });
+    console.log('execute code:', code, { ...robotState.value, ...code }); //DEBUG
     robotState.value = { ...robotState.value, ...code };
-    console.log('current State', robotState.value);
 
     const { eyes, head, leftArm, rightArm, leftLeg, rightLeg } =
       robotState.value;
+
     bluetoothWrite(
       bluetoothSerial,
       eyes + head + leftArm + rightArm + leftLeg + rightLeg
-    );
+    ).catch((e) => $q.notify({ type: 'negative', message: e }));
+
     await new Promise((resolve) => setTimeout(resolve, 1000));
   }
 

@@ -60,7 +60,7 @@ declare module 'cordova-plugin-bluetooth-serial' {
       failure: FailureCallback
     ): void;
     subscribeRawData(success: DataCallback, failure: FailureCallback): void;
-    unsubscribe(success: SuccessCallback, failure: FailureCallback): void;
+    unsubscribe(success?: SuccessCallback, failure?: FailureCallback): void;
     unsubscribeRawData(
       success: SuccessCallback,
       failure: FailureCallback
