@@ -2,7 +2,7 @@
   <div>
     <q-btn
       class="glossy hitchcut"
-      size="lg"
+      :size="size"
       rounded
       :color="color"
       :text-color="textColor"
@@ -32,6 +32,10 @@ defineProps({
     type: String,
     default: 'blue',
   },
+  size: {
+    type: String,
+    default: 'lg'
+  }
 });
 </script>
 
