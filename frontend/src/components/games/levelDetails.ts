@@ -7,6 +7,7 @@ export interface Level {
   goalTitle: string;
   reward: number;
   toolbox: object;
+  gif: string;
   correctCode: Array<string>;
 }
 
