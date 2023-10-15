@@ -86,7 +86,7 @@
         "goalTitle": "Nothing left",
         "reward": 80,
         "toolbox": {},
-        "gif":"red",
+        "gif":"nothing-left.gif",
         "correctCode": []
       },
       {
