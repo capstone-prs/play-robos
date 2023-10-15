@@ -126,27 +126,38 @@ export const isCorrectMessage = (message: string) => {
 };
 
 export const bluetoothWrite = (btSerial: BluetoothSerial, message: string) =>
-  new Promise<void>((resolve, reject) => {
-    if (isCorrectMessage(message)) {
-      btSerial.write(
-        `<${message}>\n`,
-        () => resolve(),
-        (error) => reject(error)
-      );
-      resolve();
-    } else {
-      reject(`Not valid message: ${message}`);
-    }
-  });
+  new Promise<void>((resolve, reject) =>
+    isConnected(btSerial).then((connected) => {
+      if (connected) {
+        if (isCorrectMessage(message)) {
+          btSerial.write(
+            `<${message}>\n`,
+            () => resolve(),
+            (error) => reject(error)
+          );
+          resolve();
+        } else {
+          reject(`Not valid message: ${message}`);
+        }
+      } else {
+        reject('Bt Device Not Connected');
+      }
+    })
+  );
 
 export const bluetoothWriteStart = (btSerial: BluetoothSerial) =>
   new Promise<void>((resolve, reject) => {
-    btSerial.write(
-      '^\n',
-      () => resolve(),
-      (error) => reject(error)
-    );
-    resolve();
+    isConnected(btSerial).then((connected) => {
+      if (connected) {
+        btSerial.write(
+          '^\n',
+          () => resolve(),
+          (error) => reject(error)
+        );
+      } else {
+        reject('Bt Device Not Connected');
+      }
+    });
   });
 
 export const bluetoothWriteEnd = (btSerial: BluetoothSerial) =>
@@ -167,15 +178,31 @@ export const bluetoothRead = (btSerial: BluetoothSerial) =>
     );
   });
 
-export const btListenser = (btSerial: BluetoothSerial) => {
-  btSerial.subscribe(
-    '\n',
-    function (data) {
-      console.log(data, 'read');
-    },
-    function (data) {
-      console.log(data);
-    }
-  );
+export const onDisconnect = (
+  btSerial: BluetoothSerial,
+  onDisconnect: () => void
+) => {
+  const interval = setInterval(() => {
+    isConnected(btSerial).then((connected) => {
+      if (!connected) {
+        onDisconnect();
+        clearInterval(interval);
+      }
+    });
+  }, 1000);
 };
+
+export const btListenser = (
+  btSerial: BluetoothSerial,
+  onWrite: (data: string) => void,
+  onError: (error: string) => void
+) =>
+  isConnected(btSerial).then((connected) => {
+    if (connected) {
+      return btSerial.subscribe('\n', onWrite, onError);
+    }
+
+    throw new Error('Bt Device Not Connected');
+  });
+
 export default bluetoothConnectDevice;

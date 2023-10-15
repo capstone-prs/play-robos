@@ -69,7 +69,7 @@ void loop()
       {
         bluetooth.write("(202)\n"); // accepted
         started = true;
-
+        lastExecTime = millis();
         // indicator inProgress()
       }
     }
@@ -88,6 +88,8 @@ void loop()
     }
     else
     {
+      Serial.print("400");
+      Serial.println(message);
       bluetooth.write("(400)\n"); // bad request
       started = false;
       execState("000000");
