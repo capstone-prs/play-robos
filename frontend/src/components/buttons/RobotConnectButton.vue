@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-btn round style="padding: 0%" @click="bluetoothConnect">
-      <q-icon P name="img:/connect-btn.svg" size="50px" />
+      <q-icon P name="img:/connect-btn.svg" size="50px" data-testid="connect-btn"/>
     </q-btn>
   </div>
 </template>
