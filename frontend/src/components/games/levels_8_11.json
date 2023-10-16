@@ -27,7 +27,7 @@
         "goalTitle": "Stretch lightly",
         "reward": 100,
         "toolbox": {},
-        "gif":"raise-right-left-150.gif",
+        "gif":"stretch-lightly.gif",
         "correctCode": ["{ 'leftArm': '3' },{ 'rightArm': '3' }"]
       },
       {
