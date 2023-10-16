@@ -60,7 +60,7 @@
 
 <script setup lang="ts">
 import { useQuasar } from 'quasar';
-import { ref, onMounted, computed, Ref } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import * as Blockly from 'blockly';
 import './blocks/stocks';
 import './blocks/generator';
@@ -74,15 +74,13 @@ import { javascriptGenerator } from 'blockly/javascript';
 import UndoButton from '../buttons/UndoButton.vue';
 import { useRouter } from 'vue-router';
 import {
-  bluetoothWrite,
   bluetoothSerial,
-  bluetoothWriteStart,
-  bluetoothWriteEnd,
   onDisconnect,
   btListenser,
 } from 'src/utils/bluetoothUtils';
 import { TaskStatus } from 'src/types/Status';
 import MenuDialog from '../../components/MenuDialog.vue';
+import executeCodes from '../../utils/executeCodes';
 
 const $q = useQuasar();
 const route = useRouter().currentRoute;
@@ -100,10 +98,15 @@ const showMenuActivity = ref(false);
 const router = useRouter();
 
 const taskStatus = ref<TaskStatus>('none');
+const progress = ref($q.notify({ group: false }));
+
+const workspace = ref<Blockly.Workspace>();
+const blocklyContainer = ref<string | Element>('');
 
 router.beforeEach(() => {
-  taskStatus.value = 'exit';
-  bluetoothSerial.unsubscribe();
+  if (taskStatus.value === 'started') {
+    return false;
+  }
 });
 
 const checkProgram = () => {
@@ -121,43 +124,6 @@ const arrayOfGifs = [
 ];
 const gifForLevel = arrayOfGifs[levelNum];
 
-const showStatus = (status: Ref<TaskStatus>) =>
-  new Promise<void>((resolve) => {
-    const notif = $q.notify({
-      group: false, // required to be updatable
-      timeout: 0,
-      spinner: true,
-      position: 'bottom-right',
-      message: 'Uploading file...',
-    });
-
-    const interval = setInterval(() => {
-      if (status.value === 'success') {
-        notif({
-          type: 'positive',
-          spinner: false, // we reset the spinner setting so the icon can be displayed
-          message: 'Uploading done!',
-          timeout: 1000, // we will timeout it in 2.5s
-        });
-        clearInterval(interval);
-        resolve();
-      } else if (status.value === 'error') {
-        notif({
-          type: 'negative',
-          spinner: false, // we reset the spinner setting so the icon can be displayed
-          message: 'Upload Failed',
-          timeout: 1000, // we will timeout it in 2.5s
-        });
-        clearInterval(interval);
-        resolve();
-      } else if (status.value === 'exit') {
-        notif();
-        clearInterval(interval);
-        resolve();
-      }
-    }, 500);
-  });
-
 const openUploadDialog = () => {
   checkProgram();
   isDialogOpen.value = true;
@@ -167,11 +133,15 @@ const openMenuDialog = () => {
   showMenuActivity.value = true;
 };
 
-const workspace = ref<Blockly.Workspace>();
+const notifyError = (e: string) =>
+  $q.notify({
+    type: 'negative',
+    message: e,
+  });
+
 const generator = (): string => {
   if (workspace.value) {
     const value = javascriptGenerator.workspaceToCode(workspace.value);
-    console.log(value);
     return value;
   }
   throw new Error('Error at blocks generator');
@@ -187,8 +157,6 @@ const toolbox = computed(() => {
     ? Toolbox.toolbox_5_7[settingNum]
     : Toolbox.toolbox_8_11[settingNum];
 });
-
-const blocklyContainer = ref<string | Element>('');
 
 onMounted(() => {
   workspace.value = Blockly.inject(blocklyContainer.value, {
@@ -219,6 +187,9 @@ onMounted(() => {
 
   workspace.value.addChangeListener(generator);
 
+  progress.value();
+  taskStatus.value = 'none';
+
   btListenser(
     bluetoothSerial,
     (data: string) => {
@@ -227,74 +198,59 @@ onMounted(() => {
       } else if (data === '(400)\n') {
         taskStatus.value = 'error';
       }
-      console.log('reading', data, taskStatus.value, JSON.stringify(data));
     },
-    (e) =>
-      $q.notify({
-        type: 'negative',
-        message: e,
-      })
+    notifyError
   );
 
   onDisconnect(bluetoothSerial, () => {
     taskStatus.value = 'error';
-    $q.notify({
-      type: 'negative',
-      message: 'Bluetooth Device is Disconnected',
-    });
+    notifyError('Bluetooth Device is Disconnected');
   });
 });
 
-const robotState = ref({
-  eyes: '0',
-  head: '0',
-  leftArm: '0',
-  rightArm: '0',
-  leftLeg: '0',
-  rightLeg: '0',
-});
+const startProgressNotify = () => {
+  taskStatus.value = 'started';
+  progress.value();
+  progress.value = $q.notify({
+    group: false, // required to be updatable
+    timeout: 0,
+    spinner: true,
+    position: 'bottom-right',
+    message: 'Uploading file...',
+  });
+};
 
-const write = async () => {
-  robotState.value = {
-    eyes: '0',
-    head: '0',
-    leftArm: '0',
-    rightArm: '0',
-    leftLeg: '0',
-    rightLeg: '0',
-  };
-
-  await new Promise((resolve, reject) =>
-    bluetoothWriteStart(bluetoothSerial)
-      .then(() => {
-        taskStatus.value = 'none';
-        showStatus(taskStatus);
-      })
-      .then(() => setTimeout(resolve, 1000))
-      .catch(reject)
-  ).catch((e) => $q.notify({ type: 'negative', message: e }));
-
-  const codes = generator()
-    .trimEnd()
-    .split('\n')
-    .map((code) => JSON.parse(code));
-
-  for (var code of codes) {
-    console.log('execute code:', code, { ...robotState.value, ...code }); //DEBUG
-    robotState.value = { ...robotState.value, ...code };
-
-    const { eyes, head, leftArm, rightArm, leftLeg, rightLeg } =
-      robotState.value;
-
-    bluetoothWrite(
-      bluetoothSerial,
-      eyes + head + leftArm + rightArm + leftLeg + rightLeg
-    ).catch((e) => $q.notify({ type: 'negative', message: e }));
-
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+const endProgressNotify = () => {
+  if (taskStatus.value === 'success') {
+    progress.value({
+      type: 'positive',
+      spinner: false,
+      message: 'Uploading done!',
+      timeout: 1000,
+    });
+    taskStatus.value = 'none';
+  } else if (taskStatus.value === 'error' || taskStatus.value === 'started') {
+    progress.value({
+      type: 'negative',
+      spinner: false,
+      message: 'Upload Failed',
+      timeout: 1500,
+    });
+    taskStatus.value = 'none';
   }
+};
 
-  await bluetoothWriteEnd(bluetoothSerial);
+const write = () => {
+  executeCodes(
+    bluetoothSerial,
+    generator()
+      .trimEnd()
+      .split('\n')
+      .map((code) => JSON.parse(code)),
+    startProgressNotify,
+    endProgressNotify,
+    notifyError
+  );
 };
 </script>
 
@@ -324,3 +280,4 @@ const write = async () => {
   padding: 5px;
 }
 </style>
+../games/writeToRobot
