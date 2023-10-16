@@ -23,13 +23,17 @@
       <q-card-section>
         <div class="row">
           <q-icon name="img:/goal.svg" size="25px"> </q-icon>
-          <div class="play-dialog" style="font-size: 130%;">Goal: {{ goalTitle }}</div>
+          <div class="play-dialog" style="font-size: 130%">
+            Goal: {{ goalTitle }}
+          </div>
           <q-space />
           <q-icon name="img:/coin.svg" size="25px"> </q-icon>
-          <div class="play-dialog" style="font-size: 130%;">Reward: {{ reward }}</div>
+          <div class="play-dialog" style="font-size: 130%">
+            Reward: {{ reward }}
+          </div>
         </div>
       </q-card-section>
-      <q-card-section align="center" class="q-pt-none" >
+      <q-card-section align="center" class="q-pt-none">
         <action-button
           text-label="PLAY"
           @click="navigateToStudio(settingNum, levelNum, ageGroup)"
@@ -66,10 +70,6 @@ defineProps({
     type: Number,
     required: true,
   },
-  correctCode: {
-    type: Array<string>,
-    required: true,
-  },
 });
 
 const openPlayDialog = ref(false);
@@ -84,7 +84,7 @@ const navigateToStudio = (
   showLoading();
   return router.push({
     name: 'studio',
-    params: { param: levNum + ' ' + settNum + ' ' + ageGroup },
+    params: { param: levNum + '_' + settNum + '_' + ageGroup },
   });
 };
 

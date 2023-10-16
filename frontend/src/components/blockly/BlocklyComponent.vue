@@ -2,28 +2,28 @@
   <div class="workspace-container">
     <div class="overlay-container">
       <div class="row">
-        <div class="col-2 buttons" data-testid="help-btn">
-          <ActionButton text-label="U" data-testid="check-btn" @click="write" />
+        <div class="col-2 buttons" data-cy="help-btn">
+          <ActionButton text-label="U" data-cy="check-btn" @click="write" />
         </div>
-        <div class="col-2 buttons" data-testid="help-btn" align="left">
+        <div class="col-2 buttons" data-cy="help-btn" align="left">
           <UndoButton @click="undo" />
         </div>
         <div class="col-4 check">
           <ActionButton
             text-label="CHECK"
-            data-testid="check-btn"
+            data-cy="check-btn"
             @click="openUploadDialog"
           />
           <CheckDialog
             v-model="isDialogOpen"
-            data-testid="check-dialog"
+            data-cy="check-dialog"
             :correct="isProgramCorrect"
           />
         </div>
-        <div class="col-2 buttons" data-testid="help-btn">
+        <div class="col-2 buttons" data-cy="help-btn">
           <HelpButton />
         </div>
-        <div class="col-2 buttons" data-testid="menu-btn">
+        <div class="col-2 buttons" data-cy="menu-btn">
           <MenuButton @click="openMenuDialog" />
           <MenuDialog v-model="showMenuActivity" />
         </div>
@@ -31,18 +31,21 @@
       <div class="row">
         <div class="col">
           <q-btn-dropdown
-          class="futura"
-          size="16"
-          persistent
-          glossy
-          menu-self="top left"
-          style="position: absolute; right: 0%; top: 130%;" 
-          rounded color="primary">
+            class="futura"
+            size="16"
+            persistent
+            glossy
+            menu-self="top left"
+            style="position: absolute; right: 0%; top: 130%"
+            rounded
+            color="primary"
+          >
             <q-dialog seamless position="right" v-model="showDialog">
-              <q-card class="q-pa-sm" 
-              align="center"
-                 style="width: 100px">
-                <img :src="determineLevelsToDisplay[levelNum-1].gif" style="size: 20px" />
+              <q-card class="q-pa-sm" align="center" style="width: 100px">
+                <img
+                  :src="determineLevelsToDisplay[levelNum - 1].gif"
+                  style="size: 20px"
+                />
               </q-card>
             </q-dialog>
           </q-btn-dropdown>
@@ -53,7 +56,7 @@
     <div
       ref="blocklyContainer"
       class="blockly-container"
-      data-testid="blockly-container"
+      data-cy="blockly-container"
     ></div>
   </div>
 </template>
@@ -82,17 +85,18 @@ import { TaskStatus } from 'src/types/Status';
 import MenuDialog from '../../components/MenuDialog.vue';
 import * as Levels from '../../components/games/levelDetails';
 import executeCodes from '../../utils/executeCodes';
+import { settings_5_7 } from '../games/levels_5_7';
+import { settings_8_11 } from '../games/levels_8_11';
 
 const $q = useQuasar();
 const route = useRouter().currentRoute;
 const routeParam = route.value.params.param as string;
 const isDialogOpen = ref(false);
 const showDialog = ref(true);
-const splitParams = routeParam.split(' ');
+const splitParams = routeParam.split('_');
 const levelNum = parseInt(splitParams[1]); // to be use for check program
 const settingNum = parseInt(splitParams[0]);
 const ageGroup = splitParams[2];
-const correctCode = splitParams[1]; // to-fix: handle as object or sting to object?
 const isProgramCorrect = ref(false);
 const showMenuActivity = ref(false);
 
@@ -111,9 +115,7 @@ router.beforeEach(() => {
 });
 
 const checkProgram = () => {
-  correctCode === generator()
-    ? (isProgramCorrect.value = true)
-    : (isProgramCorrect.value = false);
+  // insert check program code
 };
 
 const openUploadDialog = () => {

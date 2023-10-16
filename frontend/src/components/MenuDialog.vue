@@ -2,7 +2,7 @@
   <q-dialog
     v-model="showDialog"
     style="background-color: transparent"
-    data-test-id="menu-dialog"
+    data-cy="menu-dialog"
   >
     <q-card>
       <q-card-section class="row items-center card-title" style="width: 400px">
@@ -14,11 +14,14 @@
           size="md"
           flat
           v-close-popup
-          data-test-id="close-btn"
+          data-cy="close-btn"
         />
       </q-card-section>
 
-      <q-card-section class="centered" v-if='router.currentRoute.value.path!=="/home"'>
+      <q-card-section
+        class="centered"
+        v-if="router.currentRoute.value.path !== '/home'"
+      >
         <q-btn
           @click="atHome"
           color="pink-12"
@@ -29,18 +32,15 @@
           <q-icon name="home" />
           Home
         </q-btn>
-      </q-card-section >
+      </q-card-section>
 
       <q-card-section class="q-pt-md centered">
         <ActionButton
           text-label="Logout"
           @click="openLogoutDialog"
-          data-test-id="logout-btn"
+          data-cy="logout-btn"
         />
-        <LogoutDialog
-          v-model="isLogoutDialogVisible"
-          data-test-id="logout-dialog"
-        />
+        <LogoutDialog v-model="isLogoutDialogVisible" data-cy="logout-dialog" />
       </q-card-section>
     </q-card>
   </q-dialog>
@@ -55,7 +55,7 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 defineProps({
   value: Boolean,
-  dataForHomepage: String
+  dataForHomepage: String,
 });
 
 const isLogoutDialogVisible = ref(false);

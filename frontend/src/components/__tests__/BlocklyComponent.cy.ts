@@ -6,64 +6,64 @@ describe('BlocklyComponent', () => {
   });
 
   it('renders the blockly workspace', () => {
-    cy.get('.blockly-container', { timeout: 1000 }).should('exist');
+    cy.dataCy('blockly-container', { timeout: 1000 }).should('exist');
   });
 
   it('should interact with help button', () => {
-    cy.get('[data-testid="help-btn"]').should('exist');
-    cy.get('[data-testid="help-btn"]').click();
+    cy.dataCy('help-btn').should('exist');
+    cy.dataCy('help-btn').click();
   });
 
   it('should interact with check button', () => {
-    cy.get('[data-testid="check-btn"]').should('exist');
-    cy.get('[data-testid="check-btn"]').click();
+    cy.dataCy('check-btn').should('exist');
+    cy.dataCy('check-btn').click();
   });
 
   it('should interact with menu button', () => {
-    cy.get('[data-testid="menu-btn"]').should('exist');
-    cy.get('[data-testid="menu-btn"]').click();
+    cy.dataCy('menu-btn').should('exist');
+    cy.dataCy('menu-btn').click();
   });
 
   it('opens a dialog when check button is clicked', () => {
-    cy.get('[data-testid="check-btn"]')
+    cy.dataCy('check-btn')
       .click()
       .then(() => {
-        cy.get('[data-testid="check-dialog"]').should('exist');
+        cy.dataCy('check-dialog').should('exist');
       });
   });
 
   it('closes the dialog when close button is clicked', () => {
-    cy.get('[data-testid="check-btn"]')
+    cy.dataCy('check-btn')
       .click()
       .then(() => {
-        cy.get('[data-testid="close-btn"]')
+        cy.dataCy('close-btn')
           .click()
           .then(() => {
-            cy.get('[data-testid="check-dialog"]').should('not.exist');
+            cy.dataCy('check-dialog').should('not.exist');
           });
       });
   });
 
   it('opens the upload dialog when the upload button from check dialog is clicked', () => {
-    cy.get('[data-testid="check-btn"]')
+    cy.dataCy('check-btn')
       .click()
       .then(() => {
-        cy.get('[data-testid="upload-btn"]')
+        cy.dataCy('upload-btn')
           .click()
           .then(() => {
-            cy.get('[data-testid="upload-dialog"]').should('exist');
+            cy.dataCy('upload-dialog').should('exist');
           });
       });
   });
 
   it('closes the upload dialog when the close button from upload dialog is clicked', () => {
-    cy.get('[data-testid="check-btn"]')
+    cy.dataCy('check-btn')
       .click()
       .then(() => {
-        cy.get('[data-testid="close-btn"]')
+        cy.dataCy('close-btn')
           .click()
           .then(() => {
-            cy.get('[data-testid="upload-dialog"]').should('not.exist');
+            cy.dataCy('upload-dialog').should('not.exist');
           });
       });
   });

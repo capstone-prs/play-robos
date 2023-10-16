@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="hHh lpR fFf" class="bg" data-test-id="homepage">
+  <q-layout view="hHh lpR fFf" class="bg" data-cy="homepage">
     <q-header class="transparent row q-pa-md">
       <div class="col-3">
         <div class="row float-left">
@@ -34,12 +34,12 @@
           <div class="col q-pr-sm">
             <MenuButton
               @open-dialog="openMenuDialog"
-              data-test-id="menu-btn"
+              data-cy="menu-btn"
               id="menu-btn"
             />
             <MenuDialog
               v-model="isMenuDialogVisible"
-              data-test-id="menu-dialog"
+              data-cy="menu-dialog"
               @update:data-for-homepage="updateData"
             />
           </div>
@@ -51,7 +51,7 @@
       <SettingComponent
         :key="dataForHomepage"
         :image-urls="getSettingsToDisplay"
-        data-test-id="setting-component"
+        data-cy="setting-component"
         :age-group="dataForHomepage"
       />
     </q-page-container>
@@ -86,9 +86,10 @@ import MenuButton from '../components/buttons/MenuButton.vue';
 import RobotConnectButton from '../components/buttons/RobotConnectButton.vue';
 import FindingDialog from '../components/FindingDialog.vue';
 import PairingDialog from '../components/pairingDialog.vue';
-import * as Levels from '../components/games/levelDetails';
 import AgeGroupButton from '../components/buttons/AgeGroupButton.vue';
 import AgeGroupDialog from '../components/AgeGroupDialog.vue';
+import { settings_5_7 } from '../components/games/levels_5_7';
+import { settings_8_11 } from '../components/games/levels_8_11';
 import { useQuasar } from 'quasar';
 import introJS from 'intro.js';
 import 'intro.js/introjs.css';
@@ -103,7 +104,7 @@ const isPairingDialog = ref(false);
 const dataForHomepage = ref($q.localStorage.getItem('age_group') as string);
 const intro = introJS();
 
-// introdoces a walkthrough on homepage launch
+// introduces a walkthrough on homepage launch
 onMounted(() => {
   startOnboarding();
 });
@@ -123,7 +124,7 @@ const startOnboarding = () => {
 const getSettingsToDisplay = computed(() => {
   const settingUrls: Array<string> = [];
   const settings =
-    dataForHomepage.value === '5-7' ? Levels.levels_5_7 : Levels.levels_8_11;
+    dataForHomepage.value === '5-7' ? settings_5_7 : settings_8_11;
 
   for (const setting in settings) {
     if (settings.hasOwnProperty(setting) && setting !== 'Levels') {

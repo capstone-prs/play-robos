@@ -20,7 +20,7 @@
           <ActionButton
             textLabel="Log In"
             @click="navigateToLogin"
-            data-testid="login-btn"
+            data-cy="login-btn"
           />
         </div>
         <div class="q-pa-md q-gutter-sm">
@@ -29,7 +29,7 @@
             color="pink-12"
             text-color="white"
             @click="navigateToSignup"
-            data-testid="signup-btn"
+            data-cy="signup-btn"
           />
         </div>
       </div>
@@ -45,18 +45,13 @@ import '../../css/style.css';
 
 const router = useRouter();
 
-
-
-      
-
 const navigateToLogin = () => {
-    soundEffect();
-    router.push('/login');
-  }
+  soundEffect();
+  router.push('/login');
+};
 
- const navigateToSignup =()=> {
-    soundEffect();
-      return router.push('/signup');
-    }
-
+const navigateToSignup = () => {
+  soundEffect();
+  return router.push('/signup');
+};
 </script>

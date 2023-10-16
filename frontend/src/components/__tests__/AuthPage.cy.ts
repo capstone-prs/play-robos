@@ -15,7 +15,7 @@ describe('Authentication Page', () => {
   });
 
   it('should render login and signup buttons', () => {
-    cy.get('[data-testid="login-btn"]').should('exist');
-    cy.get('[data-testid="signup-btn"]').should('exist');
+    cy.dataCy('login-btn').should('exist');
+    cy.dataCy('login-btn').should('exist');
   });
 });
