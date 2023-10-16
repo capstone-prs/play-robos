@@ -103,7 +103,7 @@ const isPairingDialog = ref(false);
 const dataForHomepage = ref($q.localStorage.getItem('age_group') as string);
 const intro = introJS();
 
-// introdoces a walkthrough on homepage launch
+// introduces a walkthrough on homepage launch
 onMounted(() => {
   startOnboarding();
 });

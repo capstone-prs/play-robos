@@ -18,7 +18,10 @@
         />
       </q-card-section>
 
-      <q-card-section class="centered" v-if='router.currentRoute.value.path!=="/home"'>
+      <q-card-section
+        class="centered"
+        v-if="router.currentRoute.value.path !== '/home'"
+      >
         <q-btn
           @click="atHome"
           color="pink-12"
@@ -29,7 +32,7 @@
           <q-icon name="home" />
           Home
         </q-btn>
-      </q-card-section >
+      </q-card-section>
 
       <q-card-section class="q-pt-md centered">
         <ActionButton
@@ -52,7 +55,7 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 defineProps({
   value: Boolean,
-  dataForHomepage: String
+  dataForHomepage: String,
 });
 
 const isLogoutDialogVisible = ref(false);

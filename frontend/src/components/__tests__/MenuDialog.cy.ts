@@ -3,9 +3,14 @@ import MenuDialog from '../MenuDialog.vue';
 describe('Menu dialog', () => {
   beforeEach(() => {
     cy.mount(MenuDialog, {
+      props: {
+        value: true,
+        dataForHomepage: '5-7',
+      },
       data() {
         return {
           showDialog: true,
+          isLogoutDialogVisible: false,
         };
       },
     });
@@ -15,7 +20,7 @@ describe('Menu dialog', () => {
     cy.dataCy('menu-dialog').should('exist');
   });
 
-  it('should close the menu dialog when close icon is clicked', () => {
+  it('should close the menu dialog when the close icon is clicked', () => {
     cy.dataCy('close-btn')
       .click()
       .then(() => {
@@ -23,7 +28,7 @@ describe('Menu dialog', () => {
       });
   });
 
-  it('should open the logout dialog when logout button is clicked', () => {
+  it('should open the logout dialog when the logout button is clicked', () => {
     cy.dataCy('logout-btn')
       .click()
       .then(() => {

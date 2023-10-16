@@ -2,7 +2,7 @@
   <q-dialog
     v-model="showDialog"
     style="background-color: transparent"
-    data-test-id="menu-dialog"
+    data-cy="age-group-dialog"
   >
     <q-card>
       <q-card-section class="row items-center card-title" style="width: 400px">
@@ -14,7 +14,7 @@
           size="md"
           flat
           v-close-popup
-          data-test-id="close-btn"
+          data-cy="close-btn"
         />
       </q-card-section>
 
