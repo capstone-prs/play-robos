@@ -17,7 +17,7 @@
         "goalTitle": "Blink your worries away",
         "reward": 100,
         "toolbox": {},
-        "gif":"blink-twice.gif",
+        "gif":"blink-your-worries-away",
         "correctCode": [
           "{ 'eyes': 'i' },{ 'eyes': '0' },{ 'eyes': 'i' },{ 'eyes': '0' },{ 'eyes': 'i' },{ 'eyes': '0' },{ 'eyes': 'i' }"
         ]
@@ -35,7 +35,7 @@
         "goalTitle": "Suspicious looks",
         "reward": 120,
         "toolbox": {},
-        "gif":"suspicous-look.gif",
+        "gif":"suspicious-looks.gif",
         "correctCode": [
           "{ 'head':'1' },{ 'eyes':'c' },{ 'head':'2' },{ 'eyes':'b' }"
         ]
@@ -109,7 +109,7 @@
         "goalTitle": "Explore the meadow",
         "reward": 150,
         "toolbox": {},
-        "gif":"red",
+        "gif":"explore-the-meadow-8-11.gif",
         "correctCode": []
       }
     ]
