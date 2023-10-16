@@ -101,20 +101,20 @@ const dataForHomepage = ref('8-11');
 
 const getSettingImage = computed(() => {
   return ageGroup === '5-7'
-    ? settings_5_7[settingNumber].SettingBg
-    : settings_8_11[settingNumber].SettingBg;
+    ? settings_5_7[settingNumber].settingBg
+    : settings_8_11[settingNumber].settingBg;
 });
 
 const getSettingName = computed(() => {
   return ageGroup === '5-7'
-    ? settings_5_7[settingNumber].SettingName
-    : settings_8_11[settingNumber].SettingName;
+    ? settings_5_7[settingNumber].settingName
+    : settings_8_11[settingNumber].settingName;
 });
 
 const determineLevelsToDisplay = computed(() => {
   return ageGroup === '5-7'
-    ? settings_5_7[settingNumber].Levels
-    : settings_8_11[settingNumber].Levels;
+    ? settings_5_7[settingNumber].levels
+    : settings_8_11[settingNumber].levels;
 });
 
 const updateData = (newData: string) => {
