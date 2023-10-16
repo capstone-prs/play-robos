@@ -5,6 +5,7 @@ import MusicButton from '../buttons/MusicButton.vue';
 import SoundButton from '../buttons/SoundButton.vue';
 import ToggleButton from '../buttons/ToggleButton.vue';
 import UndoButton from '../buttons/UndoButton.vue';
+import RobotConnectButton from '../buttons/RobotConnectButton.vue'
 
 describe('All Buttons with Icons', () => {
   it('renders the achievement button', () => {
@@ -40,5 +41,9 @@ describe('All Buttons with Icons', () => {
   it('renders the undo button', () => {
     cy.mount(UndoButton);
     cy.get('[data-testid="undo-btn"]').should('exist');
+  });
+  it('renders the undo butoon',()=>{
+    cy.mount(RobotConnectButton);
+    cy.get('[data-testid="connect-btn"]').should('exist');
   });
 });

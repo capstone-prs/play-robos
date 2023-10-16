@@ -32,8 +32,8 @@
         <div class="col">
           <q-btn-dropdown
             class="futura"
-            persistent
             size="16"
+            persistent
             glossy
             menu-self="top left"
             style="position: absolute; right: 0%; top: 130%"
@@ -42,7 +42,10 @@
           >
             <q-dialog seamless position="right" v-model="showDialog">
               <q-card class="q-pa-sm" align="center" style="width: 100px">
-                <img :src="gifForLevel" style="size: 20px" />
+                <img
+                  :src="determineLevelsToDisplay[levelNum - 1].gif"
+                  style="size: 20px"
+                />
               </q-card>
             </q-dialog>
           </q-btn-dropdown>
@@ -80,6 +83,7 @@ import {
 } from 'src/utils/bluetoothUtils';
 import { TaskStatus } from 'src/types/Status';
 import MenuDialog from '../../components/MenuDialog.vue';
+import * as Levels from '../../components/games/levelDetails';
 import executeCodes from '../../utils/executeCodes';
 import { settings_5_7 } from '../games/levels_5_7';
 import { settings_8_11 } from '../games/levels_8_11';
@@ -114,16 +118,6 @@ const checkProgram = () => {
   // insert check program code
 };
 
-const arrayOfGifs = [
-  '/look.svg',
-  '/prs-gif.gif',
-  '/close-open.gif',
-  '/wink-left-right.gif',
-  '/blink.gif',
-  '/head-left-right.gif',
-];
-const gifForLevel = arrayOfGifs[levelNum];
-
 const openUploadDialog = () => {
   checkProgram();
   isDialogOpen.value = true;
@@ -151,6 +145,12 @@ const undo = () => {
     workspace.value.undo(false);
   }
 };
+
+const determineLevelsToDisplay = computed(() => {
+  return ageGroup === '5-7'
+    ? Levels.levels_5_7[settingNum].Levels
+    : Levels.levels_8_11[settingNum].Levels;
+});
 
 const toolbox = computed(() => {
   return ageGroup === '5-7'
