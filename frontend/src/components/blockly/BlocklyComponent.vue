@@ -38,15 +38,6 @@
           menu-self="top left"
           style="position: absolute; right: 0%; top: 130%;" 
           rounded color="primary">
-            class="futura"
-            persistent
-            size="16"
-            glossy
-            menu-self="top left"
-            style="position: absolute; right: 0%; top: 130%"
-            rounded
-            color="primary"
-          >
             <q-dialog seamless position="right" v-model="showDialog">
               <q-card class="q-pa-sm" 
               align="center"
@@ -121,15 +112,6 @@ const checkProgram = () => {
     ? (isProgramCorrect.value = true)
     : (isProgramCorrect.value = false);
 };
-const arrayOfGifs = [
-  '/look.svg',
-  '/prs-gif.gif',
-  '/close-open.gif',
-  '/wink-left-right.gif',
-  '/blink.gif',
-  '/head-left-right.gif',
-];
-const gifForLevel = arrayOfGifs[levelNum];
 
 const showStatus = (status: Ref<TaskStatus>) =>
   new Promise<void>((resolve) => {
