@@ -129,7 +129,7 @@ const getSettingsToDisplay = computed(() => {
   for (const setting in settings) {
     if (settings.hasOwnProperty(setting) && setting !== 'Levels') {
       const theSetting = settings[setting];
-      settingUrls.push(theSetting.SettingImage);
+      settingUrls.push(theSetting.settingImage);
     }
   }
   return settingUrls;

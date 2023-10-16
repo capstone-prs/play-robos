@@ -147,8 +147,8 @@ const undo = () => {
 
 const determineLevelsToDisplay = computed(() => {
   return ageGroup === '5-7'
-    ? Levels.levels_5_7[settingNum].Levels
-    : Levels.levels_8_11[settingNum].Levels;
+    ? settings_5_7[settingNum].levels
+    : settings_5_7[settingNum].levels;
 });
 
 const toolbox = computed(() => {
