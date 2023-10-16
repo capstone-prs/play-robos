@@ -1,25 +1,11 @@
-import { GeneratorCode } from '../../types/robotParts';
+import { Setting } from '../../types/Levels';
 
-export interface Level {
-  levelNum: number;
-  goalTitle: string;
-  reward: number;
-  correctCode: Array<GeneratorCode>;
-}
-
-export interface Setting {
-  SettingName: string;
-  SettingImage: string;
-  SettingBg: string;
-  Levels: Array<Level>;
-}
-
-export const settings_5_7 = [
+export const settings_5_7: Setting[] = [
   {
-    SettingName: 'Lone Home',
-    SettingImage: '/lone-home-setting.svg',
-    SettingBg: '/bgs/lone-home.svg',
-    Levels: [
+    settingName: 'Lone Home',
+    settingImage: '/lone-home-setting.svg',
+    settingBg: '/bgs/lone-home.svg',
+    levels: [
       {
         levelNum: 1,
         goalTitle: 'Top of the morning!',
@@ -58,10 +44,10 @@ export const settings_5_7 = [
     ],
   },
   {
-    SettingName: 'Bright Day out',
-    SettingImage: '/day-out-setting.svg',
-    SettingBg: 'bgs/day-out.svg',
-    Levels: [
+    settingName: 'Bright Day out',
+    settingImage: '/day-out-setting.svg',
+    settingBg: 'bgs/day-out.svg',
+    levels: [
       {
         levelNum: 1,
         goalTitle: 'Too bright',
@@ -102,10 +88,10 @@ export const settings_5_7 = [
   },
 
   {
-    SettingName: 'Silent Meadow',
-    SettingImage: '/silent-meadow-setting.svg',
-    SettingBg: 'bgs/silent-meadow.svg',
-    Levels: [
+    settingName: 'Silent Meadow',
+    settingImage: '/silent-meadow-setting.svg',
+    settingBg: 'bgs/silent-meadow.svg',
+    levels: [
       {
         levelNum: 1,
         goalTitle: 'Explore the meadow',

@@ -83,7 +83,6 @@ import {
 } from 'src/utils/bluetoothUtils';
 import { TaskStatus } from 'src/types/Status';
 import MenuDialog from '../../components/MenuDialog.vue';
-import * as Levels from '../../components/games/levelDetails';
 import executeCodes from '../../utils/executeCodes';
 import { settings_5_7 } from '../games/levels_5_7';
 import { settings_8_11 } from '../games/levels_8_11';
