@@ -6,7 +6,7 @@
     data-cy="activities-page"
   >
     <q-header elevated class="bg-white row q-pa-sm">
-      <div class="col-3 ">
+      <div class="col-3">
         <div class="row float-left">
           <div class="col q-pl-sm">
             <HelpButton data-cy="help-btn" />
@@ -59,8 +59,6 @@
             :level-num="level.levelNum"
             :goal-title="level.goalTitle"
             :reward="level.reward"
-            :toolbox="level.toolbox"
-            :correct-code="level.correctCode"
           />
         </div>
       </div>
@@ -84,7 +82,8 @@ import MusicButton from '../components/buttons/MusicButton.vue';
 import MenuDialog from '../components/MenuDialog.vue';
 import MenuButton from '../components/buttons/MenuButton.vue';
 import ActivityComponent from '../components/games/ActivityComponent.vue';
-import * as Levels from '../components/games/levelDetails';
+import { settings_5_7 } from '../components/games/levels_5_7';
+import { settings_8_11 } from '../components/games/levels_8_11';
 import PreviousButton from '../components/buttons/PreviousButton.vue';
 
 const isMenuDialogVisible = ref(false);
@@ -102,20 +101,20 @@ const dataForHomepage = ref('8-11');
 
 const getSettingImage = computed(() => {
   return ageGroup === '5-7'
-    ? Levels.levels_5_7[settingNumber].SettingBg
-    : Levels.levels_8_11[settingNumber].SettingBg;
+    ? settings_5_7[settingNumber].SettingBg
+    : settings_8_11[settingNumber].SettingBg;
 });
 
 const getSettingName = computed(() => {
   return ageGroup === '5-7'
-    ? Levels.levels_5_7[settingNumber].SettingName
-    : Levels.levels_8_11[settingNumber].SettingName;
+    ? settings_5_7[settingNumber].SettingName
+    : settings_8_11[settingNumber].SettingName;
 });
 
 const determineLevelsToDisplay = computed(() => {
   return ageGroup === '5-7'
-    ? Levels.levels_5_7[settingNumber].Levels
-    : Levels.levels_8_11[settingNumber].Levels;
+    ? settings_5_7[settingNumber].Levels
+    : settings_8_11[settingNumber].Levels;
 });
 
 const updateData = (newData: string) => {

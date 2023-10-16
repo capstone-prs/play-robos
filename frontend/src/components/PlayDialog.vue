@@ -70,10 +70,6 @@ defineProps({
     type: Number,
     required: true,
   },
-  correctCode: {
-    type: Array<string>,
-    required: true,
-  },
 });
 
 const openPlayDialog = ref(false);

@@ -86,9 +86,10 @@ import MenuButton from '../components/buttons/MenuButton.vue';
 import RobotConnectButton from '../components/buttons/RobotConnectButton.vue';
 import FindingDialog from '../components/FindingDialog.vue';
 import PairingDialog from '../components/pairingDialog.vue';
-import * as Levels from '../components/games/levelDetails';
 import AgeGroupButton from '../components/buttons/AgeGroupButton.vue';
 import AgeGroupDialog from '../components/AgeGroupDialog.vue';
+import { settings_5_7 } from '../components/games/levels_5_7';
+import { settings_8_11 } from '../components/games/levels_8_11';
 import { useQuasar } from 'quasar';
 import introJS from 'intro.js';
 import 'intro.js/introjs.css';
@@ -123,7 +124,7 @@ const startOnboarding = () => {
 const getSettingsToDisplay = computed(() => {
   const settingUrls: Array<string> = [];
   const settings =
-    dataForHomepage.value === '5-7' ? Levels.levels_5_7 : Levels.levels_8_11;
+    dataForHomepage.value === '5-7' ? settings_5_7 : settings_8_11;
 
   for (const setting in settings) {
     if (settings.hasOwnProperty(setting) && setting !== 'Levels') {

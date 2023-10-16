@@ -81,6 +81,8 @@ import {
 import { TaskStatus } from 'src/types/Status';
 import MenuDialog from '../../components/MenuDialog.vue';
 import executeCodes from '../../utils/executeCodes';
+import { settings_5_7 } from '../games/levels_5_7';
+import { settings_8_11 } from '../games/levels_8_11';
 
 const $q = useQuasar();
 const route = useRouter().currentRoute;
@@ -91,7 +93,6 @@ const splitParams = routeParam.split('_');
 const levelNum = parseInt(splitParams[1]); // to be use for check program
 const settingNum = parseInt(splitParams[0]);
 const ageGroup = splitParams[2];
-const correctCode = splitParams[1]; // to-fix: handle as object or sting to object?
 const isProgramCorrect = ref(false);
 const showMenuActivity = ref(false);
 
@@ -110,10 +111,9 @@ router.beforeEach(() => {
 });
 
 const checkProgram = () => {
-  correctCode === generator()
-    ? (isProgramCorrect.value = true)
-    : (isProgramCorrect.value = false);
+  // insert check program code
 };
+
 const arrayOfGifs = [
   '/look.svg',
   '/prs-gif.gif',

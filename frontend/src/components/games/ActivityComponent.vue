@@ -36,7 +36,6 @@
       v-model="showPlayDialog"
       :goal-title="goalTitle"
       :reward="reward"
-      :correct-code="correctCode"
       data-cy="play-dialog"
     />
   </div>
@@ -65,14 +64,6 @@ defineProps({
   },
   reward: {
     type: Number,
-    required: true,
-  },
-  toolbox: {
-    type: Object,
-    required: true,
-  },
-  correctCode: {
-    type: Array<string>,
     required: true,
   },
 });
