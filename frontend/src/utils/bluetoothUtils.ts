@@ -193,8 +193,8 @@ export const onDisconnect = (
 };
 
 const btRemoveListener = (btSerial: BluetoothSerial) =>
-  new Promise((resolve, reject) => {
-    btSerial.unsubscribe(resolve, reject);
+  new Promise((resolve) => {
+    btSerial.unsubscribe(resolve, resolve);
   });
 
 export const btListenser = (
@@ -204,9 +204,9 @@ export const btListenser = (
 ) =>
   isConnected(btSerial).then((connected) => {
     if (connected) {
-      return btRemoveListener(btSerial).then(() =>
-        btSerial.subscribe('\n', onWrite, onError)
-      );
+      return btRemoveListener(btSerial).then(() => {
+        btSerial.subscribe('\n', onWrite, onError);
+      });
     }
 
     throw new Error('Bt Device Not Connected');
