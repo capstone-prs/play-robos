@@ -9,13 +9,16 @@
         "goalTitle": "Top of the morning!",
         "reward": 100,
         "toolbox": {},
+        "gif":"/look.svg",
         "correctCode": ["{ 'eyes': '0' }"]
+     
       },
       {
         "levelNum": 2,
         "goalTitle": "Blink your worries away",
         "reward": 80,
         "toolbox": {},
+        "gif":"/blink.gif",
         "correctCode": [
           "{ 'eyes': 'i' },{ 'eyes': '0' },{ 'eyes': 'i' },{ 'eyes': '0' }"
         ]
@@ -25,6 +28,7 @@
         "goalTitle": "Where are you?",
         "reward": 80,
         "toolbox": {},
+        "gif":"/where-are-you.gif",
         "correctCode": ["{ 'eyes': 'b' },{ 'eyes': 'c' }"]
       },
       {
@@ -32,6 +36,7 @@
         "goalTitle": "Do you hear anything?",
         "reward": 80,
         "toolbox": {},
+        "gif":"do-you-hear-anything.gif",
         "correctCode": ["{ 'eyes': 'e' },{ 'eyes': 'f' }"]
       },
       {
@@ -39,6 +44,7 @@
         "goalTitle": "Stretch lightly",
         "reward": 100,
         "toolbox": {},
+        "gif":"raise-right-left-150.gif",
         "correctCode": ["{ 'leftArm': '1' },{ 'rightArm': '1' }"]
       }
     ]
@@ -53,6 +59,7 @@
         "goalTitle": "Too bright",
         "reward": 100,
         "toolbox": {},
+        "gif":"bright-day-out.gif",
         "correctCode": [
           "{ 'eyes': 'i' },{ 'eyes': '0' },{ 'eyes': 'i' },{ 'eyes': '0' },{ 'eyes': 'i' }"
         ]
@@ -62,6 +69,7 @@
         "goalTitle": "Look for people",
         "reward": 80,
         "toolbox": {},
+        "gif":"look-around.gif",
         "correctCode": []
       },
       {
@@ -69,6 +77,7 @@
         "goalTitle": "Right away",
         "reward": 100,
         "toolbox": {},
+        "gif":"head-right.gif",
         "correctCode": []
       },
       {
@@ -76,6 +85,7 @@
         "goalTitle": "Can't left",
         "reward": 80,
         "toolbox": {},
+        "gif":"head-left.gif",
         "correctCode": []
       },
       {
@@ -83,6 +93,7 @@
         "goalTitle": "Heard something?",
         "reward": 100,
         "toolbox": {},
+        "gif":"heard-something.gif",
         "correctCode": []
       }
     ]
@@ -98,6 +109,7 @@
         "goalTitle": "Explore the meadow",
         "reward": 150,
         "toolbox": {},
+        "gif":"explore-the-meadow.gif",
         "correctCode": []
       }
     ]
