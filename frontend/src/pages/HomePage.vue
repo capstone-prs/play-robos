@@ -127,7 +127,7 @@ const getSettingsToDisplay = computed(() => {
     dataForHomepage.value === '5-7' ? settings_5_7 : settings_8_11;
 
   for (const setting in settings) {
-    if (settings.hasOwnProperty(setting) && setting !== 'Levels') {
+    if (settings.hasOwnProperty(setting)) {
       const theSetting = settings[setting];
       settingUrls.push(theSetting.settingImage);
     }
