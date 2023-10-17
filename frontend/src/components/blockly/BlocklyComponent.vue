@@ -67,7 +67,6 @@ import { ref, onMounted } from 'vue';
 import * as Blockly from 'blockly';
 import './blocks/stocks';
 import './blocks/generator';
-
 import * as Toolbox from './toolbox/typetoolbox';
 import MenuButton from '../buttons/MenuButton.vue';
 import HelpButton from '../buttons/HelpButton.vue';
@@ -204,31 +203,27 @@ onMounted(() => {
 });
 
 const startProgressNotify = () => {
+  startLoadingUpload();
   taskStatus.value = 'started';
-  progress.value();
-  progress.value = $q.notify({
-    group: false, // required to be updatable
-    timeout: 0,
-    spinner: true,
-    position: 'bottom-right',
-    message: 'Uploading file...',
-  });
 };
 
 const endProgressNotify = () => {
+  hideLoadingUpload();
+  $q.loading.hide();
   if (taskStatus.value === 'success') {
-    progress.value({
+    $q.notify({
       type: 'positive',
-      spinner: false,
+      position: 'bottom-right',
       message: 'Uploading done!',
       timeout: 1000,
     });
     taskStatus.value = 'none';
   } else if (taskStatus.value === 'error' || taskStatus.value === 'started') {
-    progress.value({
+    $q.notify({
       type: 'negative',
       spinner: false,
       message: 'Upload Failed',
+      position: 'bottom-right',
       timeout: 1500,
     });
     taskStatus.value = 'none';
@@ -247,6 +242,18 @@ const write = () => {
     notifyError
   );
 };
+
+const startLoadingUpload = () => {
+  $q.loading.show({
+    spinnerColor: 'white',
+    backgroundColor: 'black',
+    message: 'Executing',
+  });
+};
+
+const hideLoadingUpload = () => {
+  $q.loading.hide();
+};
 </script>
 
 <style>
@@ -264,7 +271,7 @@ const write = () => {
   position: absolute;
   z-index: 2;
   padding-top: 5px;
-  left: 53%;
+  left: 60%;
 }
 
 .buttons {
