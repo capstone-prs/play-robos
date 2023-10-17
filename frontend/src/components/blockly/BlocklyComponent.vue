@@ -158,6 +158,7 @@ onMounted(() => {
     // refer to typetoolbox.ts file
     toolbox: toolbox,
     trashcan: true,
+    scrollbars: true,
     grid: {
       spacing: 20,
       length: 3,
@@ -165,8 +166,8 @@ onMounted(() => {
     },
     zoom: {
       startScale: 1.0,
-      maxScale: 3,
-      minScale: 0.3,
+      maxScale: 2,
+      minScale: 3,
       scaleSpeed: 0.3,
     },
     theme: {
@@ -263,7 +264,7 @@ const write = () => {
   position: absolute;
   z-index: 2;
   padding-top: 5px;
-  left: 60%;
+  left: 53%;
 }
 
 .buttons {
