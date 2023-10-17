@@ -77,6 +77,8 @@ const setting1_5_8 = [
   'turn_head_right',
   'raise_left_arm_120',
   'raise_right_arm_120_',
+  'raise_left_arm_90_',
+  'raise_right_arm_90_',
 ];
 
 const setting2_5_8 = [
