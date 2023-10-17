@@ -124,8 +124,7 @@
                 lazyRules
                 aria-required
               >
-                <template v-slot:prepend> <q-icon name="lock" />
-                </template>
+                <template v-slot:prepend> <q-icon name="lock" /> </template>
               </q-input>
             </q-card-section>
           </div>
@@ -155,9 +154,9 @@ import { useRouter } from 'vue-router';
 import { addUser } from '../../firebase/firestore';
 import { Gender } from '../../types/Users';
 import validate from '../../utils/signUpUtils';
-import {soundEffect} from '../../utils/SoundUtils'
-import errorSnd from '../../assets/sounds/errorSnd.mp3'
-import back from '../../assets/sounds/back.mp3'
+import { soundEffect } from '../../utils/SoundUtils';
+import errorSnd from '../../assets/sounds/errorSnd.mp3';
+import back from '../../assets/sounds/back.mp3';
 const $q = useQuasar();
 const router = useRouter();
 
@@ -172,10 +171,10 @@ const triggerNotify = (type: string, message: string) => {
 const validateRePassword = (val: string) =>
   validate('REPASSWORD', data.password.model.value ?? '')(val);
 
-const navigateBack = () =>{
+const navigateBack = () => {
   soundEffect(back);
   router.go(-1);
-}
+};
 
 const isSubmitted = ref(false);
 const data = {
@@ -240,7 +239,7 @@ const submit = () => {
     isSubmitted.value = false;
     return triggerNotify('negative', 'SignIn Failed: Invalid credentials');
   }
- 
+
   isSubmitted.value = true;
 
   return signup(data.email.model.value, data.password.model.value)
@@ -252,9 +251,9 @@ const submit = () => {
       ) {
         return addUser(
           {
-            name: data.name.model.value,
-            gender: data.gender.model.value,
-            age: data.age.model.value,
+            user_name: data.name.model.value,
+            user_gender: data.gender.model.value,
+            user_age: data.age.model.value,
           },
           newUser.user.uid
         )

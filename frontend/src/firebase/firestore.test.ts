@@ -34,16 +34,16 @@ vi.mocked(doc).mockResolvedValueOnce({} as DocumentReference);
 describe('Firebase Functions', () => {
   it('should add a user', () => {
     const userData: NewUser = {
-      name: 'Juan',
-      age: 3,
-      gender: 'Male',
+      user_name: 'Juan',
+      user_age: 3,
+      user_gender: 'Male',
     };
-    const uid = 'user123';
+    const id = 'user123';
 
-    return addUser(userData, uid).then(() =>
+    return addUser(userData, id).then(() =>
       expect(setDoc).toHaveBeenCalledWith(expect.anything(), {
         ...userData,
-        UID: uid,
+        user_id: id,
       })
     );
   });

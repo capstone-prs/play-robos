@@ -2,14 +2,14 @@ import { getDoc, doc, setDoc } from 'firebase/firestore';
 import { db } from '../boot/firebase';
 import { NewUser } from '../types/Users';
 
-export const addUser = (data: NewUser, uid: string) =>
-  setDoc(doc(db, 'users', uid), {
+export const addUser = (data: NewUser, id: string) =>
+  setDoc(doc(db, 'users', id), {
     ...data,
-    UID: uid,
+    user_id: id,
   });
 
-export const getUser = (uid: string) =>
-  getDoc(doc(db, 'users', uid)).then((snap) => {
+export const getUser = (id: string) =>
+  getDoc(doc(db, 'users', id)).then((snap) => {
     if (snap.exists()) {
       return snap.data();
     } else {
