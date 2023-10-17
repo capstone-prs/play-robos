@@ -3,7 +3,7 @@
   display: flex;
   justify-content: center; /* Center horizontally */
   align-items: center; /* Center vertically */
-  height: 50vh; /* Adjust the container height as needed */
+  height: 37vh; /* Adjust the container height as needed */
 }
 @font-face {
   font-family: futura;

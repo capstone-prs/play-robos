@@ -31,7 +31,7 @@
                 <div class="q-mt-auto q-pt-xl">
                   <text class="futura" style="font-size: 20px">
                     <span style="color: #096cef">Turn On </span>
-                    <span style="color: #fe66c4">BlueTooth</span>
+                    <span style="color: #fe66c4">bluetooth</span>
                   </text>
                 </div>
               </q-carousel-slide>
@@ -50,8 +50,8 @@
                   <text class="futura" style="font-size: 20px">
                     <span style="color: #fe66c4">Put Password </span>
                     <span style="color: #096cef">1234</span>
-                    <span style="color: #fe66c4"> and </span>
-                    <span style="color: #096cef">click ok</span>  
+                    <span style="color: #fe66c4"> and click</span>
+                    <span style="color: #096cef"> ok</span>  
                   </text>
                 </div>
               </q-carousel-slide>
