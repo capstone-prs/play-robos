@@ -11,8 +11,7 @@
           glossy
           persistent
         >
-          <q-fab-action persistent flat style="padding: 0%">
-        
+          <q-fab-action  flat style="padding: 0%">
             <UndoButton @click="undo" />
             <ActionButton
               text-label="CHECK"
@@ -20,9 +19,13 @@
               @click="openUploadDialog"
             />
             <HelpButton />
-            <CheckDialog
+
+            <MenuButton @click="openMenuDialog" />
+            <MenuDialog v-model="showMenuActivity" />
+          </q-fab-action>
+        </q-fab>
+        <CheckDialog
             v-model="isDialogOpen"
-            data-cy="check-dialog"
             :correct="isDialogOpen && isCorrectCode()"
             :onCorrect="
               () => {
@@ -30,11 +33,6 @@
               }
             "
           />
-            <MenuButton @click="openMenuDialog" />
-            <MenuDialog v-model="showMenuActivity" />
-          </q-fab-action>
-        </q-fab>
-
       </div>
       <div class="row">
         <div class="col q-pt-sm" style="position: absolute ;left: 280%;">
@@ -113,12 +111,9 @@ const progress = ref($q.notify({ group: false }));
 const workspace = ref<Blockly.Workspace>();
 const blocklyContainer = ref<string | Element>('');
 
-const checkProgram = () => {
-  // insert check program code
-};
+
 
 const openUploadDialog = () => {
-  checkProgram();
   isDialogOpen.value = true;
 };
 
@@ -263,10 +258,9 @@ const write = () => {
 
 
 const isCorrectCode = () => {
-  const rawUserCodes: string[] = generator().trimEnd().split('\n');
 
-  if (rawUserCodes.length >= 1) {
-    const userCodes: GeneratorCode[] = rawUserCodes.map((code) =>
+  if (generator()!=='') {
+    const userCodes: GeneratorCode[] =  generator().trimEnd().split('\n').map((code) =>
       JSON.parse(code)
     );
     return isEqualCodes(correctCodes, userCodes);
