@@ -1,13 +1,6 @@
 <template>
   <div>
-    <q-carousel
-      swipeable
-      infinite
-      arrows
-      animated
-      v-model="slide"
-      class="transparent"
-    >
+    <q-carousel swipeable arrows animated v-model="slide" class="transparent">
       <q-carousel-slide
         v-for="(imageUrl, index) in props.imageUrls"
         :key="index"

@@ -1,7 +1,6 @@
 <template>
   <div class="workspace-container">
     <div class="overlay-container">
-
       <div class="row" style="position: relative; left: 360%">
         <q-fab
           v-model="extendBtn"
@@ -11,12 +10,12 @@
           glossy
           persistent
         >
-          <q-fab-action  flat style="padding: 0%">
+          <q-fab-action flat style="padding: 0%">
             <UndoButton @click="undo" />
             <ActionButton
               text-label="CHECK"
               data-cy="check-btn"
-              @click="openUploadDialog"
+              @click="openCheckDialog"
             />
             <HelpButton />
 
@@ -25,17 +24,18 @@
           </q-fab-action>
         </q-fab>
         <CheckDialog
-            v-model="isDialogOpen"
-            :correct="isDialogOpen && isCorrectCode()"
-            :onCorrect="
-              () => {
-                write();
-              }
-            "
-          />
+          v-model="isDialogOpen"
+          :correct="isDialogOpen && isCorrectCode()"
+          :onCorrect="
+            () => {
+              closeCheckDialog();
+              write();
+            }
+          "
+        />
       </div>
       <div class="row">
-        <div class="col q-pt-sm" style="position: absolute ;left: 280%;">
+        <div class="col q-pt-sm" style="position: absolute; left: 280%">
           <q-fab
             v-model="gifBtn"
             class="futura"
@@ -52,7 +52,6 @@
               </q-card>
             </q-fab-action>
           </q-fab>
-
         </div>
       </div>
     </div>
@@ -71,7 +70,6 @@ import { ref, onMounted } from 'vue';
 import * as Blockly from 'blockly';
 import './blocks/stocks';
 import './blocks/generator';
-
 import * as Toolbox from './toolbox/typetoolbox';
 import MenuButton from '../buttons/MenuButton.vue';
 import HelpButton from '../buttons/HelpButton.vue';
@@ -83,7 +81,7 @@ import { useRouter } from 'vue-router';
 import {
   bluetoothSerial,
   onDisconnect,
-  btListenser
+  btListenser,
 } from 'src/utils/bluetoothUtils';
 import isEqualCodes from 'src/utils/compareCode';
 import { TaskStatus } from 'src/types/Status';
@@ -111,10 +109,12 @@ const progress = ref($q.notify({ group: false }));
 const workspace = ref<Blockly.Workspace>();
 const blocklyContainer = ref<string | Element>('');
 
-
-
-const openUploadDialog = () => {
+const openCheckDialog = () => {
   isDialogOpen.value = true;
+};
+
+const closeCheckDialog = () => {
+  isDialogOpen.value = false;
 };
 
 const openMenuDialog = () => {
@@ -124,7 +124,7 @@ const openMenuDialog = () => {
 const notifyError = (e: string) =>
   $q.notify({
     type: 'negative',
-    message: e
+    message: e,
   });
 
 const generator = (): string => {
@@ -150,7 +150,7 @@ const toolbox =
     ? Toolbox.toolbox_5_7[settingNum]
     : Toolbox.toolbox_8_11[settingNum];
 
-const correctCodes = levels[levelNum].correctCode;
+const correctCodes = levels[levelNum - 1].correctCode;
 
 onMounted(() => {
   workspace.value = Blockly.inject(blocklyContainer.value, {
@@ -161,22 +161,22 @@ onMounted(() => {
     grid: {
       spacing: 20,
       length: 3,
-      colour: '#ccc'
+      colour: '#ccc',
     },
     zoom: {
       startScale: 1.0,
-      maxScale: 3,
-      minScale: 0.3,
-      scaleSpeed: 0.3
+      maxScale: 2,
+      minScale: 3,
+      scaleSpeed: 0.3,
     },
     theme: {
       name: 'custom',
       componentStyles: {
         workspaceBackgroundColour: '#FFFFFF',
         flyoutBackgroundColour: '#D0D0D0',
-        flyoutOpacity: 0.7
-      }
-    }
+        flyoutOpacity: 0.7,
+      },
+    },
   });
 
   workspace.value.addChangeListener(generator);
@@ -209,34 +209,28 @@ onMounted(() => {
 });
 
 const startProgressNotify = () => {
-
+  startLoadingUpload();
   taskStatus.value = 'started';
-  progress.value();
-  progress.value = $q.notify({
-    group: false, // required to be updatable
-    timeout: 0,
-    spinner: true,
-    position: 'bottom-right',
-    message: 'Uploading file...'
-  });
 };
 
 const endProgressNotify = () => {
+  hideLoadingUpload();
   $q.loading.hide();
   if (taskStatus.value === 'success') {
-    progress.value({
+    $q.notify({
       type: 'positive',
-      spinner: false,
+      position: 'bottom-right',
       message: 'Uploading done!',
-      timeout: 1000
+      timeout: 1000,
     });
     taskStatus.value = 'none';
   } else if (taskStatus.value === 'error' || taskStatus.value === 'started') {
-    progress.value({
+    $q.notify({
       type: 'negative',
       spinner: false,
       message: 'Upload Failed',
-      timeout: 1500
+      position: 'bottom-right',
+      timeout: 1500,
     });
     taskStatus.value = 'none';
   }
@@ -255,19 +249,28 @@ const write = () => {
   );
 };
 
+const startLoadingUpload = () => {
+  $q.loading.show({
+    spinnerColor: 'white',
+    backgroundColor: 'black',
+    message: 'Executing',
+  });
+};
 
+const hideLoadingUpload = () => {
+  $q.loading.hide();
+};
 
 const isCorrectCode = () => {
-
-  if (generator()!=='') {
-    const userCodes: GeneratorCode[] =  generator().trimEnd().split('\n').map((code) =>
-      JSON.parse(code)
-    );
+  if (generator() !== '') {
+    const userCodes: GeneratorCode[] = generator()
+      .trimEnd()
+      .split('\n')
+      .map((code) => JSON.parse(code));
     return isEqualCodes(correctCodes, userCodes);
   }
 
   return false;
-
 };
 </script>
 
@@ -288,6 +291,4 @@ const isCorrectCode = () => {
   padding-top: 5px;
   left: 60%;
 }
-
-
 </style>

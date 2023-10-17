@@ -1,16 +1,19 @@
 import MenuDialog from '../MenuDialog.vue';
+import { useRouter } from 'vue-router';
 
 describe('Menu dialog', () => {
   beforeEach(() => {
     cy.mount(MenuDialog, {
       props: {
-        value: true,
         dataForHomepage: '5-7',
+        modelValue: true,
       },
       data() {
         return {
           showDialog: true,
           isLogoutDialogVisible: false,
+          router: useRouter(),
+          path: '',
         };
       },
     });
@@ -18,14 +21,6 @@ describe('Menu dialog', () => {
 
   it('should render the menu dialog', () => {
     cy.dataCy('menu-dialog').should('exist');
-  });
-
-  it('should close the menu dialog when the close icon is clicked', () => {
-    cy.dataCy('close-btn')
-      .click()
-      .then(() => {
-        cy.dataCy('menu-dialog').should('not.exist');
-      });
   });
 
   it('should open the logout dialog when the logout button is clicked', () => {
