@@ -28,7 +28,7 @@ const options = [
 
 // initializes the default value of the selected option to null
 // this is to not conflict it when there is already a selected value from toggling
-const selectedOption = ref(null);
+const selectedOption = ref('');
 
 // defines the emit functions to-use
 const emit = defineEmits(['update:modelValue']);

@@ -95,6 +95,7 @@ import introJS from 'intro.js';
 import 'intro.js/introjs.css';
 import introConfig from '../onboarding/intro.json';
 import { Options } from 'intro.js/src/option';
+import { getUser, userID } from '../firebase/firestore';
 
 const $q = useQuasar();
 const isMenuDialogVisible = ref(false);
@@ -107,6 +108,19 @@ const intro = introJS();
 // introduces a walkthrough on homepage launch
 onMounted(() => {
   startOnboarding();
+
+  // to improve
+  if (sessionStorage.getItem('hasCompletedOnboarding') != 'true') {
+    getUser(userID()).then((user) => {
+      const age = user.user_age;
+      console.log(age);
+      if (age >= 5 && age <= 7) {
+        dataForHomepage.value = '5-7';
+      } else {
+        dataForHomepage.value = '8-11';
+      }
+    });
+  }
 });
 
 const startOnboarding = () => {
