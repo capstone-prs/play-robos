@@ -28,10 +28,6 @@
             <MenuDialog v-model="showMenuActivity" />
           </q-fab-action>
         </q-fab>
-        <!-- <div class="col-2 buttons q-pl-md" data-cy="menu-btn">
-          <MenuButton @click="openMenuDialog" />
-          <MenuDialog v-model="showMenuActivity" />
-        </div> -->
       </div>
       <div class="row">
         <div class="col q-pt-sm" style="position: absolute ;left: 280%;">
