@@ -112,7 +112,7 @@ export const settings_8_11: Setting[] = [
         levelNum: 5,
         goalTitle: 'Saw something',
         reward: 70,
-        correctCode: [{ head: '2' }, { leftArm: '3' }],
+        correctCode: [{ head: '2' }, { leftArm: '2' }],
         gif: 'saw-something.gif',
       },
     ],
