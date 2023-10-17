@@ -1,19 +1,31 @@
 <template>
   <div class="workspace-container">
     <div class="overlay-container">
-      <div class="row">
-        <div class="col-2 buttons" data-cy="help-btn" align="left">
-          <UndoButton @click="undo" />
-        </div>
-        <div class="col-4 check">
-          <ActionButton
-            text-label="CHECK"
-            data-cy="check-btn"
-            @click="openUploadDialog"
-          />
-          <CheckDialog
+
+      <div class="row" style="position: relative; left: 360%">
+        <q-fab
+          v-model="extendBtn"
+          color="amber"
+          icon="keyboard_arrow_left"
+          direction="left"
+          glossy
+          persistent
+        >
+          <q-fab-action  flat style="padding: 0%">
+            <UndoButton @click="undo" />
+            <ActionButton
+              text-label="CHECK"
+              data-cy="check-btn"
+              @click="openUploadDialog"
+            />
+            <HelpButton />
+
+            <MenuButton @click="openMenuDialog" />
+            <MenuDialog v-model="showMenuActivity" />
+          </q-fab-action>
+        </q-fab>
+        <CheckDialog
             v-model="isDialogOpen"
-            data-cy="check-dialog"
             :correct="isDialogOpen && isCorrectCode()"
             :onCorrect="
               () => {
@@ -21,33 +33,26 @@
               }
             "
           />
-        </div>
-        <div class="col-2 buttons" data-cy="help-btn">
-          <HelpButton />
-        </div>
-        <div class="col-2 buttons" data-cy="menu-btn">
-          <MenuButton @click="openMenuDialog" />
-          <MenuDialog v-model="showMenuActivity" />
-        </div>
       </div>
       <div class="row">
-        <div class="col">
-          <q-btn-dropdown
+        <div class="col q-pt-sm" style="position: absolute ;left: 280%;">
+          <q-fab
+            v-model="gifBtn"
             class="futura"
-            size="16"
-            persistent
+            color="purple"
+            icon="keyboard_arrow_down"
+            direction="down"
             glossy
-            menu-self="top left"
-            style="position: absolute; right: 0%; top: 130%"
-            rounded
-            color="primary"
+            persistent
+            label="GOAL"
           >
-            <q-dialog seamless position="right" v-model="showDialog">
+            <q-fab-action padding="0" flat>
               <q-card class="q-pa-sm" align="center" style="width: 100px">
                 <img :src="levels[levelNum - 1].gif" style="size: 20px" />
               </q-card>
-            </q-dialog>
-          </q-btn-dropdown>
+            </q-fab-action>
+          </q-fab>
+
         </div>
       </div>
     </div>
@@ -78,7 +83,7 @@ import { useRouter } from 'vue-router';
 import {
   bluetoothSerial,
   onDisconnect,
-  btListenser,
+  btListenser
 } from 'src/utils/bluetoothUtils';
 import isEqualCodes from 'src/utils/compareCode';
 import { TaskStatus } from 'src/types/Status';
@@ -92,26 +97,23 @@ const $q = useQuasar();
 const router = useRouter();
 const routeParam = router.currentRoute.value.params.param as string;
 const isDialogOpen = ref(false);
-const showDialog = ref(true);
 const splitParams = routeParam.split('_');
 const levelNum = parseInt(splitParams[1]); // to be use for check program
 const settingNum = parseInt(splitParams[0]);
 const ageGroup = splitParams[2];
 
 const showMenuActivity = ref(false);
-
+const extendBtn = ref(false);
+const gifBtn = ref(false);
 const taskStatus = ref<TaskStatus>('none');
 const progress = ref($q.notify({ group: false }));
 
 const workspace = ref<Blockly.Workspace>();
 const blocklyContainer = ref<string | Element>('');
 
-const checkProgram = () => {
-  // insert check program code
-};
+
 
 const openUploadDialog = () => {
-  checkProgram();
   isDialogOpen.value = true;
 };
 
@@ -122,7 +124,7 @@ const openMenuDialog = () => {
 const notifyError = (e: string) =>
   $q.notify({
     type: 'negative',
-    message: e,
+    message: e
   });
 
 const generator = (): string => {
@@ -155,25 +157,26 @@ onMounted(() => {
     // refer to typetoolbox.ts file
     toolbox: toolbox,
     trashcan: true,
+    scrollbars: true,
     grid: {
       spacing: 20,
       length: 3,
-      colour: '#ccc',
+      colour: '#ccc'
     },
     zoom: {
       startScale: 1.0,
       maxScale: 3,
       minScale: 0.3,
-      scaleSpeed: 0.3,
+      scaleSpeed: 0.3
     },
     theme: {
       name: 'custom',
       componentStyles: {
         workspaceBackgroundColour: '#FFFFFF',
         flyoutBackgroundColour: '#D0D0D0',
-        flyoutOpacity: 0.7,
-      },
-    },
+        flyoutOpacity: 0.7
+      }
+    }
   });
 
   workspace.value.addChangeListener(generator);
@@ -206,6 +209,7 @@ onMounted(() => {
 });
 
 const startProgressNotify = () => {
+
   taskStatus.value = 'started';
   progress.value();
   progress.value = $q.notify({
@@ -213,17 +217,18 @@ const startProgressNotify = () => {
     timeout: 0,
     spinner: true,
     position: 'bottom-right',
-    message: 'Uploading file...',
+    message: 'Uploading file...'
   });
 };
 
 const endProgressNotify = () => {
+  $q.loading.hide();
   if (taskStatus.value === 'success') {
     progress.value({
       type: 'positive',
       spinner: false,
       message: 'Uploading done!',
-      timeout: 1000,
+      timeout: 1000
     });
     taskStatus.value = 'none';
   } else if (taskStatus.value === 'error' || taskStatus.value === 'started') {
@@ -231,7 +236,7 @@ const endProgressNotify = () => {
       type: 'negative',
       spinner: false,
       message: 'Upload Failed',
-      timeout: 1500,
+      timeout: 1500
     });
     taskStatus.value = 'none';
   }
@@ -250,17 +255,19 @@ const write = () => {
   );
 };
 
-const isCorrectCode = () => {
-  const rawUserCodes: string[] = generator().trimEnd().split('\n');
 
-  if (rawUserCodes.length >= 1) {
-    const userCodes: GeneratorCode[] = rawUserCodes.map((code) =>
+
+const isCorrectCode = () => {
+
+  if (generator()!=='') {
+    const userCodes: GeneratorCode[] =  generator().trimEnd().split('\n').map((code) =>
       JSON.parse(code)
     );
     return isEqualCodes(correctCodes, userCodes);
   }
 
   return false;
+
 };
 </script>
 
@@ -282,11 +289,5 @@ const isCorrectCode = () => {
   left: 60%;
 }
 
-.buttons {
-  padding: 8px;
-}
 
-.check {
-  padding: 5px;
-}
 </style>
