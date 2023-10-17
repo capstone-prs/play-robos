@@ -5,6 +5,14 @@
   align-items: center; /* Center vertically */
   height: 50vh; /* Adjust the container height as needed */
 }
+@font-face {
+  font-family: futura;
+  src:url("../css/fonts/FuturaLT.woff")
+}
+@font-face {
+  font-family: hitchcut;
+  src:url("../css/fonts/Hitchcut-Regular.woff")
+}
 
 .centered-image {
   max-width: 80%; /* Ensure the image doesn't exceed its container */
@@ -17,7 +25,7 @@
   font-size: 70px; /* Adjust the font size as needed */
   color: #333; /* Adjust the text color */
   font-family: 'hitchcut';
-  src: url('/fonts/Hitchcut-Regular.woff');
+
   font-weight: bold;
   text-shadow: 4px 4px 2px rgba(15, 11, 11, 0.6); /*Add text shadow */
 }
@@ -40,7 +48,6 @@
   border: none;
   border-radius: 20px; /* Rounded button shape */
   font-family: hitchcut;
-  src: url('/fonts/Hitchcut-Regular.woff');
   font-size: 16px;
   color: #fff; /* White text color */
   cursor: pointer;
@@ -141,22 +148,16 @@
   padding: 0px 0px; /* Adjust padding as needed */
 }
 
-@font-face {
-  font-family: futura;
-  src: url('/fonts/FuturaLT.woff');
-}
 
 .q-field__messages {
   font-size: 15px; /* Adjust the font size as needed */
   color: #333; /* Adjust the text color */
   font-family: futura;
-  src: url('/fonts/FuturaLT.woff');
   color: rgb(220, 0, 0);
 }
 
 .errorPrompt {
   font-family: futura;
-  src: url('/fonts/FuturaLT.woff');
   margin: 20px 20px -36px 20px;
   /* Adjust the margin to control spacing around the text */
   text-align: center;

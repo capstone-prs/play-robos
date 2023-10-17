@@ -1,54 +1,56 @@
 <template>
   <div class="workspace-container">
     <div class="overlay-container">
-      <div class="row">
-        <div class="col-2 buttons" data-cy="help-btn">
-          <ActionButton text-label="U" data-cy="check-btn" @click="write" />
-        </div>
-        <div class="col-2 buttons" data-cy="help-btn" align="left">
-          <UndoButton @click="undo" />
-        </div>
-        <div class="col-4 check">
-          <ActionButton
-            text-label="CHECK"
-            data-cy="check-btn"
-            @click="openUploadDialog"
-          />
-          <CheckDialog
-            v-model="isDialogOpen"
-            data-cy="check-dialog"
-            :correct="isProgramCorrect"
-          />
-        </div>
-        <div class="col-2 buttons" data-cy="help-btn">
-          <HelpButton />
-        </div>
-        <div class="col-2 buttons" data-cy="menu-btn">
-          <MenuButton @click="openMenuDialog" />
-          <MenuDialog v-model="showMenuActivity" />
-        </div>
+      <div class="row" style="position: relative; left: 360%">
+        <q-fab
+          v-model="extendBtn"
+          color="amber"
+          icon="keyboard_arrow_left"
+          direction="left"
+          glossy
+          persistent
+        >
+          <q-fab-action flat style="padding: 0%">
+            <UndoButton @click="undo" />
+            <ActionButton
+              text-label="CHECK"
+              data-cy="check-btn"
+              @click="openUploadDialog"
+            />
+            <HelpButton />
+
+            <MenuButton @click="openMenuDialog" />
+            <MenuDialog v-model="showMenuActivity" />
+          </q-fab-action>
+        </q-fab>
+        <CheckDialog
+          v-model="isDialogOpen"
+          :correct="isDialogOpen && isCorrectCode()"
+          :onCorrect="
+            () => {
+              write();
+            }
+          "
+        />
       </div>
       <div class="row">
-        <div class="col">
-          <q-btn-dropdown
+        <div class="col q-pt-sm" style="position: absolute; left: 280%">
+          <q-fab
+            v-model="gifBtn"
             class="futura"
-            size="16"
-            persistent
+            color="purple"
+            icon="keyboard_arrow_down"
+            direction="down"
             glossy
-            menu-self="top left"
-            style="position: absolute; right: 0%; top: 130%"
-            rounded
-            color="primary"
+            persistent
+            label="GOAL"
           >
-            <q-dialog seamless position="right" v-model="showDialog">
+            <q-fab-action padding="0" flat>
               <q-card class="q-pa-sm" align="center" style="width: 100px">
-                <img
-                  :src="determineLevelGifsToDisplay[levelNum - 1].gif"
-                  style="size: 20px"
-                />
+                <img :src="levels[levelNum - 1].gif" style="size: 20px" />
               </q-card>
-            </q-dialog>
-          </q-btn-dropdown>
+            </q-fab-action>
+          </q-fab>
         </div>
       </div>
     </div>
@@ -80,42 +82,33 @@ import {
   onDisconnect,
   btListenser,
 } from 'src/utils/bluetoothUtils';
+import isEqualCodes from 'src/utils/compareCode';
 import { TaskStatus } from 'src/types/Status';
 import MenuDialog from '../../components/MenuDialog.vue';
 import executeCodes from '../../utils/executeCodes';
 import { settings_5_7 } from '../games/levels_5_7';
 import { settings_8_11 } from '../games/levels_8_11';
+import { GeneratorCode } from '../../types/robotParts';
 
 const $q = useQuasar();
 const router = useRouter();
 const routeParam = router.currentRoute.value.params.param as string;
 const isDialogOpen = ref(false);
-const showDialog = ref(true);
 const splitParams = routeParam.split('_');
 const levelNum = parseInt(splitParams[1]); // to be use for check program
 const settingNum = parseInt(splitParams[0]);
 const ageGroup = splitParams[2];
-const isProgramCorrect = ref(false);
-const showMenuActivity = ref(false);
 
+const showMenuActivity = ref(false);
+const extendBtn = ref(false);
+const gifBtn = ref(false);
 const taskStatus = ref<TaskStatus>('none');
 const progress = ref($q.notify({ group: false }));
 
 const workspace = ref<Blockly.Workspace>();
 const blocklyContainer = ref<string | Element>('');
 
-router.beforeEach(() => {
-  if (taskStatus.value === 'started') {
-    return false;
-  }
-});
-
-const checkProgram = () => {
-  // insert check program code
-};
-
 const openUploadDialog = () => {
-  checkProgram();
   isDialogOpen.value = true;
 };
 
@@ -142,7 +135,7 @@ const undo = () => {
   }
 };
 
-const determineLevelGifsToDisplay =
+const levels =
   ageGroup === '5-7'
     ? settings_5_7[settingNum].levels
     : settings_8_11[settingNum].levels;
@@ -151,6 +144,8 @@ const toolbox =
   ageGroup === '5-7'
     ? Toolbox.toolbox_5_7[settingNum]
     : Toolbox.toolbox_8_11[settingNum];
+
+const correctCodes = levels[levelNum - 1].correctCode;
 
 onMounted(() => {
   workspace.value = Blockly.inject(blocklyContainer.value, {
@@ -195,6 +190,12 @@ onMounted(() => {
     },
     notifyError
   );
+
+  router.beforeEach(() => {
+    if (taskStatus.value === 'started') {
+      return false;
+    }
+  });
 
   onDisconnect(bluetoothSerial, () => {
     taskStatus.value = 'error';
@@ -254,6 +255,18 @@ const startLoadingUpload = () => {
 const hideLoadingUpload = () => {
   $q.loading.hide();
 };
+
+const isCorrectCode = () => {
+  if (generator() !== '') {
+    const userCodes: GeneratorCode[] = generator()
+      .trimEnd()
+      .split('\n')
+      .map((code) => JSON.parse(code));
+    return isEqualCodes(correctCodes, userCodes);
+  }
+
+  return false;
+};
 </script>
 
 <style>
@@ -273,13 +286,4 @@ const hideLoadingUpload = () => {
   padding-top: 5px;
   left: 60%;
 }
-
-.buttons {
-  padding: 8px;
-}
-
-.check {
-  padding: 5px;
-}
 </style>
-../games/writeToRobot
