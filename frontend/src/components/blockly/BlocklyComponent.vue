@@ -15,7 +15,7 @@
             <ActionButton
               text-label="CHECK"
               data-cy="check-btn"
-              @click="openUploadDialog"
+              @click="openCheckDialog"
             />
             <HelpButton />
 
@@ -28,6 +28,7 @@
           :correct="isDialogOpen && isCorrectCode()"
           :onCorrect="
             () => {
+              closeCheckDialog();
               write();
             }
           "
@@ -108,8 +109,12 @@ const progress = ref($q.notify({ group: false }));
 const workspace = ref<Blockly.Workspace>();
 const blocklyContainer = ref<string | Element>('');
 
-const openUploadDialog = () => {
+const openCheckDialog = () => {
   isDialogOpen.value = true;
+};
+
+const closeCheckDialog = () => {
+  isDialogOpen.value = false;
 };
 
 const openMenuDialog = () => {
