@@ -3,7 +3,7 @@
     <div class="overlay-container">
       <div class="row" style="position: relative; left: 360%">
         <q-fab
-          v-model="fab1"
+          v-model="extendBtn"
           color="amber"
           icon="keyboard_arrow_left"
           direction="left"
@@ -32,7 +32,7 @@
       <div class="row">
         <div class="col q-pt-sm" style="position: absolute ;left: 280%;">
           <q-fab
-            v-model="fab2"
+            v-model="gifBtn"
             class="futura"
             color="purple"
             icon="keyboard_arrow_down"
@@ -99,8 +99,8 @@ const settingNum = parseInt(splitParams[0]);
 const ageGroup = splitParams[2];
 const isProgramCorrect = ref(false);
 const showMenuActivity = ref(false);
-const fab1 = ref(false);
-const fab2 = ref(false);
+const extendBtn = ref(false);
+const gifBtn = ref(false);
 const taskStatus = ref<TaskStatus>('none');
 const progress = ref($q.notify({ group: false }));
 
