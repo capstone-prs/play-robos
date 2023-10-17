@@ -1,27 +1,24 @@
 <template>
   <q-dialog
+    data-cy="menu-dialog"
     v-model="showDialog"
     style="background-color: transparent"
-    data-cy="menu-dialog"
   >
     <q-card>
       <q-card-section class="row items-center card-title" style="width: 400px">
         <div class="text-h4 futura">Menu</div>
         <q-space />
         <q-btn
+          data-cy="close-btn"
           icon="close"
           color="white"
           size="md"
           flat
           v-close-popup
-          data-cy="close-btn"
         />
       </q-card-section>
 
-      <q-card-section
-        class="centered"
-        v-if="router.currentRoute.value.path !== '/home'"
-      >
+      <q-card-section class="centered" v-if="path !== '/home'">
         <q-btn
           @click="atHome"
           color="pink-12"
@@ -53,6 +50,7 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
+const path = router.currentRoute.value.path;
 defineProps({
   value: Boolean,
   dataForHomepage: String,
