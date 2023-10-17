@@ -18,32 +18,36 @@ const setting1_5_7 = [
   'look_left',
   'look_up_left',
   'look_up_right',
+  'raise_left_arm_60_',
+  'raise_right_arm_60_',
 ];
 
 const setting2_5_7 = [
   'normal_look',
-  'look_up',
+  'close_eyes',
   'look_right',
   'look_left',
   'look_up_left',
   'look_up_right',
-  'wink_right',
-  'wink_left',
-  'semi_close',
-  'close_eyes',
+  'raise_left_arm_60_',
+  'raise_right_arm_60_',
+  'head_trun_left',
+  'turn_head_right',
 ];
 
 const setting3_5_7 = [
   'normal_look',
-  'look_up',
+  'close_eyes',
   'look_right',
   'look_left',
   'look_up_left',
   'look_up_right',
-  'wink_right',
-  'wink_left',
-  'semi_close',
-  'close_eyes',
+  'raise_left_arm_60_',
+  'raise_right_arm_60_',
+  'head_trun_left',
+  'turn_head_right',
+  'raise_left_arm_90_',
+  'raise_right_arm_90_',
 ];
 
 // export the toolbox of each setting. NOTE: To improve
@@ -69,32 +73,42 @@ const setting1_5_8 = [
   'look_left',
   'look_up_left',
   'look_up_right',
+  'raise_left_arm_120',
+  'raise_right_arm_120_',
+  'head_trun_left',
+  'turn_head_right',
 ];
 
 const setting2_5_8 = [
   'normal_look',
-  'look_up',
+  'close_eyes',
   'look_right',
   'look_left',
   'look_up_left',
   'look_up_right',
-  'wink_right',
-  'wink_left',
-  'semi_close',
-  'close_eyes',
+  'raise_left_arm_120',
+  'raise_right_arm_120_',
+  'head_trun_left',
+  'turn_head_right',
+  'raise_left_arm_90_',
+  'raise_right_arm_90_',
 ];
 
 const setting3_5_8 = [
   'normal_look',
-  'look_up',
+  'close_eyes',
   'look_right',
   'look_left',
   'look_up_left',
   'look_up_right',
-  'wink_right',
-  'wink_left',
-  'semi_close',
-  'close_eyes',
+  'raise_left_arm_120',
+  'raise_right_arm_120_',
+  'head_trun_left',
+  'turn_head_right',
+  'raise_left_arm_90_',
+  'raise_right_arm_90_',
+  'raise_right_arm_150_',
+  'raise_left_arm_150',
 ];
 
 // NOTE: To improve
