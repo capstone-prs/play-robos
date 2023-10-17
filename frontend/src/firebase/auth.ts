@@ -6,34 +6,32 @@ import {
   // User,
   // sendEmailVerification,
   sendPasswordResetEmail,
-  fetchSignInMethodsForEmail
+  fetchSignInMethodsForEmail,
 } from 'firebase/auth';
 
 const auth = getAuth();
 
 export const signup = (email: string, password: string) =>
-  createUserWithEmailAndPassword(auth, email, password)
-  // .then((userCredentials)=>{
-  //   const user:User = userCredentials.user;
-  //   return sendEmailVerification(user);
-  // })
+  createUserWithEmailAndPassword(auth, email, password);
+// .then((userCredentials)=>{
+//   const user:User = userCredentials.user;
+//   return sendEmailVerification(user);
+// })
 
 const login = (email: string, password: string) =>
   signInWithEmailAndPassword(auth, email, password);
 
 export const logout = () => signOut(auth);
 
-// export const verifyEmail = (user:User) => 
+// export const verifyEmail = (user:User) =>
 //   sendEmailVerification(user)
 
-export const resetPassword = (email:string) => 
-  fetchSignInMethodsForEmail(auth, email)
-  .then((validEmail)=>{
+export const resetPassword = (email: string) =>
+  fetchSignInMethodsForEmail(auth, email).then((validEmail) => {
     if (validEmail.length == 0) {
       throw new Error('Email not found. Please sign up.');
-    } 
-    sendPasswordResetEmail(auth,email);
-  })
-
+    }
+    sendPasswordResetEmail(auth, email);
+  });
 
 export default login;
