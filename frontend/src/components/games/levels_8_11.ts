@@ -33,7 +33,7 @@ export const settings_8_11: Setting[] = [
         goalTitle: 'Stretch lightly',
         reward: 100,
         gif: '/stretch-lightly.gif',
-        correctCode: [{ leftArm: '2' }, { rightArm: '2' }],
+        correctCode: [{ leftArm: '1' }, { rightArm: '1' }],
       },
       {
         levelNum: 4,
