@@ -43,7 +43,7 @@
             <q-dialog seamless position="right" v-model="showDialog">
               <q-card class="q-pa-sm" align="center" style="width: 100px">
                 <img
-                  :src="determineLevelsToDisplay[levelNum - 1].gif"
+                  :src="determineLevelGifsToDisplay[levelNum - 1].gif"
                   style="size: 20px"
                 />
               </q-card>
@@ -63,7 +63,7 @@
 
 <script setup lang="ts">
 import { useQuasar } from 'quasar';
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted } from 'vue';
 import * as Blockly from 'blockly';
 import './blocks/stocks';
 import './blocks/generator';
@@ -88,8 +88,8 @@ import { settings_5_7 } from '../games/levels_5_7';
 import { settings_8_11 } from '../games/levels_8_11';
 
 const $q = useQuasar();
-const route = useRouter().currentRoute;
-const routeParam = route.value.params.param as string;
+const router = useRouter();
+const routeParam = router.currentRoute.value.params.param as string;
 const isDialogOpen = ref(false);
 const showDialog = ref(true);
 const splitParams = routeParam.split('_');
@@ -98,8 +98,6 @@ const settingNum = parseInt(splitParams[0]);
 const ageGroup = splitParams[2];
 const isProgramCorrect = ref(false);
 const showMenuActivity = ref(false);
-
-const router = useRouter();
 
 const taskStatus = ref<TaskStatus>('none');
 const progress = ref($q.notify({ group: false }));
@@ -145,23 +143,20 @@ const undo = () => {
   }
 };
 
-const determineLevelsToDisplay = computed(() => {
-  return ageGroup === '5-7'
+const determineLevelGifsToDisplay =
+  ageGroup === '5-7'
     ? settings_5_7[settingNum].levels
     : settings_8_11[settingNum].levels;
-});
 
-const toolbox = computed(() => {
-  return ageGroup === '5-7'
+const toolbox =
+  ageGroup === '5-7'
     ? Toolbox.toolbox_5_7[settingNum]
     : Toolbox.toolbox_8_11[settingNum];
-});
 
 onMounted(() => {
   workspace.value = Blockly.inject(blocklyContainer.value, {
-    // refer to toolbox.js file, we can define more levels from there,
-    // future handling may be passing the level number as props to this component
-    toolbox: toolbox.value,
+    // refer to typetoolbox.ts file
+    toolbox: toolbox,
     trashcan: true,
     grid: {
       spacing: 20,
