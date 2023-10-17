@@ -1,6 +1,7 @@
 <template>
   <div class="workspace-container">
     <div class="overlay-container">
+
       <div class="row" style="position: relative; left: 360%">
         <q-fab
           v-model="extendBtn"
@@ -11,7 +12,7 @@
           persistent
         >
           <q-fab-action persistent flat style="padding: 0%">
-            <ActionButton text-label="U" data-cy="check-btn" @click="write" />
+        
             <UndoButton @click="undo" />
             <ActionButton
               text-label="CHECK"
@@ -20,14 +21,20 @@
             />
             <HelpButton />
             <CheckDialog
-              v-model="isDialogOpen"
-              data-cy="check-dialog"
-              :correct="isProgramCorrect"
-            />
+            v-model="isDialogOpen"
+            data-cy="check-dialog"
+            :correct="isDialogOpen && isCorrectCode()"
+            :onCorrect="
+              () => {
+                write();
+              }
+            "
+          />
             <MenuButton @click="openMenuDialog" />
             <MenuDialog v-model="showMenuActivity" />
           </q-fab-action>
         </q-fab>
+
       </div>
       <div class="row">
         <div class="col q-pt-sm" style="position: absolute ;left: 280%;">
@@ -43,10 +50,7 @@
           >
             <q-fab-action padding="0" flat>
               <q-card class="q-pa-sm" align="center" style="width: 100px">
-                <img
-                  :src="determineLevelGifsToDisplay[levelNum - 1].gif"
-                  style="size: 20px"
-                />
+                <img :src="levels[levelNum - 1].gif" style="size: 20px" />
               </q-card>
             </q-fab-action>
           </q-fab>
@@ -83,11 +87,13 @@ import {
   onDisconnect,
   btListenser
 } from 'src/utils/bluetoothUtils';
+import isEqualCodes from 'src/utils/compareCode';
 import { TaskStatus } from 'src/types/Status';
 import MenuDialog from '../../components/MenuDialog.vue';
 import executeCodes from '../../utils/executeCodes';
 import { settings_5_7 } from '../games/levels_5_7';
 import { settings_8_11 } from '../games/levels_8_11';
+import { GeneratorCode } from '../../types/robotParts';
 
 const $q = useQuasar();
 const router = useRouter();
@@ -97,7 +103,7 @@ const splitParams = routeParam.split('_');
 const levelNum = parseInt(splitParams[1]); // to be use for check program
 const settingNum = parseInt(splitParams[0]);
 const ageGroup = splitParams[2];
-const isProgramCorrect = ref(false);
+
 const showMenuActivity = ref(false);
 const extendBtn = ref(false);
 const gifBtn = ref(false);
@@ -106,12 +112,6 @@ const progress = ref($q.notify({ group: false }));
 
 const workspace = ref<Blockly.Workspace>();
 const blocklyContainer = ref<string | Element>('');
-
-router.beforeEach(() => {
-  if (taskStatus.value === 'started') {
-    return false;
-  }
-});
 
 const checkProgram = () => {
   // insert check program code
@@ -145,7 +145,7 @@ const undo = () => {
   }
 };
 
-const determineLevelGifsToDisplay =
+const levels =
   ageGroup === '5-7'
     ? settings_5_7[settingNum].levels
     : settings_8_11[settingNum].levels;
@@ -154,6 +154,8 @@ const toolbox =
   ageGroup === '5-7'
     ? Toolbox.toolbox_5_7[settingNum]
     : Toolbox.toolbox_8_11[settingNum];
+
+const correctCodes = levels[levelNum].correctCode;
 
 onMounted(() => {
   workspace.value = Blockly.inject(blocklyContainer.value, {
@@ -199,6 +201,12 @@ onMounted(() => {
     notifyError
   );
 
+  router.beforeEach(() => {
+    if (taskStatus.value === 'started') {
+      return false;
+    }
+  });
+
   onDisconnect(bluetoothSerial, () => {
     taskStatus.value = 'error';
     notifyError('Bluetooth Device is Disconnected');
@@ -206,7 +214,7 @@ onMounted(() => {
 });
 
 const startProgressNotify = () => {
-  showLoading();
+
   taskStatus.value = 'started';
   progress.value();
   progress.value = $q.notify({
@@ -252,12 +260,20 @@ const write = () => {
   );
 };
 
-const showLoading = () => {
-  $q.loading.show({
-    spinnerColor: 'white',
-    backgroundColor: 'black',
-    message: 'Preparing your studio'
-  });
+
+
+const isCorrectCode = () => {
+  const rawUserCodes: string[] = generator().trimEnd().split('\n');
+
+  if (rawUserCodes.length >= 1) {
+    const userCodes: GeneratorCode[] = rawUserCodes.map((code) =>
+      JSON.parse(code)
+    );
+    return isEqualCodes(correctCodes, userCodes);
+  }
+
+  return false;
+
 };
 </script>
 
