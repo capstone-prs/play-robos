@@ -10,7 +10,7 @@ export const settings_8_11: Setting[] = [
         levelNum: 1,
         goalTitle: 'Wake up Zappy!',
         reward: 100,
-        gif: '/look.svg',
+        gif: 'look.svg',
         correctCode: [{ eyes: '0' }],
       },
       {
@@ -112,8 +112,8 @@ export const settings_8_11: Setting[] = [
         levelNum: 5,
         goalTitle: 'Saw something',
         reward: 70,
-        gif: '',
         correctCode: [{ head: '2' }, { leftArm: '3' }],
+        gif: 'saw-something.gif',
       },
     ],
   },

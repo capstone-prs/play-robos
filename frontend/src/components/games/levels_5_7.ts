@@ -10,7 +10,7 @@ export const settings_5_7: Setting[] = [
         levelNum: 1,
         goalTitle: 'Top of the morning!',
         reward: 100,
-        gif: '/look.svg',
+        gif: 'look.svg',
         correctCode: [{ eyes: '0' }],
       },
       {
