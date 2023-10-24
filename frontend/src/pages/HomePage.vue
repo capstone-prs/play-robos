@@ -50,7 +50,8 @@
     <q-page-container class="fixed-center">
       <SettingComponent
         :key="dataForHomepage"
-        :image-urls="getSettingsToDisplay"
+        :image-urls="getSettingsToDisplay.settingIcons"
+        :setting-names="getSettingsToDisplay.settingNames"
         data-cy="setting-component"
         :age-group="dataForHomepage"
       />
@@ -136,6 +137,7 @@ const startOnboarding = () => {
 
 // makes the method a computed property to simplify access to the method
 const getSettingsToDisplay = computed(() => {
+  const settingTitles: Array<string> = [];
   const settingUrls: Array<string> = [];
   const settings =
     dataForHomepage.value === '5-7' ? settings_5_7 : settings_8_11;
@@ -144,9 +146,13 @@ const getSettingsToDisplay = computed(() => {
     if (settings.hasOwnProperty(setting)) {
       const theSetting = settings[setting];
       settingUrls.push(theSetting.settingImage);
+      settingTitles.push(theSetting.settingName);
     }
   }
-  return settingUrls;
+  return {
+    settingIcons: settingUrls,
+    settingNames: settingTitles,
+  };
 });
 
 watch(getSettingsToDisplay, () => {

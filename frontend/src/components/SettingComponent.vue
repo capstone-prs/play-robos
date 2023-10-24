@@ -13,6 +13,7 @@
         >
           <CardComponentVue
             :imageUrl="imageUrl"
+            :setting-name="$props.settingNames[index]"
             class="col-4"
             style="width: 600px"
           />
@@ -40,6 +41,7 @@ const router = useRouter();
 const props = defineProps<{
   imageUrls: Array<string>;
   ageGroup: string;
+  settingNames: Array<string>;
 }>();
 
 const showLoading = () => {
