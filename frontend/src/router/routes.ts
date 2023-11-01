@@ -28,6 +28,11 @@ const routes: RouteRecordRaw[] = [
     name: 'activity',
     component: () => import('../pages/ActivitiesPage.vue'),
   },
+  {
+    path: '/achievement',
+    name: 'achievement',
+    component: () => import('../pages/AchievementsPage.vue'),
+  },
 
   // Always leave this as last one,
   // but you can also remove it

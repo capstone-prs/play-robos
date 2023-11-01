@@ -8,7 +8,10 @@
           </div>
 
           <div class="col q-pl-sm">
-            <AchievementButton id="achievement-btn" />
+            <AchievementButton
+              id="achievement-btn"
+              @click="navigateToAchievements"
+            />
           </div>
           <div class="col q-pl-sm">
             <AgeGroupButton @click="openAgeGroupDialog" id="age-group-btn" />
@@ -97,6 +100,7 @@ import 'intro.js/introjs.css';
 import introConfig from '../onboarding/intro.json';
 import { Options } from 'intro.js/src/option';
 import { getUser, userID } from '../firebase/firestore';
+import { useRouter } from 'vue-router';
 
 const $q = useQuasar();
 const isMenuDialogVisible = ref(false);
@@ -105,6 +109,7 @@ const findingRobotDialog = ref(false);
 const isPairingDialog = ref(false);
 const dataForHomepage = ref($q.localStorage.getItem('age_group') as string);
 const intro = introJS();
+const router = useRouter();
 
 // introduces a walkthrough on homepage launch
 onMounted(() => {
@@ -170,6 +175,10 @@ const openAgeGroupDialog = () => {
 // gets value from toggle button
 const updateData = (newData: string) => {
   dataForHomepage.value = newData;
+};
+
+const navigateToAchievements = () => {
+  router.push('/achievement');
 };
 </script>
 
