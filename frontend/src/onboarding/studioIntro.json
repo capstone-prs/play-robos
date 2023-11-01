@@ -1,0 +1,30 @@
+{
+  "steps": [
+    {
+      "intro": "<div align='center'><img src='/onboarding/drag-block.svg' width='150px' ></div> <p align='center'>Drag the <b>normal look</b> block to the workspace</p>"
+    },
+    {
+      "intro": "<div align='center'><img src='/onboarding/check-btn.svg' width='150px'> </div> <p align='center'> Click the <b>CHECK</b> button</p>"
+    },
+    {
+      "intro": "<div align='center'><img src='/onboarding/upload-btn.svg' width='150px'> </div> <p align='center'> Click the <b>UPLOAD</b> button</p>"
+    },
+    {
+      "element": "#fab-btn",
+      "intro": "Click here for more actions",
+      "position": "bottom"
+    },
+    {
+      "element": "#goal-fab-btn",
+      "intro": "Click here to view the goal level",
+      "position": "bottom"
+    },
+    {
+      "intro": "<div align='center'><img src='/onboarding/deleting-block.svg' width='150px'></div> <p align='center'> Drag blocks to the trashcan to delete </p>"
+    },
+    {
+      "intro": "<div align='center'><img src='/onboarding/destruct-block.svg' width='150px'></div> <p align='center'> Destructure blocks by dragging on the lower stacks of blocks </p>"
+    }
+  ],
+  "exitOnOverlayClick": false
+}

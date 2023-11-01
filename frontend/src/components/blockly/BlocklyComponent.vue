@@ -1,8 +1,9 @@
 <template>
-  <div class="workspace-container">
+  <div class="workspace-container" id="blockly">
     <div class="overlay-container">
       <div class="row" style="position: relative; left: 360%">
         <q-fab
+          id="fab-btn"
           v-model="extendBtn"
           color="amber"
           icon="keyboard_arrow_left"
@@ -37,6 +38,7 @@
       <div class="row">
         <div class="col q-pt-sm" style="position: absolute; left: 280%">
           <q-fab
+            id="goal-fab-btn"
             v-model="gifBtn"
             class="futura"
             color="purple"
@@ -90,6 +92,8 @@ import executeCodes from '../../utils/executeCodes';
 import { settings_5_7 } from '../games/levels_5_7';
 import { settings_8_11 } from '../games/levels_8_11';
 import { GeneratorCode } from '../../types/robotParts';
+import { startOnboarding } from '../../onboarding/studioOnboarding';
+import 'intro.js/introjs.css';
 
 const $q = useQuasar();
 const router = useRouter();
@@ -153,6 +157,9 @@ const toolbox =
 const correctCodes = levels[levelNum - 1].correctCode;
 
 onMounted(() => {
+  if (settingNum == 0 && levelNum == 1) {
+    startOnboarding();
+  }
   workspace.value = Blockly.inject(blocklyContainer.value, {
     // refer to typetoolbox.ts file
     toolbox: toolbox,

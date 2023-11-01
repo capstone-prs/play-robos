@@ -34,6 +34,14 @@
       "element": "#robot-btn",
       "intro": "Click here to connect to the robot",
       "position": "bottom"
+    },
+    {
+      "element": "#enter-setting-btn",
+      "intro": "Click here to enter the current setting",
+      "position": "top"
+    },
+    {
+      "intro": "Now, connect to Zappy and select the first level to test!"
     }
   ],
   "exitOnOverlayClick": false

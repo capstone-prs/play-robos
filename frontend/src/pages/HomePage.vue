@@ -52,6 +52,7 @@
 
     <q-page-container class="fixed-center">
       <SettingComponent
+        id="setting"
         :key="dataForHomepage"
         :image-urls="getSettingsToDisplay.settingIcons"
         :setting-names="getSettingsToDisplay.settingNames"
@@ -137,6 +138,8 @@ const startOnboarding = () => {
     intro.setOptions(introConfig as Partial<Options>);
     intro.start();
     sessionStorage.setItem('hasCompletedOnboarding', 'true');
+  } else {
+    intro.addHints();
   }
 };
 
