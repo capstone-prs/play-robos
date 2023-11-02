@@ -231,6 +231,8 @@ const endProgressNotify = () => {
       timeout: 1000,
     });
     taskStatus.value = 'none';
+    // To-verify: when the execution is successful, it will unlock the next level
+    levels[levelNum].completed = true;
   } else if (taskStatus.value === 'error' || taskStatus.value === 'started') {
     $q.notify({
       type: 'negative',

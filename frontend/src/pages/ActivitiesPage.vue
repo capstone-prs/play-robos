@@ -55,6 +55,7 @@
           :key="level.levelNum"
         >
           <ActivityComponent
+            :completed="level.completed"
             :age-group="ageGroup"
             :setting-num="settingNumber"
             :level-num="level.levelNum"

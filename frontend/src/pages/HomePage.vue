@@ -138,8 +138,6 @@ const startOnboarding = () => {
     intro.setOptions(introConfig as Partial<Options>);
     intro.start();
     sessionStorage.setItem('hasCompletedOnboarding', 'true');
-  } else {
-    intro.addHints();
   }
 };
 

@@ -35,6 +35,7 @@
       </q-card-section>
       <q-card-section align="center" class="q-pt-none">
         <action-button
+          :is-disabled="completed ? false : true"
           text-label="PLAY"
           @click="navigateToStudio(settingNum, levelNum, ageGroup)"
         />
@@ -68,6 +69,10 @@ defineProps({
   },
   reward: {
     type: Number,
+    required: true,
+  },
+  completed: {
+    type: Boolean,
     required: true,
   },
 });

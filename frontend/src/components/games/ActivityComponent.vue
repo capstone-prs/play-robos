@@ -5,7 +5,7 @@
       class="my-card level-text q-ml-sm q-mr-sm q-mt-sm q-mb-sm"
       @click="openPlayDialog"
     >
-      <q-item class="title">
+      <q-item class="title" :class="activityStyle">
         <q-item-section>
           <q-item-label data-cy="level-label"
             >Level: {{ levelNum }}
@@ -36,16 +36,17 @@
       v-model="showPlayDialog"
       :goal-title="goalTitle"
       :reward="reward"
+      :completed="completed"
       data-cy="play-dialog"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import PlayDialog from '../PlayDialog.vue';
 
-defineProps({
+const props = defineProps({
   ageGroup: {
     type: String,
     required: true,
@@ -66,12 +67,23 @@ defineProps({
     type: Number,
     required: true,
   },
+  completed: {
+    type: Boolean,
+    required: true,
+  },
 });
 
 const showPlayDialog = ref(false);
 const openPlayDialog = () => {
   showPlayDialog.value = true;
 };
+
+const activityStyle = computed(() => {
+  return {
+    'bg-green-2': props.completed,
+    'bg-grey-3': !props.completed,
+  };
+});
 </script>
 
 <style>
@@ -85,7 +97,6 @@ const openPlayDialog = () => {
 }
 
 .title {
-  background-color: rgb(232, 255, 230);
   max-height: 80%;
 }
 

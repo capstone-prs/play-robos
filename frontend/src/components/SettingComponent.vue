@@ -43,7 +43,7 @@ import settingConfig from '../onboarding/intro.json';
 import { Options } from 'intro.js/src/option';
 
 const $q = useQuasar();
-const slide = ref(1);
+const slide = ref(0);
 const router = useRouter();
 const intro = introJS();
 
