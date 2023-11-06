@@ -37,7 +37,9 @@
         <action-button
           :is-disabled="completed ? false : true"
           text-label="PLAY"
-          @click="navigateToStudio(settingNum, levelNum, ageGroup)"
+          @click="
+            completed ? '' : navigateToStudio(settingNum, levelNum, ageGroup)
+          "
         />
       </q-card-section>
     </q-card>
