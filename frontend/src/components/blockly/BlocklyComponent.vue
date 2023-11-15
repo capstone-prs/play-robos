@@ -118,12 +118,12 @@ import * as Blockly from 'blockly';
 import './blocks/stocks';
 import './blocks/generator';
 import * as Toolbox from './toolbox/typetoolbox';
-import MenuButton from '../buttons/MenuButton.vue';
-import HelpButton from '../buttons/HelpButton.vue';
-import ActionButton from '../buttons/ActionButton.vue';
+// import MenuButton from '../buttons/MenuButton.vue';
+// import HelpButton from '../buttons/HelpButton.vue';
+// import ActionButton from '../buttons/ActionButton.vue';
 import CheckDialog from '../CheckDialog.vue';
 import { javascriptGenerator } from 'blockly/javascript';
-import UndoButton from '../buttons/UndoButton.vue';
+// import UndoButton from '../buttons/UndoButton.vue';
 import { useRouter } from 'vue-router';
 import {
   bluetoothSerial,
@@ -150,7 +150,7 @@ const settingNum = parseInt(splitParams[0]);
 const ageGroup = splitParams[2];
 
 const showMenuActivity = ref(false);
-const extendBtn = ref(false);
+// const extendBtn = ref(false);
 const gifBtn = ref(false);
 const taskStatus = ref<TaskStatus>('none');
 const progress = ref($q.notify({ group: false }));
