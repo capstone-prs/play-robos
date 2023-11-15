@@ -38,7 +38,7 @@
           :is-disabled="completed ? false : true"
           text-label="PLAY"
           @click="
-            completed ? '' : navigateToStudio(settingNum, levelNum, ageGroup)
+            !completed ? '' : navigateToStudio(settingNum, levelNum, ageGroup)
           "
         />
       </q-card-section>
