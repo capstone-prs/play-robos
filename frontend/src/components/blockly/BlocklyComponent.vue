@@ -57,7 +57,7 @@
         </div>
         <div
           class="col q-pt-sm"
-          style="position: absolute; top: 780%; right: 450%"
+          style="position: absolute; top: 760%; right: 450%"
         >
           <q-btn-group rounded>
             <q-btn
