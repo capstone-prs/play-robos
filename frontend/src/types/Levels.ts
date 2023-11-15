@@ -6,6 +6,7 @@ export interface Level {
   reward: number;
   gif: string;
   correctCode: Array<GeneratorCode>;
+  completed: boolean;
 }
 
 export interface Setting {

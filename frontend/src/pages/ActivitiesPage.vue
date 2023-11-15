@@ -20,6 +20,7 @@
       <div class="col level-board" align="center">
         <div class="setting-level-text">
           <!-- to change settings name -->
+          <q-icon color="red-7" name="place" size="xl" />
           <span style="color: rgb(244, 240, 0)"> {{ getSettingName }}</span>
         </div>
       </div>
@@ -54,6 +55,7 @@
           :key="level.levelNum"
         >
           <ActivityComponent
+            :completed="level.completed"
             :age-group="ageGroup"
             :setting-num="settingNumber"
             :level-num="level.levelNum"

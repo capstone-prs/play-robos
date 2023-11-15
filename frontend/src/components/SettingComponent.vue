@@ -13,13 +13,18 @@
         >
           <CardComponentVue
             :imageUrl="imageUrl"
+            :setting-name="$props.settingNames[index]"
             class="col-4"
             style="width: 600px"
           />
         </div>
 
         <q-card-actions class="q-mt-md" align="center">
-          <ActionButtonVue text-label="Enter" @click="navigateToActivities" />
+          <ActionButtonVue
+            id="enter-setting-btn"
+            text-label="Enter"
+            @click="navigateToActivities"
+          />
         </q-card-actions>
       </q-carousel-slide>
     </q-carousel>
@@ -30,16 +35,33 @@
 import CardComponentVue from './CardComponent.vue';
 import ActionButtonVue from './buttons/ActionButton.vue';
 import { useRouter } from 'vue-router';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useQuasar } from 'quasar';
+import introJS from 'intro.js';
+import 'intro.js/introjs.css';
+import settingConfig from '../onboarding/intro.json';
+import { Options } from 'intro.js/src/option';
 
 const $q = useQuasar();
-const slide = ref(1);
+const slide = ref(0);
 const router = useRouter();
+const intro = introJS();
+
+const startOnboarding = () => {
+  intro.setOptions(settingConfig as Partial<Options>);
+  intro.goToStep(8);
+};
+
+onMounted(() => {
+  if (sessionStorage.getItem('hasCompletedOnboarding') == 'true') {
+    startOnboarding();
+  }
+});
 
 const props = defineProps<{
   imageUrls: Array<string>;
   ageGroup: string;
+  settingNames: Array<string>;
 }>();
 
 const showLoading = () => {

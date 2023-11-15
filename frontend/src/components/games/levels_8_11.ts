@@ -12,6 +12,7 @@ export const settings_8_11: Setting[] = [
         reward: 100,
         gif: 'look.svg',
         correctCode: [{ eyes: '0' }],
+        completed: true,
       },
       {
         levelNum: 2,
@@ -27,6 +28,7 @@ export const settings_8_11: Setting[] = [
           { eyes: '0' },
           { eyes: 'i' },
         ],
+        completed: false,
       },
       {
         levelNum: 3,
@@ -34,6 +36,7 @@ export const settings_8_11: Setting[] = [
         reward: 100,
         gif: '/stretch-lightly.gif',
         correctCode: [{ leftArm: '1' }, { rightArm: '1' }],
+        completed: false,
       },
       {
         levelNum: 4,
@@ -46,6 +49,7 @@ export const settings_8_11: Setting[] = [
           { head: '2' },
           { eyes: 'b' },
         ],
+        completed: false,
       },
       {
         levelNum: 5,
@@ -53,6 +57,7 @@ export const settings_8_11: Setting[] = [
         reward: 80,
         gif: 'arms-forward-raise.gif',
         correctCode: [{ leftArm: '3' }, { rightArm: '3' }],
+        completed: false,
       },
     ],
   },
@@ -74,6 +79,7 @@ export const settings_8_11: Setting[] = [
           { eyes: '0' },
           { eyes: 'i' },
         ],
+        completed: false,
       },
       {
         levelNum: 2,
@@ -81,6 +87,7 @@ export const settings_8_11: Setting[] = [
         reward: 80,
         gif: '/stretch-hard.gif',
         correctCode: [{ eyes: 'i' }, { leftArm: '3' }, { rightArm: '3' }],
+        completed: false,
       },
       {
         levelNum: 3,
@@ -94,6 +101,7 @@ export const settings_8_11: Setting[] = [
           { eyes: '0' },
           { eyes: 'i' },
         ],
+        completed: false,
       },
       {
         levelNum: 4,
@@ -107,13 +115,15 @@ export const settings_8_11: Setting[] = [
           { eyes: 'b' },
           { eyes: 'e' },
         ],
+        completed: false,
       },
       {
         levelNum: 5,
         goalTitle: 'Saw something',
         reward: 70,
-        correctCode: [{ head: '2' }, { leftArm: '2' }],
         gif: 'saw-something.gif',
+        correctCode: [{ head: '2' }, { leftArm: '2' }],
+        completed: false,
       },
     ],
   },
@@ -136,6 +146,7 @@ export const settings_8_11: Setting[] = [
           { eyes: '0' },
           { eyes: 'i' },
         ],
+        completed: false,
       },
     ],
   },

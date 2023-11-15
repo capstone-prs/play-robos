@@ -8,7 +8,10 @@
           </div>
 
           <div class="col q-pl-sm">
-            <AchievementButton id="achievement-btn" />
+            <AchievementButton
+              id="achievement-btn"
+              @click="navigateToAchievements"
+            />
           </div>
           <div class="col q-pl-sm">
             <AgeGroupButton @click="openAgeGroupDialog" id="age-group-btn" />
@@ -49,8 +52,10 @@
 
     <q-page-container class="fixed-center">
       <SettingComponent
+        id="setting"
         :key="dataForHomepage"
-        :image-urls="getSettingsToDisplay"
+        :image-urls="getSettingsToDisplay.settingIcons"
+        :setting-names="getSettingsToDisplay.settingNames"
         data-cy="setting-component"
         :age-group="dataForHomepage"
       />
@@ -96,6 +101,7 @@ import 'intro.js/introjs.css';
 import introConfig from '../onboarding/intro.json';
 import { Options } from 'intro.js/src/option';
 import { getUser, userID } from '../firebase/firestore';
+import { useRouter } from 'vue-router';
 
 const $q = useQuasar();
 const isMenuDialogVisible = ref(false);
@@ -104,6 +110,7 @@ const findingRobotDialog = ref(false);
 const isPairingDialog = ref(false);
 const dataForHomepage = ref($q.localStorage.getItem('age_group') as string);
 const intro = introJS();
+const router = useRouter();
 
 // introduces a walkthrough on homepage launch
 onMounted(() => {
@@ -136,6 +143,7 @@ const startOnboarding = () => {
 
 // makes the method a computed property to simplify access to the method
 const getSettingsToDisplay = computed(() => {
+  const settingTitles: Array<string> = [];
   const settingUrls: Array<string> = [];
   const settings =
     dataForHomepage.value === '5-7' ? settings_5_7 : settings_8_11;
@@ -144,9 +152,13 @@ const getSettingsToDisplay = computed(() => {
     if (settings.hasOwnProperty(setting)) {
       const theSetting = settings[setting];
       settingUrls.push(theSetting.settingImage);
+      settingTitles.push(theSetting.settingName);
     }
   }
-  return settingUrls;
+  return {
+    settingIcons: settingUrls,
+    settingNames: settingTitles,
+  };
 });
 
 watch(getSettingsToDisplay, () => {
@@ -164,6 +176,10 @@ const openAgeGroupDialog = () => {
 // gets value from toggle button
 const updateData = (newData: string) => {
   dataForHomepage.value = newData;
+};
+
+const navigateToAchievements = () => {
+  router.push('/achievement');
 };
 </script>
 

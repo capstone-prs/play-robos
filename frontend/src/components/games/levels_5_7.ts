@@ -12,6 +12,7 @@ export const settings_5_7: Setting[] = [
         reward: 100,
         gif: 'look.svg',
         correctCode: [{ eyes: '0' }],
+        completed: true,
       },
       {
         levelNum: 2,
@@ -24,6 +25,7 @@ export const settings_5_7: Setting[] = [
           { eyes: 'i' },
           { eyes: '0' },
         ],
+        completed: false,
       },
       {
         levelNum: 3,
@@ -31,6 +33,7 @@ export const settings_5_7: Setting[] = [
         reward: 80,
         gif: '/where-are-you.gif',
         correctCode: [{ eyes: 'b' }, { eyes: 'c' }],
+        completed: false,
       },
       {
         levelNum: 4,
@@ -38,6 +41,7 @@ export const settings_5_7: Setting[] = [
         reward: 80,
         gif: '/do-you-hear-anything.gif',
         correctCode: [{ eyes: 'e' }, { eyes: 'f' }],
+        completed: false,
       },
       {
         levelNum: 5,
@@ -45,6 +49,7 @@ export const settings_5_7: Setting[] = [
         reward: 100,
         gif: '/stretch-lightly.gif',
         correctCode: [{ leftArm: '1' }, { rightArm: '1' }],
+        completed: false,
       },
     ],
   },
@@ -65,6 +70,7 @@ export const settings_5_7: Setting[] = [
           { eyes: '0' },
           { eyes: 'i' },
         ],
+        completed: false,
       },
       {
         levelNum: 2,
@@ -78,6 +84,7 @@ export const settings_5_7: Setting[] = [
           { eyes: 'b' },
           { eyes: 'e' },
         ],
+        completed: false,
       },
       {
         levelNum: 3,
@@ -85,6 +92,7 @@ export const settings_5_7: Setting[] = [
         reward: 100,
         gif: '/head-right.gif',
         correctCode: [{ head: '2' }],
+        completed: false,
       },
       {
         levelNum: 4,
@@ -92,6 +100,7 @@ export const settings_5_7: Setting[] = [
         reward: 80,
         gif: '/head-left.gif',
         correctCode: [{ head: '1' }],
+        completed: false,
       },
       {
         levelNum: 5,
@@ -99,6 +108,7 @@ export const settings_5_7: Setting[] = [
         reward: 100,
         gif: '/heard-something.gif',
         correctCode: [{ head: '2' }, { eyes: 'c' }],
+        completed: false,
       },
     ],
   },
@@ -123,6 +133,7 @@ export const settings_5_7: Setting[] = [
           { eyes: '0' },
           { head: '1' },
         ],
+        completed: false,
       },
     ],
   },
