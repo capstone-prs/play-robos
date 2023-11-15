@@ -1,7 +1,7 @@
 <template>
   <div class="workspace-container" id="blockly">
     <div class="overlay-container">
-      <div class="row" style="position: relative; left: 360%">
+      <!-- <div class="row" style="position: relative; left: 360%">
         <q-fab
           id="fab-btn"
           v-model="extendBtn"
@@ -34,9 +34,9 @@
             }
           "
         />
-      </div>
-      <div class="row">
-        <div class="col q-pt-sm" style="position: absolute; left: 280%">
+      </div> -->
+      <div class="q-pa-md row">
+        <div class="col q-pt-none" style="position: absolute; left: 450%">
           <q-fab
             id="goal-fab-btn"
             v-model="gifBtn"
@@ -55,7 +55,52 @@
             </q-fab-action>
           </q-fab>
         </div>
+        <div
+          class="col q-pt-sm"
+          style="position: absolute; top: 780%; right: 450%"
+        >
+          <q-btn-group rounded>
+            <q-btn
+              color="amber"
+              rounded
+              glossy
+              icon="undo"
+              @click="undo"
+              label="undo"
+            />
+
+            <q-btn
+              color="amber"
+              rounded
+              glossy
+              icon="check"
+              @click="openCheckDialog"
+              data-cy="check-btn"
+              label="check"
+            />
+            <q-btn color="pink" rounded glossy icon="help" label="help" />
+            <q-btn
+              color="pink"
+              rounded
+              glossy
+              icon="menu"
+              label="menu"
+              @click="openMenuDialog"
+            />
+          </q-btn-group>
+        </div>
       </div>
+      <CheckDialog
+      v-model="isDialogOpen"
+      :correct="isDialogOpen && isCorrectCode()"
+      :onCorrect="
+        () => {
+          closeCheckDialog();
+          write();
+        }
+      "
+    />
+    <MenuDialog v-model="showMenuActivity" />
     </div>
 
     <div
