@@ -23,10 +23,12 @@
         </div>
       </div>
       <q-space />
+      <q-space />
+      <q-btn glossy rounded  color="grey-9" icon="img:/coin.svg" :disable="true" label="100"/>
 
       <div class="col-3">
         <div class="row float-right">
-          <div class="col q-pr-sm">
+          <div class="col q-pr-sm q-pl-sm">
             <SoundButton id="sound-btn" />
           </div>
 

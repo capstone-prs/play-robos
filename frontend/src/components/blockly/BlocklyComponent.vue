@@ -1,7 +1,7 @@
 <template>
   <div class="workspace-container" id="blockly">
     <div class="overlay-container">
-      <div class="row" style="position: relative; left: 360%">
+      <!-- <div class="row" style="position: relative; left: 360%">
         <q-fab
           id="fab-btn"
           v-model="extendBtn"
@@ -34,9 +34,9 @@
             }
           "
         />
-      </div>
-      <div class="row">
-        <div class="col q-pt-sm" style="position: absolute; left: 280%">
+      </div> -->
+      <div class="q-pa-md row">
+        <div class="col q-pt-none" style="position: absolute; left: 450%">
           <q-fab
             id="goal-fab-btn"
             v-model="gifBtn"
@@ -55,7 +55,52 @@
             </q-fab-action>
           </q-fab>
         </div>
+        <div
+          class="col q-pt-sm"
+          style="position: absolute; top: 760%; right: 450%"
+        >
+          <q-btn-group rounded>
+            <q-btn
+              color="amber"
+              rounded
+              glossy
+              icon="undo"
+              @click="undo"
+              label="undo"
+            />
+
+            <q-btn
+              color="amber"
+              rounded
+              glossy
+              icon="check"
+              @click="openCheckDialog"
+              data-cy="check-btn"
+              label="check"
+            />
+            <q-btn color="pink" rounded glossy icon="help" label="help" />
+            <q-btn
+              color="pink"
+              rounded
+              glossy
+              icon="menu"
+              label="menu"
+              @click="openMenuDialog"
+            />
+          </q-btn-group>
+        </div>
       </div>
+      <CheckDialog
+      v-model="isDialogOpen"
+      :correct="isDialogOpen && isCorrectCode()"
+      :onCorrect="
+        () => {
+          closeCheckDialog();
+          write();
+        }
+      "
+    />
+    <MenuDialog v-model="showMenuActivity" />
     </div>
 
     <div
@@ -73,12 +118,12 @@ import * as Blockly from 'blockly';
 import './blocks/stocks';
 import './blocks/generator';
 import * as Toolbox from './toolbox/typetoolbox';
-import MenuButton from '../buttons/MenuButton.vue';
-import HelpButton from '../buttons/HelpButton.vue';
-import ActionButton from '../buttons/ActionButton.vue';
+// import MenuButton from '../buttons/MenuButton.vue';
+// import HelpButton from '../buttons/HelpButton.vue';
+// import ActionButton from '../buttons/ActionButton.vue';
 import CheckDialog from '../CheckDialog.vue';
 import { javascriptGenerator } from 'blockly/javascript';
-import UndoButton from '../buttons/UndoButton.vue';
+// import UndoButton from '../buttons/UndoButton.vue';
 import { useRouter } from 'vue-router';
 import {
   bluetoothSerial,
@@ -105,7 +150,7 @@ const settingNum = parseInt(splitParams[0]);
 const ageGroup = splitParams[2];
 
 const showMenuActivity = ref(false);
-const extendBtn = ref(false);
+// const extendBtn = ref(false);
 const gifBtn = ref(false);
 const taskStatus = ref<TaskStatus>('none');
 const progress = ref($q.notify({ group: false }));
