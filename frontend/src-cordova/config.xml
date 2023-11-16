@@ -10,4 +10,5 @@
     <allow-intent href="https://*/*" />
     <allow-navigation href="about:*" />
     <preference name="Orientation" value="landscape" />
+    <preference name="Fullscreen" value="true" />
 </widget>

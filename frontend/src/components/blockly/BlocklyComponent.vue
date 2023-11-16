@@ -91,16 +91,16 @@
         </div>
       </div>
       <CheckDialog
-      v-model="isDialogOpen"
-      :correct="isDialogOpen && isCorrectCode()"
-      :onCorrect="
-        () => {
-          closeCheckDialog();
-          write();
-        }
-      "
-    />
-    <MenuDialog v-model="showMenuActivity" />
+        v-model="isDialogOpen"
+        :correct="isDialogOpen && isCorrectCode()"
+        :onCorrect="
+          () => {
+            closeCheckDialog();
+            write();
+          }
+        "
+      />
+      <MenuDialog v-model="showMenuActivity" />
     </div>
 
     <div
@@ -271,7 +271,7 @@ const endProgressNotify = () => {
   if (taskStatus.value === 'success') {
     $q.notify({
       type: 'positive',
-      position: 'bottom-right',
+      position: 'top-right',
       message: 'Uploading done!',
       timeout: 1000,
     });
@@ -283,7 +283,7 @@ const endProgressNotify = () => {
       type: 'negative',
       spinner: false,
       message: 'Upload Failed',
-      position: 'bottom-right',
+      position: 'top-right',
       timeout: 1500,
     });
     taskStatus.value = 'none';
