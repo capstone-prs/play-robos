@@ -100,12 +100,15 @@
           />
         </div>
       </div>
-      <div class="row justify-center items-start q-ma-xl">
-        <q-badge>TITTLE</q-badge>
+      <div class="row justify-center items-start q-ma-lg">
+        <q-badge>Level: {{ levels[levelNum - 1].levelNum }}</q-badge>
+        <q-badge>{{ levels[levelNum-1].goalTitle }}</q-badge>
       </div>
-      <div class="row justify-center q-ma-xl">
-        <q-card class="q-pa-sm" style="width: 100px">
-          <img :src="levels[levelNum - 1].gif" style="size: 20px" />
+      <div class="row justify-center ">
+        <q-card class=" my-card" style="width: 100px">
+          <q-video
+            :src="levels[levelNum-1].gif"
+          />
         </q-card>
       </div>
     </div>
@@ -125,7 +128,7 @@ import { useRouter } from 'vue-router';
 import {
   bluetoothSerial,
   onDisconnect,
-  btListenser,
+  btListenser
 } from 'src/utils/bluetoothUtils';
 import isEqualCodes from 'src/utils/compareCode';
 import { TaskStatus } from 'src/types/Status';
@@ -147,8 +150,6 @@ const settingNum = parseInt(splitParams[0]);
 const ageGroup = splitParams[2];
 
 const showMenuActivity = ref(false);
-// const extendBtn = ref(false);
-const gifBtn = ref(false);
 const taskStatus = ref<TaskStatus>('none');
 const progress = ref($q.notify({ group: false }));
 
@@ -170,7 +171,7 @@ const openMenuDialog = () => {
 const notifyError = (e: string) =>
   $q.notify({
     type: 'negative',
-    message: e,
+    message: e
   });
 
 const generator = (): string => {
@@ -210,22 +211,22 @@ onMounted(() => {
     grid: {
       spacing: 20,
       length: 3,
-      colour: '#ccc',
+      colour: '#ccc'
     },
     zoom: {
       startScale: 1.0,
       maxScale: 2,
       minScale: 3,
-      scaleSpeed: 0.3,
+      scaleSpeed: 0.3
     },
     theme: {
       name: 'custom',
       componentStyles: {
         workspaceBackgroundColour: '#FFFFFF',
         flyoutBackgroundColour: '#D0D0D0',
-        flyoutOpacity: 0.7,
-      },
-    },
+        flyoutOpacity: 0.7
+      }
+    }
   });
 
   workspace.value.addChangeListener(generator);
@@ -270,7 +271,7 @@ const endProgressNotify = () => {
       type: 'positive',
       position: 'top-right',
       message: 'Uploading done!',
-      timeout: 1000,
+      timeout: 1000
     });
     taskStatus.value = 'none';
     // To-verify: when the execution is successful, it will unlock the next level
@@ -281,7 +282,7 @@ const endProgressNotify = () => {
       spinner: false,
       message: 'Upload Failed',
       position: 'top-right',
-      timeout: 1500,
+      timeout: 1500
     });
     taskStatus.value = 'none';
   }
@@ -304,7 +305,7 @@ const startLoadingUpload = () => {
   $q.loading.show({
     spinnerColor: 'white',
     backgroundColor: 'black',
-    message: 'Executing',
+    message: 'Executing'
   });
 };
 
@@ -341,5 +342,12 @@ const isCorrectCode = () => {
   z-index: 2;
   padding-top: 5px;
   left: 60%;
+}
+.my-card {
+  width: 75%;
+  max-width: 200px;
+  position: relative;
+
+
 }
 </style>
