@@ -138,6 +138,7 @@ import { settings_5_7 } from '../games/levels_5_7';
 import { settings_8_11 } from '../games/levels_8_11';
 import { GeneratorCode } from '../../types/robotParts';
 import { startOnboarding } from '../../onboarding/studioOnboarding';
+import '../../css/style.css';
 import 'intro.js/introjs.css';
 
 const $q = useQuasar();
