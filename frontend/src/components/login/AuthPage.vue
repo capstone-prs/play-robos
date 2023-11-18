@@ -40,17 +40,40 @@
 <script setup lang="ts">
 import ActionButton from '../buttons/ActionButton.vue';
 import { useRouter } from 'vue-router';
-import { soundEffect } from 'src/utils/SoundUtils';
+import { soundEffect,backgroundMusic } from 'src/utils/SoundUtils';
+import { onMounted, reactive } from 'vue';
 import '../../css/style.css';
 
-const router = useRouter();
 
+interface State {
+  isBackgroundMusicPlaying: boolean;
+}
+
+const state = reactive<State>({
+  isBackgroundMusicPlaying: false,
+});
+
+onMounted(() => {
+  if (typeof Howler !== 'undefined' && !state.isBackgroundMusicPlaying) {
+    backgroundMusic.play();
+    state.isBackgroundMusicPlaying = true;
+  } else {
+    console.error('Howler.js is not loaded or background music is already playing.');
+  }
+});
+
+
+const router = useRouter();
+  backgroundMusic.load
+  backgroundMusic.play();
 const navigateToLogin = () => {
   soundEffect();
   router.push('/login');
 };
 
 const navigateToSignup = () => {
+
+  
   soundEffect();
   return router.push('/signup');
 };
