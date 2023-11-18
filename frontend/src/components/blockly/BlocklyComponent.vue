@@ -3,28 +3,6 @@
     <div class="col">
       <div class="workspace-container" id="blockly">
         <div class="overlay-container">
-          <!-- <div class="q-pa-md row"> -->
-          <!-- <div class="col q-pt-none" style="position: absolute; left: 450%">
-        <q-fabz
-          id="goal-fab-btn"
-          v-model="gifBtn"
-          class="futura"
-          color="purple"
-          icon="keyboard_arrow_down"
-          direction="down"
-          glossy
-          persistent
-          label="GOAL"
-        >
-          <q-fab-action padding="0" flat>
-            <q-card class="q-pa-sm" align="center" style="width: 100px">
-              <img :src="levels[levelNum - 1].gif" style="size: 20px" />
-            </q-card>
-          </q-fab-action>
-        </q-fabz>
-      </div> -->
-
-          <!-- </div> -->
           <CheckDialog
             v-model="isDialogOpen"
             :correct="isDialogOpen && isCorrectCode()"
@@ -46,35 +24,7 @@
       </div>
     </div>
 
-    <div class="col-3">
-      <div class="row">
-        <div class="col q-ma-xs">
-          <q-btn
-            class="fit wrap"
-            color="pink"
-            glossy
-            stack
-            size="md"
-            icon="undo"
-            @click="undo"
-            label="undo"
-          />
-        </div>
-
-        <div class="col q-ma-xs">
-          <q-btn
-            class="fit wrap"
-            color="amber"
-            glossy
-            stack
-            size="md"
-            icon="check"
-            @click="openCheckDialog"
-            data-cy="check-btn"
-            label="check"
-          />
-        </div>
-      </div>
+    <div class="col-3 q-px-md">
       <div class="row">
         <div class="col q-ma-xs">
           <q-btn
@@ -82,7 +32,7 @@
             color="purple"
             stack
             glossy
-            size="md"
+            size="sm"
             icon="help"
             label="help"
           />
@@ -93,23 +43,46 @@
             color="teal"
             stack
             glossy
-            size="md"
+            size="sm"
             icon="menu"
             label="menu"
             @click="openMenuDialog"
           />
         </div>
       </div>
-      <div class="row justify-center items-start q-ma-lg">
-        <q-badge>Level: {{ levels[levelNum - 1].levelNum }}</q-badge>
-        <q-badge>{{ levels[levelNum-1].goalTitle }}</q-badge>
+      <div class="row">
+        <q-btn
+          class="fit wrap q-ma-xs"
+          color="pink"
+          glossy
+          stack
+          size="sm"
+          icon="undo"
+          @click="undo"
+          label="undo"
+        />
       </div>
-      <div class="row justify-center ">
-        <q-card class=" my-card" style="width: 100px">
-          <q-video
-            :src="levels[levelNum-1].gif"
-          />
+      <div class="row justify-center items-start q-ma-md">
+        <q-badge>Level: {{ levels[levelNum - 1].levelNum }}</q-badge>
+        <q-badge>{{ levels[levelNum - 1].goalTitle }}</q-badge>
+      </div>
+      <div class="row justify-center q-ma-md">
+        <q-card class="my-card" style="width: 100px">
+          <q-video :src="levels[levelNum - 1].gif" />
         </q-card>
+      </div>
+      <div class="row q-mt-md">
+        <q-btn
+          class="fit wrap q-ma-xs"
+          color="amber"
+          glossy
+          stack
+          size="sm"
+          icon="upload"
+          @click="openCheckDialog"
+          data-cy="check-btn"
+          label="upload"
+        />
       </div>
     </div>
   </div>
@@ -128,7 +101,7 @@ import { useRouter } from 'vue-router';
 import {
   bluetoothSerial,
   onDisconnect,
-  btListenser
+  btListenser,
 } from 'src/utils/bluetoothUtils';
 import isEqualCodes from 'src/utils/compareCode';
 import { TaskStatus } from 'src/types/Status';
@@ -172,7 +145,7 @@ const openMenuDialog = () => {
 const notifyError = (e: string) =>
   $q.notify({
     type: 'negative',
-    message: e
+    message: e,
   });
 
 const generator = (): string => {
@@ -212,22 +185,22 @@ onMounted(() => {
     grid: {
       spacing: 20,
       length: 3,
-      colour: '#ccc'
+      colour: '#ccc',
     },
     zoom: {
       startScale: 1.0,
       maxScale: 2,
       minScale: 3,
-      scaleSpeed: 0.3
+      scaleSpeed: 0.3,
     },
     theme: {
       name: 'custom',
       componentStyles: {
         workspaceBackgroundColour: '#FFFFFF',
         flyoutBackgroundColour: '#D0D0D0',
-        flyoutOpacity: 0.7
-      }
-    }
+        flyoutOpacity: 0.7,
+      },
+    },
   });
 
   workspace.value.addChangeListener(generator);
@@ -272,7 +245,7 @@ const endProgressNotify = () => {
       type: 'positive',
       position: 'top-right',
       message: 'Uploading done!',
-      timeout: 1000
+      timeout: 1000,
     });
     taskStatus.value = 'none';
     // To-verify: when the execution is successful, it will unlock the next level
@@ -283,7 +256,7 @@ const endProgressNotify = () => {
       spinner: false,
       message: 'Upload Failed',
       position: 'top-right',
-      timeout: 1500
+      timeout: 1500,
     });
     taskStatus.value = 'none';
   }
@@ -306,7 +279,7 @@ const startLoadingUpload = () => {
   $q.loading.show({
     spinnerColor: 'white',
     backgroundColor: 'black',
-    message: 'Executing'
+    message: 'Executing',
   });
 };
 
@@ -348,7 +321,5 @@ const isCorrectCode = () => {
   width: 75%;
   max-width: 200px;
   position: relative;
-
-
 }
 </style>
