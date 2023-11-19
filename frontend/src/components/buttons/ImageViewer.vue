@@ -2,34 +2,52 @@
   <div>
     <q-img
       :class="showLabel === 'replay' && !showPlaying && 'blur'"
-      style="height: 140px; max-width: 150px"
+      style="height: 100px; width: 100px"
       :src="showing"
     />
   </div>
-  <q-btn @click="play" :label="showLabel" :loading="showPlaying" />
+  <div class='q-pt-xs' style="display: flex; justify-content: center; align-items: center">
+    <q-btn
+      color="cyan-5"
+      stack
+      glossy
+      size="12px"
+      :icon="icon"
+      @click="play"
+      :label="showLabel"
+      :loading="showPlaying"
+    />
+  </div>
 </template>
 <script setup lang="ts">
+
 import { ref } from 'vue';
 
-const pics = [
-  'look.svg',
-  'bgs/beach-cove.svg',
-  'look.svg',
-  'bgs/beach-cove.svg',
-];
-const showing = ref(pics[0]);
+const props = defineProps ({
+  pics:{
+    type: Array<string>,
+      required:true
+  }
+}) 
+
+
+
+const showing = ref(props.pics[0]);
 const showLabel = ref('play');
 const showPlaying = ref(false);
+const icon = ref('play_arrow')
 
 const play = async () => {
   showPlaying.value = true;
-  for (let i = 0; i < pics.length; i++) {
-    showing.value = pics[i];
+  for (let i = 0; i < props.pics.length; i++) {
+    showing.value = props.pics[i];
 
     await new Promise((resolve) => setTimeout(resolve, 1000));
   }
   showPlaying.value = false;
   showLabel.value = 'replay';
+  icon.value = 'replay'
+
 };
 </script>
 <style>
