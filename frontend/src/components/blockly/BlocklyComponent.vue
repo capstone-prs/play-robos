@@ -67,9 +67,9 @@
         <q-badge>{{ levels[levelNum - 1].goalTitle }}</q-badge>
       </div>
       <div class="row justify-center q-ma-md">
-        <q-card class="my-card" style="width: 100px">
-          <q-video :src="levels[levelNum - 1].gif" />
-        </q-card>
+     
+          <ImageViewer :pics="levels[levelNum-1].gif"/>
+ 
       </div>
       <div class="row q-mt-md">
         <q-btn
@@ -98,6 +98,7 @@ import * as Toolbox from './toolbox/typetoolbox';
 import CheckDialog from '../CheckDialog.vue';
 import { javascriptGenerator } from 'blockly/javascript';
 import { useRouter } from 'vue-router';
+import ImageViewer from '../buttons/ImageViewer.vue';
 import {
   bluetoothSerial,
   onDisconnect,

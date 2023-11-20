@@ -9,5 +9,5 @@ export const soundEffect = (sound:string=click)=>{
 export const backgroundMusic = new Howl({
     src: [background],
     loop: true, // Set to true for continuous looping
-    volume: 0.3 // Adjust the volume as needed
+    volume: 1 // Adjust the volume as needed
   });
