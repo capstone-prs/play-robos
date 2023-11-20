@@ -30,7 +30,7 @@
     </q-card>
 
     <PlayDialog
-      :age-group="ageGroup"
+      :difficulty="difficulty"
       :setting-num="settingNum"
       :level-num="levelNum"
       v-model="showPlayDialog"
@@ -47,7 +47,7 @@ import { computed, ref } from 'vue';
 import PlayDialog from '../PlayDialog.vue';
 
 const props = defineProps({
-  ageGroup: {
+  difficulty: {
     type: String,
     required: true,
   },

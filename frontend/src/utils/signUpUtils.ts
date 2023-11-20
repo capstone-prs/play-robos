@@ -2,15 +2,15 @@ import { InputForms } from '../types/signUpForm';
 
 export const isEmpty = (val: number | string | null) =>
   val === '' || val === null;
-export const isValidAge = (val: number) => val >= 5 && val <= 11;
+// export const isValidAge = (val: number) => val >= 5 && val <= 11;
 
 const validate = (inputForms: InputForms, prev?: string) => (val: string) => {
   if (isEmpty(val)) {
     switch (inputForms) {
       case 'NAME':
         return 'Name is Required';
-      case 'AGE':
-        return 'Age is Required';
+      case 'BIRTHDATE':
+        return 'Birthdate is Required';
       case 'GENDER':
         return 'Gender is Required';
       case 'EMAIL':
@@ -21,18 +21,18 @@ const validate = (inputForms: InputForms, prev?: string) => (val: string) => {
         return 'Confirm Password is Required';
       default:
         return true;
-  }
+    }
   }
   switch (inputForms) {
     case 'NAME':
     case 'GENDER':
       return true;
 
-    case 'AGE':
-      if (!isValidAge(Number(val))) {
-        return 'Enter Age Between 5-11';
+    case 'BIRTHDATE':
+      if (new Date(val) && new Date(val).getTime() < Date.now()) {
+        return true;
       }
-      return true;
+      return 'Enter a valid birthdate';
 
     case 'EMAIL':
       const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;

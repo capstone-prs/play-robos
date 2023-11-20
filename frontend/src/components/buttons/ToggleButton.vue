@@ -22,8 +22,8 @@ import { useQuasar } from 'quasar';
 
 // defines the two options for the age group
 const options = [
-  { label: '5-7', value: '5-7', slot: 'one' },
-  { label: '8-11', value: '8-11', slot: 'two' },
+  { label: 'Easy', value: 'easy', slot: 'one' },
+  { label: 'Hard', value: 'hard', slot: 'two' },
 ];
 
 // initializes the default value of the selected option to null
