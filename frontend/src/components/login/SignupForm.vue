@@ -30,18 +30,18 @@
 
           <q-card-section class="authInputContainer">
             <q-input
-              :ref="data.age.ref"
+              :ref="data.birthdate.ref"
               class="authInputsSmall"
               rounded
               outlined
-              v-model="data.age.model.value"
-              type="number"
-              label="Age"
-              :rules="data.age.rules"
+              v-model="data.birthdate.model.value"
+              type="date"
+              label="Birthday"
+              :rules="data.birthdate.rules"
               lazyRules
             >
               <template v-slot:prepend>
-                <q-icon name="img:/age-icon.svg " size="30px" />
+                <q-icon name="cake" />
               </template>
             </q-input>
 
@@ -189,10 +189,10 @@ const data = {
     options: ['Male', 'Female'],
     rules: [validate('GENDER')],
   },
-  age: {
+  birthdate: {
     ref: ref<QInput | null>(null),
-    model: ref<number>(),
-    rules: [validate('AGE')],
+    model: ref<string>(),
+    rules: [validate('BIRTHDATE')],
   },
   email: {
     ref: ref<QInput | null>(null),
@@ -247,13 +247,13 @@ const submit = () => {
       if (
         data.name.model.value &&
         data.gender.model.value &&
-        data.age.model.value
+        data.birthdate.model.value
       ) {
         return addUser(
           {
             user_name: data.name.model.value,
             user_gender: data.gender.model.value,
-            user_age: data.age.model.value,
+            user_birthdate: new Date(data.birthdate.model.value),
           },
           newUser.user.uid
         )

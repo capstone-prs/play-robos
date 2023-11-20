@@ -67,9 +67,7 @@
         <q-badge>{{ levels[levelNum - 1].goalTitle }}</q-badge>
       </div>
       <div class="row justify-center q-ma-md">
-     
-          <ImageViewer :pics="levels[levelNum-1].gif"/>
- 
+        <ImageViewer :pics="levels[levelNum - 1].gif" />
       </div>
       <div class="row q-mt-md">
         <q-btn
@@ -108,8 +106,8 @@ import isEqualCodes from 'src/utils/compareCode';
 import { TaskStatus } from 'src/types/Status';
 import MenuDialog from '../../components/MenuDialog.vue';
 import executeCodes from '../../utils/executeCodes';
-import { settings_5_7 } from '../games/levels_5_7';
-import { settings_8_11 } from '../games/levels_8_11';
+import { settings_easy } from '../games/levels-easy';
+import { settings_hard } from '../games/levels-hard';
 import { GeneratorCode } from '../../types/robotParts';
 import { startOnboarding } from '../../onboarding/studioOnboarding';
 import '../../css/style.css';
@@ -163,14 +161,14 @@ const undo = () => {
 };
 
 const levels =
-  ageGroup === '5-7'
-    ? settings_5_7[settingNum].levels
-    : settings_8_11[settingNum].levels;
+  ageGroup === 'easy'
+    ? settings_easy[settingNum].levels
+    : settings_hard[settingNum].levels;
 
 const toolbox =
-  ageGroup === '5-7'
-    ? Toolbox.toolbox_5_7[settingNum]
-    : Toolbox.toolbox_8_11[settingNum];
+  ageGroup === 'easy'
+    ? Toolbox.toolbox_easy[settingNum]
+    : Toolbox.toolbox_hard[settingNum];
 
 const correctCodes = levels[levelNum - 1].correctCode;
 
@@ -324,3 +322,4 @@ const isCorrectCode = () => {
   position: relative;
 }
 </style>
+../games/levels-easy ../games/levels-hard

@@ -40,7 +40,7 @@
             <MenuDialog
               v-model="isMenuDialogVisible"
               data-cy="menu-dialog"
-              :data-for-homepage="ageGroup"
+              :data-for-homepage="difficulty"
               @update:data-for-homepage="updateData"
             />
           </div>
@@ -56,7 +56,7 @@
         >
           <ActivityComponent
             :completed="level.completed"
-            :age-group="ageGroup"
+            :difficulty="difficulty"
             :setting-num="settingNumber"
             :level-num="level.levelNum"
             :goal-title="level.goalTitle"
@@ -84,15 +84,15 @@ import MusicButton from '../components/buttons/MusicButton.vue';
 import MenuDialog from '../components/MenuDialog.vue';
 import MenuButton from '../components/buttons/MenuButton.vue';
 import ActivityComponent from '../components/games/ActivityComponent.vue';
-import { settings_5_7 } from '../components/games/levels_5_7';
-import { settings_8_11 } from '../components/games/levels_8_11';
+import { settings_easy } from '../components/games/levels-easy';
+import { settings_hard } from '../components/games/levels-hard';
 import PreviousButton from '../components/buttons/PreviousButton.vue';
 
 const isMenuDialogVisible = ref(false);
 const route = useRouter().currentRoute;
 const levelNumber = route.value.params.param as string;
 const splitParams = levelNumber.split(' ');
-const ageGroup = splitParams[0];
+const difficulty = splitParams[0];
 const settingNumber = parseInt(splitParams[1]);
 
 const openMenuDialog = () => {
@@ -102,21 +102,21 @@ const openMenuDialog = () => {
 const dataForHomepage = ref('8-11');
 
 const getSettingImage = computed(() => {
-  return ageGroup === '5-7'
-    ? settings_5_7[settingNumber].settingBg
-    : settings_8_11[settingNumber].settingBg;
+  return difficulty === 'easy'
+    ? settings_easy[settingNumber].settingBg
+    : settings_hard[settingNumber].settingBg;
 });
 
 const getSettingName = computed(() => {
-  return ageGroup === '5-7'
-    ? settings_5_7[settingNumber].settingName
-    : settings_8_11[settingNumber].settingName;
+  return difficulty === 'easy'
+    ? settings_easy[settingNumber].settingName
+    : settings_hard[settingNumber].settingName;
 });
 
 const determineLevelsToDisplay = computed(() => {
-  return ageGroup === '5-7'
-    ? settings_5_7[settingNumber].levels
-    : settings_8_11[settingNumber].levels;
+  return difficulty === 'easy'
+    ? settings_easy[settingNumber].levels
+    : settings_hard[settingNumber].levels;
 });
 
 const updateData = (newData: string) => {

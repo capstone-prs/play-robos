@@ -1,6 +1,6 @@
 export type InputForms =
   | 'NAME'
-  | 'AGE'
+  | 'BIRTHDATE'
   | 'GENDER'
   | 'EMAIL'
   | 'PASSWORD'
