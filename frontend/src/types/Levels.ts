@@ -4,7 +4,7 @@ export interface Level {
   levelNum: number;
   goalTitle: string;
   reward: number;
-  gif: string;
+  gif: Array<string>;
   correctCode: Array<GeneratorCode>;
   completed: boolean;
 }

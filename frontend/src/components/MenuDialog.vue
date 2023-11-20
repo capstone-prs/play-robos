@@ -30,7 +30,18 @@
           Home
         </q-btn>
       </q-card-section>
-
+      <q-card-section class="centered" v-if="path !== '/home'">
+        <q-btn
+          @click="atBack"
+          color="purple"
+          class="glossy hitchcut"
+          size="lg"
+          rounded
+        >
+          <q-icon name="arrow_back" />
+          Back
+        </q-btn>
+      </q-card-section>
       <q-card-section class="q-pt-md centered">
         <ActionButton
           text-label="Logout"
@@ -53,20 +64,20 @@ const router = useRouter();
 const path = router.currentRoute.value.path;
 defineProps({
   value: Boolean,
-  dataForHomepage: String,
+  dataForHomepage: String
 });
 
 const isLogoutDialogVisible = ref(false);
 const showDialog = ref(false);
-// initializes the selected option age group using the value from home
-
-// opens the logout dialog
 const openLogoutDialog = () => {
   isLogoutDialogVisible.value = true;
 };
 
 const atHome = () => {
   return router.push('/home');
+};
+const atBack = () => {
+  return router.go(-1);
 };
 </script>
 
