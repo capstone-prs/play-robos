@@ -12,27 +12,33 @@
 </template>
 
 <script setup lang="ts">
-import { backgroundMusic } from 'src/utils/SoundUtils';
-import { reactive,ref } from 'vue';
 
-const musicIcon= ref('img:/music-btn.svg')
+import { useQuasar } from 'quasar';
+import { backgroundMusic} from 'src/utils/SoundUtils';
+import { ref,watch } from 'vue';
+const $q = useQuasar();
 
-interface State {
-  isBackgroundMusicPlaying: boolean;
-}
+const musicIcon = ref(
+  $q.localStorage.getItem('musicIcon') as string | undefined
+);
 
-const state = reactive<State>({
-  isBackgroundMusicPlaying: false
-});
 
+const emit = defineEmits(['update:MusicValue']);
+
+watch(musicIcon, () => {
+  $q.localStorage.set('musicIcon', musicIcon.value); // Correct key: 'musicIcon'
+  emit('update:MusicValue', $q.localStorage.getItem('musicIcon'))
+})
+
+ 
 const toggleMute = () => {
-  if (state.isBackgroundMusicPlaying==false ) {
+  if (backgroundMusic.playing() == false) {
     backgroundMusic.play();
-    musicIcon.value=('img:/music-btn.svg')
+    musicIcon.value = 'img:/music-btn.svg';
+
   } else {
     backgroundMusic.stop();
-    musicIcon.value=('img:/no-music.svg')
+    musicIcon.value = 'img:/no-music.svg';
   }
-  state.isBackgroundMusicPlaying = !state.isBackgroundMusicPlaying;
 };
 </script>
