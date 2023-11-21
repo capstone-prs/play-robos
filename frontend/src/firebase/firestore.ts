@@ -21,7 +21,7 @@ export const getUser = (id: string) =>
   });
 
 export const userID = () => {
-  return auth.currentUser.uid;
+  return auth.currentUser ? auth.currentUser.uid : '0'; // FIXME:
 };
 
 export default getUser;

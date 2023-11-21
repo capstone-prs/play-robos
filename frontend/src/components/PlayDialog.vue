@@ -38,7 +38,7 @@
           :is-disabled="completed ? false : true"
           text-label="PLAY"
           @click="
-            !completed ? '' : navigateToStudio(settingNum, levelNum, ageGroup)
+            !completed ? '' : navigateToStudio(settingNum, levelNum, difficulty)
           "
         />
       </q-card-section>
@@ -53,7 +53,7 @@ import ActionButton from './buttons/ActionButton.vue';
 import { useQuasar } from 'quasar';
 
 defineProps({
-  ageGroup: {
+  difficulty: {
     type: String,
     required: true,
   },
@@ -86,12 +86,12 @@ const router = useRouter();
 const navigateToStudio = (
   levNum: number,
   settNum: number,
-  ageGroup: string
+  difficulty: string
 ) => {
   showLoading();
   return router.push({
     name: 'studio',
-    params: { param: levNum + '_' + settNum + '_' + ageGroup },
+    params: { param: levNum + '_' + settNum + '_' + difficulty },
   });
 };
 

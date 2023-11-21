@@ -1,6 +1,6 @@
 export interface User {
   user_name: string;
-  user_age: number;
+  user_birthdate: Date;
   user_gender: Gender;
   user_id: string;
 }
