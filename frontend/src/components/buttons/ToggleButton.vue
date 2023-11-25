@@ -10,6 +10,7 @@
     toggle-color="blue-4"
     :options="options"
     data-testid="toggle-btn"
+    @click = "click"
   >
     <template v-slot:one />
     <template v-slot:two />
@@ -41,6 +42,11 @@ watch(selectedOption, () => {
   $q.localStorage.set('age_group', selectedOption.value);
   emit('update:modelValue', $q.localStorage.getItem('age_group'));
 });
+
+import { soundEffect } from '../../utils/SoundUtils'
+const click = () => {
+    soundEffect();
+  }
 
 // console.log($q.localStorage.getItem('age_group'));
 </script>

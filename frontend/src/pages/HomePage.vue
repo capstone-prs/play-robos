@@ -111,7 +111,7 @@ import introConfig from '../onboarding/intro.json';
 import { Options } from 'intro.js/src/option';
 import { getUser, userID } from '../firebase/firestore';
 import { useRouter } from 'vue-router';
-
+import { soundEffect,backgroundMusic,backgroundMusicStudio } from '../../../frontend/src/utils/SoundUtils'
 const $q = useQuasar();
 const isMenuDialogVisible = ref(false);
 const isAgeGroupDialogVisible = ref(false);
@@ -120,6 +120,11 @@ const isPairingDialog = ref(false);
 const dataForHomepage = ref($q.localStorage.getItem('age_group') as string);
 const intro = introJS();
 const router = useRouter();
+
+if(backgroundMusicStudio.playing() == true){
+  backgroundMusicStudio.stop()
+  backgroundMusic.play()
+}
 
 // introduces a walkthrough on homepage launch
 onMounted(() => {
@@ -188,6 +193,7 @@ const updateData = (newData: string) => {
 };
 
 const navigateToAchievements = () => {
+  soundEffect();
   router.push('/achievement');
 };
 </script>

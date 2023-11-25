@@ -36,8 +36,9 @@ const showing = ref(props.pics[0]);
 const showLabel = ref('play');
 const showPlaying = ref(false);
 const icon = ref('play_arrow')
-
+import { soundEffect } from '../../utils/SoundUtils'
 const play = async () => {
+  soundEffect();
   showPlaying.value = true;
   for (let i = 0; i < props.pics.length; i++) {
     showing.value = props.pics[i];

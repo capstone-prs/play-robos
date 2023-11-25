@@ -14,6 +14,7 @@
             "
           />
           <MenuDialog v-model="showMenuActivity" />
+          <CoinsDialog v-model="showReward" :coins="levels[levelNum-1].reward"/>
         </div>
 
         <div
@@ -110,9 +111,11 @@ import { settings_easy } from '../games/levels-easy';
 import { settings_hard } from '../games/levels-hard';
 import { GeneratorCode } from '../../types/robotParts';
 import { startOnboarding } from '../../onboarding/studioOnboarding';
+import CoinsDialog from '../CoinsDialog.vue';
 import '../../css/style.css';
 import 'intro.js/introjs.css';
-
+import victory from '../../assets/sounds/victory-effect.mp3'
+import { soundEffect} from '../../utils/SoundUtils'
 const $q = useQuasar();
 const router = useRouter();
 const routeParam = router.currentRoute.value.params.param as string;
@@ -121,23 +124,27 @@ const splitParams = routeParam.split('_');
 const levelNum = parseInt(splitParams[1]); // to be use for check program
 const settingNum = parseInt(splitParams[0]);
 const ageGroup = splitParams[2];
-
+const showReward = ref(false);
 const showMenuActivity = ref(false);
 const taskStatus = ref<TaskStatus>('none');
 const progress = ref($q.notify({ group: false }));
-
 const workspace = ref<Blockly.Workspace>();
 const blocklyContainer = ref<string | Element>('');
 
 const openCheckDialog = () => {
   isDialogOpen.value = true;
 };
+// const openCoinsDialog = () => {
+//   soundEffect(victory)
+//   showReward.value = true
+// }
 
 const closeCheckDialog = () => {
   isDialogOpen.value = false;
 };
 
 const openMenuDialog = () => {
+  soundEffect()
   showMenuActivity.value = true;
 };
 
@@ -155,6 +162,7 @@ const generator = (): string => {
   throw new Error('Error at blocks generator');
 };
 const undo = () => {
+  soundEffect()
   if (workspace.value) {
     workspace.value.undo(false);
   }
@@ -246,6 +254,7 @@ const endProgressNotify = () => {
       message: 'Uploading done!',
       timeout: 1000,
     });
+    //code for UI COINS 
     taskStatus.value = 'none';
     // To-verify: when the execution is successful, it will unlock the next level
     levels[levelNum].completed = true;

@@ -8,30 +8,29 @@
   </div>
 </template>
 
-<script lang="ts">
-import { ref, defineComponent } from 'vue';
+<script setup lang="ts">
+import { ref } from 'vue';
 import BlocklyComponent from '../components/blockly/BlocklyComponent.vue';
+import {
+  backgroundMusicStudio,
+  backgroundMusic
+} from '../../src/utils/SoundUtils';
 
-export default defineComponent({
-  name: 'StudioPage',
-  setup() {
-    const blockly = ref();
-    const options = {
-      media: 'media/',
-      grid: {
-        spacing: 25,
-        length: 3,
-        colour: '#ccc',
-        snap: true,
-      },
-    };
-    return {
-      blockly,
-      options,
-    };
-  },
-  components: { BlocklyComponent },
-});
+const blockly = ref();
+const options = {
+  media: 'media/',
+  grid: {
+    spacing: 25,
+    length: 3,
+    colour: '#ccc',
+    snap: true
+  }
+};
+if (backgroundMusic.playing() == true) {
+  backgroundMusic.stop();
+  backgroundMusicStudio.play();
+  backgroundMusicStudio.fade(0.0, 1.0, 5000);
+}
 </script>
 
 <style>
