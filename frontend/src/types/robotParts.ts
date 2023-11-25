@@ -23,11 +23,11 @@ export type RightArm = {
 };
 
 export type LeftLeg = {
-  leftLeg: '0' | '1' | '2';
+  leftLeg: '0' | '1';
 };
 
 export type RightLeg = {
-  rightLeg: '0' | '1' | '2';
+  rightLeg: '0' | '1';
 };
 
 export type BlockGeneratorType = {

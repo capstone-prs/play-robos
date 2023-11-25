@@ -1,41 +1,48 @@
 <template>
   <div>
-    <q-img
-      :class="showLabel === 'replay' && !showPlaying && 'blur'"
-      style="height: 100px; width: 100px"
-      :src="showing"
-    />
-  </div>
-  <div class='q-pt-xs' style="display: flex; justify-content: center; align-items: center">
-    <q-btn
-      color="cyan-5"
-      stack
-      glossy
-      size="12px"
-      :icon="icon"
-      @click="play"
-      :label="showLabel"
-      :loading="showPlaying"
-    />
+    <div
+      style="
+        border-style: solid;
+        border-radius: 5%;
+        border-color: black;
+        border-width: 2px;
+      "
+      class="q-pa-sm"
+    >
+      <q-img
+        :class="showLabel === 'replay' && !showPlaying && 'blur'"
+        style="height: 100px; width: 100px"
+        :src="showing"
+      />
+    </div>
+    <div
+      class="q-pt-xs"
+      style="display: flex; justify-content: center; align-items: center"
+    >
+      <q-btn
+        color="blue"
+        size="10px"
+        :icon="icon"
+        @click="play"
+        :loading="showPlaying"
+      />
+    </div>
   </div>
 </template>
 <script setup lang="ts">
-
 import { ref } from 'vue';
 
-const props = defineProps ({
-  pics:{
+const props = defineProps({
+  pics: {
     type: Array<string>,
-      required:true
-  }
-}) 
-
-
+    required: true,
+  },
+});
 
 const showing = ref(props.pics[0]);
 const showLabel = ref('play');
 const showPlaying = ref(false);
-const icon = ref('play_arrow')
+const icon = ref('play_arrow');
 
 const play = async () => {
   showPlaying.value = true;
@@ -46,8 +53,7 @@ const play = async () => {
   }
   showPlaying.value = false;
   showLabel.value = 'replay';
-  icon.value = 'replay'
-
+  icon.value = 'replay';
 };
 </script>
 <style>
