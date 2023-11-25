@@ -99,6 +99,7 @@ const settingNumber = parseInt(splitParams[1]);
 onMounted(() => {
   introScene(settingNumber);
   outroScene(settingNumber);
+  checkSettingProgress();
 });
 
 const introMapScenes = ['0_3', '8_12', '16_19', '29_35', '39_43'];
@@ -135,6 +136,22 @@ const outroScene = (setting: number) => {
         : '';
     }
   });
+};
+
+const checkSettingProgress = () => {
+  if (difficulty === 'easy') {
+    const isAllCompleted = settings_easy[settingNumber].levels.every(
+      (level) => level.completed === true
+    );
+
+    isAllCompleted ? (settings_easy[settingNumber + 1].accessible = true) : '';
+  } else {
+    const isAllCompleted = settings_hard[settingNumber].levels.every(
+      (level) => level.completed === true
+    );
+
+    isAllCompleted ? (settings_hard[settingNumber + 1].accessible = true) : '';
+  }
 };
 
 const openMenuDialog = () => {

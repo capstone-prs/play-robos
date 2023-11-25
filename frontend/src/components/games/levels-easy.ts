@@ -15,6 +15,7 @@ export const settings_easy: Setting[] = [
     settingName: 'Scorcha',
     settingImage: '/bgs/scorcha.svg',
     settingBg: '/bgs/scorcha-bg.svg',
+    accessible: true,
     levels: [
       {
         levelNum: 1,
@@ -67,6 +68,7 @@ export const settings_easy: Setting[] = [
     settingName: 'Flora',
     settingImage: 'bgs/flora.svg',
     settingBg: 'bgs/flora-bg.svg',
+    accessible: false,
     levels: [
       {
         levelNum: 1,
@@ -126,6 +128,7 @@ export const settings_easy: Setting[] = [
     settingName: 'Darka',
     settingImage: 'bgs/darka.svg',
     settingBg: 'bgs/darka-bg.svg',
+    accessible: false,
     levels: [
       {
         levelNum: 1,
@@ -237,6 +240,7 @@ export const settings_easy: Setting[] = [
     settingName: 'Mistica',
     settingImage: 'bgs/mystica.svg',
     settingBg: 'bgs/mystica-bg.svg',
+    accessible: false,
     levels: [
       {
         levelNum: 1,
@@ -262,7 +266,7 @@ export const settings_easy: Setting[] = [
           { eyes: '0' },
           { head: '1' },
         ],
-        completed: true,
+        completed: false,
       },
       {
         levelNum: 2,
@@ -348,6 +352,7 @@ export const settings_easy: Setting[] = [
     settingName: 'Futura',
     settingImage: 'bgs/futura.svg',
     settingBg: 'bgs/futura-bg.svg',
+    accessible: false,
     levels: [
       {
         levelNum: 1,

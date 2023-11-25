@@ -11,9 +11,10 @@
           :imageUrl="item"
           :setting-name="$props.settingNames[index]"
           :key="index"
+          :accessible="$props.accessibility[index]"
           class="q-ma-lg"
           :class="index === activeSetting ? 'active-setting' : ''"
-          @click="navigateToActivities(index)"
+          @click="accessibility[index] ? navigateToActivities(index) : ''"
         />
       </q-virtual-scroll>
     </div>
@@ -62,6 +63,7 @@ const props = defineProps<{
   imageUrls: Array<string>;
   ageGroup: string;
   settingNames: Array<string>;
+  accessibility: Array<boolean>;
 }>();
 
 const showLoading = () => {

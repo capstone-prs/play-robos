@@ -71,6 +71,7 @@
             :key="dataForHomepage"
             :image-urls="getSettingsToDisplay.settingIcons"
             :setting-names="getSettingsToDisplay.settingNames"
+            :accessibility="getSettingsToDisplay.settingAccess"
             data-cy="setting-component"
             :age-group="dataForHomepage"
           />
@@ -88,23 +89,6 @@
             />
           </div>
           <div class="col q-pl-sm">
-            <AgeGroupButton @click="openAgeGroupDialog" id="age-group-btn" />
-            <AgeGroupDialog
-              v-model="isAgeGroupDialogVisible"
-              @update:data-for-homepage="updateData"
-            />
-
-            <q-space />
-            <q-space />
-            <q-btn
-              glossy
-              rounded
-              color="grey-9"
-              icon="img:/coin.svg"
-              :disable="true"
-              label="100"
-            />
-
             <FindingDialog v-model="findingRobotDialog" />
             <PairingDialog v-model="isPairingDialog" />
           </div>
@@ -194,6 +178,7 @@ const startOnboarding = () => {
 const getSettingsToDisplay = computed(() => {
   const settingTitles: Array<string> = [];
   const settingUrls: Array<string> = [];
+  const settingAccessibility: Array<boolean> = [];
   const settings =
     dataForHomepage.value === 'easy' ? settings_easy : settings_hard;
 
@@ -202,11 +187,13 @@ const getSettingsToDisplay = computed(() => {
       const theSetting = settings[setting];
       settingUrls.push(theSetting.settingImage);
       settingTitles.push(theSetting.settingName);
+      settingAccessibility.push(theSetting.accessible);
     }
   }
   return {
     settingIcons: settingUrls,
     settingNames: settingTitles,
+    settingAccess: settingAccessibility,
   };
 });
 

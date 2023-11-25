@@ -1,6 +1,22 @@
 <template>
   <div>
-    <q-badge v-if="active" color="green-4" rounded floating />
+    <q-badge
+      v-if="active"
+      color="amber-4"
+      rounded
+      floating
+      style="position: relative; left: 90%; top: 0px; z-index: 1"
+    >
+    </q-badge>
+    <q-badge
+      v-if="!accessible"
+      round
+      floating
+      color="grey"
+      style="position: relative; left: 90%; top: 0px; z-index: 1"
+    >
+      <q-icon name="lock" color="white" />
+    </q-badge>
 
     <q-card style="height: 150px; width: 200px; border-radius: 50px">
       <img
@@ -38,6 +54,7 @@ defineProps({
   imageUrl: String,
   settingName: String,
   active: Boolean,
+  accessible: Boolean,
 });
 </script>
 
