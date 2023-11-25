@@ -35,7 +35,7 @@ describe('Firebase Functions', () => {
   it('should add a user', () => {
     const userData: NewUser = {
       user_name: 'Juan',
-      user_age: 3,
+      user_birthdate: new Date('2018-09-07'),
       user_gender: 'Male',
     };
     const id = 'user123';

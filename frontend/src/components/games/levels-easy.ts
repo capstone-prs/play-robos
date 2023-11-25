@@ -1,32 +1,16 @@
 import { Setting } from '../../types/Levels';
-// import forward from '../../assets/forward.svg';
-// import backward from '../../assets/backward.svg';
-// import raisHandLeft from '../../assets/raisHandLeft.svg';
-// import raisHandRight from '../../assets/raisHandRight.svg';
 import turnRightHead from '../../assets/turnRightHead.svg';
 import turnLeftHead from '../../assets/turnLeftHead.svg';
 import lookLeft from '../../assets/lookLeft.svg';
 import look from '../../assets/look.svg';
-// import lookUp from '../../assets/lookUp.svg';
 import lookRight from '../../assets/lookRight.svg';
 import LookUpLeft from '../../assets/LookUpLeft.svg';
 import LookUpRight from '../../assets/lookUpRight.svg';
-// import winkRight from '../../assets/winkRight.svg';
-// import winkLeft from '../../assets/winkLeft.svg';
 import closeEyes from '../../assets/closeEyes.svg';
-// import semiClose from '../../assets/semiCLose.svg';
-// import halfRaiseRightArm from '../../assets/halfRaiseRightArm.svg';
-// import halfRaiseLeftArm from '../../assets/halfRaiseLeftArm.svg';
-// import normalArms from '../../assets/normalArms.svg';
-// import duration from '../../assets/duration.svg';
-// import normalLook from '../../assets/NormalLook.svg';
 import raise60Right from '../../assets/raise60.svg';
-// import raise150Right from '../../assets/raise150.svg';
-// import raise120Right from '../../assets/raise120.svg';
 import raise60Left from '../../assets/raise60Left.svg';
-// import raise150Left from '../../assets/raiseLeft150.svg';
-// import raise120Left from '../../assets/raiseleft120.svg';
-export const settings_5_7: Setting[] = [
+
+export const settings_easy: Setting[] = [
   {
     settingName: 'Scorcha',
     settingImage: '/bgs/scorcha.svg',

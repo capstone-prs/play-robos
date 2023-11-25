@@ -86,6 +86,24 @@
               :open-bt-setting-handler="() => (isPairingDialog = true)"
               id="robot-btn"
             />
+          </div>
+          <div class="col q-pl-sm">
+            <AgeGroupButton @click="openAgeGroupDialog" id="age-group-btn" />
+            <AgeGroupDialog
+              v-model="isAgeGroupDialogVisible"
+              @update:data-for-homepage="updateData"
+            />
+
+            <q-space />
+            <q-space />
+            <q-btn
+              glossy
+              rounded
+              color="grey-9"
+              icon="img:/coin.svg"
+              :disable="true"
+              label="100"
+            />
 
             <FindingDialog v-model="findingRobotDialog" />
             <PairingDialog v-model="isPairingDialog" />
@@ -110,8 +128,8 @@ import FindingDialog from '../components/FindingDialog.vue';
 import PairingDialog from '../components/pairingDialog.vue';
 import AgeGroupButton from '../components/buttons/AgeGroupButton.vue';
 import AgeGroupDialog from '../components/AgeGroupDialog.vue';
-import { settings_5_7 } from '../components/games/levels_5_7';
-import { settings_8_11 } from '../components/games/levels_8_11';
+import { settings_easy } from '../components/games/levels-easy';
+import { settings_hard } from '../components/games/levels-hard';
 import { useQuasar } from 'quasar';
 import introJS from 'intro.js';
 import 'intro.js/introjs.css';
@@ -139,13 +157,13 @@ onMounted(() => {
   // to improve
   if (sessionStorage.getItem('hasCompletedOnboarding') != 'true') {
     getUser(userID()).then((user) => {
-      const age = user.user_age;
+      const age = user.user_birthdate;
       console.log(age);
-      if (age >= 5 && age <= 7) {
-        dataForHomepage.value = '5-7';
-      } else {
-        dataForHomepage.value = '8-11';
-      }
+      // if (age >= 5 && age <= 7) {
+      dataForHomepage.value = 'hard';
+      // } else {
+      //   dataForHomepage.value = '8-11';
+      // }
     });
   }
 
@@ -177,7 +195,7 @@ const getSettingsToDisplay = computed(() => {
   const settingTitles: Array<string> = [];
   const settingUrls: Array<string> = [];
   const settings =
-    dataForHomepage.value === '5-7' ? settings_5_7 : settings_8_11;
+    dataForHomepage.value === 'easy' ? settings_easy : settings_hard;
 
   for (const setting in settings) {
     if (settings.hasOwnProperty(setting)) {
