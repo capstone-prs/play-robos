@@ -1,84 +1,99 @@
 <template>
-  <q-layout view="hHh lpR fFf" class="bg" data-cy="homepage">
-    <q-header class="transparent row q-pa-md">
-      <div class="col-3">
-        <div class="row float-left">
-          <div class="col q-pl-sm">
-            <HelpButton id="help-btn" />
-          </div>
+  <div class="app">
+    <div class="background" ref="lottieContainer"></div>
+    <div class="foreground">
+      <q-layout view="hHh lpR fFf" class="bg" data-cy="homepage">
+        <q-header class="transparent row q-pa-md">
+          <div class="col-3">
+            <div class="row float-left">
+              <div class="col q-pl-sm">
+                <HelpButton id="help-btn" />
+              </div>
 
-          <div class="col q-pl-sm">
-            <AchievementButton
-              id="achievement-btn"
-              @click="navigateToAchievements"
+              <div class="col q-pl-sm">
+                <AchievementButton
+                  id="achievement-btn"
+                  @click="navigateToAchievements"
+                />
+              </div>
+              <div class="col q-pl-sm">
+                <AgeGroupButton
+                  @click="openAgeGroupDialog"
+                  id="age-group-btn"
+                />
+                <AgeGroupDialog
+                  v-model="isAgeGroupDialogVisible"
+                  @update:data-for-homepage="updateData"
+                />
+              </div>
+            </div>
+          </div>
+          <q-space />
+          <q-space />
+          <q-btn
+            glossy
+            rounded
+            color="grey-9"
+            icon="img:/coin.svg"
+            :disable="true"
+            label="100"
+          />
+
+          <div class="col-3">
+            <div class="row float-right">
+              <div class="col q-pr-sm q-pl-sm">
+                <SoundButton id="sound-btn" />
+              </div>
+
+              <div class="col q-pr-sm">
+                <MusicButton id="music-btn" />
+              </div>
+
+              <div class="col q-pr-sm">
+                <MenuButton
+                  @open-dialog="openMenuDialog"
+                  data-cy="menu-btn"
+                  id="menu-btn"
+                />
+                <MenuDialog
+                  v-model="isMenuDialogVisible"
+                  data-cy="menu-dialog"
+                  @update:data-for-homepage="updateData"
+                />
+              </div>
+            </div>
+          </div>
+        </q-header>
+
+        <q-page-container>
+          <SettingComponent
+            id="setting"
+            :key="dataForHomepage"
+            :image-urls="getSettingsToDisplay.settingIcons"
+            :setting-names="getSettingsToDisplay.settingNames"
+            data-cy="setting-component"
+            :age-group="dataForHomepage"
+          />
+        </q-page-container>
+        <q-page-container class="fixed-bottom-left q-pl-lg q-pb-md">
+          <div style="padding-top: 240px">
+            <RobotConnectButton
+              :loading-handler="
+                (isLoading) => {
+                  findingRobotDialog = isLoading;
+                }
+              "
+              :open-bt-setting-handler="() => (isPairingDialog = true)"
+              id="robot-btn"
             />
-          </div>
-          <div class="col q-pl-sm">
-            <AgeGroupButton @click="openAgeGroupDialog" id="age-group-btn" />
-            <AgeGroupDialog
-              v-model="isAgeGroupDialogVisible"
-              @update:data-for-homepage="updateData"
-            />
-          </div>
-        </div>
-      </div>
-      <q-space />
-      <q-space />
-      <q-btn glossy rounded  color="grey-9" icon="img:/coin.svg" :disable="true" label="100"/>
 
-      <div class="col-3">
-        <div class="row float-right">
-          <div class="col q-pr-sm q-pl-sm">
-            <SoundButton id="sound-btn" />
+            <FindingDialog v-model="findingRobotDialog" />
+            <PairingDialog v-model="isPairingDialog" />
           </div>
-
-          <div class="col q-pr-sm">
-            <MusicButton id="music-btn" />
-          </div>
-
-          <div class="col q-pr-sm">
-            <MenuButton
-              @open-dialog="openMenuDialog"
-              data-cy="menu-btn"
-              id="menu-btn"
-            />
-            <MenuDialog
-              v-model="isMenuDialogVisible"
-              data-cy="menu-dialog"
-              @update:data-for-homepage="updateData"
-            />
-          </div>
-        </div>
-      </div>
-    </q-header>
-
-    <q-page-container class="fixed-center">
-      <SettingComponent
-        id="setting"
-        :key="dataForHomepage"
-        :image-urls="getSettingsToDisplay.settingIcons"
-        :setting-names="getSettingsToDisplay.settingNames"
-        data-cy="setting-component"
-        :age-group="dataForHomepage"
-      />
-    </q-page-container>
-    <q-page-container class="fixed-bottom-left q-pl-lg q-pb-md">
-      <div style="padding-top: 240px">
-        <RobotConnectButton
-          :loading-handler="
-            (isLoading) => {
-              findingRobotDialog = isLoading;
-            }
-          "
-          :open-bt-setting-handler="() => (isPairingDialog = true)"
-          id="robot-btn"
-        />
-
-        <FindingDialog v-model="findingRobotDialog" />
-        <PairingDialog v-model="isPairingDialog" />
-      </div>
-    </q-page-container>
-  </q-layout>
+        </q-page-container>
+      </q-layout>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -104,6 +119,8 @@ import introConfig from '../onboarding/intro.json';
 import { Options } from 'intro.js/src/option';
 import { getUser, userID } from '../firebase/firestore';
 import { useRouter } from 'vue-router';
+import lottie from 'lottie-web';
+import animationData from '../../public/bgs/bg-animation.json';
 
 const $q = useQuasar();
 const isMenuDialogVisible = ref(false);
@@ -113,6 +130,7 @@ const isPairingDialog = ref(false);
 const dataForHomepage = ref($q.localStorage.getItem('age_group') as string);
 const intro = introJS();
 const router = useRouter();
+const lottieContainer = ref();
 
 // introduces a walkthrough on homepage launch
 onMounted(() => {
@@ -130,6 +148,17 @@ onMounted(() => {
       }
     });
   }
+
+  lottie.loadAnimation({
+    container: lottieContainer.value,
+    loop: true,
+    autoplay: true,
+    renderer: 'svg',
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice',
+    },
+  });
 });
 
 const startOnboarding = () => {
@@ -186,13 +215,25 @@ const navigateToAchievements = () => {
 </script>
 
 <style>
+.app {
+  position: relative;
+  height: 100vh;
+}
+
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: -1;
+}
+
+.foreground {
+  z-index: 1;
+}
 .bg {
-  background: linear-gradient(
-    180deg,
-    rgba(225, 229, 242, 1) 5%,
-    rgb(169, 209, 248) 35%,
-    rgba(157, 202, 255, 1) 100%
-  ) !important;
   width: 100% !important;
   height: 100vh !important;
 }
