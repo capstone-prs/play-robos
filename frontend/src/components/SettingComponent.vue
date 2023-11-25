@@ -1,34 +1,34 @@
 <template>
-  <div>
-    <q-carousel swipeable arrows animated v-model="slide" class="transparent">
-      <q-carousel-slide
-        v-for="(imageUrl, index) in props.imageUrls"
-        :key="index"
-        :name="index"
-        class="column no-wrap"
+  <div class="horizontal-scroll-container">
+    <div class="centering-wrapper">
+      <q-virtual-scroll
+        :items="imageUrls"
+        virtual-scroll-horizontal
+        v-slot="{ item, index }"
       >
-        <div
-          class="row items-center q-gutter-md q-col-gutter no-wrap"
-          align="center"
-        >
-          <CardComponentVue
-            :imageUrl="imageUrl"
-            :setting-name="$props.settingNames[index]"
-            class="col-4"
-            style="width: 600px"
-          />
-        </div>
-
-        <q-card-actions class="q-mt-md" align="center">
-          <ActionButtonVue
-            id="enter-setting-btn"
-            text-label="Enter"
-            @click="navigateToActivities"
-          />
-        </q-card-actions>
-      </q-carousel-slide>
-    </q-carousel>
+        <CardComponentVue
+          :active="index === activeSetting ? true : false"
+          :imageUrl="item"
+          :setting-name="$props.settingNames[index]"
+          :key="index"
+          :accessible="$props.accessibility[index]"
+          class="q-ma-lg"
+          :class="index === activeSetting ? 'active-setting' : ''"
+          @click="accessibility[index] ? navigateToActivities(index) : ''"
+        />
+      </q-virtual-scroll>
+    </div>
   </div>
+
+  <q-card-actions align="center">
+    <ActionButtonVue
+      id="enter-setting-btn"
+      text-label="RESUME"
+      class="absolute-center"
+      style="margin-top: 130px"
+      @click="navigateToActivities(activeSetting)"
+    />
+  </q-card-actions>
 </template>
 
 <script setup lang="ts">
@@ -43,10 +43,11 @@ import settingConfig from '../onboarding/intro.json';
 import { Options } from 'intro.js/src/option';
 
 const $q = useQuasar();
-const slide = ref(0);
 const router = useRouter();
 const intro = introJS();
 
+// TODO: TO change when progress is accessible
+const activeSetting = ref(0);
 const startOnboarding = () => {
   intro.setOptions(settingConfig as Partial<Options>);
   intro.goToStep(8);
@@ -62,6 +63,7 @@ const props = defineProps<{
   imageUrls: Array<string>;
   ageGroup: string;
   settingNames: Array<string>;
+  accessibility: Array<boolean>;
 }>();
 
 const showLoading = () => {
@@ -77,16 +79,19 @@ const showLoading = () => {
 };
 
 // send age group and active setting via route parameter
-const navigateToActivities = () => {
+const navigateToActivities = (settingNum: number) => {
   showLoading();
   return router.push({
     name: 'activity',
-    params: { param: (props.ageGroup + ' ' + slide.value) as string },
+    params: { param: (props.ageGroup + ' ' + settingNum) as string },
   });
 };
 </script>
 
 <style>
+.q-scroll-area::-webkit-scrollbar {
+  width: 0 !important; /* Width of the scrollbar */
+}
 .active-card {
   transform: scale(1.2);
   transition: transform 0.3s;
@@ -107,5 +112,50 @@ const navigateToActivities = () => {
   display: flex;
   justify-content: center; /* Center horizontally */
   margin-top: 10px; /* Adjust as needed */
+}
+
+.horizontal-scroll-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-x: auto;
+}
+
+.centering-wrapper {
+  max-width: 100%; /* Adjust the maximum width as needed */
+}
+
+.active-setting {
+  animation: SettingLabelAnimation 3s ease 0s infinite alternate forwards;
+}
+
+@keyframes SettingLabelAnimation {
+  0% {
+    transform: scale3d(1, 1, 1);
+  }
+
+  30% {
+    transform: scale3d(1.25, 0.75, 1);
+  }
+
+  40% {
+    transform: scale3d(0.75, 1.25, 1);
+  }
+
+  50% {
+    transform: scale3d(1.15, 0.85, 1);
+  }
+
+  65% {
+    transform: scale3d(0.95, 1.05, 1);
+  }
+
+  75% {
+    transform: scale3d(1.05, 0.95, 1);
+  }
+
+  100% {
+    transform: scale3d(1, 1, 1);
+  }
 }
 </style>

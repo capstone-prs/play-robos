@@ -13,5 +13,6 @@ export interface Setting {
   settingName: string;
   settingImage: string;
   settingBg: string;
+  accessible: boolean;
   levels: Array<Level>;
 }
