@@ -43,32 +43,16 @@
 <script setup lang="ts">
 import ActionButton from '../buttons/ActionButton.vue';
 import { useRouter } from 'vue-router';
-import { soundEffect, backgroundMusic } from 'src/utils/SoundUtils';
-import { onMounted, reactive, ref } from 'vue';
+
+import { onMounted, ref } from 'vue';
 import '../../css/style.css';
 import lottie from 'lottie-web';
 import animationData from '../../../public/bgs/index-bg.json';
-
-interface State {
-  isBackgroundMusicPlaying: boolean;
-}
-
-const state = reactive<State>({
-  isBackgroundMusicPlaying: false,
-});
+import { soundEffect } from 'src/utils/SoundUtils';
 
 const lottieContainer = ref();
 
 onMounted(() => {
-  if (typeof Howler !== 'undefined' && !state.isBackgroundMusicPlaying) {
-    backgroundMusic.play();
-    state.isBackgroundMusicPlaying = true;
-  } else {
-    console.error(
-      'Howler.js is not loaded or background music is already playing.'
-    );
-  }
-
   lottie.loadAnimation({
     container: lottieContainer.value,
     loop: true,
@@ -76,14 +60,12 @@ onMounted(() => {
     renderer: 'svg',
     animationData: animationData,
     rendererSettings: {
-      preserveAspectRatio: 'xMidYMid slice', // Adjust the preserveAspectRatio as needed
-    },
+      preserveAspectRatio: 'xMidYMid slice' // Adjust the preserveAspectRatio as needed
+    }
   });
 });
 
 const router = useRouter();
-backgroundMusic.load;
-backgroundMusic.play();
 const navigateToLogin = () => {
   soundEffect();
   router.push('/login');

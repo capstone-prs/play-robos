@@ -146,6 +146,7 @@
 
 <script setup lang="ts">
 import { signup } from '../../firebase/auth';
+import success from '../../assets/sounds/success-notify.mp3';
 import '../../css/style.css';
 import { QInput, useQuasar } from 'quasar';
 import { ref } from 'vue';
@@ -165,7 +166,7 @@ const Text = 'sign up';
 const triggerNotify = (type: string, message: string) => {
   $q.notify({
     type: type,
-    message: message,
+    message: message
   });
 };
 const validateRePassword = (val: string) =>
@@ -181,43 +182,43 @@ const data = {
   name: {
     ref: ref<QInput | null>(null),
     model: ref<string>(''),
-    rules: [validate('NAME')],
+    rules: [validate('NAME')]
   },
   gender: {
     ref: ref<QInput | null>(null),
     model: ref<Gender>(),
     options: ['Male', 'Female'],
-    rules: [validate('GENDER')],
+    rules: [validate('GENDER')]
   },
   birthdate: {
     ref: ref<QInput | null>(null),
     model: ref<string>(),
-    rules: [validate('BIRTHDATE')],
+    rules: [validate('BIRTHDATE')]
   },
   email: {
     ref: ref<QInput | null>(null),
     model: ref<string>(''),
     rules: [validate('EMAIL')],
     isError: ref(false),
-    errorMessage: ref<string>(''),
+    errorMessage: ref<string>('')
   },
   password: {
     ref: ref<QInput | null>(null),
     model: ref<string>(''),
-    rules: [validate('PASSWORD')],
+    rules: [validate('PASSWORD')]
   },
   rePassword: {
     ref: ref<QInput | null>(null),
     model: ref<string>(''),
-    rules: [validateRePassword],
-  },
+    rules: [validateRePassword]
+  }
 };
 
 const showLoading = () => {
   $q.loading.show({
     spinnerColor: 'white',
     backgroundColor: 'black',
-    message: 'Setting everthing up...',
+    message: 'Setting everthing up...'
   });
 
   setTimeout(() => {
@@ -253,12 +254,13 @@ const submit = () => {
           {
             user_name: data.name.model.value,
             user_gender: data.gender.model.value,
-            user_birthdate: new Date(data.birthdate.model.value),
+            user_birthdate: new Date(data.birthdate.model.value)
           },
           newUser.user.uid
         )
           .then(() => triggerNotify('positive', 'Successful Sign In'))
           .then(() => {
+            soundEffect(success);
             router.push('/home');
             showLoading();
           });
