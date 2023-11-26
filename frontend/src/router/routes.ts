@@ -33,6 +33,11 @@ const routes: RouteRecordRaw[] = [
     name: 'achievement',
     component: () => import('../pages/AchievementsPage.vue'),
   },
+  {
+    path: '/narrative/:param',
+    name: 'narrative',
+    component: () => import('../pages/NarrativePage.vue'),
+  },
 
   // Always leave this as last one,
   // but you can also remove it

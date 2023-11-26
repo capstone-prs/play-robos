@@ -74,7 +74,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 import HelpButton from '../components/buttons/HelpButton.vue';
@@ -89,11 +89,70 @@ import { settings_hard } from '../components/games/levels-hard';
 import PreviousButton from '../components/buttons/PreviousButton.vue';
 
 const isMenuDialogVisible = ref(false);
-const route = useRouter().currentRoute;
+const router = useRouter();
+const route = router.currentRoute;
 const levelNumber = route.value.params.param as string;
 const splitParams = levelNumber.split(' ');
 const difficulty = splitParams[0];
 const settingNumber = parseInt(splitParams[1]);
+
+onMounted(() => {
+  introScene(settingNumber);
+  outroScene(settingNumber);
+  checkSettingProgress();
+});
+
+const introMapScenes = ['0_3', '8_12', '16_19', '29_35', '39_43'];
+const outroMapScenes = ['4_6', '13_14,', '20_27', '36-37', '44_46'];
+
+const introScene = (setting: number) => {
+  const hasLoadedIntroScene = sessionStorage.getItem(
+    `hasLoadedIntro${setting}`
+  );
+  if (!hasLoadedIntroScene) {
+    introMapScenes.map((scene) => {
+      introMapScenes.indexOf(scene) === setting &&
+      !settings_easy[settingNumber].levels[1].completed
+        ? router.push({ name: 'narrative', params: { param: scene } })
+        : '';
+    });
+    sessionStorage.setItem(`hasLoadedIntro${setting}`, 'true');
+  }
+};
+
+const outroScene = (setting: number) => {
+  outroMapScenes.map((scene) => {
+    if (difficulty === '5-7') {
+      const easyLength = settings_easy[settingNumber].levels.length;
+      outroMapScenes.indexOf(scene) === setting &&
+      settings_easy[settingNumber].levels[easyLength - 2].completed
+        ? router.push({ name: 'narrative', params: { param: scene } })
+        : '';
+    } else {
+      const hardLength = settings_hard[settingNumber].levels.length;
+      outroMapScenes.indexOf(scene) === setting &&
+      settings_hard[settingNumber].levels[hardLength - 2].completed
+        ? router.push({ name: 'narrative', params: { param: scene } })
+        : '';
+    }
+  });
+};
+
+const checkSettingProgress = () => {
+  if (difficulty === 'easy') {
+    const isAllCompleted = settings_easy[settingNumber].levels.every(
+      (level) => level.completed === true
+    );
+
+    isAllCompleted ? (settings_easy[settingNumber + 1].accessible = true) : '';
+  } else {
+    const isAllCompleted = settings_hard[settingNumber].levels.every(
+      (level) => level.completed === true
+    );
+
+    isAllCompleted ? (settings_hard[settingNumber + 1].accessible = true) : '';
+  }
+};
 
 const openMenuDialog = () => {
   isMenuDialogVisible.value = true;
@@ -122,8 +181,6 @@ const determineLevelsToDisplay = computed(() => {
 const updateData = (newData: string) => {
   dataForHomepage.value = newData;
 };
-
-const router = useRouter();
 
 const navigateBack = () => {
   return router.go(-1);
