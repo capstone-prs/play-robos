@@ -35,6 +35,7 @@
             size="sm"
             icon="help"
             label="help"
+            @click="startOnboarding"
           />
         </div>
         <div class="col q-ma-xs">
@@ -46,6 +47,7 @@
             size="sm"
             icon="menu"
             label="menu"
+            id="menu-btn"
             @click="openMenuDialog"
           />
         </div>
@@ -67,7 +69,7 @@
         <q-badge>{{ levels[levelNum - 1].goalTitle }}</q-badge>
       </div>
       <div class="row justify-center q-ma-md">
-        <ImageViewer :pics="levels[levelNum - 1].gif" />
+        <ImageViewer :pics="levels[levelNum - 1].gif" id="goal" />
       </div>
       <div class="row q-mt-md">
         <q-btn

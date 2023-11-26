@@ -7,7 +7,7 @@
           <div class="col-3">
             <div class="row float-left">
               <div class="col q-pl-sm">
-                <HelpButton id="help-btn" />
+                <HelpButton id="help-btn" @click="restartOnboarding" />
               </div>
 
               <div class="col q-pl-sm">
@@ -172,6 +172,11 @@ const startOnboarding = () => {
     intro.start();
     sessionStorage.setItem('hasCompletedOnboarding', 'true');
   }
+};
+
+const restartOnboarding = () => {
+  sessionStorage.removeItem('hasCompletedOnboarding');
+  startOnboarding();
 };
 
 // makes the method a computed property to simplify access to the method

@@ -12,7 +12,7 @@
     },
     {
       "element": "#age-group-btn",
-      "intro": "Click here to switch age group",
+      "intro": "Click here to switch difficulty",
       "position": "bottom"
     },
     {
