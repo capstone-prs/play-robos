@@ -12,33 +12,28 @@
 </template>
 
 <script setup lang="ts">
-
 import { useQuasar } from 'quasar';
-import { backgroundMusic,soundEffect} from 'src/utils/SoundUtils';
-import { ref,watch } from 'vue';
+import { soundEffect, backgroundMusicHome } from 'src/utils/SoundUtils';
+import { ref, watch } from 'vue';
 const $q = useQuasar();
 
 const musicIcon = ref(
-  $q.localStorage.getItem('musicIcon') as string | undefined
+  ($q.localStorage.getItem('musicIcon') as string) || 'img:/music-btn.svg'
 );
 
-
 const emit = defineEmits(['update:MusicValue']);
-
 watch(musicIcon, () => {
   $q.localStorage.set('musicIcon', musicIcon.value);
-  emit('update:MusicValue', $q.localStorage.getItem('musicIcon'))
-})
+  emit('update:MusicValue', musicIcon.value);
+});
 
- 
 const toggleMute = () => {
   soundEffect();
-  if (backgroundMusic.playing() == false) {
-    backgroundMusic.play();
+  if (backgroundMusicHome.playing() === false) {
+    backgroundMusicHome.play();
     musicIcon.value = 'img:/music-btn.svg';
-
   } else {
-    backgroundMusic.stop();
+    backgroundMusicHome.stop();
     musicIcon.value = 'img:/no-music.svg';
   }
 };

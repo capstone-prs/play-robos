@@ -1,8 +1,7 @@
 <template>
   <q-dialog v-model="isDialogOpen">
     <q-card style="width: 200%; height: 100%">
-      <q-space />
-      <div class="q-pt-lg q-pm-none">
+      <div class="q-pt-xs q-pm-none">
         <q-card-section class="q-pt-none q-pm-none" align="center">
           <div class="text-h4 correct-text">CONGRATULATIONS!</div>
           <div class="text-h6 detail-text">
@@ -14,29 +13,38 @@
         </q-card-section>
       </div>
       <q-card-section align="center">
-        <div class="row">
-          <ActionButton
-            class="col-3"
+        <div class="row" q-pa-xs>
+          <q-btn
+            class="col-3 q-ma-xs"
             @click="atHome"
-            text-label="Home"
+            icon="home"
             color="purple"
+            rounded
             text-color="white"
+            size="lg"
             data-testid="upload-btn"
           />
-          <ActionButton
-            class="col"
-            text-label="RESTART"
+          <q-btn
+            class="col q-ma-xs"
+            rounded
+            icon="refresh"
             color="pink-6"
+            size="lg"
+            text-color="white"
+            @click="redo"
+            data-testid="upload-btn"
+          ></q-btn>
+          <q-btn
+            class="col q-ma-xs"
+            rounded
+            text-label="Next Level"
+            icon="play_arrow"
+            color="amber-4"
+            size="lg"
             text-color="white"
             data-testid="upload-btn"
-          ></ActionButton>
-          <ActionButton
-            class="col"
-            text-label="Next Level"
-
-            color="amber-4"
-            text-color="blue"
-            data-testid="upload-btn"
+            icon-class="custom-icon"
+            @click="nextLevel"
           />
         </div>
       </q-card-section>
@@ -46,10 +54,13 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import ActionButton from './buttons/ActionButton.vue';
+import { soundEffect } from 'src/utils/SoundUtils';
 import { useRouter } from 'vue-router';
+import { useQuasar } from 'quasar';
 
+const $q = useQuasar();
 
+console.log($q.localStorage.getItem('coin_storage'));
 const router = useRouter();
 defineProps<{
   coins: number;
@@ -57,14 +68,20 @@ defineProps<{
 
 const isDialogOpen = ref(false);
 const atHome = () => {
+  soundEffect();
   return router.push('/home');
 };
+const redo = () => {
+  soundEffect();
+  // return router.push('/home');
+};
 
-// const nextLevel = () => {
-//    console.log( router.currentRoute.value.path);
-//     router.push('/studio/0_2_easy')
-// Next page logic 
-// }
+const nextLevel = () => {
+  soundEffect();
+  console.log(router.currentRoute.value.path);
+  router.push('/studio/0_2_easy');
+  // Next page logic
+};
 </script>
 
 <style>
