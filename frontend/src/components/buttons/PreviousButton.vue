@@ -6,15 +6,16 @@
         name="arrow_back"
         size="50px"
         data-testid="home-btn"
+        @click="click"
       />
     </q-btn>
   </div>
 </template>
 
 <script setup lang="ts">
-import { soundEffect } from '../../utils/SoundUtils'
-import back from '../../assets/sounds/back.mp3'
+import { soundEffect } from '../../utils/SoundUtils';
+import back from '../../assets/sounds/back.mp3';
 const click = () => {
-    soundEffect(back);
-  }
+  soundEffect(back);
+};
 </script>

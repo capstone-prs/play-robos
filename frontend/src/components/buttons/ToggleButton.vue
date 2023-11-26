@@ -10,7 +10,7 @@
     toggle-color="blue-4"
     :options="options"
     data-testid="toggle-btn"
-    @click = "click"
+    @click="click"
   >
     <template v-slot:one />
     <template v-slot:two />
@@ -24,7 +24,7 @@ import { useQuasar } from 'quasar';
 // defines the two options for the age group
 const options = [
   { label: 'Easy', value: 'easy', slot: 'one' },
-  { label: 'Hard', value: 'hard', slot: 'two' },
+  { label: 'Hard', value: 'hard', slot: 'two' }
 ];
 
 // initializes the default value of the selected option to null
@@ -43,12 +43,11 @@ watch(selectedOption, () => {
   emit('update:modelValue', $q.localStorage.getItem('age_group'));
 });
 
-import { soundEffect } from '../../utils/SoundUtils'
+import { soundEffect } from '../../utils/SoundUtils';
 const click = () => {
-    soundEffect();
-  }
+  soundEffect();
+};
 
-// console.log($q.localStorage.getItem('age_group'));
 </script>
 
 <style>

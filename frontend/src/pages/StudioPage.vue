@@ -13,7 +13,7 @@ import { ref } from 'vue';
 import BlocklyComponent from '../components/blockly/BlocklyComponent.vue';
 import {
   backgroundMusicStudio,
-  backgroundMusic
+  backgroundMusicHome
 } from '../../src/utils/SoundUtils';
 
 const blockly = ref();
@@ -26,10 +26,9 @@ const options = {
     snap: true
   }
 };
-if (backgroundMusic.playing() == true) {
-  backgroundMusic.stop();
+if (backgroundMusicHome.playing() == true) {
+  backgroundMusicHome.stop();
   backgroundMusicStudio.play();
-  backgroundMusicStudio.fade(0.0, 1.0, 5000);
 }
 </script>
 
