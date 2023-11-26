@@ -57,6 +57,8 @@
 <script setup lang="ts">
 import LogoutDialog from './LogoutDialog.vue';
 import ActionButton from './buttons/ActionButton.vue';
+import back from '../assets/sounds/back.mp3'
+import { soundEffect } from 'src/utils/SoundUtils';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -74,9 +76,11 @@ const openLogoutDialog = () => {
 };
 
 const atHome = () => {
+  soundEffect();
   return router.push('/home');
 };
 const atBack = () => {
+  soundEffect(back);
   return router.go(-1);
 };
 </script>

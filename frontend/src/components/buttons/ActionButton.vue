@@ -8,6 +8,7 @@
       :text-color="textColor"
       data-cy="action-btn"
       :disable="isDisabled"
+      @click="click"
     >
       {{ textLabel }}
     </q-btn>
@@ -15,6 +16,10 @@
 </template>
 
 <script setup lang="ts">
+import { soundEffect } from '../../utils/SoundUtils'
+const click = () => {
+    soundEffect();
+  }
 defineProps({
   textLabel: {
     type: String,
@@ -36,9 +41,11 @@ defineProps({
     type: String,
     default: 'lg'
   }
+  
 });
-</script>
 
+</script >
+const 
 <style>
 @font-face {
   font-family: hitchcut;

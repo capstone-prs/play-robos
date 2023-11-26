@@ -29,6 +29,7 @@
 </template>
 <script setup lang="ts">
 import { ref } from 'vue';
+import { soundEffect } from '../../utils/SoundUtils';
 
 const props = defineProps({
   pics: {
@@ -43,6 +44,7 @@ const icon = ref('play_arrow');
 
 const play = async () => {
   if (!showPlaying.value) {
+    soundEffect();
     showPlaying.value = true;
     for (let i = 0; i < props.pics.length; i++) {
       showing.value = props.pics[i];

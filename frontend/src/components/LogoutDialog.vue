@@ -41,7 +41,6 @@ const secondDialog = ref(false);
 const handleLogout = () => {
   logout()
     .then(() => {
-      console.log('logout');
       router.push('/#/');
     })
 
