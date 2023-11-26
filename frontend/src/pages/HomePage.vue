@@ -36,7 +36,7 @@
             color="grey-9"
             icon="img:/coin.svg"
             :disable="true"
-            label="100"
+            :label="coinsStorage"
           />
 
           <div class="col-3">
@@ -123,7 +123,12 @@ import { getUser, userID } from '../firebase/firestore';
 import { useRouter } from 'vue-router';
 import lottie from 'lottie-web';
 import animationData from '../../public/bgs/bg-animation.json';
-import { soundEffect,backgroundMusic,backgroundMusicStudio } from '../../../frontend/src/utils/SoundUtils'
+import {
+  soundEffect,
+  backgroundMusic,
+  backgroundMusicStudio,
+  backgroundMusicHome
+} from '../../../frontend/src/utils/SoundUtils';
 const $q = useQuasar();
 const isMenuDialogVisible = ref(false);
 const isAgeGroupDialogVisible = ref(false);
@@ -134,15 +139,19 @@ const intro = introJS();
 const router = useRouter();
 const lottieContainer = ref();
 
-if(backgroundMusicStudio.playing() == true){
-  backgroundMusicStudio.stop()
-  backgroundMusic.play()
+if (
+  backgroundMusicStudio.playing() == true ||
+  backgroundMusicHome.playing() == false
+) {
+  backgroundMusicStudio.stop();
+  backgroundMusic.stop();
+  backgroundMusicHome.play();
 }
 
-// introduces a walkthrough on homepage launch
+const coinsStorage = ref($q.localStorage.getItem('coin_storage') as number || 0);
 onMounted(() => {
   startOnboarding();
-
+  $q.localStorage.set('coin_storage', coinsStorage.value);
   // to improve
   if (sessionStorage.getItem('hasCompletedOnboarding') != 'true') {
     getUser(userID()).then((user) => {
@@ -163,11 +172,11 @@ onMounted(() => {
     renderer: 'svg',
     animationData: animationData,
     rendererSettings: {
-      preserveAspectRatio: 'xMidYMid slice',
-    },
+      preserveAspectRatio: 'xMidYMid slice'
+    }
   });
 });
-
+// $q.localStorage.set('coin_storage',coinsStorage.value+=100)
 const startOnboarding = () => {
   const hasCompletedOnboarding = sessionStorage.getItem(
     'hasCompletedOnboarding'
@@ -198,7 +207,7 @@ const getSettingsToDisplay = computed(() => {
   return {
     settingIcons: settingUrls,
     settingNames: settingTitles,
-    settingAccess: settingAccessibility,
+    settingAccess: settingAccessibility
   };
 });
 
