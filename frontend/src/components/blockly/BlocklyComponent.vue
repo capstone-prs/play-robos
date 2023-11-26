@@ -25,7 +25,7 @@
     </div>
 
     <div class="col-3 q-px-md">
-      <div class="row">
+      <div class="row q-mt-sm">
         <div class="col q-ma-xs">
           <q-btn
             class="fit wrap"
@@ -62,13 +62,40 @@
           label="undo"
         />
       </div>
-      <div class="row justify-center items-start q-ma-md">
-        <q-badge>Level: {{ levels[levelNum - 1].levelNum }}</q-badge>
-        <q-badge>{{ levels[levelNum - 1].goalTitle }}</q-badge>
+      <div class="row q-ma-sm">
+        <div class="col">
+          <div class="row justify-center q-mb-xs">
+            <q-badge class="hitchcut"
+              >Level: {{ levels[levelNum - 1].levelNum }}</q-badge
+            >
+          </div>
+          <div class="row justify-center" style="overflow-x: auto">
+            <div
+              class="hitchcut q-px-xs text-primary"
+              style="
+                border-style: solid;
+                border-radius: 5px;
+                border-color: #0273d4;
+                border-width: 1px;
+                overflow: auto;
+                white-space: nowrap;
+              "
+            >
+              {{ levels[levelNum - 1].goalTitle }}
+            </div>
+            <!-- <q-badge outline color="primary" class="hitchcut">
+              {{ levels[levelNum - 1].goalTitle }}
+            </q-badge> -->
+          </div>
+        </div>
       </div>
       <div class="row justify-center q-ma-md">
+        <q-badge color="secondary" outline>{{ Date.now() }}</q-badge>
+      </div>
+      <div class="row justify-center q-ma-sm">
         <ImageViewer :pics="levels[levelNum - 1].gif" />
       </div>
+
       <div class="row q-mt-md">
         <q-btn
           class="fit wrap q-ma-xs"
@@ -300,6 +327,11 @@ const isCorrectCode = () => {
 </script>
 
 <style>
+@font-face {
+  font-family: hitchcut;
+  src: url('/fonts/Hitchcut-Regular.woff');
+}
+
 .workspace-container {
   position: relative;
   height: 100vh;
@@ -320,6 +352,11 @@ const isCorrectCode = () => {
   width: 75%;
   max-width: 200px;
   position: relative;
+}
+
+.hitchcut {
+  font-family: 'hitchcut';
+  font-size: small;
 }
 </style>
 ../games/levels-easy ../games/levels-hard
