@@ -187,23 +187,22 @@ onMounted(() => {
     initializeLocalActivityProgress();
   }
 
-  const dataToUpdate: ActivityProgress = {
-    activity: {
-      setting: settingNum,
-      id: levelNum,
-      difficulty: ageGroup as Difficulty,
-    },
-    duration: 50,
-    attempt: 1,
-    decomposition: 100,
-    pattern: 100,
-    completed: true,
-  };
+  // const dataToUpdate: ActivityProgress = {
+  //   activity: {
+  //     setting: settingNum,
+  //     id: levelNum,
+  //     difficulty: ageGroup as Difficulty,
+  //   },
+  //   duration: 50,
+  //   attempt: 1,
+  //   decomposition: 100,
+  //   pattern: 100,
+  //   completed: true,
+  // };
 
-  addLocalActivityProgress(dataToUpdate);
-  addLocalActivityProgress(dataToUpdate);
+  // addLocalActivityProgress(dataToUpdate);
 
-  console.log(localStorage.getItem('localData'));
+  // console.log(localStorage.getItem('localData'));
 
   workspace.value = Blockly.inject(blocklyContainer.value, {
     // refer to typetoolbox.ts file
