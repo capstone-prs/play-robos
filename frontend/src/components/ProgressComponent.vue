@@ -47,7 +47,7 @@ import { QTableColumn } from 'quasar';
 
 const userScore = ref(0);
 const percentage = (userScore.value / 3000) * 1000;
-let rows = [];
+let rows: any[] = [];
 
 onMounted(() => {
   const storedDataString = localStorage.getItem('localData');
