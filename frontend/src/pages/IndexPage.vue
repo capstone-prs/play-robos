@@ -1,32 +1,23 @@
 <template>
   <div>
-    <!-- <button @click="login">Sign In with Google</button> -->
-
-    <!-- <SignupForm />
-    <LoginForm /> -->
-
     <AuthPage />
-    <!-- <HomePage /> -->
   </div>
 </template>
 
-<script lang="ts">
-// import '../firebase/config'
-
-// import SignupForm from '../components/login/SignupForm.vue';
-// import LoginForm from '../components/login/LoginForm.vue';
-
+<script setup lang="ts">
 import AuthPage from '../components/login/AuthPage.vue';
-
-import { defineComponent } from 'vue';
-// import StudioPage from './StudioPage.vue';
-export default defineComponent({
-  name: 'IndexPage',
-  components: {
-    AuthPage,
-    // HomePage
-  },
-
-  methods: {},
-});
+import {
+  backgroundMusic,
+  backgroundMusicHome,
+  backgroundMusicStudio
+} from 'src/utils/SoundUtils';
+if (
+  backgroundMusicHome.playing() == true ||
+  backgroundMusicStudio.playing() == true ||
+  backgroundMusic.playing() == false
+) {
+  backgroundMusicHome.stop();
+  backgroundMusicStudio.stop();
+  backgroundMusic.play();
+}
 </script>

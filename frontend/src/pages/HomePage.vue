@@ -36,7 +36,7 @@
             color="grey-9"
             icon="img:/coin.svg"
             :disable="true"
-            label="100"
+            :label="coinsStorage"
           />
 
           <div class="col-3">
@@ -122,6 +122,12 @@ import animationData from '../../public/bgs/bg-animation.json';
 import { lottieBackgroundLoader } from '../utils/lottieUtils';
 import { startHomeOnboarding } from '../onboarding/studioOnboarding';
 
+import {
+  soundEffect,
+  backgroundMusic,
+  backgroundMusicStudio,
+  backgroundMusicHome,
+} from '../../../frontend/src/utils/SoundUtils';
 const $q = useQuasar();
 const isMenuDialogVisible = ref(false);
 const isAgeGroupDialogVisible = ref(false);
@@ -131,11 +137,22 @@ const dataForHomepage = ref($q.localStorage.getItem('age_group') as string);
 const router = useRouter();
 const lottieContainer = ref();
 
-// introduces a walkthrough on homepage launch
+if (
+  backgroundMusicStudio.playing() == true ||
+  backgroundMusicHome.playing() == false
+) {
+  backgroundMusicStudio.stop();
+  backgroundMusic.stop();
+  backgroundMusicHome.play();
+}
+
+const coinsStorage = ref(
+  ($q.localStorage.getItem('coin_storage') as number) || 0
+);
 onMounted(() => {
   lottieBackgroundLoader(animationData, lottieContainer);
   startOnboarding();
-
+  $q.localStorage.set('coin_storage', coinsStorage.value);
   // to improve
   if (sessionStorage.getItem('hasCompletedOnboarding') != 'true') {
     getUser(userID()).then((user) => {
@@ -148,8 +165,10 @@ onMounted(() => {
       // }
     });
   }
-});
 
+  lottieBackgroundLoader(animationData, lottieContainer);
+});
+// $q.localStorage.set('coin_storage',coinsStorage.value+=100)
 const startOnboarding = () => {
   const hasCompletedOnboarding = sessionStorage.getItem(
     'hasCompletedOnboarding'
@@ -206,6 +225,7 @@ const updateData = (newData: string) => {
 };
 
 const navigateToAchievements = () => {
+  soundEffect();
   router.push('/achievement');
 };
 </script>

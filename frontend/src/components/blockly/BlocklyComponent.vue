@@ -14,8 +14,11 @@
             "
           />
           <MenuDialog v-model="showMenuActivity" />
+          <CoinsDialog
+            v-model="showReward"
+            :coins="levels[levelNum - 1].reward"
+          />
         </div>
-
         <div
           ref="blocklyContainer"
           class="blockly-container"
@@ -25,7 +28,7 @@
     </div>
 
     <div class="col-3 q-px-md">
-      <div class="row">
+      <div class="row q-mt-sm">
         <div class="col q-ma-xs">
           <q-btn
             class="fit wrap"
@@ -64,13 +67,38 @@
           label="undo"
         />
       </div>
-      <div class="row justify-center items-start q-ma-md">
-        <q-badge>Level: {{ levels[levelNum - 1].levelNum }}</q-badge>
-        <q-badge>{{ levels[levelNum - 1].goalTitle }}</q-badge>
+      <div class="row q-ma-sm">
+        <div class="col">
+          <div class="row justify-center q-mb-xs">
+            <q-badge class="hitchcut"
+              >Level: {{ levels[levelNum - 1].levelNum }}</q-badge
+            >
+          </div>
+          <div class="row justify-center" style="overflow-x: auto">
+            <div
+              class="hitchcut q-px-xs text-primary"
+              style="
+                border-style: solid;
+                border-radius: 5px;
+                border-color: #0273d4;
+                border-width: 1px;
+                overflow: auto;
+                white-space: nowrap;
+              "
+            >
+              {{ levels[levelNum - 1].goalTitle }}
+            </div>
+            <!-- <q-badge outline color="primary" class="hitchcut">
+              {{ levels[levelNum - 1].goalTitle }}
+            </q-badge> -->
+          </div>
+        </div>
       </div>
       <div class="row justify-center q-ma-md">
         <ImageViewer :pics="levels[levelNum - 1].gif" id="goal" />
+        <q-badge color="secondary" outline>{{ Date.now() }}</q-badge>
       </div>
+
       <div class="row q-mt-md">
         <q-btn
           class="fit wrap q-ma-xs"
@@ -122,6 +150,13 @@ import {
 } from '../../utils/activityProgress';
 import { ActivityProgress, Difficulty } from '../../types/Progress';
 
+import CoinsDialog from '../CoinsDialog.vue';
+import '../../css/style.css';
+import 'intro.js/introjs.css';
+import errorSnd from '../../assets/sounds/errorSnd.mp3';
+import success from '../../assets/sounds/success-notify.mp3';
+import victory from '../../assets/sounds/victory-effect.mp3';
+import { soundEffect } from '../../utils/SoundUtils';
 const $q = useQuasar();
 const router = useRouter();
 const routeParam = router.currentRoute.value.params.param as string;
@@ -130,16 +165,20 @@ const splitParams = routeParam.split('_');
 const levelNum = parseInt(splitParams[1]); // to be use for check program
 const settingNum = parseInt(splitParams[0]);
 const ageGroup = splitParams[2];
-
+const showReward = ref(false);
 const showMenuActivity = ref(false);
 const taskStatus = ref<TaskStatus>('none');
 const progress = ref($q.notify({ group: false }));
-
 const workspace = ref<Blockly.Workspace>();
 const blocklyContainer = ref<string | Element>('');
+const coinsStorage = ref($q.localStorage.getItem('coin_storage'));
 
 const openCheckDialog = () => {
   isDialogOpen.value = true;
+};
+const openCoinsDialog = () => {
+  soundEffect(victory);
+  showReward.value = true;
 };
 
 const closeCheckDialog = () => {
@@ -147,14 +186,17 @@ const closeCheckDialog = () => {
 };
 
 const openMenuDialog = () => {
+  soundEffect();
   showMenuActivity.value = true;
 };
 
-const notifyError = (e: string) =>
+const notifyError = (e: string) => {
+  soundEffect(errorSnd);
   $q.notify({
     type: 'negative',
     message: e,
   });
+};
 
 const generator = (): string => {
   if (workspace.value) {
@@ -164,6 +206,7 @@ const generator = (): string => {
   throw new Error('Error at blocks generator');
 };
 const undo = () => {
+  soundEffect();
   if (workspace.value) {
     workspace.value.undo(false);
   }
@@ -268,12 +311,17 @@ const endProgressNotify = () => {
   hideLoadingUpload();
   $q.loading.hide();
   if (taskStatus.value === 'success') {
+    soundEffect(success);
     $q.notify({
       type: 'positive',
       position: 'top-right',
       message: 'Uploading done!',
       timeout: 1000,
     });
+    setTimeout(() => {
+      openCoinsDialog;
+    }, 2000);
+    //code for UI COINS
     taskStatus.value = 'none';
     // To-verify: when the execution is successful, it will unlock the next level
     levels[levelNum].completed = true;
@@ -292,6 +340,12 @@ const endProgressNotify = () => {
     };
 
     addLocalActivityProgress(dataToUpdate);
+    if (levels[levelNum]?.completed != true) {
+      $q.localStorage.set(
+        'coin_storage',
+        Number(coinsStorage.value) + levels[levelNum - 1].reward
+      );
+    }
   } else if (taskStatus.value === 'error' || taskStatus.value === 'started') {
     $q.notify({
       type: 'negative',
@@ -343,6 +397,11 @@ const isCorrectCode = () => {
 </script>
 
 <style>
+@font-face {
+  font-family: hitchcut;
+  src: url('/fonts/Hitchcut-Regular.woff');
+}
+
 .workspace-container {
   position: relative;
   height: 100vh;
@@ -363,6 +422,11 @@ const isCorrectCode = () => {
   width: 75%;
   max-width: 200px;
   position: relative;
+}
+
+.hitchcut {
+  font-family: 'hitchcut';
+  font-size: small;
 }
 </style>
 ../games/levels-easy ../games/levels-hard
