@@ -115,14 +115,12 @@ import AgeGroupDialog from '../components/AgeGroupDialog.vue';
 import { settings_easy } from '../components/games/levels-easy';
 import { settings_hard } from '../components/games/levels-hard';
 import { useQuasar } from 'quasar';
-import introJS from 'intro.js';
 import 'intro.js/introjs.css';
-import introConfig from '../onboarding/intro.json';
-import { Options } from 'intro.js/src/option';
 import { getUser, userID } from '../firebase/firestore';
 import { useRouter } from 'vue-router';
-import lottie from 'lottie-web';
 import animationData from '../../public/bgs/bg-animation.json';
+import { lottieBackgroundLoader } from '../utils/lottieUtils';
+import { startHomeOnboarding } from '../onboarding/studioOnboarding';
 
 const $q = useQuasar();
 const isMenuDialogVisible = ref(false);
@@ -130,12 +128,12 @@ const isAgeGroupDialogVisible = ref(false);
 const findingRobotDialog = ref(false);
 const isPairingDialog = ref(false);
 const dataForHomepage = ref($q.localStorage.getItem('age_group') as string);
-const intro = introJS();
 const router = useRouter();
 const lottieContainer = ref();
 
 // introduces a walkthrough on homepage launch
 onMounted(() => {
+  lottieBackgroundLoader(animationData, lottieContainer);
   startOnboarding();
 
   // to improve
@@ -150,17 +148,6 @@ onMounted(() => {
       // }
     });
   }
-
-  lottie.loadAnimation({
-    container: lottieContainer.value,
-    loop: true,
-    autoplay: true,
-    renderer: 'svg',
-    animationData: animationData,
-    rendererSettings: {
-      preserveAspectRatio: 'xMidYMid slice',
-    },
-  });
 });
 
 const startOnboarding = () => {
@@ -168,8 +155,7 @@ const startOnboarding = () => {
     'hasCompletedOnboarding'
   );
   if (hasCompletedOnboarding != 'true') {
-    intro.setOptions(introConfig as Partial<Options>);
-    intro.start();
+    startHomeOnboarding();
     sessionStorage.setItem('hasCompletedOnboarding', 'true');
   }
 };

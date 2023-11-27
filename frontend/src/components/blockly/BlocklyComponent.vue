@@ -35,7 +35,7 @@
             size="sm"
             icon="help"
             label="help"
-            @click="startOnboarding"
+            @click="startStudioOnboarding"
           />
         </div>
         <div class="col q-ma-xs">
@@ -111,9 +111,16 @@ import executeCodes from '../../utils/executeCodes';
 import { settings_easy } from '../games/levels-easy';
 import { settings_hard } from '../games/levels-hard';
 import { GeneratorCode } from '../../types/robotParts';
-import { startOnboarding } from '../../onboarding/studioOnboarding';
+import { startStudioOnboarding } from '../../onboarding/studioOnboarding';
 import '../../css/style.css';
 import 'intro.js/introjs.css';
+import {
+  addLocalActivityProgress,
+  initializeLocalActivityProgress,
+  solveAttemptScore,
+  solveDurationScore,
+} from '../../utils/activityProgress';
+import { ActivityProgress, Difficulty } from '../../types/Progress';
 
 const $q = useQuasar();
 const router = useRouter();
@@ -176,8 +183,28 @@ const correctCodes = levels[levelNum - 1].correctCode;
 
 onMounted(() => {
   if (settingNum == 0 && levelNum == 1) {
-    startOnboarding();
+    startStudioOnboarding();
+    initializeLocalActivityProgress();
   }
+
+  const dataToUpdate: ActivityProgress = {
+    activity: {
+      setting: settingNum,
+      id: levelNum,
+      difficulty: ageGroup as Difficulty,
+    },
+    duration: 50,
+    attempt: 1,
+    decomposition: 100,
+    pattern: 100,
+    completed: true,
+  };
+
+  addLocalActivityProgress(dataToUpdate);
+  addLocalActivityProgress(dataToUpdate);
+
+  console.log(localStorage.getItem('localData'));
+
   workspace.value = Blockly.inject(blocklyContainer.value, {
     // refer to typetoolbox.ts file
     toolbox: toolbox,
@@ -251,6 +278,21 @@ const endProgressNotify = () => {
     taskStatus.value = 'none';
     // To-verify: when the execution is successful, it will unlock the next level
     levels[levelNum].completed = true;
+
+    const dataToUpdate: ActivityProgress = {
+      activity: {
+        setting: settingNum,
+        id: levelNum,
+        difficulty: ageGroup as Difficulty,
+      },
+      duration: solveDurationScore(300),
+      attempt: solveAttemptScore(1),
+      decomposition: 100,
+      pattern: 100,
+      completed: true,
+    };
+
+    addLocalActivityProgress(dataToUpdate);
   } else if (taskStatus.value === 'error' || taskStatus.value === 'started') {
     $q.notify({
       type: 'negative',

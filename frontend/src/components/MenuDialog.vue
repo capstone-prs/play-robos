@@ -18,7 +18,7 @@
         />
       </q-card-section>
 
-      <q-card-section class="centered" v-if="path !== '/home'">
+      <q-card-section class="centered q-mb-none" v-if="path !== '/home'">
         <q-btn
           @click="atHome"
           color="pink-12"
@@ -30,7 +30,10 @@
           Home
         </q-btn>
       </q-card-section>
-      <q-card-section class="centered" v-if="path !== '/home'">
+      <q-card-section
+        class="centered q-pa-none q-mb-md"
+        v-if="path !== '/home'"
+      >
         <q-btn
           @click="atBack"
           color="purple"
@@ -42,7 +45,7 @@
           Back
         </q-btn>
       </q-card-section>
-      <q-card-section class="q-pt-md centered">
+      <q-card-section class="centered q-pa-none q-mb-md">
         <ActionButton
           text-label="Logout"
           @click="openLogoutDialog"
@@ -64,7 +67,7 @@ const router = useRouter();
 const path = router.currentRoute.value.path;
 defineProps({
   value: Boolean,
-  dataForHomepage: String
+  dataForHomepage: String,
 });
 
 const isLogoutDialogVisible = ref(false);
