@@ -3,8 +3,11 @@
     <div class="col">
       <div class="row">
         <div class="col-12">
-          <h6 align="left" class="q-ma-none">
-            Overall Score: {{ userScore }} / 3000 - {{ determineRank() }}
+          <h4 align="left" class="q-ma-none text-style">
+            Rank: <b>{{ determineRank() }} </b>
+          </h4>
+          <h6 align="left" class="q-mt-sm q-mb-sm text-style">
+            Overall Score: {{ userScore }} / 3000
           </h6>
 
           <q-linear-progress
@@ -135,5 +138,13 @@ const determineRank = () => {
 <style>
 .row-style {
   color: rgb(101, 101, 101);
+}
+@font-face {
+  font-family: futura;
+  src: url('/fonts/FuturaLT.woff');
+}
+
+.text-style {
+  font-family: 'futura';
 }
 </style>
