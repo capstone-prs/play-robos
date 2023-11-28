@@ -68,9 +68,12 @@ const mistakeIndex = computed(() => {
     return true;
   });
 
-  return index === -1 && correctCode.length === props.userCode.length
-    ? undefined
-    : index;
+  if (index === -1) {
+    return correctCode.length === props.userCode.length
+      ? undefined
+      : props.userCode.length;
+  }
+  return index;
 });
 </script>
 
