@@ -18,6 +18,16 @@
       <q-icon name="lock" color="white" />
     </q-badge>
 
+    <q-badge
+      v-if="accessible && !active"
+      round
+      floating
+      color="green"
+      style="position: relative; left: 90%; top: 0px; z-index: 1"
+    >
+      <q-icon name="check" color="white" />
+    </q-badge>
+
     <q-card style="height: 150px; width: 200px; border-radius: 50px">
       <img
         class="setting-icon"

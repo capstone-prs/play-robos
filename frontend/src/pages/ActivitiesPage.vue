@@ -142,13 +142,19 @@ const checkSettingProgress = () => {
       (level) => level.completed === true
     );
 
-    isAllCompleted ? (settings_easy[settingNumber + 1].accessible = true) : '';
+    if (isAllCompleted) {
+      settings_easy[settingNumber + 1].accessible = true;
+      localStorage.setItem('activeSetting', (settingNumber + 1).toString());
+    }
   } else {
     const isAllCompleted = settings_hard[settingNumber].levels.every(
       (level) => level.completed === true
     );
 
-    isAllCompleted ? (settings_hard[settingNumber + 1].accessible = true) : '';
+    if (isAllCompleted) {
+      settings_hard[settingNumber + 1].accessible = true;
+      localStorage.setItem('activeSetting', (settingNumber + 1).toString());
+    }
   }
 };
 

@@ -57,6 +57,13 @@ onMounted(() => {
   if (sessionStorage.getItem('hasCompletedOnboarding') == 'true') {
     startOnboarding();
   }
+
+  const activeLocalSetting = localStorage.getItem('activeSetting');
+  const storedActiveLocalSetting = activeLocalSetting
+    ? parseInt(activeLocalSetting)
+    : 0;
+
+  activeSetting.value = storedActiveLocalSetting;
 });
 
 const props = defineProps<{
