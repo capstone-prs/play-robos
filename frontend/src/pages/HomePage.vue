@@ -7,7 +7,7 @@
           <div class="col-3">
             <div class="row float-left">
               <div class="col q-pl-sm">
-                <HelpButton id="help-btn" />
+                <HelpButton id="help-btn" @click="restartOnboarding" />
               </div>
 
               <div class="col q-pl-sm">
@@ -115,19 +115,18 @@ import AgeGroupDialog from '../components/AgeGroupDialog.vue';
 import { settings_easy } from '../components/games/levels-easy';
 import { settings_hard } from '../components/games/levels-hard';
 import { useQuasar } from 'quasar';
-import introJS from 'intro.js';
 import 'intro.js/introjs.css';
-import introConfig from '../onboarding/intro.json';
-import { Options } from 'intro.js/src/option';
 import { getUser, userID } from '../firebase/firestore';
 import { useRouter } from 'vue-router';
-import lottie from 'lottie-web';
 import animationData from '../../public/bgs/bg-animation.json';
+import { lottieBackgroundLoader } from '../utils/lottieUtils';
+import { startHomeOnboarding } from '../onboarding/studioOnboarding';
+
 import {
   soundEffect,
   backgroundMusic,
   backgroundMusicStudio,
-  backgroundMusicHome
+  backgroundMusicHome,
 } from '../../../frontend/src/utils/SoundUtils';
 const $q = useQuasar();
 const isMenuDialogVisible = ref(false);
@@ -135,7 +134,6 @@ const isAgeGroupDialogVisible = ref(false);
 const findingRobotDialog = ref(false);
 const isPairingDialog = ref(false);
 const dataForHomepage = ref($q.localStorage.getItem('age_group') as string);
-const intro = introJS();
 const router = useRouter();
 const lottieContainer = ref();
 
@@ -148,8 +146,11 @@ if (
   backgroundMusicHome.play();
 }
 
-const coinsStorage = ref($q.localStorage.getItem('coin_storage') as number || 0);
+const coinsStorage = ref(
+  ($q.localStorage.getItem('coin_storage') as number) || 0
+);
 onMounted(() => {
+  lottieBackgroundLoader(animationData, lottieContainer);
   startOnboarding();
   $q.localStorage.set('coin_storage', coinsStorage.value);
   // to improve
@@ -165,16 +166,7 @@ onMounted(() => {
     });
   }
 
-  lottie.loadAnimation({
-    container: lottieContainer.value,
-    loop: true,
-    autoplay: true,
-    renderer: 'svg',
-    animationData: animationData,
-    rendererSettings: {
-      preserveAspectRatio: 'xMidYMid slice'
-    }
-  });
+  lottieBackgroundLoader(animationData, lottieContainer);
 });
 // $q.localStorage.set('coin_storage',coinsStorage.value+=100)
 const startOnboarding = () => {
@@ -182,10 +174,14 @@ const startOnboarding = () => {
     'hasCompletedOnboarding'
   );
   if (hasCompletedOnboarding != 'true') {
-    intro.setOptions(introConfig as Partial<Options>);
-    intro.start();
+    startHomeOnboarding();
     sessionStorage.setItem('hasCompletedOnboarding', 'true');
   }
+};
+
+const restartOnboarding = () => {
+  sessionStorage.removeItem('hasCompletedOnboarding');
+  startOnboarding();
 };
 
 // makes the method a computed property to simplify access to the method
@@ -207,7 +203,7 @@ const getSettingsToDisplay = computed(() => {
   return {
     settingIcons: settingUrls,
     settingNames: settingTitles,
-    settingAccess: settingAccessibility
+    settingAccess: settingAccessibility,
   };
 });
 

@@ -10,12 +10,12 @@
       "intro": "<div align='center'><img src='/onboarding/upload-btn.svg' width='150px'> </div> <p align='center'> Click the <b>UPLOAD</b> button</p>"
     },
     {
-      "element": "#fab-btn",
+      "element": "#menu-btn",
       "intro": "Click here for more actions",
       "position": "bottom"
     },
     {
-      "element": "#goal-fab-btn",
+      "element": "#goal",
       "intro": "Click here to view the goal level",
       "position": "bottom"
     },

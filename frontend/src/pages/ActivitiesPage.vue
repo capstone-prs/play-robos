@@ -9,11 +9,10 @@
       <div class="col-3">
         <div class="row float-left">
           <div class="col q-pl-sm">
-            <HelpButton data-cy="help-btn" />
-          </div>
-
-          <div class="col q-pl-sm">
-            <AchievementButton data-cy="achievement-btn" />
+            <AchievementButton
+              data-cy="achievement-btn"
+              @click="navigateToAchievements"
+            />
           </div>
         </div>
       </div>
@@ -77,7 +76,6 @@
 import { computed, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-import HelpButton from '../components/buttons/HelpButton.vue';
 import AchievementButton from '../components/buttons/AchievementButton.vue';
 import SoundButton from '../components/buttons/SoundButton.vue';
 import MusicButton from '../components/buttons/MusicButton.vue';
@@ -144,13 +142,19 @@ const checkSettingProgress = () => {
       (level) => level.completed === true
     );
 
-    isAllCompleted ? (settings_easy[settingNumber + 1].accessible = true) : '';
+    if (isAllCompleted) {
+      settings_easy[settingNumber + 1].accessible = true;
+      localStorage.setItem('activeSetting', (settingNumber + 1).toString());
+    }
   } else {
     const isAllCompleted = settings_hard[settingNumber].levels.every(
       (level) => level.completed === true
     );
 
-    isAllCompleted ? (settings_hard[settingNumber + 1].accessible = true) : '';
+    if (isAllCompleted) {
+      settings_hard[settingNumber + 1].accessible = true;
+      localStorage.setItem('activeSetting', (settingNumber + 1).toString());
+    }
   }
 };
 
@@ -184,6 +188,10 @@ const updateData = (newData: string) => {
 
 const navigateBack = () => {
   return router.go(-1);
+};
+
+const navigateToAchievements = () => {
+  router.push('/achievement');
 };
 
 const setBackgroundImage = computed(() => ({

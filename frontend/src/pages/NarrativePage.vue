@@ -7,23 +7,14 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import lottie from 'lottie-web';
 import animationData from '../../public/bgs/bg-animation.json';
 import FlipbookComponent from '../components/FlipbookComponent.vue';
+import { lottieBackgroundLoader } from '../utils/lottieUtils';
 
 const lottieContainer = ref();
 
 onMounted(() => {
-  lottie.loadAnimation({
-    container: lottieContainer.value,
-    loop: true,
-    autoplay: true,
-    renderer: 'svg',
-    animationData: animationData,
-    rendererSettings: {
-      preserveAspectRatio: 'xMidYMid slice', // Adjust the preserveAspectRatio as needed
-    },
-  });
+  lottieBackgroundLoader(animationData, lottieContainer);
 });
 </script>
 

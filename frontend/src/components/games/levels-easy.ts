@@ -338,7 +338,7 @@ export const settings_easy: Setting[] = [
           { eyes: '0' },
           { head: '1' },
         ],
-        completed: false,
+        completed: true,
       },
       {
         levelNum: 2,
