@@ -5,6 +5,7 @@ export interface Level {
   goalTitle: string;
   reward: number;
   gif: Array<string>;
+  hint: Array<string>;
   correctCode: Array<GeneratorCode>;
   completed: boolean;
 }
