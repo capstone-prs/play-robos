@@ -13,6 +13,11 @@
               }
             "
           />
+          <HintDialog
+            v-model="isHintDialogOpen"
+            :user-code="userCodes"
+            :level="levels[levelNum - 1]"
+          />
           <MenuDialog v-model="showMenuActivity" />
           <CoinsDialog
             v-model="showReward"
@@ -54,16 +59,30 @@
         </div>
       </div>
       <div class="row">
-        <q-btn
-          class="fit wrap q-ma-xs"
-          color="pink"
-          glossy
-          stack
-          size="sm"
-          icon="undo"
-          @click="undo"
-          label="undo"
-        />
+        <div class="col q-ma-xs">
+          <q-btn
+            class="fit wrap"
+            color="pink"
+            glossy
+            stack
+            size="sm"
+            icon="undo"
+            @click="undo"
+            label="undo"
+          />
+        </div>
+        <div class="col q-ma-xs">
+          <q-btn
+            class="fit wrap"
+            color="cyan"
+            stack
+            glossy
+            size="sm"
+            icon="emoji_objects"
+            label="hint"
+            @click="openHintDialog"
+          />
+        </div>
       </div>
       <div class="row q-ma-sm">
         <div class="col">
@@ -86,9 +105,6 @@
             >
               {{ levels[levelNum - 1].goalTitle }}
             </div>
-            <!-- <q-badge outline color="primary" class="hitchcut">
-              {{ levels[levelNum - 1].goalTitle }}
-            </q-badge> -->
           </div>
         </div>
       </div>
@@ -127,10 +143,11 @@ import CheckDialog from '../CheckDialog.vue';
 import { javascriptGenerator } from 'blockly/javascript';
 import { useRouter } from 'vue-router';
 import ImageViewer from '../buttons/ImageViewer.vue';
+import HintDialog from '../hint/HintDialog.vue';
 import {
   bluetoothSerial,
   onDisconnect,
-  btListenser
+  btListenser,
 } from 'src/utils/bluetoothUtils';
 import isEqualCodes from 'src/utils/compareCode';
 import { TaskStatus } from 'src/types/Status';
@@ -163,7 +180,13 @@ const workspace = ref<Blockly.Workspace>();
 const blocklyContainer = ref<string | Element>('');
 const coinsStorage = ref($q.localStorage.getItem('coin_storage'));
 
+const openHintDialog = () => {
+  userCodes.value = getParsedBlocklyGenerator();
+  isHintDialogOpen.value = true;
+};
 
+const isHintDialogOpen = ref(false);
+const userCodes = ref<GeneratorCode[]>([]);
 const openCheckDialog = () => {
   isDialogOpen.value = true;
 };
@@ -185,7 +208,7 @@ const notifyError = (e: string) => {
   soundEffect(errorSnd);
   $q.notify({
     type: 'negative',
-    message: e
+    message: e,
   });
 };
 
@@ -202,6 +225,13 @@ const undo = () => {
     workspace.value.undo(false);
   }
 };
+const getParsedBlocklyGenerator = () =>
+  generator().length <= 0
+    ? []
+    : generator()
+        .trimEnd()
+        .split('\n')
+        .map((code) => JSON.parse(code));
 
 const levels =
   ageGroup === 'easy'
@@ -227,22 +257,22 @@ onMounted(() => {
     grid: {
       spacing: 20,
       length: 3,
-      colour: '#ccc'
+      colour: '#ccc',
     },
     zoom: {
       startScale: 1.0,
       maxScale: 2,
       minScale: 3,
-      scaleSpeed: 0.3
+      scaleSpeed: 0.3,
     },
     theme: {
       name: 'custom',
       componentStyles: {
         workspaceBackgroundColour: '#FFFFFF',
         flyoutBackgroundColour: '#D0D0D0',
-        flyoutOpacity: 0.7
-      }
-    }
+        flyoutOpacity: 0.7,
+      },
+    },
   });
 
   workspace.value.addChangeListener(generator);
@@ -288,7 +318,7 @@ const endProgressNotify = () => {
       type: 'positive',
       position: 'top-right',
       message: 'Uploading done!',
-      timeout: 1000
+      timeout: 1000,
     });
     setTimeout(() => {
       openCoinsDialog;
@@ -309,7 +339,7 @@ const endProgressNotify = () => {
       spinner: false,
       message: 'Upload Failed',
       position: 'top-right',
-      timeout: 1500
+      timeout: 1500,
     });
     taskStatus.value = 'none';
   }
@@ -332,7 +362,7 @@ const startLoadingUpload = () => {
   $q.loading.show({
     spinnerColor: 'white',
     backgroundColor: 'black',
-    message: 'Executing'
+    message: 'Executing',
   });
 };
 
@@ -342,10 +372,7 @@ const hideLoadingUpload = () => {
 
 const isCorrectCode = () => {
   if (generator() !== '') {
-    const userCodes: GeneratorCode[] = generator()
-      .trimEnd()
-      .split('\n')
-      .map((code) => JSON.parse(code));
+    const userCodes: GeneratorCode[] = getParsedBlocklyGenerator();
     return isEqualCodes(correctCodes, userCodes);
   }
 
