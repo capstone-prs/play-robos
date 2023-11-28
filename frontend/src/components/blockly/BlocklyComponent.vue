@@ -13,6 +13,11 @@
               }
             "
           />
+          <HintDialog
+            v-model="isHintDialogOpen"
+            :user-code="userCodes"
+            :level="levels[levelNum - 1]"
+          />
           <MenuDialog v-model="showMenuActivity" />
           <CoinsDialog
             v-model="showReward"
@@ -56,16 +61,30 @@
         </div>
       </div>
       <div class="row">
-        <q-btn
-          class="fit wrap q-ma-xs"
-          color="pink"
-          glossy
-          stack
-          size="sm"
-          icon="undo"
-          @click="undo"
-          label="undo"
-        />
+        <div class="col q-ma-xs">
+          <q-btn
+            class="fit wrap"
+            color="pink"
+            glossy
+            stack
+            size="sm"
+            icon="undo"
+            @click="undo"
+            label="undo"
+          />
+        </div>
+        <div class="col q-ma-xs">
+          <q-btn
+            class="fit wrap"
+            color="cyan"
+            stack
+            glossy
+            size="sm"
+            icon="emoji_objects"
+            label="hint"
+            @click="openHintDialog"
+          />
+        </div>
       </div>
       <div class="row q-ma-sm">
         <div class="col">
@@ -88,9 +107,6 @@
             >
               {{ levels[levelNum - 1].goalTitle }}
             </div>
-            <!-- <q-badge outline color="primary" class="hitchcut">
-              {{ levels[levelNum - 1].goalTitle }}
-            </q-badge> -->
           </div>
         </div>
       </div>
@@ -127,6 +143,7 @@ import CheckDialog from '../CheckDialog.vue';
 import { javascriptGenerator } from 'blockly/javascript';
 import { useRouter } from 'vue-router';
 import ImageViewer from '../buttons/ImageViewer.vue';
+import HintDialog from '../hint/HintDialog.vue';
 import {
   bluetoothSerial,
   onDisconnect,
@@ -173,6 +190,13 @@ const workspace = ref<Blockly.Workspace>();
 const blocklyContainer = ref<string | Element>('');
 const coinsStorage = ref($q.localStorage.getItem('coin_storage'));
 
+const openHintDialog = () => {
+  userCodes.value = getParsedBlocklyGenerator();
+  isHintDialogOpen.value = true;
+};
+
+const isHintDialogOpen = ref(false);
+const userCodes = ref<GeneratorCode[]>([]);
 const openCheckDialog = () => {
   isDialogOpen.value = true;
 };
@@ -211,6 +235,13 @@ const undo = () => {
     workspace.value.undo(false);
   }
 };
+const getParsedBlocklyGenerator = () =>
+  generator().length <= 0
+    ? []
+    : generator()
+        .trimEnd()
+        .split('\n')
+        .map((code) => JSON.parse(code));
 
 const levels =
   ageGroup === 'easy'
@@ -385,10 +416,7 @@ const hideLoadingUpload = () => {
 
 const isCorrectCode = () => {
   if (generator() !== '') {
-    const userCodes: GeneratorCode[] = generator()
-      .trimEnd()
-      .split('\n')
-      .map((code) => JSON.parse(code));
+    const userCodes: GeneratorCode[] = getParsedBlocklyGenerator();
     return isEqualCodes(correctCodes, userCodes);
   }
 
