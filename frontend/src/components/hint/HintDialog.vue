@@ -14,7 +14,7 @@
           data-test-id="close-btn"
         />
       </q-card-section>
-      <div v-if="mistakeIndex === undefined">CORRECT</div>
+      <div v-if="mistakeIndex === undefined">Your Answer is Correct</div>
       <div v-else>
         <q-card-section
           v-for="(pic, i) in level.gif.slice(0, mistakeIndex + 1)"
