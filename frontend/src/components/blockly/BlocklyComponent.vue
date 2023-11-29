@@ -4,25 +4,22 @@
       <div class="workspace-container" id="blockly">
         <div class="overlay-container">
           <CheckDialog
-            v-model="isDialogOpen"
-            :correct="isDialogOpen && isCorrectCode()"
+            v-model="isDialogOpen.check"
+            :correct="isEqualCodes(correctCodes, blocklyGenerator())"
             :onCorrect="
               () => {
-                closeCheckDialog();
+                setDialog('menu', false);
                 write();
               }
             "
           />
           <HintDialog
-            v-model="isHintDialogOpen"
-            :user-code="userCodes"
-            :level="levels[levelNum - 1]"
+            v-model="isDialogOpen.hint"
+            :user-code="blocklyGenerator()"
+            :level="thisLevel"
           />
-          <MenuDialog v-model="showMenuActivity" />
-          <CoinsDialog
-            v-model="showReward"
-            :coins="levels[levelNum - 1].reward"
-          />
+          <MenuDialog v-model="isDialogOpen.menu" />
+          <CoinsDialog v-model="isDialogOpen.coins" :coins="thisLevel.reward" />
         </div>
         <div
           ref="blocklyContainer"
@@ -35,95 +32,65 @@
     <div class="col-3 q-px-md">
       <div class="row q-mt-sm">
         <div class="col q-ma-xs">
-          <q-btn
-            class="fit wrap"
-            color="purple"
-            stack
-            glossy
-            size="sm"
+          <StudioSideBarButton
             icon="help"
             label="help"
+            color="purple"
             @click="startStudioOnboarding"
           />
         </div>
         <div class="col q-ma-xs">
-          <q-btn
-            class="fit wrap"
-            color="teal"
-            stack
-            glossy
-            size="sm"
+          <StudioSideBarButton
             icon="menu"
             label="menu"
+            color="teal"
             id="menu-btn"
-            @click="openMenuDialog"
+            @click="() => setDialog('menu')"
           />
         </div>
       </div>
       <div class="row">
         <div class="col q-ma-xs">
-          <q-btn
-            class="fit wrap"
+          <StudioSideBarButton
             color="pink"
-            glossy
-            stack
-            size="sm"
             icon="undo"
-            @click="undo"
             label="undo"
+            @click="undo"
           />
         </div>
         <div class="col q-ma-xs">
-          <q-btn
-            class="fit wrap"
+          <StudioSideBarButton
             color="cyan"
-            stack
-            glossy
-            size="sm"
             icon="emoji_objects"
             label="hint"
-            @click="openHintDialog"
+            @click="() => setDialog('hint')"
           />
         </div>
       </div>
       <div class="row q-ma-sm">
         <div class="col">
           <div class="row justify-center q-mb-xs">
-            <q-badge class="hitchcut"
-              >Level: {{ levels[levelNum - 1].levelNum }}</q-badge
-            >
+            <q-badge class="hitchcut">Level: {{ levelNum }}</q-badge>
           </div>
           <div class="row justify-center" style="overflow-x: auto">
-            <div
-              class="hitchcut q-px-xs text-primary"
-              style="
-                border-style: solid;
-                border-radius: 5px;
-                border-color: #0273d4;
-                border-width: 1px;
-                overflow: auto;
-                white-space: nowrap;
-              "
-            >
-              {{ levels[levelNum - 1].goalTitle }}
+            <div class="hitchcut q-px-xs text-primary outlined-badge">
+              {{ thisLevel.goalTitle }}
             </div>
           </div>
         </div>
       </div>
       <div class="row justify-center q-ma-md">
-        <ImageViewer :pics="levels[levelNum - 1].gif" id="goal" />
         <q-badge color="secondary" outline>{{ Date.now() }}</q-badge>
       </div>
+      <div class="row justify-center q-ma-md">
+        <ImageViewer :pics="thisLevel.gif" id="goal" />
+      </div>
 
-      <div class="row q-mt-md">
-        <q-btn
-          class="fit wrap q-ma-xs"
+      <div class="row q-mt-md q-pa-xs">
+        <StudioSideBarButton
           color="amber"
-          glossy
-          stack
-          size="sm"
           icon="upload"
-          @click="openCheckDialog"
+          @click="() => setDialog('check')"
           data-cy="check-btn"
           label="upload"
         />
@@ -134,84 +101,82 @@
 
 <script setup lang="ts">
 import { useQuasar } from 'quasar';
-import { ref, onMounted } from 'vue';
-import * as Blockly from 'blockly';
+import { ref, onMounted, computed } from 'vue';
+import { useRouter } from 'vue-router';
+import { inject, Workspace } from 'blockly';
+import * as Toolbox from './toolbox/typetoolbox';
 import './blocks/stocks';
 import './blocks/generator';
-import * as Toolbox from './toolbox/typetoolbox';
+// Components
 import CheckDialog from '../CheckDialog.vue';
-import { javascriptGenerator } from 'blockly/javascript';
-import { useRouter } from 'vue-router';
 import ImageViewer from '../buttons/ImageViewer.vue';
 import HintDialog from '../hint/HintDialog.vue';
+import MenuDialog from '../../components/MenuDialog.vue';
+import CoinsDialog from '../CoinsDialog.vue';
+import StudioSideBarButton from '../buttons/StudioSideBarButton.vue';
+// Utils
 import {
   bluetoothSerial,
   onDisconnect,
   btListenser,
 } from 'src/utils/bluetoothUtils';
 import isEqualCodes from 'src/utils/compareCode';
-import { TaskStatus } from 'src/types/Status';
-import MenuDialog from '../../components/MenuDialog.vue';
 import executeCodes from '../../utils/executeCodes';
-import { settings_easy } from '../games/levels-easy';
-import { settings_hard } from '../games/levels-hard';
-import { GeneratorCode } from '../../types/robotParts';
-import { startStudioOnboarding } from '../../onboarding/studioOnboarding';
-import '../../css/style.css';
-import 'intro.js/introjs.css';
 import {
   addLocalActivityProgress,
   initializeLocalActivityProgress,
   solveAttemptScore,
   solveDurationScore,
 } from '../../utils/activityProgress';
+import { startStudioOnboarding } from '../../onboarding/studioOnboarding';
+import { settings_easy } from '../games/levels-easy';
+import { settings_hard } from '../games/levels-hard';
+import generator from '../../utils/blockly';
+// Types
 import { ActivityProgress, Difficulty } from '../../types/Progress';
+import { TaskStatus } from '../../types/Status';
+import { Dialog } from '../../types/BlocklyDialogs';
 
-import CoinsDialog from '../CoinsDialog.vue';
-import '../../css/style.css';
-import 'intro.js/introjs.css';
+// Sounds
+import { soundEffect } from '../../utils/SoundUtils';
 import errorSnd from '../../assets/sounds/errorSnd.mp3';
 import success from '../../assets/sounds/success-notify.mp3';
 import victory from '../../assets/sounds/victory-effect.mp3';
-import { soundEffect } from '../../utils/SoundUtils';
+import '../../css/style.css';
+import 'intro.js/introjs.css';
+// import '../../css/style.css'; //FIXME: Duplicated?
+// import 'intro.js/introjs.css'; //FIXME: Duplicated?
+
 const $q = useQuasar();
 const router = useRouter();
+
+const isDialogOpen = ref({
+  check: false,
+  hint: false,
+  menu: false,
+  coins: false,
+});
+
+const taskStatus = ref<TaskStatus>('none');
+
+const workspace = ref<Workspace>();
+const blocklyContainer = ref<string | Element>('');
+
+const coinsStorage = computed(() => $q.localStorage.getItem('coin_storage'));
+
 const routeParam = router.currentRoute.value.params.param as string;
-const isDialogOpen = ref(false);
 const splitParams = routeParam.split('_');
+
 const levelNum = parseInt(splitParams[1]); // to be use for check program
 const settingNum = parseInt(splitParams[0]);
 const ageGroup = splitParams[2];
-const showReward = ref(false);
-const showMenuActivity = ref(false);
-const taskStatus = ref<TaskStatus>('none');
-const progress = ref($q.notify({ group: false }));
-const workspace = ref<Blockly.Workspace>();
-const blocklyContainer = ref<string | Element>('');
-const coinsStorage = ref($q.localStorage.getItem('coin_storage'));
 
-const openHintDialog = () => {
-  userCodes.value = getParsedBlocklyGenerator();
-  isHintDialogOpen.value = true;
-};
+// const progress = ref($q.notify({ group: false })); // FIXME: DEAD CODE?
 
-const isHintDialogOpen = ref(false);
-const userCodes = ref<GeneratorCode[]>([]);
-const openCheckDialog = () => {
-  isDialogOpen.value = true;
-};
-const openCoinsDialog = () => {
-  soundEffect(victory);
-  showReward.value = true;
-};
-
-const closeCheckDialog = () => {
-  isDialogOpen.value = false;
-};
-
-const openMenuDialog = () => {
+const setDialog = (key: Dialog, open = true) => {
   soundEffect();
-  showMenuActivity.value = true;
+
+  isDialogOpen.value[key] = open;
 };
 
 const notifyError = (e: string) => {
@@ -222,26 +187,14 @@ const notifyError = (e: string) => {
   });
 };
 
-const generator = (): string => {
-  if (workspace.value) {
-    const value = javascriptGenerator.workspaceToCode(workspace.value);
-    return value;
-  }
-  throw new Error('Error at blocks generator');
-};
+const blocklyGenerator = () => generator(workspace.value);
+
 const undo = () => {
   soundEffect();
   if (workspace.value) {
     workspace.value.undo(false);
   }
 };
-const getParsedBlocklyGenerator = () =>
-  generator().length <= 0
-    ? []
-    : generator()
-        .trimEnd()
-        .split('\n')
-        .map((code) => JSON.parse(code));
 
 const levels =
   ageGroup === 'easy'
@@ -253,7 +206,8 @@ const toolbox =
     ? Toolbox.toolbox_easy[settingNum]
     : Toolbox.toolbox_hard[settingNum];
 
-const correctCodes = levels[levelNum - 1].correctCode;
+const thisLevel = levels[levelNum - 1];
+const correctCodes = thisLevel.correctCode;
 
 onMounted(() => {
   if (settingNum == 0 && levelNum == 1) {
@@ -261,24 +215,7 @@ onMounted(() => {
     initializeLocalActivityProgress();
   }
 
-  // const dataToUpdate: ActivityProgress = {
-  //   activity: {
-  //     setting: settingNum,
-  //     id: levelNum,
-  //     difficulty: ageGroup as Difficulty,
-  //   },
-  //   duration: 50,
-  //   attempt: 1,
-  //   decomposition: 100,
-  //   pattern: 100,
-  //   completed: true,
-  // };
-
-  // addLocalActivityProgress(dataToUpdate);
-
-  // console.log(localStorage.getItem('localData'));
-
-  workspace.value = Blockly.inject(blocklyContainer.value, {
+  workspace.value = inject(blocklyContainer.value, {
     // refer to typetoolbox.ts file
     toolbox: toolbox,
     trashcan: true,
@@ -304,9 +241,8 @@ onMounted(() => {
     },
   });
 
-  workspace.value.addChangeListener(generator);
-
-  progress.value();
+  // workspace.value.addChangeListener(blocklyGenerator); // FIXME: DEAD CODE?
+  // progress.value(); // FIXME: DEAD CODE?
   taskStatus.value = 'none';
 
   btListenser(
@@ -341,6 +277,7 @@ const startProgressNotify = () => {
 const endProgressNotify = () => {
   hideLoadingUpload();
   $q.loading.hide();
+
   if (taskStatus.value === 'success') {
     soundEffect(success);
     $q.notify({
@@ -350,7 +287,8 @@ const endProgressNotify = () => {
       timeout: 1000,
     });
     setTimeout(() => {
-      openCoinsDialog;
+      soundEffect(victory); //FIXME: doubled sound
+      setDialog('coins');
     }, 2000);
     //code for UI COINS
     taskStatus.value = 'none';
@@ -374,7 +312,7 @@ const endProgressNotify = () => {
     if (levels[levelNum]?.completed != true) {
       $q.localStorage.set(
         'coin_storage',
-        Number(coinsStorage.value) + levels[levelNum - 1].reward
+        Number(coinsStorage.value) + thisLevel.reward
       );
     }
   } else if (taskStatus.value === 'error' || taskStatus.value === 'started') {
@@ -392,10 +330,7 @@ const endProgressNotify = () => {
 const write = () => {
   executeCodes(
     bluetoothSerial,
-    generator()
-      .trimEnd()
-      .split('\n')
-      .map((code) => JSON.parse(code)),
+    blocklyGenerator(),
     startProgressNotify,
     endProgressNotify,
     notifyError
@@ -412,15 +347,6 @@ const startLoadingUpload = () => {
 
 const hideLoadingUpload = () => {
   $q.loading.hide();
-};
-
-const isCorrectCode = () => {
-  if (generator() !== '') {
-    const userCodes: GeneratorCode[] = getParsedBlocklyGenerator();
-    return isEqualCodes(correctCodes, userCodes);
-  }
-
-  return false;
 };
 </script>
 
@@ -456,5 +382,13 @@ const isCorrectCode = () => {
   font-family: 'hitchcut';
   font-size: small;
 }
+
+.outlined-badge {
+  border-style: solid;
+  border-radius: 5px;
+  border-color: #0273d4;
+  border-width: 1px;
+  overflow: auto;
+  white-space: nowrap;
+}
 </style>
-../games/levels-easy ../games/levels-hard
