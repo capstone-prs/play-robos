@@ -1,5 +1,5 @@
 <template>
-  <q-dialog v-model="isDialogOpen" persistent>
+  <q-dialog v-model="isDialogOpen">
     <q-card style="width: 100%; height: 100%">
       <q-card-section class="row">
         <q-space />
