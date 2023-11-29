@@ -54,7 +54,16 @@
           :key="level.levelNum"
         >
           <ActivityComponent
-            :completed="level.completed"
+            :completed="
+              level.levelNum === 1
+                ? true
+                : completedLevels()?.find(
+                    (completedLevel) =>
+                      completedLevel.activity.difficulty === difficulty &&
+                      completedLevel.activity.setting === settingNumber &&
+                      completedLevel.activity.id === level.levelNum - 1
+                  )?.completed
+            "
             :difficulty="difficulty"
             :setting-num="settingNumber"
             :level-num="level.levelNum"
@@ -85,6 +94,7 @@ import ActivityComponent from '../components/games/ActivityComponent.vue';
 import { settings_easy } from '../components/games/levels-easy';
 import { settings_hard } from '../components/games/levels-hard';
 import PreviousButton from '../components/buttons/PreviousButton.vue';
+import { LocalData } from '../types/Progress';
 
 const isMenuDialogVisible = ref(false);
 const router = useRouter();
@@ -120,7 +130,7 @@ const introScene = (setting: number) => {
 
 const outroScene = (setting: number) => {
   outroMapScenes.map((scene) => {
-    if (difficulty === '5-7') {
+    if (difficulty === 'easy') {
       const easyLength = settings_easy[settingNumber].levels.length;
       outroMapScenes.indexOf(scene) === setting &&
       settings_easy[settingNumber].levels[easyLength - 2].completed
@@ -136,10 +146,24 @@ const outroScene = (setting: number) => {
   });
 };
 
+const completedLevels = () => {
+  const storedDataString = localStorage.getItem('localData');
+  const storedUserData: LocalData = storedDataString
+    ? JSON.parse(storedDataString)
+    : null;
+
+  return storedUserData?.activityProgress;
+};
+
 const checkSettingProgress = () => {
   if (difficulty === 'easy') {
-    const isAllCompleted = settings_easy[settingNumber].levels.every(
-      (level) => level.completed === true
+    const isAllCompleted = settings_easy[settingNumber].levels.every((level) =>
+      completedLevels()?.find(
+        (completedLevel) =>
+          completedLevel.activity.difficulty === 'easy' &&
+          completedLevel.activity.setting === settingNumber &&
+          completedLevel.activity.id === level.levelNum
+      )
     );
 
     if (isAllCompleted) {
@@ -147,8 +171,13 @@ const checkSettingProgress = () => {
       localStorage.setItem('activeSetting', (settingNumber + 1).toString());
     }
   } else {
-    const isAllCompleted = settings_hard[settingNumber].levels.every(
-      (level) => level.completed === true
+    const isAllCompleted = settings_hard[settingNumber].levels.every((level) =>
+      completedLevels()?.find(
+        (completedLevel) =>
+          completedLevel.activity.difficulty === 'hard' &&
+          completedLevel.activity.setting === settingNumber &&
+          completedLevel.activity.id === level.levelNum
+      )
     );
 
     if (isAllCompleted) {

@@ -19,7 +19,18 @@
             :level="thisLevel"
           />
           <MenuDialog v-model="isDialogOpen.menu" />
-          <CoinsDialog v-model="isDialogOpen.coins" :coins="thisLevel.reward" />
+          <CoinsDialog
+            v-model="isDialogOpen.coins"
+            :coins="thisLevel.reward"
+            :setting-number="settingNum"
+            :level-number="levelNum"
+            :difficulty="ageGroup"
+            :max-level="
+              ageGroup === 'easy'
+                ? settings_easy[settingNum].levels.length - 1
+                : settings_hard[settingNum].levels.length - 1
+            "
+          />
         </div>
         <div
           ref="blocklyContainer"
@@ -133,7 +144,7 @@ import { settings_easy } from '../games/levels-easy';
 import { settings_hard } from '../games/levels-hard';
 import generator from '../../utils/blockly';
 // Types
-import { ActivityProgress, Difficulty } from '../../types/Progress';
+import { ActivityProgress, Difficulty, LocalData } from '../../types/Progress';
 import { TaskStatus } from '../../types/Status';
 import { Dialog } from '../../types/BlocklyDialogs';
 
@@ -144,8 +155,6 @@ import success from '../../assets/sounds/success-notify.mp3';
 import victory from '../../assets/sounds/victory-effect.mp3';
 import '../../css/style.css';
 import 'intro.js/introjs.css';
-// import '../../css/style.css'; //FIXME: Duplicated?
-// import 'intro.js/introjs.css'; //FIXME: Duplicated?
 
 const $q = useQuasar();
 const router = useRouter();
@@ -162,7 +171,9 @@ const taskStatus = ref<TaskStatus>('none');
 const workspace = ref<Workspace>();
 const blocklyContainer = ref<string | Element>('');
 
-const coinsStorage = computed(() => $q.localStorage.getItem('coin_storage'));
+const coinsStorage = computed(
+  () => $q.localStorage.getItem('coin_storage') || 0
+);
 
 const routeParam = router.currentRoute.value.params.param as string;
 const splitParams = routeParam.split('_');
@@ -170,8 +181,6 @@ const splitParams = routeParam.split('_');
 const levelNum = parseInt(splitParams[1]); // to be use for check program
 const settingNum = parseInt(splitParams[0]);
 const ageGroup = splitParams[2];
-
-// const progress = ref($q.notify({ group: false })); // FIXME: DEAD CODE?
 
 const setDialog = (key: Dialog, open = true) => {
   soundEffect();
@@ -196,6 +205,15 @@ const undo = () => {
   }
 };
 
+const completedLevels = () => {
+  const storedDataString = localStorage.getItem('localData');
+  const storedUserData: LocalData = storedDataString
+    ? JSON.parse(storedDataString)
+    : null;
+
+  return storedUserData.activityProgress;
+};
+
 const levels =
   ageGroup === 'easy'
     ? settings_easy[settingNum].levels
@@ -208,6 +226,40 @@ const toolbox =
 
 const thisLevel = levels[levelNum - 1];
 const correctCodes = thisLevel.correctCode;
+
+const coinsComputed = () => {
+  const dataToUpdate: ActivityProgress = {
+    activity: {
+      setting: settingNum,
+      id: levelNum,
+      difficulty: ageGroup as Difficulty,
+    },
+    duration: solveDurationScore(300),
+    attempt: solveAttemptScore(1),
+    decomposition: 100,
+    pattern: 100,
+    completed: true,
+  };
+
+  soundEffect(victory); //FIXME: doubled sound
+  setDialog('coins');
+  const condition = completedLevels().find(
+    (level) =>
+      level.activity.difficulty === ageGroup &&
+      level.activity.setting === settingNum &&
+      level.activity.id === levelNum
+  );
+  console.log(condition);
+  console.log(levelNum);
+  if (condition == undefined) {
+    addLocalActivityProgress(dataToUpdate);
+
+    localStorage.setItem(
+      'coin_storage',
+      (Number(coinsStorage.value) + thisLevel.reward).toString()
+    );
+  }
+};
 
 onMounted(() => {
   if (settingNum == 0 && levelNum == 1) {
@@ -279,6 +331,7 @@ const endProgressNotify = () => {
   $q.loading.hide();
 
   if (taskStatus.value === 'success') {
+    coinsComputed();
     soundEffect(success);
     $q.notify({
       type: 'positive',
@@ -286,35 +339,11 @@ const endProgressNotify = () => {
       message: 'Uploading done!',
       timeout: 1000,
     });
-    setTimeout(() => {
-      soundEffect(victory); //FIXME: doubled sound
-      setDialog('coins');
-    }, 2000);
+
+    //FIXME: doubled sound
     //code for UI COINS
     taskStatus.value = 'none';
     // To-verify: when the execution is successful, it will unlock the next level
-    levels[levelNum].completed = true;
-
-    const dataToUpdate: ActivityProgress = {
-      activity: {
-        setting: settingNum,
-        id: levelNum,
-        difficulty: ageGroup as Difficulty,
-      },
-      duration: solveDurationScore(300),
-      attempt: solveAttemptScore(1),
-      decomposition: 100,
-      pattern: 100,
-      completed: true,
-    };
-
-    addLocalActivityProgress(dataToUpdate);
-    if (levels[levelNum]?.completed != true) {
-      $q.localStorage.set(
-        'coin_storage',
-        Number(coinsStorage.value) + thisLevel.reward
-      );
-    }
   } else if (taskStatus.value === 'error' || taskStatus.value === 'started') {
     $q.notify({
       type: 'negative',
