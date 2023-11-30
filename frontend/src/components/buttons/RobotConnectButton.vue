@@ -17,11 +17,12 @@
 </template>
 
 <script setup lang="ts">
-import { onUnmounted, ref } from 'vue';
+import { onBeforeMount, ref, watch } from 'vue';
 import { useQuasar } from 'quasar';
 
 import bluetoothConnectDevice, {
   bluetoothSerial,
+  isConnected as getIsConnected,
   onDisconnect,
 } from '../../utils/bluetoothUtils';
 
@@ -54,14 +55,23 @@ const bluetoothConnect = () =>
     props.loadingHandler,
     props.openBtSettingHandler
   );
-
-const disconnectListener = onDisconnect(bluetoothSerial, () => {
-  isConnected.value = false;
+onBeforeMount(() => {
+  getIsConnected(bluetoothSerial).then((connected) => {
+    isConnected.value = connected;
+  });
 });
 
-onUnmounted(() => {
-  clearInterval(disconnectListener);
+watch(isConnected, () => {
+  if (isConnected.value) {
+    onDisconnect(bluetoothSerial, () => {
+      isConnected.value = false;
+    });
+  }
 });
+
+// onUnmounted(() => {
+//   clearInterval(disconnectListener);
+// });
 </script>
 <style scoped>
 .active-red-background {
