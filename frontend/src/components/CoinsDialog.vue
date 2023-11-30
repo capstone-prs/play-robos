@@ -35,6 +35,7 @@
             data-testid="upload-btn"
           ></q-btn>
           <q-btn
+            v-if="levelNumber <= maxLevel"
             class="col q-ma-xs"
             rounded
             text-label="Next Level"
@@ -44,7 +45,7 @@
             text-color="white"
             data-testid="upload-btn"
             icon-class="custom-icon"
-            @click="nextLevel"
+            @click="nextLevel(settingNumber, levelNumber + 1, difficulty)"
           />
         </div>
       </q-card-section>
@@ -64,6 +65,10 @@ console.log($q.localStorage.getItem('coin_storage'));
 const router = useRouter();
 defineProps<{
   coins: number;
+  settingNumber: number;
+  levelNumber: number;
+  difficulty: string;
+  maxLevel: number;
 }>();
 
 const isDialogOpen = ref(false);
@@ -73,13 +78,24 @@ const atHome = () => {
 };
 const redo = () => {
   soundEffect();
-  // return router.push('/home');
+  // return router.push('/activities');
+  location.reload();
 };
 
-const nextLevel = () => {
+const nextLevel = async (
+  setting: number,
+  level: number,
+  difficulty: string
+) => {
   soundEffect();
   console.log(router.currentRoute.value.path);
-  router.push('/studio/0_2_easy');
+  await router.push({
+    name: 'studio',
+    params: { param: setting + '_' + level + '_' + difficulty },
+  });
+  console.log(router.currentRoute.value.path);
+  location.reload();
+
   // Next page logic
 };
 </script>
