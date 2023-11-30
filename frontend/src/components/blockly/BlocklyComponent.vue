@@ -291,20 +291,18 @@ const openHints = () => {
       position: 'top-right',
       message: 'Hints Payment Success!'
     });
+    setDialog('hint');
     localStorage.setItem(
       'coin_storage',
       (Number(coinsStorage.value) - 60).toString()
     );
-    if (paid.value == true) {
-      setDialog('hint');
-    } else {
+  }
+  else {
       $q.notify({
         type: 'negative',
-        position: 'top-right',
         message: 'Not enough Coins!'
       });
     }
-  }
 };
 
 onMounted(() => {
@@ -467,4 +465,15 @@ const hideLoadingUpload = () => {
   overflow: auto;
   white-space: nowrap;
 }
+
+.blocklyToolboxDiv {
+    padding-top: 20px !important; /* Adjust the value as needed */
+  }
+  .blocklyFlyoutLabelText {
+    font-size: 20px; /* Adjust the value as needed */
+  }
+
+  .blocklyTreeLabel {
+    font-size: 20px; /* Adjust the value as needed */
+  }
 </style>
