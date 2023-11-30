@@ -190,6 +190,7 @@ export const onDisconnect = (
       }
     });
   }, 1000);
+  return interval;
 };
 
 const btRemoveListener = (btSerial: BluetoothSerial) =>
