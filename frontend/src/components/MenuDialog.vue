@@ -57,10 +57,7 @@
         class="centered q-pa-none q-mb-md"
         v-if="path !== '/home'"
       >
-        <div class="q-pa-xs">
-          <MusicButton />
-        </div>
-        <SoundButton />
+      <SoundButton   class="q-pa-xs" />
         <RobotConnectButton
         class="q-pa-xs"
           :loading-handler="
@@ -68,9 +65,14 @@
               findingRobotDialog = isLoading;
             }
           "
-          :open-bt-setting-handler="() => (isPairingDialog = true)"
+          :open-bt-setting-handler="() =>{ (isPairingDialog = true)  
+          }"
           id="robot-btn"
         />
+      
+        <div class="q-pa-xs">
+          <MusicButton />
+        </div>
       </q-card-section>
       <div class="col q-pl-sm">
             <FindingDialog v-model="findingRobotDialog" />
