@@ -23,7 +23,7 @@
   <q-card-actions align="center">
     <ActionButtonVue
       id="enter-setting-btn"
-      text-label="RESUME"
+      text-label="ENTER"
       class="absolute-center"
       style="margin-top: 130px"
       @click="navigateToActivities(activeSetting)"

@@ -6,7 +6,7 @@
   >
     <q-card>
       <q-card-section class="row items-center card-title" style="width: 400px">
-        <div class="text-h6 futura">Switch Age Group</div>
+        <div class="text-h6 futura">Switch Difficulty</div>
         <q-space />
         <q-btn
           icon="close"

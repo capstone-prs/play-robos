@@ -216,7 +216,7 @@ const updateData = (newData: string) => {
 };
 
 const navigateBack = () => {
-  return router.go(-1);
+  return router.push('/home');
 };
 
 const navigateToAchievements = () => {

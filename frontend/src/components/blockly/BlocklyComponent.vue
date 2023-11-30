@@ -257,7 +257,7 @@ const coinsComputed = () => {
       id: levelNum,
       difficulty: ageGroup as Difficulty,
     },
-    duration: solveDurationScore(300),
+    duration: solveDurationScore(stopwatch.value?.totalTime ?? 0),
     attempt: solveAttemptScore(1),
     decomposition: 100,
     pattern: 100,

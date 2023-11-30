@@ -16,8 +16,8 @@
         <div class="row" q-pa-xs>
           <q-btn
             class="col-3 q-ma-xs"
-            @click="atHome"
-            icon="home"
+            @click="navigateToActivities(settingNumber, difficulty)"
+            icon="arrow_back"
             color="purple"
             rounded
             text-color="white"
@@ -72,13 +72,17 @@ defineProps<{
 }>();
 
 const isDialogOpen = ref(false);
-const atHome = () => {
+
+const navigateToActivities = (settingNum: number, difficulty: string) => {
   soundEffect();
-  return router.push('/home');
+  return router.push({
+    name: 'activity',
+    params: { param: (difficulty + ' ' + settingNum) as string },
+  });
 };
+
 const redo = () => {
   soundEffect();
-  // return router.push('/activities');
   location.reload();
 };
 
