@@ -14,7 +14,16 @@
           data-test-id="close-btn"
         />
       </q-card-section>
-      <div v-if="mistakeIndex === undefined">Your Answer is Correct</div>
+      <div v-if="mistakeIndex === undefined" class="q-ma-xl">
+        <div class="row justify-center">
+          <q-icon name="check_circle" color="green" size="xl" />
+        </div>
+        <div class="row justify-center">
+          <div class="text-h2 hitchcut" color="amber">
+            Your Answer is Correct!
+          </div>
+        </div>
+      </div>
       <div v-else>
         <q-card-section
           v-for="(pic, i) in level.gif.slice(0, mistakeIndex + 1)"
@@ -88,5 +97,24 @@ const mistakeIndex = computed(() => {
   /* Semi-transparent black overlay */
   z-index: 999;
   /* Make sure the overlay is on top of everything else */
+}
+
+@font-face {
+  font-family: hitchcut;
+  src: url('/fonts/Hitchcut-Regular.woff');
+}
+.hitchcut {
+  font-family: 'hitchcut';
+  font-size: large;
+}
+
+@font-face {
+  font-family: futura;
+  src: url('/fonts/FuturaLT.woff');
+}
+
+.futura {
+  font-family: 'futura';
+  color: yellow;
 }
 </style>
