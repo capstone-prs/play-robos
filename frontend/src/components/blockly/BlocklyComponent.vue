@@ -168,7 +168,6 @@ const isDialogOpen = ref({
 });
 
 const taskStatus = ref<TaskStatus>('none');
-const paid = ref<boolean>(false);
 const workspace = ref<Workspace>();
 const blocklyContainer = ref<string | Element>('');
 const stopwatch = ref<InstanceType<typeof StopwatchComponent> | null>(null);
@@ -285,25 +284,20 @@ const coinsComputed = () => {
 };
 const openHints = () => {
   if (($q.localStorage.getItem('coin_storage') as number) >= 60) {
-    paid.value = true;
     $q.notify({
-      type: 'Positive',
-      position: 'top-right',
+      type: 'positive',
       message: 'Hints Payment Success!'
     });
     setDialog('hint');
-    localStorage.setItem(
-      'coin_storage',
-      (Number(coinsStorage.value) - 60).toString()
-    );
+    localStorage.setItem('coin_storage', (($q.localStorage.getItem('coin_storage') as number) - 60).toString());
+  } else {
+    $q.notify({
+      type: 'negative',
+      message: 'Not enough Coins!'
+    });
   }
-  else {
-      $q.notify({
-        type: 'negative',
-        message: 'Not enough Coins!'
-      });
-    }
 };
+
 
 onMounted(() => {
   if (settingNum == 0 && levelNum == 1) {
