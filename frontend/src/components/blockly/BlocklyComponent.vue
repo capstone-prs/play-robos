@@ -80,7 +80,7 @@
         </div>
       </div>
       <div class="row justify-center q-ma-md">
-        <q-badge color="secondary" outline>{{ Date.now() }}</q-badge>
+        <StopwatchComponent :initial-time="initialTime" ref="stopwatch" />
       </div>
       <div class="row justify-center q-ma-md">
         <ImageViewer :pics="thisLevel.gif" id="goal" />
@@ -101,7 +101,7 @@
 
 <script setup lang="ts">
 import { useQuasar } from 'quasar';
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { inject, Workspace } from 'blockly';
 import * as Toolbox from './toolbox/typetoolbox';
@@ -114,6 +114,7 @@ import HintDialog from '../hint/HintDialog.vue';
 import MenuDialog from '../../components/MenuDialog.vue';
 import CoinsDialog from '../CoinsDialog.vue';
 import StudioSideBarButton from '../buttons/StudioSideBarButton.vue';
+import StopwatchComponent from '../StopwatchComponent.vue';
 // Utils
 import {
   bluetoothSerial,
@@ -144,6 +145,7 @@ import success from '../../assets/sounds/success-notify.mp3';
 import victory from '../../assets/sounds/victory-effect.mp3';
 import '../../css/style.css';
 import 'intro.js/introjs.css';
+
 // import '../../css/style.css'; //FIXME: Duplicated?
 // import 'intro.js/introjs.css'; //FIXME: Duplicated?
 
@@ -161,6 +163,8 @@ const taskStatus = ref<TaskStatus>('none');
 
 const workspace = ref<Workspace>();
 const blocklyContainer = ref<string | Element>('');
+const stopwatch = ref<InstanceType<typeof StopwatchComponent> | null>(null);
+const initialTime = ref(0); // TODO: To be stored in user progress NOTE that only updates when timer is stopped @jenny
 
 const coinsStorage = computed(() => $q.localStorage.getItem('coin_storage'));
 
@@ -172,6 +176,26 @@ const settingNum = parseInt(splitParams[0]);
 const ageGroup = splitParams[2];
 
 // const progress = ref($q.notify({ group: false })); // FIXME: DEAD CODE?
+
+const stopTime = () => {
+  if (stopwatch.value) {
+    initialTime.value = stopwatch.value.totalTime;
+
+    stopwatch.value.stop();
+  }
+};
+
+const startTime = () => stopwatch.value?.start();
+
+watch(isDialogOpen.value, () => {
+  const { menu, check } = isDialogOpen.value;
+
+  if (menu || check) {
+    stopTime();
+  } else if (!stopwatch.value?.isStarting) {
+    startTime();
+  }
+});
 
 const setDialog = (key: Dialog, open = true) => {
   soundEffect();
