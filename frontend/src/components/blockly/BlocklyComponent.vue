@@ -74,7 +74,7 @@
             color="cyan"
             icon="emoji_objects"
             label="hint"
-            @click="() => setDialog('hint')"
+            @click="() => openHints()"
           />
         </div>
       </div>
@@ -90,7 +90,7 @@
           </div>
         </div>
       </div>
-      <div class="row justify-center q-ma-md">
+      <div class="row justify-center q-my-md">
         <StopwatchComponent :initial-time="initialTime" ref="stopwatch" />
       </div>
       <div class="row justify-center q-ma-md">
@@ -112,7 +112,7 @@
 
 <script setup lang="ts">
 import { useQuasar } from 'quasar';
-import { ref, onMounted, computed, watch } from 'vue';
+import { ref, onMounted, computed, watch, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { inject, Workspace } from 'blockly';
 import * as Toolbox from './toolbox/typetoolbox';
@@ -130,7 +130,7 @@ import StopwatchComponent from '../StopwatchComponent.vue';
 import {
   bluetoothSerial,
   onDisconnect,
-  btListenser,
+  btListenser
 } from 'src/utils/bluetoothUtils';
 import isEqualCodes from 'src/utils/compareCode';
 import executeCodes from '../../utils/executeCodes';
@@ -138,7 +138,7 @@ import {
   addLocalActivityProgress,
   initializeLocalActivityProgress,
   solveAttemptScore,
-  solveDurationScore,
+  solveDurationScore
 } from '../../utils/activityProgress';
 import { startStudioOnboarding } from '../../onboarding/studioOnboarding';
 import { settings_easy } from '../games/levels-easy';
@@ -164,11 +164,11 @@ const isDialogOpen = ref({
   check: false,
   hint: false,
   menu: false,
-  coins: false,
+  coins: false
 });
 
 const taskStatus = ref<TaskStatus>('none');
-
+const disconnectListener = ref<ReturnType<typeof onDisconnect>>();
 const workspace = ref<Workspace>();
 const blocklyContainer = ref<string | Element>('');
 const stopwatch = ref<InstanceType<typeof StopwatchComponent> | null>(null);
@@ -215,7 +215,7 @@ const notifyError = (e: string) => {
   soundEffect(errorSnd);
   $q.notify({
     type: 'negative',
-    message: e,
+    message: e
   });
 };
 
@@ -255,13 +255,13 @@ const coinsComputed = () => {
     activity: {
       setting: settingNum,
       id: levelNum,
-      difficulty: ageGroup as Difficulty,
+      difficulty: ageGroup as Difficulty
     },
     duration: solveDurationScore(stopwatch.value?.totalTime ?? 0),
     attempt: solveAttemptScore(1),
     decomposition: 100,
     pattern: 100,
-    completed: true,
+    completed: true
   };
 
   soundEffect(victory); //FIXME: doubled sound
@@ -283,6 +283,22 @@ const coinsComputed = () => {
     );
   }
 };
+const openHints = () => {
+  if (($q.localStorage.getItem('coin_storage') as number) >= 60) {
+    $q.notify({
+      type: 'positive',
+      message: 'Hints Payment Success!'
+    });
+    setDialog('hint');
+    localStorage.setItem('coin_storage', (($q.localStorage.getItem('coin_storage') as number) - 60).toString());
+  } else {
+    $q.notify({
+      type: 'negative',
+      message: 'Not enough Coins!'
+    });
+  }
+};
+
 
 onMounted(() => {
   if (settingNum == 0 && levelNum == 1) {
@@ -298,22 +314,23 @@ onMounted(() => {
     grid: {
       spacing: 20,
       length: 3,
-      colour: '#ccc',
+      colour: '#ccc'
     },
     zoom: {
       startScale: 1.0,
       maxScale: 2,
       minScale: 3,
-      scaleSpeed: 0.3,
+      scaleSpeed: 0.3
     },
     theme: {
       name: 'custom',
       componentStyles: {
         workspaceBackgroundColour: '#FFFFFF',
         flyoutBackgroundColour: '#D0D0D0',
-        flyoutOpacity: 0.7,
-      },
+        flyoutOpacity: 0.7
+      }
     },
+    
   });
 
   // workspace.value.addChangeListener(blocklyGenerator); // FIXME: DEAD CODE?
@@ -338,10 +355,14 @@ onMounted(() => {
     }
   });
 
-  onDisconnect(bluetoothSerial, () => {
+  disconnectListener.value = onDisconnect(bluetoothSerial, () => {
     taskStatus.value = 'error';
     notifyError('Bluetooth Device is Disconnected');
   });
+});
+
+onUnmounted(() => {
+  clearInterval(disconnectListener.value);
 });
 
 const startProgressNotify = () => {
@@ -358,9 +379,8 @@ const endProgressNotify = () => {
     soundEffect(success);
     $q.notify({
       type: 'positive',
-      position: 'top-right',
       message: 'Uploading done!',
-      timeout: 1000,
+      timeout: 1000
     });
 
     //FIXME: doubled sound
@@ -371,9 +391,7 @@ const endProgressNotify = () => {
     $q.notify({
       type: 'negative',
       spinner: false,
-      message: 'Upload Failed',
-      position: 'top-right',
-      timeout: 1500,
+      timeout: 1500
     });
     taskStatus.value = 'none';
   }
@@ -393,7 +411,7 @@ const startLoadingUpload = () => {
   $q.loading.show({
     spinnerColor: 'white',
     backgroundColor: 'black',
-    message: 'Executing',
+    message: 'Executing'
   });
 };
 
@@ -443,4 +461,15 @@ const hideLoadingUpload = () => {
   overflow: auto;
   white-space: nowrap;
 }
+
+.blocklyToolboxDiv {
+    padding-top: 20px !important; /* Adjust the value as needed */
+  }
+  .blocklyFlyoutLabelText {
+    font-size: 20px; /* Adjust the value as needed */
+  }
+
+  .blocklyTreeLabel {
+    font-size: 20px; /* Adjust the value as needed */
+  }
 </style>
