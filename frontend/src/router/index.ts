@@ -37,10 +37,13 @@ export default route(function (/* { store, ssrContext } */) {
   Router.beforeEach(async (to, from, next) => {
     const auth = to.meta.requiresAuth;
     if (auth && !getAuth().currentUser) {
-      next('/');
+      next({ path: '/' });
+    } else if (!auth && getAuth().currentUser) {
+      next({ name: 'home' });
     } else {
       next();
     }
   });
+
   return Router;
 });

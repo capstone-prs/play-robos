@@ -7,6 +7,9 @@ import {
   // sendEmailVerification,
   sendPasswordResetEmail,
   fetchSignInMethodsForEmail,
+  setPersistence,
+  // indexedDBLocalPersistence
+  browserLocalPersistence,
   User,
 } from 'firebase/auth';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
@@ -39,7 +42,8 @@ export const signup = (email: string, password: string): Promise<User> => {
 
 export const login = (email: string, password: string): Promise<User> => {
   return new Promise<User>((resolve, reject) => {
-    signInWithEmailAndPassword(auth, email, password)
+    setPersistence(auth, browserLocalPersistence)
+      .then(() => signInWithEmailAndPassword(auth, email, password))
       .then(async (userCredential) => {
         const user = userCredential.user;
 
