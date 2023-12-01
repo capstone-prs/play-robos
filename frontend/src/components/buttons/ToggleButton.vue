@@ -19,35 +19,27 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-import { useQuasar } from 'quasar';
+import { soundEffect } from '../../utils/SoundUtils';
 
 // defines the two options for the age group
 const options = [
   { label: 'Easy', value: 'easy', slot: 'one' },
-  { label: 'Hard', value: 'hard', slot: 'two' }
+  { label: 'Hard', value: 'hard', slot: 'two' },
 ];
 
-// initializes the default value of the selected option to null
-// this is to not conflict it when there is already a selected value from toggling
 const selectedOption = ref('');
 
-// defines the emit functions to-use
-const emit = defineEmits(['update:modelValue']);
-
-const $q = useQuasar();
-
-// watches for changes in the selectedOption
-// when the selectedOption changes, it is stored locally and emitted to homepage
-watch(selectedOption, () => {
-  $q.localStorage.set('age_group', selectedOption.value);
-  emit('update:modelValue', $q.localStorage.getItem('age_group'));
-});
-
-import { soundEffect } from '../../utils/SoundUtils';
 const click = () => {
   soundEffect();
 };
+const emit = defineEmits(['update:modelValue']);
 
+watch(selectedOption, (newVal) => {
+  // Update localStorage when selectedOption changes
+  localStorage.setItem('userDifficulty', newVal === 'easy' ? 'easy' : 'hard');
+  emit('update:modelValue', newVal);
+  location.reload();
+});
 </script>
 
 <style>

@@ -20,8 +20,8 @@
 
       <q-card-section class="q-pt-none centered">
         <ToggleButton
-          v-model="selectedOption"
           @update:model-value="updateDataAndNotify"
+          v-model="selectedOption"
         />
       </q-card-section>
     </q-card>
@@ -41,7 +41,7 @@ defineProps({
 const $q = useQuasar();
 const showDialog = ref(false);
 
-const selectedOption = ref($q.localStorage.getItem('age_group'));
+const selectedOption = ref($q.localStorage.getItem('userDifficulty'));
 const emit = defineEmits(['update:openDialog', 'update:dataForHomepage']);
 
 const updateDataAndNotify = () => {
