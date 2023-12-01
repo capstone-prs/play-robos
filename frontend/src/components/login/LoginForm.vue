@@ -112,14 +112,14 @@ const data = {
   password: ref<string>(''),
   error: ref<string>(''),
   errorMessage: ref<string>(''),
-  isError: ref(false)
+  isError: ref(false),
 };
 
 const showLoading = () => {
   $q.loading.show({
     spinnerColor: 'white',
     backgroundColor: 'black',
-    message: 'Setting everthing up...'
+    message: 'Setting everthing up...',
   });
 
   setTimeout(() => {
@@ -130,7 +130,7 @@ const showLoading = () => {
 const triggerNotify = (type: string, message: string) => {
   $q.notify({
     type: type,
-    message: message
+    message: message,
   });
 };
 const navigateBack = () => {

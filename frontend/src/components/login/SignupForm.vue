@@ -158,6 +158,7 @@ import validate from '../../utils/signUpUtils';
 import { soundEffect } from '../../utils/SoundUtils';
 import errorSnd from '../../assets/sounds/errorSnd.mp3';
 import back from '../../assets/sounds/back.mp3';
+import getAge from '../../utils/ageGetter';
 const $q = useQuasar();
 const router = useRouter();
 
@@ -166,7 +167,7 @@ const Text = 'sign up';
 const triggerNotify = (type: string, message: string) => {
   $q.notify({
     type: type,
-    message: message
+    message: message,
   });
 };
 const validateRePassword = (val: string) =>
@@ -182,43 +183,43 @@ const data = {
   name: {
     ref: ref<QInput | null>(null),
     model: ref<string>(''),
-    rules: [validate('NAME')]
+    rules: [validate('NAME')],
   },
   gender: {
     ref: ref<QInput | null>(null),
     model: ref<Gender>(),
     options: ['Male', 'Female'],
-    rules: [validate('GENDER')]
+    rules: [validate('GENDER')],
   },
   birthdate: {
     ref: ref<QInput | null>(null),
     model: ref<string>(),
-    rules: [validate('BIRTHDATE')]
+    rules: [validate('BIRTHDATE')],
   },
   email: {
     ref: ref<QInput | null>(null),
     model: ref<string>(''),
     rules: [validate('EMAIL')],
     isError: ref(false),
-    errorMessage: ref<string>('')
+    errorMessage: ref<string>(''),
   },
   password: {
     ref: ref<QInput | null>(null),
     model: ref<string>(''),
-    rules: [validate('PASSWORD')]
+    rules: [validate('PASSWORD')],
   },
   rePassword: {
     ref: ref<QInput | null>(null),
     model: ref<string>(''),
-    rules: [validateRePassword]
-  }
+    rules: [validateRePassword],
+  },
 };
 
 const showLoading = () => {
   $q.loading.show({
     spinnerColor: 'white',
     backgroundColor: 'black',
-    message: 'Setting everthing up...'
+    message: 'Setting everthing up...',
   });
 
   setTimeout(() => {
@@ -250,13 +251,21 @@ const submit = () => {
         data.gender.model.value &&
         data.birthdate.model.value
       ) {
+        const userBirthdate = new Date(data.birthdate.model.value);
+
+        const difficulty =
+          getAge(userBirthdate, new Date()) >= 5 &&
+          getAge(userBirthdate, new Date()) <= 7
+            ? 'easy'
+            : 'hard';
+        localStorage.setItem('userDifficulty', difficulty);
         return addUser(
           {
             user_name: data.name.model.value,
             user_gender: data.gender.model.value,
-            user_birthdate: new Date(data.birthdate.model.value)
+            user_birthdate: new Date(data.birthdate.model.value),
           },
-          newUser.user.uid
+          newUser.uid
         )
           .then(() => triggerNotify('positive', 'Successful Sign In'))
           .then(() => {
@@ -284,6 +293,7 @@ const submit = () => {
           'SignUp Failed: No Internet Connection'
         );
       }
+      console.log(error);
       return triggerNotify('negative', 'SignUp Failed: Invalid credentials');
     });
 };

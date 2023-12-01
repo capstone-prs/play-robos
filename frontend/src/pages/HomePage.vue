@@ -58,7 +58,6 @@
                 <MenuDialog
                   v-model="isMenuDialogVisible"
                   data-cy="menu-dialog"
-                  @update:data-for-homepage="updateData"
                 />
               </div>
             </div>
@@ -133,7 +132,9 @@ const isMenuDialogVisible = ref(false);
 const isAgeGroupDialogVisible = ref(false);
 const findingRobotDialog = ref(false);
 const isPairingDialog = ref(false);
-const dataForHomepage = ref($q.localStorage.getItem('age_group') as string);
+const dataForHomepage = ref(
+  $q.localStorage.getItem('userDifficulty') as string
+);
 const router = useRouter();
 const lottieContainer = ref();
 
@@ -147,24 +148,12 @@ if (
 }
 
 const coinsStorage = ref(
-  ($q.localStorage.getItem('coin_storage') as number) || 0
+  ($q.localStorage.getItem('coin_storage') as number) ?? 0
 );
 onMounted(() => {
   lottieBackgroundLoader(animationData, lottieContainer);
   startOnboarding();
   $q.localStorage.set('coin_storage', coinsStorage.value);
-  // to improve
-  if (sessionStorage.getItem('hasCompletedOnboarding') != 'true') {
-    getUser(userID()).then((user) => {
-      const age = user.user_birthdate;
-      console.log(age);
-      // if (age >= 5 && age <= 7) {
-      dataForHomepage.value = 'hard';
-      // } else {
-      //   dataForHomepage.value = '8-11';
-      // }
-    });
-  }
 
   lottieBackgroundLoader(animationData, lottieContainer);
 });
