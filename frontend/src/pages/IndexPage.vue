@@ -9,7 +9,7 @@ import AuthPage from '../components/login/AuthPage.vue';
 import {
   backgroundMusic,
   backgroundMusicHome,
-  backgroundMusicStudio
+  backgroundMusicStudio,
 } from 'src/utils/SoundUtils';
 if (
   backgroundMusicHome.playing() == true ||

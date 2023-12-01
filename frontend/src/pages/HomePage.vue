@@ -64,7 +64,8 @@
             </div>
           </div>
         </q-header>
-
+        <!-- FIXME: Console is having error because of :key of the
+        SettingComponent. -->
         <q-page-container>
           <SettingComponent
             id="setting"

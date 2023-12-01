@@ -7,6 +7,9 @@ import {
   // sendEmailVerification,
   sendPasswordResetEmail,
   fetchSignInMethodsForEmail,
+  setPersistence,
+  // indexedDBLocalPersistence
+  browserLocalPersistence,
 } from 'firebase/auth';
 
 const auth = getAuth();
@@ -19,7 +22,9 @@ export const signup = (email: string, password: string) =>
 // })
 
 const login = (email: string, password: string) =>
-  signInWithEmailAndPassword(auth, email, password);
+  setPersistence(auth, browserLocalPersistence).then(() =>
+    signInWithEmailAndPassword(auth, email, password)
+  );
 
 export const logout = () => signOut(auth);
 
