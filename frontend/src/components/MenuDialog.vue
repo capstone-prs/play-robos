@@ -53,6 +53,32 @@
         />
         <LogoutDialog v-model="isLogoutDialogVisible" data-cy="logout-dialog" />
       </q-card-section>
+      <q-card-section
+        class="centered q-pa-none q-mb-md"
+        v-if="path !== '/home'"
+      >
+      <SoundButton   class="q-pa-xs" />
+        <RobotConnectButton
+        class="q-pa-xs"
+          :loading-handler="
+            (isLoading) => {
+              findingRobotDialog = isLoading;
+            }
+          "
+          :open-bt-setting-handler="() =>{ (isPairingDialog = true)  
+          }"
+          id="robot-btn"
+        />
+      
+        <div class="q-pa-xs">
+          <MusicButton />
+        </div>
+      </q-card-section>
+      <div class="col q-pl-sm">
+            <FindingDialog v-model="findingRobotDialog" />
+            <PairingDialog v-model="isPairingDialog" />
+          </div>
+      
     </q-card>
   </q-dialog>
 </template>
@@ -60,16 +86,22 @@
 <script setup lang="ts">
 import LogoutDialog from './LogoutDialog.vue';
 import ActionButton from './buttons/ActionButton.vue';
-import back from '../assets/sounds/back.mp3'
+import MusicButton from './buttons/MusicButton.vue';
+import SoundButton from './buttons/SoundButton.vue';
+import back from '../assets/sounds/back.mp3';
+import RobotConnectButton from './buttons/RobotConnectButton.vue';
 import { soundEffect } from 'src/utils/SoundUtils';
 import { ref } from 'vue';
+const findingRobotDialog = ref(false);
+const isPairingDialog = ref(false);
+
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
 const path = router.currentRoute.value.path;
 defineProps({
   value: Boolean,
-  dataForHomepage: String,
+  dataForHomepage: String
 });
 
 const isLogoutDialogVisible = ref(false);
