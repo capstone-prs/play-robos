@@ -90,7 +90,7 @@
           </div>
         </div>
       </div>
-      <div class="row justify-center q-ma-md">
+      <div class="row justify-center q-my-md">
         <StopwatchComponent :initial-time="initialTime" ref="stopwatch" />
       </div>
       <div class="row justify-center q-ma-md">
@@ -112,7 +112,7 @@
 
 <script setup lang="ts">
 import { useQuasar } from 'quasar';
-import { ref, onMounted, computed, watch } from 'vue';
+import { ref, onMounted, computed, watch, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { inject, Workspace } from 'blockly';
 import * as Toolbox from './toolbox/typetoolbox';
@@ -168,6 +168,7 @@ const isDialogOpen = ref({
 });
 
 const taskStatus = ref<TaskStatus>('none');
+const disconnectListener = ref<ReturnType<typeof onDisconnect>>();
 const workspace = ref<Workspace>();
 const blocklyContainer = ref<string | Element>('');
 const stopwatch = ref<InstanceType<typeof StopwatchComponent> | null>(null);
@@ -354,10 +355,14 @@ onMounted(() => {
     }
   });
 
-  onDisconnect(bluetoothSerial, () => {
+  disconnectListener.value = onDisconnect(bluetoothSerial, () => {
     taskStatus.value = 'error';
     notifyError('Bluetooth Device is Disconnected');
   });
+});
+
+onUnmounted(() => {
+  clearInterval(disconnectListener.value);
 });
 
 const startProgressNotify = () => {
@@ -374,7 +379,6 @@ const endProgressNotify = () => {
     soundEffect(success);
     $q.notify({
       type: 'positive',
-      position: 'top-right',
       message: 'Uploading done!',
       timeout: 1000
     });
@@ -387,8 +391,6 @@ const endProgressNotify = () => {
     $q.notify({
       type: 'negative',
       spinner: false,
-      message: 'Upload Failed',
-      position: 'top-right',
       timeout: 1500
     });
     taskStatus.value = 'none';
