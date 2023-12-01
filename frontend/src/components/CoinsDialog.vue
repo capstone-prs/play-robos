@@ -1,21 +1,18 @@
 <template>
   <q-dialog v-model="isDialogOpen">
-    <q-card style="width: 200%; height: 100%">
-      <div class="q-pt-xs q-pm-none">
+    <q-card class = "q-ma-lg" style="width: 200%; height: 69%">
+      <div class="q-pt-lg q-pm-none">
         <q-card-section class="q-pt-none q-pm-none" align="center">
-          <div class="text-h4 correct-text">CONGRATULATIONS!</div>
-          <div class="text-h6 detail-text">
-            YOU HAVE RECEIVE <q-icon name="img:/coin.svg" />{{ coins }}
+          <div class="text-h3 correct-text">CONGRATULATIONS!</div>
+          <div class="text-h4 detail-text q-pt-md">
+            YOU WON <q-icon name="img:/coin.svg" />{{ coins }}!
           </div>
-          <q-icon name="verified" size="90px" />
-          <q-icon name="verified" size="90px" />
-          <q-icon name="verified" size="90px" />
         </q-card-section>
       </div>
       <q-card-section align="center">
         <div class="row" q-pa-xs>
           <q-btn
-            class="col-3 q-ma-xs"
+            class="col q-ma-xs"
             @click="navigateToActivities(settingNumber, difficulty)"
             icon="arrow_back"
             color="purple"
