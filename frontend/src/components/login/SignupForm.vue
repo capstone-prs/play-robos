@@ -139,14 +139,17 @@
             :isDisabled="isSubmitted"
           ></ActionButton>
         </div>
+        <VerifyDIalog v-model = "verfyopen"/>
+        <q-btn @click = 'open()'/>
       </div>
     </form>
   </div>
 </template>
 
 <script setup lang="ts">
-import { signup } from '../../firebase/auth';
-import success from '../../assets/sounds/success-notify.mp3';
+import { signup, verifyEmail } from '../../firebase/auth';
+import VerifyDIalog from '../VerifyDIalog.vue';
+// import success from '../../assets/sounds/success-notify.mp3';
 import '../../css/style.css';
 import { QInput, useQuasar } from 'quasar';
 import { ref } from 'vue';
@@ -170,6 +173,11 @@ const triggerNotify = (type: string, message: string) => {
     message: message,
   });
 };
+const  verfyopen = ref(false);
+const open = () => {
+  verfyopen.value = true
+
+}
 const validateRePassword = (val: string) =>
   validate('REPASSWORD', data.password.model.value ?? '')(val);
 
@@ -246,6 +254,7 @@ const submit = () => {
 
   return signup(data.email.model.value, data.password.model.value)
     .then((newUser) => {
+      return verifyEmail(newUser).then(() => {
       if (
         data.name.model.value &&
         data.gender.model.value &&
@@ -266,16 +275,21 @@ const submit = () => {
             user_birthdate: new Date(data.birthdate.model.value),
           },
           newUser.uid
-        )
-          .then(() => triggerNotify('positive', 'Successful Sign In'))
-          .then(() => {
-            soundEffect(success);
-            router.push('/home');
-            showLoading();
-          });
+        ).then(()=>{
+          triggerNotify('positive', 'Email Verification Sent');
+          verfyopen.value = true
+
+        })
+          // .then(() => triggerNotify('positive', 'Successful Sign In'))
+          // .then(() => {
+          //   soundEffect(success);
+          //   router.push('/home');
+          //   showLoading();
+          // });
       }
       throw new Error('Invalid');
-    })
+    });
+  })
 
     .catch((error) => {
       isSubmitted.value = false;

@@ -3,11 +3,10 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
-  // User,
-  // sendEmailVerification,
   sendPasswordResetEmail,
   fetchSignInMethodsForEmail,
   User,
+  sendEmailVerification,
 } from 'firebase/auth';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import getAge from '../utils/ageGetter';
@@ -15,12 +14,6 @@ import getAge from '../utils/ageGetter';
 const auth = getAuth();
 const db = getFirestore();
 
-// export const signup = (email: string, password: string) =>
-//   createUserWithEmailAndPassword(auth, email, password);
-// .then((userCredentials)=>{
-//   const user:User = userCredentials.user;
-//   return sendEmailVerification(user);
-// })
 
 export const signup = (email: string, password: string): Promise<User> => {
   return new Promise<User>((resolve, reject) => {
@@ -36,6 +29,13 @@ export const signup = (email: string, password: string): Promise<User> => {
       });
   });
 };
+
+export const isEmailVerified = (userCredentials: User): Promise<void> =>
+  new Promise((resolve, reject) => {
+    userCredentials.emailVerified ? resolve() : reject();
+  });
+  
+export const verifyEmail = (user: User) => sendEmailVerification(user);
 
 export const login = (email: string, password: string): Promise<User> => {
   return new Promise<User>((resolve, reject) => {
@@ -67,8 +67,7 @@ export const login = (email: string, password: string): Promise<User> => {
 
 export const logout = () => signOut(auth);
 
-// export const verifyEmail = (user:User) =>
-//   sendEmailVerification(user)
+
 
 export const resetPassword = (email: string) =>
   fetchSignInMethodsForEmail(auth, email).then((validEmail) => {
