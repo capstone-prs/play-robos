@@ -5,6 +5,9 @@ import {
   signOut,
   sendPasswordResetEmail,
   fetchSignInMethodsForEmail,
+  setPersistence,
+  // indexedDBLocalPersistence
+  browserLocalPersistence,
   User,
   sendEmailVerification,
 } from 'firebase/auth';
@@ -39,7 +42,8 @@ export const verifyEmail = (user: User) => sendEmailVerification(user);
 
 export const login = (email: string, password: string): Promise<User> => {
   return new Promise<User>((resolve, reject) => {
-    signInWithEmailAndPassword(auth, email, password)
+    setPersistence(auth, browserLocalPersistence)
+      .then(() => signInWithEmailAndPassword(auth, email, password))
       .then(async (userCredential) => {
         const user = userCredential.user;
 

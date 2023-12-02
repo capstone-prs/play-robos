@@ -154,8 +154,9 @@ export const settings_easy: Setting[] = [
     levels: [
       {
         levelNum: 1,
-        goalTitle: 'Explore the meadow',
+        goalTitle: 'Walk to the library',
         reward: 150,
+        //gif: walk for 5 seconds
         gif: [
           look,
           closeEyes,
@@ -166,6 +167,7 @@ export const settings_easy: Setting[] = [
           look,
           turnLeftHead,
         ],
+        //hint: Walk for 5 seconds
         hint: [
           'Normal Look',
           'Close Eyes',
@@ -176,6 +178,7 @@ export const settings_easy: Setting[] = [
           'Normal Look',
           'Head Turn Left',
         ],
+        //correctCode: wheels for 5 seconds
         correctCode: [
           { eyes: '0' },
           { eyes: 'i' },
@@ -190,8 +193,9 @@ export const settings_easy: Setting[] = [
       },
       {
         levelNum: 2,
-        goalTitle: 'Explore the meadow',
-        reward: 150,
+        goalTitle: 'A torn page',
+        reward: 180,
+        //gif: Normal look, arms raised 160, look left, normal look, look right
         gif: [
           look,
           closeEyes,
@@ -202,6 +206,7 @@ export const settings_easy: Setting[] = [
           look,
           turnLeftHead,
         ],
+        //hint: Normal look, arms raised 160, look left, normal look, look right
         hint: [
           'Normal Look',
           'Close Eyes',
@@ -212,6 +217,7 @@ export const settings_easy: Setting[] = [
           'Normal Look',
           'Head Turn Left',
         ],
+        //correctCode:
         correctCode: [
           { eyes: '0' },
           { eyes: 'i' },
@@ -226,8 +232,9 @@ export const settings_easy: Setting[] = [
       },
       {
         levelNum: 3,
-        goalTitle: 'Explore the meadow',
-        reward: 150,
+        goalTitle: 'Run away from fire!',
+        reward: 80,
+        //gif: raise arm 160, run for 6 seconds
         gif: [
           look,
           closeEyes,
@@ -238,6 +245,46 @@ export const settings_easy: Setting[] = [
           look,
           turnLeftHead,
         ],
+        //hint: raise arm 160, run for 6 seconds
+        hint: [
+          'Normal Look',
+          'Close Eyes',
+          'Normal Look',
+          'Head Turn Right',
+          'Normal Look',
+          'Close Eyes',
+          'Normal Look',
+          'Head Turn Left',
+        ],
+        //correctCode: raise arm 160, run for 6 seconds
+        correctCode: [
+          { eyes: '0' },
+          { eyes: 'i' },
+          { eyes: '0' },
+          { head: '2' },
+          { eyes: '0' },
+          { eyes: 'i' },
+          { eyes: '0' },
+          { head: '1' },
+        ],
+        completed: false,
+      },
+      {
+        levelNum: 4,
+        goalTitle: 'An abandoned hut',
+        reward: 100,
+        //raise left arm 60, raise right 60, raise left 160, raise left 160
+        gif: [
+          look,
+          closeEyes,
+          look,
+          turnRightHead,
+          look,
+          closeEyes,
+          look,
+          turnLeftHead,
+        ],
+        //raise left arm 60, raise right 60, raise left 160, raise left 160
         hint: [
           'Normal Look',
           'Close Eyes',
@@ -261,9 +308,10 @@ export const settings_easy: Setting[] = [
         completed: false,
       },
       {
-        levelNum: 4,
-        goalTitle: 'Explore the meadow',
+        levelNum: 5,
+        goalTitle: 'The book of everything',
         reward: 150,
+        //normal look, look upper left, look upper right, walk for 3 seconds, raise right arm 120
         gif: [
           look,
           closeEyes,
@@ -274,6 +322,7 @@ export const settings_easy: Setting[] = [
           look,
           turnLeftHead,
         ],
+        //normal look, look upper left, look upper right, walk for 3 seconds, raise right arm 120
         hint: [
           'Normal Look',
           'Close Eyes',
@@ -306,8 +355,9 @@ export const settings_easy: Setting[] = [
     levels: [
       {
         levelNum: 1,
-        goalTitle: 'Explore the meadow',
-        reward: 150,
+        goalTitle: 'Walk with eyes closed',
+        reward: 80,
+        //gif: normal look, close eyes, walk for 5 seconds
         gif: [
           look,
           closeEyes,
@@ -318,6 +368,7 @@ export const settings_easy: Setting[] = [
           look,
           turnLeftHead,
         ],
+        //gif: normal look, close eyes, walk for 5 seconds
         hint: [
           'Normal Look',
           'Close Eyes',
@@ -342,8 +393,9 @@ export const settings_easy: Setting[] = [
       },
       {
         levelNum: 2,
-        goalTitle: 'Explore the meadow',
+        goalTitle: 'Blend in!',
         reward: 150,
+        //gif: raise left arm 160, raise right arm 160, walk for 3 seconds, look left, look right, walk for 3 seconds
         gif: [
           look,
           closeEyes,
@@ -354,6 +406,7 @@ export const settings_easy: Setting[] = [
           look,
           turnLeftHead,
         ],
+        //gif: raise left arm 160, raise right arm 160, walk for 3 seconds, look left, look right, walk for 3 seconds
         hint: [
           'Normal Look',
           'Close Eyes',
@@ -378,8 +431,9 @@ export const settings_easy: Setting[] = [
       },
       {
         levelNum: 3,
-        goalTitle: 'Explore the meadow',
-        reward: 150,
+        goalTitle: 'Pretend petrified!',
+        reward: 120,
+        //gif: normal look,raise left arm 160, raise right arm 160, look left, upper left, normal look, look right, look upper right, normal look
         gif: [
           look,
           closeEyes,
@@ -414,8 +468,46 @@ export const settings_easy: Setting[] = [
       },
       {
         levelNum: 4,
-        goalTitle: 'Explore the meadow',
-        reward: 150,
+        goalTitle: 'Follow the magical path',
+        reward: 100,
+        //gif: turn head left, turn head right, normal head, walk 7 seconds
+        gif: [
+          look,
+          closeEyes,
+          look,
+          turnRightHead,
+          look,
+          closeEyes,
+          look,
+          turnLeftHead,
+        ],
+        hint: [
+          'Normal Look',
+          'Close Eyes',
+          'Normal Look',
+          'Head Turn Right',
+          'Normal Look',
+          'Close Eyes',
+          'Normal Look',
+          'Head Turn Left',
+        ],
+        correctCode: [
+          { eyes: '0' },
+          { eyes: 'i' },
+          { eyes: '0' },
+          { head: '2' },
+          { eyes: '0' },
+          { eyes: 'i' },
+          { eyes: '0' },
+          { head: '1' },
+        ],
+        completed: false,
+      },
+      {
+        levelNum: 5,
+        goalTitle: 'The lost potion',
+        reward: 100,
+        //gif: raise right arm 180, raise left arm 180, turn head right, turn head left, raise left arm 120, raise right arm 120
         gif: [
           look,
           closeEyes,
@@ -458,8 +550,9 @@ export const settings_easy: Setting[] = [
     levels: [
       {
         levelNum: 1,
-        goalTitle: 'Explore the meadow',
+        goalTitle: 'Moving rubbles',
         reward: 150,
+        //gif: raise left arm 160, raise right arm 160, walk 3 seconds, raise left arm 180, raise right arm 180, walk 5 seconds
         gif: [
           look,
           closeEyes,
@@ -494,8 +587,9 @@ export const settings_easy: Setting[] = [
       },
       {
         levelNum: 2,
-        goalTitle: 'Explore the meadow',
-        reward: 150,
+        goalTitle: 'Break in with eye pattern',
+        reward: 100,
+        //gif: normal look, close eyes, normal look, look upper left, normal look, look upper right, normal look, close eyes
         gif: [
           look,
           closeEyes,
@@ -530,8 +624,9 @@ export const settings_easy: Setting[] = [
       },
       {
         levelNum: 3,
-        goalTitle: 'Explore the meadow',
-        reward: 150,
+        goalTitle: 'Smash the glass!',
+        reward: 80,
+        //gif: raise right arm 120, normal left arm, raise right arm 120, normal left arm
         gif: [
           look,
           closeEyes,
@@ -566,8 +661,47 @@ export const settings_easy: Setting[] = [
       },
       {
         levelNum: 4,
-        goalTitle: 'Explore the meadow',
-        reward: 150,
+        goalTitle: 'Raining antidote',
+        reward: 200,
+        //gif: walk 3 seconds, raise left arm 180, turn head left, turn head right, normal look, close eyes, raise right arm 180, turn head left
+        gif: [
+          look,
+          closeEyes,
+          look,
+          turnRightHead,
+          look,
+          closeEyes,
+          look,
+          turnLeftHead,
+        ],
+        hint: [
+          'Normal Look',
+          'Close Eyes',
+          'Normal Look',
+          'Close Eyes',
+          'Head Turn Right',
+          'Normal Eyes',
+          'Close Eyes',
+          'Normal Eyes',
+          'Head Turn Left',
+        ],
+        correctCode: [
+          { eyes: '0' },
+          { eyes: 'i' },
+          { eyes: '0' },
+          { head: '2' },
+          { eyes: '0' },
+          { eyes: 'i' },
+          { eyes: '0' },
+          { head: '1' },
+        ],
+        completed: false,
+      },
+      {
+        levelNum: 5,
+        goalTitle: 'Have fun with Zappy!',
+        reward: 200,
+        //gif: be free to do whatever
         gif: [
           look,
           closeEyes,

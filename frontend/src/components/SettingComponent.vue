@@ -133,7 +133,7 @@ const navigateToActivities = (settingNum: number) => {
 }
 
 .active-setting {
-  animation: SettingLabelAnimation 3s ease 0s infinite alternate forwards;
+  animation: SettingLabelAnimation 6s ease 0s infinite alternate forwards;
 }
 
 @keyframes SettingLabelAnimation {

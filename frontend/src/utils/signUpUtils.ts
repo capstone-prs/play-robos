@@ -44,8 +44,10 @@ const validate = (inputForms: InputForms, prev?: string) => (val: string) => {
       return true;
 
     case 'PASSWORD':
-      if (val.length < 6) {
-        return 'At least 6 characters ';
+      const passwordRegex =
+        /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-])[A-Za-z\d!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]{6,}$/;
+      if (!passwordRegex.test(val)) {
+        return 'Password must be at least 6 characters and include at least 1 number, 1 capital letter, and 1 special character';
       }
       return true;
 

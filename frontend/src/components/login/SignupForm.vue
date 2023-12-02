@@ -102,10 +102,17 @@
                 v-model="data.password.model.value"
                 id="password"
                 label="Password"
-                type="password"
+                :type="isPwd ? 'password' : 'text'"
                 :rules="data.password.rules"
                 lazyRules
               >
+                <template v-slot:append>
+                  <q-icon
+                    :name="isPwd ? 'visibility_off' : 'visibility'"
+                    class="cursor-pointer"
+                    @click="isPwd = !isPwd"
+                  />
+                </template>
                 <template v-slot:prepend> <q-icon name="lock" /></template>
               </q-input>
             </q-card-section>
@@ -119,11 +126,18 @@
                 v-model="data.rePassword.model.value"
                 id="rePassword"
                 label="Confirm Password"
-                type="password"
+                :type="isConPwd ? 'password' : 'text'"
                 :rules="data.rePassword.rules"
                 lazyRules
                 aria-required
               >
+                <template v-slot:append>
+                  <q-icon
+                    :name="isConPwd ? 'visibility_off' : 'visibility'"
+                    class="cursor-pointer"
+                    @click="isConPwd = !isConPwd"
+                  />
+                </template>
                 <template v-slot:prepend> <q-icon name="lock" /> </template>
               </q-input>
             </q-card-section>
@@ -166,6 +180,8 @@ const $q = useQuasar();
 const router = useRouter();
 
 const Text = 'sign up';
+const isPwd = ref(true);
+const isConPwd = ref(true);
 
 const triggerNotify = (type: string, message: string) => {
   $q.notify({
