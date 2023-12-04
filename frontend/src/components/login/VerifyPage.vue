@@ -2,7 +2,7 @@
   <div class="full-width column justify-center">
     <div class="element-login">
       <div class="futura" align="center">
-        <h3>Please verify you email</h3>
+        <h3>Please verify your email</h3>
 
         <h6>
           <span class="futura-warn">
