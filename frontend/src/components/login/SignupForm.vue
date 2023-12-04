@@ -153,8 +153,8 @@
             :isDisabled="isSubmitted"
           ></ActionButton>
         </div>
-        <VerifyDIalog v-model = "verfyopen"/>
-        <q-btn @click = 'open()'/>
+        <VerifyDIalog v-model="verfyopen" />
+        <q-btn @click="open()" />
       </div>
     </form>
   </div>
@@ -186,14 +186,13 @@ const isConPwd = ref(true);
 const triggerNotify = (type: string, message: string) => {
   $q.notify({
     type: type,
-    message: message,
+    message: message
   });
 };
-const  verfyopen = ref(false);
+const verfyopen = ref(false);
 const open = () => {
-  verfyopen.value = true
-
-}
+  verfyopen.value = true;
+};
 const validateRePassword = (val: string) =>
   validate('REPASSWORD', data.password.model.value ?? '')(val);
 
@@ -207,43 +206,43 @@ const data = {
   name: {
     ref: ref<QInput | null>(null),
     model: ref<string>(''),
-    rules: [validate('NAME')],
+    rules: [validate('NAME')]
   },
   gender: {
     ref: ref<QInput | null>(null),
     model: ref<Gender>(),
     options: ['Male', 'Female'],
-    rules: [validate('GENDER')],
+    rules: [validate('GENDER')]
   },
   birthdate: {
     ref: ref<QInput | null>(null),
     model: ref<string>(),
-    rules: [validate('BIRTHDATE')],
+    rules: [validate('BIRTHDATE')]
   },
   email: {
     ref: ref<QInput | null>(null),
     model: ref<string>(''),
     rules: [validate('EMAIL')],
     isError: ref(false),
-    errorMessage: ref<string>(''),
+    errorMessage: ref<string>('')
   },
   password: {
     ref: ref<QInput | null>(null),
     model: ref<string>(''),
-    rules: [validate('PASSWORD')],
+    rules: [validate('PASSWORD')]
   },
   rePassword: {
     ref: ref<QInput | null>(null),
     model: ref<string>(''),
-    rules: [validateRePassword],
-  },
+    rules: [validateRePassword]
+  }
 };
 
 const showLoading = () => {
   $q.loading.show({
     spinnerColor: 'white',
     backgroundColor: 'black',
-    message: 'Setting everthing up...',
+    message: 'Setting everthing up...'
   });
 
   setTimeout(() => {
@@ -271,41 +270,36 @@ const submit = () => {
   return signup(data.email.model.value, data.password.model.value)
     .then((newUser) => {
       return verifyEmail(newUser).then(() => {
-      if (
-        data.name.model.value &&
-        data.gender.model.value &&
-        data.birthdate.model.value
-      ) {
-        const userBirthdate = new Date(data.birthdate.model.value);
+        if (
+          data.name.model.value &&
+          data.gender.model.value &&
+          data.birthdate.model.value
+        ) {
+          const userBirthdate = new Date(data.birthdate.model.value);
 
-        const difficulty =
-          getAge(userBirthdate, new Date()) >= 5 &&
-          getAge(userBirthdate, new Date()) <= 7
-            ? 'easy'
-            : 'hard';
-        localStorage.setItem('userDifficulty', difficulty);
-        return addUser(
-          {
-            user_name: data.name.model.value,
-            user_gender: data.gender.model.value,
-            user_birthdate: new Date(data.birthdate.model.value),
-          },
-          newUser.uid
-        ).then(()=>{
-          triggerNotify('positive', 'Email Verification Sent');
-          verfyopen.value = true
-
-        })
-          // .then(() => triggerNotify('positive', 'Successful Sign In'))
-          // .then(() => {
-          //   soundEffect(success);
-          //   router.push('/home');
-          //   showLoading();
-          // });
-      }
-      throw new Error('Invalid');
-    });
-  })
+          const difficulty =
+            getAge(userBirthdate, new Date()) >= 5 &&
+            getAge(userBirthdate, new Date()) <= 7
+              ? 'easy'
+              : 'hard';
+          localStorage.setItem('userDifficulty', difficulty);
+          return addUser(
+            {
+              user_name: data.name.model.value,
+              user_gender: data.gender.model.value,
+              user_birthdate: new Date(data.birthdate.model.value)
+            },
+            newUser.uid
+          ).then(() => {
+            triggerNotify('positive', 'Email Verification Sent');
+            // soundEffect(success);
+            router.push('/verifyemail');
+            showLoading();
+          });
+        }
+        throw new Error('Invalid');
+      });
+    })
 
     .catch((error) => {
       isSubmitted.value = false;

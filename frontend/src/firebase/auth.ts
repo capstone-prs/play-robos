@@ -9,14 +9,13 @@ import {
   // indexedDBLocalPersistence
   browserLocalPersistence,
   User,
-  sendEmailVerification,
+  sendEmailVerification
 } from 'firebase/auth';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import getAge from '../utils/ageGetter';
 
 const auth = getAuth();
 const db = getFirestore();
-
 
 export const signup = (email: string, password: string): Promise<User> => {
   return new Promise<User>((resolve, reject) => {
@@ -37,7 +36,7 @@ export const isEmailVerified = (userCredentials: User): Promise<void> =>
   new Promise((resolve, reject) => {
     userCredentials.emailVerified ? resolve() : reject();
   });
-  
+
 export const verifyEmail = (user: User) => sendEmailVerification(user);
 
 export const login = (email: string, password: string): Promise<User> => {
@@ -70,8 +69,6 @@ export const login = (email: string, password: string): Promise<User> => {
 };
 
 export const logout = () => signOut(auth);
-
-
 
 export const resetPassword = (email: string) =>
   fetchSignInMethodsForEmail(auth, email).then((validEmail) => {

@@ -3,7 +3,7 @@ import {
   createMemoryHistory,
   createRouter,
   createWebHashHistory,
-  createWebHistory,
+  createWebHistory
 } from 'vue-router';
 import { getAuth } from 'firebase/auth';
 
@@ -32,14 +32,24 @@ export default route(function (/* { store, ssrContext } */) {
     // Leave this as is and make changes in quasar.conf.js instead!
     // quasar.conf.js -> build -> vueRouterMode
     // quasar.conf.js -> build -> publicPath
-    history: createHistory(process.env.VUE_ROUTER_BASE),
+    history: createHistory(process.env.VUE_ROUTER_BASE)
   });
   Router.beforeEach(async (to, from, next) => {
     const auth = to.meta.requiresAuth;
     if (auth && !getAuth().currentUser) {
       next({ path: '/' });
-    } else if (!auth && getAuth().currentUser) {
-      next({ name: 'home' });
+    } else if (
+      !auth &&
+      getAuth().currentUser &&
+      getAuth().currentUser?.emailVerified != true
+    ) {
+      next({ path: 'verifyemail' });
+    } else if (
+      !auth &&
+      getAuth().currentUser &&
+      getAuth().currentUser?.emailVerified == true
+    ) {
+      next({ path: 'home' });
     } else {
       next();
     }

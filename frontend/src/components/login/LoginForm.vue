@@ -81,7 +81,7 @@
 </template>
 
 <script setup lang="ts">
-import login from '../../firebase/auth';
+import login, { isEmailVerified, verifyEmail } from '../../firebase/auth';
 import { ref } from 'vue';
 import '../../css/style.css';
 
@@ -112,14 +112,14 @@ const data = {
   password: ref<string>(''),
   error: ref<string>(''),
   errorMessage: ref<string>(''),
-  isError: ref(false),
+  isError: ref(false)
 };
 
 const showLoading = () => {
   $q.loading.show({
     spinnerColor: 'white',
     backgroundColor: 'black',
-    message: 'Setting everthing up...',
+    message: 'Setting everthing up...'
   });
 
   setTimeout(() => {
@@ -130,7 +130,7 @@ const showLoading = () => {
 const triggerNotify = (type: string, message: string) => {
   $q.notify({
     type: type,
-    message: message,
+    message: message
   });
 };
 const navigateBack = () => {
@@ -142,17 +142,25 @@ const submit = () => {
   soundEffect(click);
   isSubmitted.value = true;
   return login(data.email.value, data.password.value)
-    .then(() => {
-      soundEffect(success);
-      data.isError.value = false;
-      data.error.value = '';
-      data.errorMessage.value = '';
-      return triggerNotify('positive', 'Successful Login');
-    })
-    .then(() => {
-      router.push('/home');
-      showLoading();
-    })
+    .then((user) =>
+      isEmailVerified(user)
+        .then(() => {
+          soundEffect(success);
+          data.isError.value = false;
+          data.error.value = '';
+          data.errorMessage.value = '';
+          return triggerNotify('positive', 'Successful Login');
+        })
+        .then(() => {
+          router.push('/home');
+          showLoading();
+        })
+        .catch(() => {
+          verifyEmail(user);
+          router.push('/verifyemail')
+          return triggerNotify('negative', 'Login Failed: Email Not Verified');
+        })
+    )
     .catch(() => {
       isSubmitted.value = false;
       soundEffect(errorSnd);
