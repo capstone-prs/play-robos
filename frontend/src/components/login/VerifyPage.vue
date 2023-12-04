@@ -1,39 +1,34 @@
 <template>
   <div class="full-width column justify-center">
-      <div class="element-login">
-        <div class="q-pt-none" align="center">
-          <h4>Please Verify your email</h4>
+    <div class="element-login">
+      <div class="futura" align="center">
+        <h3>Please verify you email</h3>
+
+        <h6>
+          <span class="futura-warn">
+            Note: You are not allowed to continue to the app if your email is
+            not verified</span
+          >
+
           <h6>
-            <span>We have sent an email to </span>
+            We have sent an email to
             <q-space />
-            <span v-text="sentemail" class></span>
-            <div class="q-pa-md">
-            <ActionButton
-              textLabel="Resend email"
-              color="pink-12"
-              text-color="white"
-              data-cy="signup-n\"
-              @click="reSendEmail"
-            />
-            </div>
-            <span class="futura-warn">
-              Note: You are not allowed to continue to the app if your email is
-              not verified</span
-            >
-            <div class="q-pa-md">
+            <span style="font-style: italic;" v-text="sentemail" class></span>
+          </h6>
+            <span>Didn't received an email? </span
+            ><q-btn flat @click="reSendEmail" color="primary"> click here</q-btn>
+  
+
+          <div class="q-pa-xs">
             <ActionButton
               textLabel="Done"
-              color="pink-12"
+              color="green"
               text-color="white"
               data-cy="signup-btn"
               @click="submitReset"
             />
-            </div>
-          </h6>
-        
-        <div class="col futura-warn" align="center">
-          <div class="row centered" align="center"></div>
-        </div>
+          </div>
+        </h6>
       </div>
     </div>
   </div>
@@ -70,11 +65,8 @@ const triggerNotify = (type: string, message: string) =>
     message: message
   });
 
-
-
 const user = getAuth().currentUser;
 const submitReset = () => {
-
   if (user) {
     user.reload().then(() => {
       if (user.emailVerified == true) {
@@ -89,12 +81,12 @@ const submitReset = () => {
   router.push('/');
 };
 const reSendEmail = () => {
-  
   if (user) {
     verifyEmail(user);
     triggerNotify('positive', 'Email Verification Sent');
   }
 };
+
 </script>
 <style>
 @font-face {
@@ -104,11 +96,20 @@ const reSendEmail = () => {
 
 .futura {
   font-family: 'futura';
-  color: black;
+  color: #4f575f;
 }
 .futura-warn {
   font-family: 'futura';
   color: red;
+}
+h6 {
+  margin: 3%; /* Set margin to 0 to remove default margin */
+  padding: 10; /* Set padding to 0 to remove default padding */
+}
+h3 {
+  margin: 10; /* Set margin to 0 to remove default margin */
+  margin-bottom: 3%;
+  padding: 10; /* Set padding to 0 to remove default padding */
 }
 .centered {
   display: flex;
@@ -116,9 +117,8 @@ const reSendEmail = () => {
   align-items: center;
   height: 100%;
 }
-
-.card-title {
-  background-color: #2196f3;
+.full-width {
+  padding-top: 0; /* Adjust this value as needed */
 }
 .element-login {
   background: linear-gradient(
