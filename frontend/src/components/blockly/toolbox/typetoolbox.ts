@@ -1,26 +1,50 @@
 import { ToolboxDefinition } from 'blockly/core/utils/toolbox';
-
 // get the blocks of a certain setting
 const getBlocks = (setting: Array<string>) => {
   return setting.map((block) => {
     return {
       kind: 'block',
-      type: block,
+      type: block
     };
   });
 };
 
 // define blocks for each setting
 //<-------- setting 1 ---------------->
+const setting1_easy_head = [
+  'normal_head',
+  'head_trun_left',
+  'turn_head_right',
+
+];
 const setting1_easy_eyes = [
   'normal_look',
+  'look_up',
   'close_eyes',
   'look_right',
   'look_left',
   'look_up_left',
   'look_up_right',
 ];
-const setting1_easy_arms = ['raise_left_arm_60_', 'raise_right_arm_60_'];
+const setting1_easy_arms = [
+  'normal_arms',
+  'normal_right_arm',
+  'raise_left_arm_60_',
+  'raise_left_arm_180_',
+  'raise_left_arm_150',
+  'raise_left_arm_120',
+  'raise_right_arm_60_',
+  'raise_right_arm_120_',
+  'raise_right_arm_150_',
+  'raise_right_arm_180_',
+  'raise_right_arm_90_',
+  'raise_left_arm_90_'
+];
+const setting1_easy_wheels = [
+  'left_wheel_forward',
+  'right_wheel_forward',
+  'time_block'
+];
 //<-------- setting 1 ---------------->
 
 //-----------------------------------//
@@ -32,7 +56,7 @@ const setting2_easy_eyes = [
   'look_right',
   'look_left',
   'look_up_left',
-  'look_up_right',
+  'look_up_right'
 ];
 const setting2_easy_arms = ['raise_left_arm_60_', 'raise_right_arm_60_'];
 
@@ -48,13 +72,13 @@ const setting3_easy_eyes = [
   'look_right',
   'look_left',
   'look_up_left',
-  'look_up_right',
+  'look_up_right'
 ];
 const setting3_easy_arms = [
   'raise_left_arm_60_',
   'raise_right_arm_60_',
   'raise_left_arm_90_',
-  'raise_right_arm_90_',
+  'raise_right_arm_90_'
 ];
 
 const setting3_easy_head = ['head_trun_left', 'turn_head_right'];
@@ -68,15 +92,25 @@ export const toolbox_easy: Array<ToolboxDefinition> = [
     contents: [
       {
         kind: 'category',
+        name: 'Head',
+        contents: getBlocks(setting1_easy_head)
+      },
+      {
+        kind: 'category',
         name: 'Eyes',
-        contents: getBlocks(setting1_easy_eyes),
+        contents: getBlocks(setting1_easy_eyes)
       },
       {
         kind: 'category',
         name: 'Arms',
-        contents: getBlocks(setting1_easy_arms),
+        contents: getBlocks(setting1_easy_arms)
       },
-    ],
+      {
+        kind: 'category',
+        name: 'Wheels',
+        contents: getBlocks(setting1_easy_wheels)
+      }
+    ]
   },
   //<-------- setting 1 ---------------->
   //-----------------------------------//
@@ -87,19 +121,19 @@ export const toolbox_easy: Array<ToolboxDefinition> = [
       {
         kind: 'category',
         name: 'Head',
-        contents: getBlocks(setting2_easy_head),
+        contents: getBlocks(setting2_easy_head)
       },
       {
         kind: 'category',
         name: 'Eyes',
-        contents: getBlocks(setting2_easy_eyes),
+        contents: getBlocks(setting2_easy_eyes)
       },
       {
         kind: 'category',
         name: 'Arms',
-        contents: getBlocks(setting2_easy_arms),
-      },
-    ],
+        contents: getBlocks(setting2_easy_arms)
+      }
+    ]
   },
   //<-------- setting 2 ---------------->
   //-----------------------------------//
@@ -110,20 +144,20 @@ export const toolbox_easy: Array<ToolboxDefinition> = [
       {
         kind: 'category',
         name: 'Head',
-        contents: getBlocks(setting3_easy_head),
+        contents: getBlocks(setting3_easy_head)
       },
       {
         kind: 'category',
         name: 'Eyes',
-        contents: getBlocks(setting3_easy_eyes),
+        contents: getBlocks(setting3_easy_eyes)
       },
       {
         kind: 'category',
         name: 'Arms',
-        contents: getBlocks(setting3_easy_arms),
-      },
-    ],
-  },
+        contents: getBlocks(setting3_easy_arms)
+      }
+    ]
+  }
 ];
 //<-------- setting 1 age group8-11---------------->
 const setting1_hard_eyes = [
@@ -132,14 +166,14 @@ const setting1_hard_eyes = [
   'look_right',
   'look_left',
   'look_up_left',
-  'look_up_right',
+  'look_up_right'
 ];
 const setting1_hard_head = ['head_trun_left', 'turn_head_right'];
 const setting1_hard_arms = [
   'raise_left_arm_120',
   'raise_right_arm_120_',
   'raise_right_arm_60_',
-  'raise_left_arm_60_',
+  'raise_left_arm_60_'
 ];
 //<-------- setting 1 age group8-11---------------->
 
@@ -149,14 +183,14 @@ const setting2_hard_eyes = [
   'look_right',
   'look_left',
   'look_up_left',
-  'look_up_right',
+  'look_up_right'
 ];
 const setting2_hard_head = ['head_trun_left', 'turn_head_right'];
 const setting2_hard_arms = [
   'raise_left_arm_120',
   'raise_right_arm_120_',
   'raise_left_arm_90_',
-  'raise_right_arm_90_',
+  'raise_right_arm_90_'
 ];
 
 const setting3_hard_eyes = [
@@ -165,7 +199,7 @@ const setting3_hard_eyes = [
   'look_right',
   'look_left',
   'look_up_left',
-  'look_up_right',
+  'look_up_right'
 ];
 const setting3_hard_head = ['head_trun_left', 'turn_head_right'];
 const setting3_hard_arms = [
@@ -174,7 +208,7 @@ const setting3_hard_arms = [
   'raise_left_arm_90_',
   'raise_right_arm_90_',
   'raise_right_arm_150_',
-  'raise_left_arm_150',
+  'raise_left_arm_150'
 ];
 
 // NOTE: To improve
@@ -185,19 +219,24 @@ export const toolbox_hard: Array<ToolboxDefinition> = [
       {
         kind: 'category',
         name: 'Head',
-        contents: getBlocks(setting1_hard_head),
+        contents: getBlocks(setting1_easy_head)
       },
       {
         kind: 'category',
         name: 'Eyes',
-        contents: getBlocks(setting1_hard_eyes),
+        contents: getBlocks(setting1_easy_eyes)
       },
       {
         kind: 'category',
         name: 'Arms',
-        contents: getBlocks(setting1_hard_arms),
+        contents: getBlocks(setting1_easy_arms)
       },
-    ],
+      {
+        kind: 'category',
+        name: 'Wheels',
+        contents: getBlocks(setting1_easy_wheels)
+      }
+    ]
   },
   {
     kind: 'categoryToolbox',
@@ -205,19 +244,19 @@ export const toolbox_hard: Array<ToolboxDefinition> = [
       {
         kind: 'category',
         name: 'Head',
-        contents: getBlocks(setting2_hard_head),
+        contents: getBlocks(setting2_hard_head)
       },
       {
         kind: 'category',
         name: 'Eyes',
-        contents: getBlocks(setting2_hard_eyes),
+        contents: getBlocks(setting2_hard_eyes)
       },
       {
         kind: 'category',
         name: 'Arms',
-        contents: getBlocks(setting2_hard_arms),
-      },
-    ],
+        contents: getBlocks(setting2_hard_arms)
+      }
+    ]
   },
   {
     kind: 'categoryToolbox',
@@ -225,18 +264,18 @@ export const toolbox_hard: Array<ToolboxDefinition> = [
       {
         kind: 'category',
         name: 'Head',
-        contents: getBlocks(setting3_hard_head),
+        contents: getBlocks(setting3_hard_head)
       },
       {
         kind: 'category',
         name: 'Eyes',
-        contents: getBlocks(setting3_hard_eyes),
+        contents: getBlocks(setting3_hard_eyes)
       },
       {
         kind: 'category',
         name: 'Arms',
-        contents: getBlocks(setting3_hard_arms),
-      },
-    ],
-  },
+        contents: getBlocks(setting3_hard_arms)
+      }
+    ]
+  }
 ];
