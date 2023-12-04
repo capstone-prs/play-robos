@@ -29,25 +29,28 @@
         class="centered q-pa-none q-mb-md"
         v-if="path !== '/home'"
       >
-        <q-btn
-          @click="atBack"
-          color="purple"
-          class="glossy hitchcut"
-          size="lg"
-          rounded
-        >
-          <q-icon name="arrow_back" />
-        </q-btn>
-        <q-btn
-          @click="atHome"
-          color="pink-12"
-          class="glossy hitchcut"
-          size="lg"
-          rounded
-        >
-          <q-icon name="home" />
-        </q-btn>
-        <SoundButton class="q-pa-xs" />
+        <div class="q-pa-xs">
+          <q-btn
+            @click="atBack"
+            color="purple"
+            class="glossy hitchcut"
+            size="lg"
+            rounded
+          >
+            <q-icon name="arrow_back" />
+          </q-btn>
+        </div>
+        <div class="q-pa-xs">
+          <q-btn
+            @click="atHome"
+            color="pink-12"
+            class="glossy hitchcut"
+            size="lg"
+            rounded
+          >
+            <q-icon name="home" />
+          </q-btn>
+        </div>
         <RobotConnectButton
           class="q-pa-xs"
           :loading-handler="
@@ -62,6 +65,8 @@
           "
           id="robot-btn"
         />
+
+        <SoundButton class="q-pa-xs" />
 
         <div class="q-pa-xs">
           <MusicButton />
