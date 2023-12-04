@@ -13,7 +13,7 @@
 
 <script setup lang="ts">
 
-import { soundEffect,musicFX,stopmusic} from 'src/utils/SoundUtils';
+import { soundEffect,musicFX} from 'src/utils/SoundUtils';
 import { useQuasar } from 'quasar';
 import { ref, watch } from 'vue';
 const $q = useQuasar();
@@ -22,11 +22,11 @@ const $q = useQuasar();
 const musicIcon = ref(
   ($q.localStorage.getItem('music-icon-fx') as string) || 'img:/sound-btn.svg'
 );
-const emit = defineEmits(['update:MusicFX']);
+const emit = defineEmits(['update:MusicFX','update:MusicFxIcon']);
 
 watch(musicIcon, () => {
   $q.localStorage.set('music-icon-fx', musicIcon.value);
-  emit('update:MusicFX', musicIcon.value);
+  emit('update:MusicFxIcon', musicIcon.value);
 });
 
  
@@ -39,17 +39,13 @@ watch(musicFX, () => {
 
 const click = () => {
   if(musicIcon.value == 'img:/sound-btn.svg'){
-    musicIcon.value = 'img:/no-fx.svg'
+    musicIcon.value = 'img:/no-Fx.svg'
     musicFX.value =true
   }
   else{
     musicIcon.value = 'img:/sound-btn.svg'
     musicFX.value = false
-    
-
   }
-
-
   musicFX.value = !musicFX.value;
   soundEffect();
 };
