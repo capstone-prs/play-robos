@@ -113,8 +113,8 @@ import AchievementButton from '../components/buttons/AchievementButton.vue';
 import SoundButton from '../components/buttons/SoundButton.vue';
 import MusicButton from '../components/buttons/MusicButton.vue';
 import SettingComponent from '../components/SettingComponent.vue';
-import MenuDialog from '../components/MenuDialog.vue';
-import MenuButton from '../components/buttons/MenuButton.vue';
+// import MenuDialog from '../components/MenuDialog.vue';
+// import MenuButton from '../components/buttons/MenuButton.vue';
 import RobotConnectButton from '../components/buttons/RobotConnectButton.vue';
 import FindingDialog from '../components/FindingDialog.vue';
 import PairingDialog from '../components/pairingDialog.vue';
@@ -124,7 +124,7 @@ import { settings_easy } from '../components/games/levels-easy';
 import { settings_hard } from '../components/games/levels-hard';
 import { useQuasar } from 'quasar';
 import 'intro.js/introjs.css';
-import { getUser, userID } from '../firebase/firestore';
+// import { getUser, userID } from '../firebase/firestore';
 import { useRouter } from 'vue-router';
 import animationData from '../../public/bgs/bg-animation.json';
 import { lottieBackgroundLoader } from '../utils/lottieUtils';
@@ -134,7 +134,7 @@ import {
   soundEffect,
 } from '../../../frontend/src/utils/SoundUtils';
 const $q = useQuasar();
-const isMenuDialogVisible = ref(false);
+// const isMenuDialogVisible = ref(false);
 const isAgeGroupDialogVisible = ref(false);
 const findingRobotDialog = ref(false);
 const isPairingDialog = ref(false);
