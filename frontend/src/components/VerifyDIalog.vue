@@ -44,12 +44,9 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { isEmailVerified } from '../firebase/auth';
 import { useQuasar } from 'quasar';
 import { soundEffect } from './../utils/SoundUtils';
-import errorSnd from '../assets/sounds/errorSnd.mp3';
 import success from '../assets/sounds/success-notify.mp3';
-// import '../css/style.css';
 import { getAuth } from 'firebase/auth';
 import app from 'src/boot/firebase';
 import { useRouter } from 'vue-router';

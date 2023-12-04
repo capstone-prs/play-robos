@@ -18,7 +18,6 @@ import {
   soundEffect,
   stopmusic,
   musicBackground,
-  backgroundMusicHome,
   backgroundMusic
 } from 'src/utils/SoundUtils';
 import { ref, watch } from 'vue';
