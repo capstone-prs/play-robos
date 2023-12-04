@@ -1,6 +1,21 @@
 <template>
-  <q-dialog v-model="show" seamless>
-    <q-card-actions vertical class="justify-around q-ma-sm">
+  <div style="width: 100vw; height: 100vh">
+    <Flipbook
+      class="flipbook"
+      :pages="splitParams.length == 5 ? inlevelpages : intropages"
+      :start-page="1"
+      single-page
+      :zooms="[1]"
+      ref="flipbook"
+    />
+  </div>
+
+  <q-card-actions
+    horizontal
+    class="q-pa-md"
+    style="position: fixed; bottom: 0; right: 0"
+  >
+    <div class="q-ma-sm">
       <q-btn
         glossy
         round
@@ -10,25 +25,17 @@
         :disable="!flipbook?.canFlipLeft"
         @click="flipbook.canFlipLeft ? flipbook.flipLeft() : ''"
       />
-    </q-card-actions>
+    </div>
 
-    <q-card style="box-shadow: #3d3d3d 0px 0px 18px 5px">
-      <q-card-section horizontal>
-        <div style="width: 530px; height: 250px; overflow: hidden">
-          <Flipbook
-            class="flipbook"
-            :pages="pages"
-            :start-page="1"
-            single-page
-            :zooms="[1]"
-            ref="flipbook"
-          />
-        </div>
-      </q-card-section>
-      <q-separator />
-    </q-card>
+    <div class="q-ma-sm">
+      <ActionButton
+        text-label="CONTINUE"
+        @click="navigateBack(settingNum, levelNum + 1, difficulty)"
+        v-if="!flipbook?.canFlipRight"
+      />
+    </div>
 
-    <q-card-actions vertical class="justify-around q-ma-sm">
+    <div class="q-ma-sm">
       <q-btn
         glossy
         round
@@ -38,15 +45,9 @@
         :disable="!flipbook?.canFlipRight"
         @click="flipbook.canFlipRight ? flipbook.flipRight() : ''"
       />
-    </q-card-actions>
-  </q-dialog>
-  <q-card-actions
-    horizontal
-    class="q-pa-md"
-    style="position: fixed; bottom: 0; right: 0"
-  >
-    <ActionButton text-label="CONTINUE" @click="navigateBack" />
+    </div>
   </q-card-actions>
+  <div class="background" ref="lottieContainer"></div>
 </template>
 
 <script setup lang="ts">
@@ -54,6 +55,8 @@ import Flipbook from 'flipbook-vue';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import ActionButton from './buttons/ActionButton.vue';
+import { lottieBackgroundLoader } from '../utils/lottieUtils';
+import animationData from '../../public/bgs/bg-animation.json';
 
 const show = ref(false);
 const router = useRouter();
@@ -61,9 +64,18 @@ const routeParam = router.currentRoute.value.params.param as string;
 const splitParams = routeParam.split('_');
 const startPage = parseInt(splitParams[0]);
 const endPage = parseInt(splitParams[1]);
+const settingNum = parseInt(splitParams[1]);
+const levelNum = parseInt(splitParams[2]);
+const difficulty = splitParams[3];
+const isNextSetting = splitParams[4];
+
 const flipbook = ref();
+
+const lottieContainer = ref();
+
+console.log(splitParams);
 const scenes = [
-  'scenes/page1.svg',
+  'scenes/scorcha-1.svg',
   'scenes/page2.svg',
   'scenes/page3.svg',
   'scenes/page4.svg',
@@ -111,27 +123,45 @@ const scenes = [
   'scenes/page46.svg',
   'scenes/page47.svg',
 ];
-const pages = scenes.slice(startPage, endPage + 1);
+const intropages = scenes.slice(startPage, endPage + 1);
+const inlevelpages = scenes.slice(startPage, startPage + 1);
+
 onMounted(() => {
   show.value = true;
 });
 
-const navigateBack = () => {
-  router.go(-1);
+const navigateBack = (setting: number, level: number, difficulty: string) => {
+  if (splitParams.length == 5) {
+    if (isNextSetting === 'true' && setting != 4) {
+      lottieBackgroundLoader(animationData, lottieContainer);
+
+      router.push({
+        name: 'activity',
+        params: { param: (difficulty + ' ' + setting) as string },
+      });
+    } else {
+      router.push({
+        name: 'studio',
+        params: { param: setting + '_' + level + '_' + difficulty },
+      });
+    }
+  } else {
+    router.go(-1);
+  }
 };
 </script>
 
 <style>
 .flipbook {
-  height: 100%;
-  width: 100%;
+  height: 100% !important;
+  width: 100% !important;
   margin: 0; /* Remove any default margin */
   padding: 0; /* Remove any default padding */
   box-sizing: border-box; /* Ensure box sizing includes borders and padding */
 }
 
 /* .flipbook .viewport {
-  width: 90vw !important;
+  width: 100vw !important;
   height: calc(100vh - 50px - 40px) !important;
 } */
 

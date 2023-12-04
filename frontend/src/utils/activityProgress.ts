@@ -6,8 +6,9 @@ export const initializeLocalActivityProgress = () => {
     score: 0,
     activityProgress: [],
   };
-
-  localStorage.setItem('localData', JSON.stringify(data));
+  if (localStorage.getItem('localData') === null) {
+    localStorage.setItem('localData', JSON.stringify(data));
+  }
 };
 
 export const addLocalActivityProgress = (progress: ActivityProgress) => {

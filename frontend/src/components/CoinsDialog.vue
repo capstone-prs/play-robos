@@ -1,6 +1,6 @@
 <template>
   <q-dialog v-model="isDialogOpen">
-    <q-card class = "q-ma-lg" style="width: 200%; height: 69%">
+    <q-card class="q-ma-lg" style="width: 200%; height: 69%">
       <div class="q-pt-lg q-pm-none">
         <q-card-section class="q-pt-none q-pm-none" align="center">
           <div class="text-h3 correct-text">CONGRATULATIONS!</div>
@@ -32,7 +32,6 @@
             data-testid="upload-btn"
           ></q-btn>
           <q-btn
-            v-if="levelNumber <= maxLevel"
             class="col q-ma-xs"
             rounded
             text-label="Next Level"
@@ -42,7 +41,9 @@
             text-color="white"
             data-testid="upload-btn"
             icon-class="custom-icon"
-            @click="nextLevel(settingNumber, levelNumber + 1, difficulty)"
+            @click="
+              postCutscenes(settingNumber, levelNumber, difficulty, maxLevel)
+            "
           />
         </div>
       </q-card-section>
@@ -96,8 +97,49 @@ const nextLevel = async (
   });
   console.log(router.currentRoute.value.path);
   location.reload();
+};
 
-  // Next page logic
+const postCutscenesMap = [
+  ['0', '1', '2', '3', '20'],
+  ['4', '5', '6', '7', '21'],
+  ['8', '9', '10', '11', '22'],
+  ['12', '13', '14', '15', '23'],
+  ['16', '17', '18', '19', '24'],
+];
+
+const postCutscenes = (
+  setting: number,
+  levelNum: number,
+  difficulty: string,
+  maxLevel: number
+) => {
+  const isNextSetting = ref(false);
+  levelNum > maxLevel ? (isNextSetting.value = true) : false;
+  postCutscenesMap.map((scene) => {
+    if (postCutscenesMap.indexOf(scene) === setting) {
+      scene.map((level) => {
+        if (scene.indexOf(level) === levelNum - 1) {
+          console.log(scene);
+          console.log(level);
+          router.push({
+            name: 'narrative',
+            params: {
+              param:
+                level +
+                '_' +
+                setting +
+                '_' +
+                levelNum +
+                '_' +
+                difficulty +
+                '_' +
+                isNextSetting.value,
+            },
+          });
+        }
+      });
+    }
+  });
 };
 </script>
 

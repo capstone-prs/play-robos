@@ -68,7 +68,6 @@
         <q-page-container>
           <SettingComponent
             id="setting"
-            :key="dataForHomepage"
             :image-urls="getSettingsToDisplay.settingIcons"
             :setting-names="getSettingsToDisplay.settingNames"
             :accessibility="getSettingsToDisplay.settingAccess"
@@ -116,7 +115,6 @@ import { settings_easy } from '../components/games/levels-easy';
 import { settings_hard } from '../components/games/levels-hard';
 import { useQuasar } from 'quasar';
 import 'intro.js/introjs.css';
-import { getUser, userID } from '../firebase/firestore';
 import { useRouter } from 'vue-router';
 import animationData from '../../public/bgs/bg-animation.json';
 import { lottieBackgroundLoader } from '../utils/lottieUtils';
