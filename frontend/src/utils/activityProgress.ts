@@ -21,7 +21,7 @@ export const addLocalActivityProgress = (progress: ActivityProgress) => {
   storedUserData.activityProgress.push(progress);
 
   localStorage.setItem('localData', JSON.stringify(storedUserData));
-  solveActivityScore(
+  return solveActivityScore(
     solveAttemptScore(progress.attempt),
     solveDurationScore(progress.duration),
     progress.decomposition,
@@ -53,10 +53,11 @@ export const solveAttemptScore = (attempt: number) => {
   const deductionRate = 5;
 
   if (attempt === 1) {
+    console.log(maxScore);
     return maxScore;
   } else {
     const deduction = (attempt - 1) * deductionRate;
-
+    console.log('you were deducted');
     return Math.max(maxScore - deduction, 0);
   }
 };
@@ -67,6 +68,11 @@ export const solveActivityScore = (
   patternScore: number,
   decompScore: number
 ) => {
+  console.log(attemptScore);
+  console.log(durationScore);
+  console.log(patternScore);
+  console.log(decompScore);
+
   const attemptWeight = 25;
   const durationWeight = 15;
   const patternWeight = 30;
