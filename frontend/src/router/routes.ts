@@ -42,6 +42,14 @@ const routes: RouteRecordRaw[] = [
     },
   },
   {
+    name: 'verify',
+    path: '/verifyemail',
+    component:()=> import('components/login/VerifyPage.vue'),
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
     name: 'activity',
     path: '/activity/:param',
     component: () => import('../pages/ActivitiesPage.vue'),

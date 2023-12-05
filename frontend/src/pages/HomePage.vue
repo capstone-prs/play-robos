@@ -33,7 +33,8 @@
           <q-btn
             glossy
             rounded
-            color="grey-9"
+            color="grey-8"
+            text-color="white"
             icon="img:/coin.svg"
             :disable="true"
             :label="coinsStorage"
@@ -50,13 +51,26 @@
               </div>
 
               <div class="col q-pr-sm">
-                <MenuButton
+                <!-- <MenuButton
                   @open-dialog="openMenuDialog"
                   data-cy="menu-btn"
                   id="menu-btn"
+                /> -->
+                <q-btn
+                  round
+                  glossy
+                  color="purple-9"
+                  size="17px"
+                  @click="openLogoutDialog()"
+                  icon="logout"
                 />
-                <MenuDialog
+                <!-- <MenuDialog
                   v-model="isMenuDialogVisible"
+                  data-cy="menu-dialog"
+                  @update:data-for-homepage="updateData"
+                /> -->
+                <LogoutDialog
+                  v-model="isLogoutDialogVisible"
                   data-cy="menu-dialog"
                 />
               </div>
@@ -98,14 +112,15 @@
 </template>
 
 <script setup lang="ts">
+import LogoutDialog from '../components/LogoutDialog.vue';
 import { ref, computed, watch, onMounted } from 'vue';
 import HelpButton from '../components/buttons/HelpButton.vue';
 import AchievementButton from '../components/buttons/AchievementButton.vue';
 import SoundButton from '../components/buttons/SoundButton.vue';
 import MusicButton from '../components/buttons/MusicButton.vue';
 import SettingComponent from '../components/SettingComponent.vue';
-import MenuDialog from '../components/MenuDialog.vue';
-import MenuButton from '../components/buttons/MenuButton.vue';
+// import MenuDialog from '../components/MenuDialog.vue';
+// import MenuButton from '../components/buttons/MenuButton.vue';
 import RobotConnectButton from '../components/buttons/RobotConnectButton.vue';
 import FindingDialog from '../components/FindingDialog.vue';
 import PairingDialog from '../components/pairingDialog.vue';
@@ -120,31 +135,19 @@ import animationData from '../../public/bgs/bg-animation.json';
 import { lottieBackgroundLoader } from '../utils/lottieUtils';
 import { startHomeOnboarding } from '../onboarding/studioOnboarding';
 
-import {
-  soundEffect,
-  backgroundMusic,
-  backgroundMusicStudio,
-  backgroundMusicHome,
-} from '../../../frontend/src/utils/SoundUtils';
+import { soundEffect } from '../../../frontend/src/utils/SoundUtils';
 const $q = useQuasar();
-const isMenuDialogVisible = ref(false);
+// const isMenuDialogVisible = ref(false);
 const isAgeGroupDialogVisible = ref(false);
 const findingRobotDialog = ref(false);
 const isPairingDialog = ref(false);
 const dataForHomepage = ref(
   $q.localStorage.getItem('userDifficulty') as string
 );
+
 const router = useRouter();
 const lottieContainer = ref();
-
-if (
-  backgroundMusicStudio.playing() == true ||
-  backgroundMusicHome.playing() == false
-) {
-  backgroundMusicStudio.stop();
-  backgroundMusic.stop();
-  backgroundMusicHome.play();
-}
+const isLogoutDialogVisible = ref(false);
 
 const coinsStorage = ref(
   ($q.localStorage.getItem('coin_storage') as number) ?? 0
@@ -153,7 +156,6 @@ onMounted(() => {
   lottieBackgroundLoader(animationData, lottieContainer);
   startOnboarding();
   $q.localStorage.set('coin_storage', coinsStorage.value);
-
   lottieBackgroundLoader(animationData, lottieContainer);
 });
 // $q.localStorage.set('coin_storage',coinsStorage.value+=100)
@@ -199,8 +201,9 @@ watch(getSettingsToDisplay, () => {
   getSettingsToDisplay.value;
 });
 
-const openMenuDialog = () => {
-  isMenuDialogVisible.value = true;
+const openLogoutDialog = () => {
+  soundEffect();
+  isLogoutDialogVisible.value = true;
 };
 
 const openAgeGroupDialog = () => {
