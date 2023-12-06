@@ -53,12 +53,11 @@ export const solveAttemptScore = (attempt: number) => {
   const maxScore = 100;
   const deductionRate = 5;
 
-  if (attempt === 1) {
-    console.log(maxScore);
+  if (attempt === 0) {
     return maxScore;
   } else {
-    const deduction = (attempt - 1) * deductionRate;
-    console.log('you were deducted');
+    const deduction = attempt * deductionRate;
+
     return Math.max(maxScore - deduction, 0);
   }
 };
