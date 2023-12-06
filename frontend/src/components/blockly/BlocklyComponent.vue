@@ -565,12 +565,9 @@ const hideLoadingUpload = () => {
 .blocklyTreeLabel {
   font-size: 20px; /* Adjust the value as needed */
 }
-<<<<<<< HEAD
-=======
 .image {
   max-width: 25%;
   max-height: 25%;
   margin-left: 65%;
 }
->>>>>>> 69632eb92141e21c535fd892830a8ef66dac02a4
 </style>
