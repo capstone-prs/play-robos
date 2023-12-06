@@ -30,28 +30,30 @@ export const soundEffect = (
   }
 };
 
+export const narrator = (source: []) => {
+  const narration = new Howl({ src: source });
+};
+
 export const backgroundMusic = new Howl({
   src: [background],
   loop: true,
-  volume: 0.5
+  volume: 0.5,
 });
-
 
 export const backgroundMusicStudio = new Howl({
   src: [backgroundSudio],
   mute: true,
   loop: true, // Set to true for continuous looping
-  volume: 0.5 // Adjust the volume as needed
+  volume: 0.5, // Adjust the volume as needed
 });
 export const backgroundMusicHome = new Howl({
   src: [backgroundHome],
   loop: true, // Set to true for continuous looping
-  volume: 0.5 // Adjust the volume as needed
+  volume: 0.5, // Adjust the volume as needed
 });
-
 
 export const stopmusic = () => {
   backgroundMusic.stop();
   backgroundMusicStudio.stop();
-  backgroundMusicHome.stop()
-}
+  backgroundMusicHome.stop();
+};

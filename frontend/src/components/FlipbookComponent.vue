@@ -7,6 +7,7 @@
       single-page
       :zooms="[1]"
       ref="flipbook"
+      @flip-right-start="onFlipRightStart"
     />
   </div>
 
@@ -55,8 +56,8 @@ import Flipbook from 'flipbook-vue';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import ActionButton from './buttons/ActionButton.vue';
-import { lottieBackgroundLoader } from '../utils/lottieUtils';
-import animationData from '../../public/bgs/bg-animation.json';
+import { narrator } from '../utils/SoundUtils';
+import sampleSound from '../assets/sounds/narrator/page1.mp3';
 
 const show = ref(false);
 const router = useRouter();
@@ -73,9 +74,17 @@ const flipbook = ref();
 
 const lottieContainer = ref();
 
+const onFlipRightStart = () => {
+  narrator([]);
+};
+
+// const onFlipRightEnd = () => {
+//   narrator(sampleSound);
+// };
+
 console.log(splitParams);
 const scenes = [
-  'scenes/scorcha-1.svg',
+  'scenes/page1.svg',
   'scenes/page2.svg',
   'scenes/page3.svg',
   'scenes/page4.svg',
@@ -122,6 +131,26 @@ const scenes = [
   'scenes/page45.svg',
   'scenes/page46.svg',
   'scenes/page47.svg',
+  'scenes/scorcha-L1-post.svg', //47
+  'scenes/scorcha-L2-post.svg', //48
+  'scenes/scorcha-L3-post.svg', //49
+  'scenes/scorcha-L4-post.svg', //50
+  'scenes/flora-L1-post.svg', //51
+  'scenes/flora-L2-post.svg', //52
+  'scenes/flora-L3-post.svg', //53
+  'scenes/flora-L4-post.svg', //54
+  'scenes/darka-L1-post.svg', //55
+  'scenes/darka-L2-post.svg', //56
+  'scenes/darka-L3-post.svg', //57
+  'scenes/darka-L4-post.svg', //58
+  'scenes/mistica-L1-post.svg', //59
+  'scenes/mistica-L2-post.svg', //60
+  'scenes/mistica-L3-post.svg', //61
+  'scenes/mistica-L4-post.svg', //62
+  'scenes/futura-L1-post.svg', //63
+  'scenes/futura-L2-post.svg', //64
+  'scenes/futura-L3-post.svg', //65
+  'scenes/futura-L4-post.svg', //66
 ];
 const intropages = scenes.slice(startPage, endPage + 1);
 const inlevelpages = scenes.slice(startPage, startPage + 1);
@@ -133,8 +162,6 @@ onMounted(() => {
 const navigateBack = (setting: number, level: number, difficulty: string) => {
   if (splitParams.length == 5) {
     if (isNextSetting === 'true' && setting != 4) {
-      lottieBackgroundLoader(animationData, lottieContainer);
-
       router.push({
         name: 'activity',
         params: { param: (difficulty + ' ' + setting) as string },
@@ -145,8 +172,22 @@ const navigateBack = (setting: number, level: number, difficulty: string) => {
         params: { param: setting + '_' + level + '_' + difficulty },
       });
     }
+  } else if (splitParams.length == 6) {
+    if (isNextSetting === 'easy' || isNextSetting === 'hard') {
+      router.push({
+        name: 'activity',
+        params: { param: (splitParams[4] + ' ' + splitParams[2]) as string },
+      });
+    }
   } else {
+    // if (isNextSetting === 'true') {
+    //   router.push({
+    //     name: 'activity',
+    //     params: { param: (difficulty + ' ' + setting) as string },
+    //   });
+    // } else {
     router.go(-1);
+    // }
   }
 };
 </script>
