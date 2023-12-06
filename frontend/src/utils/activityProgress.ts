@@ -107,49 +107,49 @@ export const badgeReward = () => {
 
   console.log(currentScore);
   switch (true) {
-    case currentScore >= 100 && currentScore < 200:
+    case currentScore >= 100 && currentScore < 300:
       return {
         badgeName: 'Novice Explorer',
         badgeUrl: '../novice-explorer.svg',
       };
 
-    case currentScore >= 200 && currentScore < 300:
+    case currentScore >= 300 && currentScore < 500:
       return {
         badgeName: 'Galactic Adventurer',
         badgeUrl: '../galactic-adventurer.svg',
       };
 
-    case currentScore >= 300 && currentScore < 400:
+    case currentScore >= 500 && currentScore < 800:
       return {
         badgeName: 'Celestial Guardian',
         badgeUrl: '../celestial-guardian.svg',
       };
 
-    case currentScore >= 400 && currentScore < 500:
+    case currentScore >= 800 && currentScore < 1100:
       return {
         badgeName: 'Cosmic Protector',
         badgeUrl: '../cosmic-protector.svg',
       };
 
-    case currentScore >= 500 && currentScore < 600:
+    case currentScore >= 1100 && currentScore < 1500:
       return {
-        badgeName: 'Starlight Setinel',
-        badgeUrl: '../startlight-sentinel.svg',
+        badgeName: 'Starlight Sentinel',
+        badgeUrl: '../starlight-sentinel.svg',
       };
 
-    case currentScore >= 600 && currentScore < 700:
+    case currentScore >= 1500 && currentScore < 2000:
       return {
         badgeName: 'Intergalactic Sentinel',
         badgeUrl: '../intergalactic-sentinel.svg',
       };
 
-    case currentScore >= 700 && currentScore < 800:
+    case currentScore >= 2000 && currentScore < 2500:
       return {
         badgeName: 'Universal Guardian',
         badgeUrl: '../universal-guardian.svg',
       };
 
-    case currentScore >= 800 && currentScore <= 900:
+    case currentScore >= 2500 && currentScore <= 3000:
       return {
         badgeName: 'Master of the Cosmos',
         badgeUrl: '../master.svg',
