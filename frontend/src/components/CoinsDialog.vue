@@ -7,12 +7,12 @@
         <q-card-section class="col" align="center">
           <div class="text-h3 correct-text">CONGRATULATIONS!</div>
           <div class="text-h4 detail-text q-pt-md">
-            YOU WON <q-icon name="img:/coin.svg" />{{ coins }}!
+            YOU WON <q-icon name="img:/coin-bag.svg" />{{ coins }}!
           </div>
         </q-card-section>
       </div>
 
-      <q-card-section class="row absolute-center">
+      <q-card-section class="row fix-center" align="center">
         <div class="stars" v-for="index in elementsArray" :key="index">
           <q-icon name="stars" size="60px" color="amber-5" />
         </div>
@@ -112,7 +112,8 @@ const navigateToActivities = (settingNum: number, difficulty: string) => {
 
 const redo = () => {
   soundEffect();
-  location.reload();
+  // FIXME: Add logic to bring back to the current level
+  // location.reload();
 };
 
 const postCutscenesMap = [

@@ -1,10 +1,11 @@
-import { ActivityProgress } from '../types/Progress';
+import { ActivityProgress, Badge } from '../types/Progress';
 
 export const initializeLocalActivityProgress = () => {
   const data = {
     coins: 100,
     score: 0,
     activityProgress: [],
+    badgesReceived: [],
   };
   if (localStorage.getItem('localData') === null) {
     localStorage.setItem('localData', JSON.stringify(data));
@@ -96,4 +97,102 @@ export const addLocalScore = (score: number) => {
 
   storedUserData.score += score;
   localStorage.setItem('localData', JSON.stringify(storedUserData));
+};
+
+export const badgeReward = () => {
+  const storedDataString = localStorage.getItem('localData');
+  const storedUserData = storedDataString ? JSON.parse(storedDataString) : null;
+
+  const currentScore = storedUserData.score;
+
+  console.log(currentScore);
+  switch (true) {
+    case currentScore >= 100 && currentScore < 200:
+      return {
+        badgeName: 'Novice Explorer',
+        badgeUrl: '../novice-explorer.svg',
+      };
+
+    case currentScore >= 200 && currentScore < 300:
+      return {
+        badgeName: 'Galactic Adventurer',
+        badgeUrl: '../galactic-adventurer.svg',
+      };
+
+    case currentScore >= 300 && currentScore < 400:
+      return {
+        badgeName: 'Celestial Guardian',
+        badgeUrl: '../celestial-guardian.svg',
+      };
+
+    case currentScore >= 400 && currentScore < 500:
+      return {
+        badgeName: 'Cosmic Protector',
+        badgeUrl: '../cosmic-protector.svg',
+      };
+
+    case currentScore >= 500 && currentScore < 600:
+      return {
+        badgeName: 'Starlight Setinel',
+        badgeUrl: '../startlight-sentinel.svg',
+      };
+
+    case currentScore >= 600 && currentScore < 700:
+      return {
+        badgeName: 'Intergalactic Sentinel',
+        badgeUrl: '../intergalactic-sentinel.svg',
+      };
+
+    case currentScore >= 700 && currentScore < 800:
+      return {
+        badgeName: 'Universal Guardian',
+        badgeUrl: '../universal-guardian.svg',
+      };
+
+    case currentScore >= 800 && currentScore <= 900:
+      return {
+        badgeName: 'Master of the Cosmos',
+        badgeUrl: '../master.svg',
+      };
+
+    default:
+      return {
+        badgeName: '',
+        badgeUrl: '',
+      };
+  }
+};
+
+export const launchBadgeReward = () => {
+  const storedDataString = localStorage.getItem('localData');
+  const storedUserData = storedDataString ? JSON.parse(storedDataString) : null;
+
+  if (storedUserData && !storedUserData.badgesReceived) {
+    storedUserData.badgesReceived = [];
+  }
+
+  const determinant = storedUserData.badgesReceived.find(
+    (badge: Badge) => badge.badgeName === badgeReward().badgeName
+  );
+
+  if (determinant === undefined) {
+    const reward = badgeReward();
+    const newElement = {
+      badgeName: reward.badgeName,
+      badgeUrl: reward.badgeUrl,
+    };
+    if (reward.badgeName != '' && reward.badgeUrl != '') {
+    }
+    storedUserData.badgesReceived.push(newElement);
+    localStorage.setItem('localData', JSON.stringify(storedUserData));
+    return {
+      visible: true,
+      name: newElement.badgeName,
+      url: newElement.badgeUrl,
+    };
+  } else {
+    return {
+      visible: false,
+    };
+  }
 };

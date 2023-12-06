@@ -32,6 +32,11 @@
             "
             :activity-score="currentActivityScore"
           />
+          <BadgeDialog
+            :badge-name="badgeName"
+            :badge-url="badgeUrl"
+            v-model="isDialogOpen.badge"
+          />
         </div>
         <div
           ref="blocklyContainer"
@@ -113,7 +118,14 @@
 
 <script setup lang="ts">
 import { useQuasar } from 'quasar';
-import { ref, onMounted, computed, watch, onUnmounted } from 'vue';
+import {
+  ref,
+  onMounted,
+  computed,
+  watch,
+  onUnmounted,
+  onBeforeMount,
+} from 'vue';
 import { useRouter } from 'vue-router';
 import { inject, Workspace } from 'blockly';
 import * as Toolbox from './toolbox/typetoolbox';
@@ -138,7 +150,6 @@ import executeCodes from '../../utils/executeCodes';
 import {
   addLocalActivityProgress,
   initializeLocalActivityProgress,
-  solveAttemptScore,
   solveDurationScore,
 } from '../../utils/activityProgress';
 import { startStudioOnboarding } from '../../onboarding/studioOnboarding';
@@ -158,6 +169,10 @@ import victory from '../../assets/sounds/victory-effect.mp3';
 import '../../css/style.css';
 import 'intro.js/introjs.css';
 
+// Activity Progress
+import { launchBadgeReward } from '../../utils/activityProgress';
+import BadgeDialog from '../BadgeDialog.vue';
+
 const $q = useQuasar();
 const router = useRouter();
 
@@ -166,6 +181,7 @@ const isDialogOpen = ref({
   hint: false,
   menu: false,
   coins: false,
+  badge: false,
 });
 
 const taskStatus = ref<TaskStatus>('none');
@@ -179,6 +195,8 @@ const coinsStorage = computed(
   () => $q.localStorage.getItem('coin_storage') || 0
 );
 const currentActivityScore = ref(0);
+const badgeName = ref('');
+const badgeUrl = ref('');
 
 const routeParam = router.currentRoute.value.params.param as string;
 const splitParams = routeParam.split('_');
@@ -310,6 +328,19 @@ onMounted(() => {
     startStudioOnboarding();
     initializeLocalActivityProgress();
   }
+
+  const badge = launchBadgeReward();
+
+  console.log(isDialogOpen.value.badge);
+  if (badge.name === '' && badge.url === '') {
+    isDialogOpen.value.badge = false;
+  } else {
+    isDialogOpen.value.badge = badge.visible;
+  }
+  badgeName.value = badge.name ?? '';
+  badgeUrl.value = badge.url ?? '';
+
+  console.log(launchBadgeReward().name);
 
   workspace.value = inject(blocklyContainer.value, {
     // refer to typetoolbox.ts file

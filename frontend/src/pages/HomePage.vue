@@ -33,9 +33,9 @@
           <q-btn
             glossy
             rounded
-            color="grey-8"
+            color="grey-7"
             text-color="white"
-            icon="img:/coin.svg"
+            icon="img:/coin-bag.svg"
             :disable="true"
             :label="coinsStorage"
           />
@@ -77,8 +77,7 @@
             </div>
           </div>
         </q-header>
-        <!-- FIXME: Console is having error because of :key of the
-        SettingComponent. -->
+
         <q-page-container>
           <SettingComponent
             id="setting"
