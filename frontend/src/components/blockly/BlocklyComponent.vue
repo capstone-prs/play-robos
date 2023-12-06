@@ -3,6 +3,14 @@
     <div class="col">
       <div class="workspace-container" id="blockly">
         <div class="overlay-container">
+          <div class="row">
+            <img
+              class="image"
+              :src="image"
+              v-for="image in arrayOfLives"
+              :key="image"
+            />
+          </div>
           <CheckDialog
             v-model="isDialogOpen.check"
             :correct="isEqualCodes(correctCodes, blocklyGenerator())"
@@ -17,6 +25,23 @@
             v-model="isDialogOpen.hint"
             :user-code="blocklyGenerator()"
             :level="thisLevel"
+          />
+          <GameOver v-model="gameover" />
+          <ExtraLives
+            v-if="extra"
+            v-model="extra"
+            :coins="(coinsStorage as number)"
+            @num="
+              (isAdd) => {
+                if (isAdd <= (($q.localStorage.getItem('coin_storage') as number))) {
+                  extralife();
+                }
+                else{notifyError('NOT ENOUGH COINS!')
+                openGameover();
+              }
+              }
+            "
+            :is-playing="extra"
           />
           <MenuDialog v-model="isDialogOpen.menu" />
           <CoinsDialog
@@ -101,7 +126,12 @@
         <StudioSideBarButton
           color="amber"
           icon="upload"
-          @click="() => setDialog('check')"
+          @click="
+            () => {
+              setDialog('check');
+              livesCost();
+            }
+          "
           data-cy="check-btn"
           label="upload"
         />
@@ -126,6 +156,7 @@ import MenuDialog from '../../components/MenuDialog.vue';
 import CoinsDialog from '../CoinsDialog.vue';
 import StudioSideBarButton from '../buttons/StudioSideBarButton.vue';
 import StopwatchComponent from '../StopwatchComponent.vue';
+import GameOver from '../GameOver.vue';
 // Utils
 import {
   bluetoothSerial,
@@ -144,6 +175,8 @@ import { startStudioOnboarding } from '../../onboarding/studioOnboarding';
 import { settings_easy } from '../games/levels-easy';
 import { settings_hard } from '../games/levels-hard';
 import generator from '../../utils/blockly';
+import lives from '../../assets/PlayRobos1.svg';
+import ExtraLives from '../../components/ExtraLivesDIalog.vue';
 // Types
 import { ActivityProgress, Difficulty, LocalData } from '../../types/Progress';
 import { TaskStatus } from '../../types/Status';
@@ -168,15 +201,46 @@ const isDialogOpen = ref({
 });
 
 const taskStatus = ref<TaskStatus>('none');
+const gameover = ref(false);
+const failedAttemps = ref(
+  ($q.localStorage.getItem('failed-attemps') as number) ?? 0
+);
+const openGameover = () => (gameover.value = true);
+const extra = ref(false);
 const disconnectListener = ref<ReturnType<typeof onDisconnect>>();
 const workspace = ref<Workspace>();
 const blocklyContainer = ref<string | Element>('');
 const stopwatch = ref<InstanceType<typeof StopwatchComponent> | null>(null);
 const initialTime = ref(0); // TODO: To be stored in user progress NOTE that only updates when timer is stopped @jenny
-
+// const arrayOfLives = ref<Array<string>>([lives, lives, lives]);
+const arrayOfLives = ref(
+  ($q.localStorage.getItem('lives') as Array<string>) ?? [lives, lives, lives]
+);
 const coinsStorage = computed(
   () => $q.localStorage.getItem('coin_storage') || 0
 );
+
+const livesCost = () => {
+  if (isEqualCodes(correctCodes, blocklyGenerator()) === false) {
+    arrayOfLives.value.pop();
+    $q.localStorage.set('lives', arrayOfLives.value);
+  }
+  if (arrayOfLives.value.length == 0) {
+    $q.localStorage.set('failed-attemps', (failedAttemps.value += 1));
+    setTimeout(() => {
+      setDialog('check', false);
+      extra.value = true;
+    }, 1000);
+  }
+};
+const extralife = () => {
+  arrayOfLives.value.push(lives);
+  $q.localStorage.set('lives', arrayOfLives.value);
+  localStorage.setItem(
+    'coin_storage',
+    (Number(coinsStorage.value) - 100).toString()
+  );
+};
 
 const routeParam = router.currentRoute.value.params.param as string;
 const splitParams = routeParam.split('_');
@@ -207,7 +271,6 @@ watch(isDialogOpen.value, () => {
 
 const setDialog = (key: Dialog, open = true) => {
   soundEffect();
-
   isDialogOpen.value[key] = open;
 };
 
@@ -258,7 +321,7 @@ const coinsComputed = () => {
       difficulty: ageGroup as Difficulty
     },
     duration: solveDurationScore(stopwatch.value?.totalTime ?? 0),
-    attempt: solveAttemptScore(1),
+    attempt: solveAttemptScore(failedAttemps.value),
     decomposition: 100,
     pattern: 100,
     completed: true
@@ -290,7 +353,10 @@ const openHints = () => {
       message: 'Hints Payment Success!'
     });
     setDialog('hint');
-    localStorage.setItem('coin_storage', (($q.localStorage.getItem('coin_storage') as number) - 60).toString());
+    localStorage.setItem(
+      'coin_storage',
+      (($q.localStorage.getItem('coin_storage') as number) - 60).toString()
+    );
   } else {
     $q.notify({
       type: 'negative',
@@ -299,13 +365,11 @@ const openHints = () => {
   }
 };
 
-
 onMounted(() => {
   if (settingNum == 0 && levelNum == 1) {
     startStudioOnboarding();
     initializeLocalActivityProgress();
   }
-
   workspace.value = inject(blocklyContainer.value, {
     // refer to typetoolbox.ts file
     toolbox: toolbox,
@@ -329,8 +393,7 @@ onMounted(() => {
         flyoutBackgroundColour: '#D0D0D0',
         flyoutOpacity: 0.7
       }
-    },
-    
+    }
   });
 
   // workspace.value.addChangeListener(blocklyGenerator); // FIXME: DEAD CODE?
@@ -382,7 +445,8 @@ const endProgressNotify = () => {
       message: 'Uploading done!',
       timeout: 1000
     });
-
+    localStorage.removeItem('failed-attemps');
+    localStorage.removeItem('lives');
     //FIXME: doubled sound
     //code for UI COINS
     taskStatus.value = 'none';
@@ -463,13 +527,18 @@ const hideLoadingUpload = () => {
 }
 
 .blocklyToolboxDiv {
-    padding-top: 20px !important; /* Adjust the value as needed */
-  }
-  .blocklyFlyoutLabelText {
-    font-size: 20px; /* Adjust the value as needed */
-  }
+  padding-top: 20px !important; /* Adjust the value as needed */
+}
+.blocklyFlyoutLabelText {
+  font-size: 20px; /* Adjust the value as needed */
+}
 
-  .blocklyTreeLabel {
-    font-size: 20px; /* Adjust the value as needed */
-  }
+.blocklyTreeLabel {
+  font-size: 20px; /* Adjust the value as needed */
+}
+.image {
+  max-width: 25%;
+  max-height: 25%;
+  margin-left: 65%;
+}
 </style>
