@@ -19,31 +19,58 @@
       </q-card-section>
 
       <q-card-section class="centered q-mb-none" v-if="path !== '/home'">
-        <q-btn
-          @click="atHome"
-          color="pink-12"
-          class="glossy hitchcut"
-          size="lg"
-          rounded
-        >
-          <q-icon name="home" />
-          Home
-        </q-btn>
       </q-card-section>
       <q-card-section
         class="centered q-pa-none q-mb-md"
         v-if="path !== '/home'"
       >
-        <q-btn
-          @click="atBack"
-          color="purple"
-          class="glossy hitchcut"
-          size="lg"
-          rounded
-        >
-          <q-icon name="arrow_back" />
-          Back
-        </q-btn>
+      </q-card-section>
+      <q-card-section
+        class="centered q-pa-none q-mb-md"
+        v-if="path !== '/home'"
+      >
+        <div class="q-pa-xs">
+          <q-btn
+            @click="atBack"
+            color="purple"
+            class="glossy hitchcut"
+            size="lg"
+            rounded
+          >
+            <q-icon name="arrow_back" />
+          </q-btn>
+        </div>
+        <div class="q-pa-xs">
+          <q-btn
+            @click="atHome"
+            color="pink-12"
+            class="glossy hitchcut"
+            size="lg"
+            rounded
+          >
+            <q-icon name="home" />
+          </q-btn>
+        </div>
+        <RobotConnectButton
+          class="q-pa-xs"
+          :loading-handler="
+            (isLoading) => {
+              findingRobotDialog = isLoading;
+            }
+          "
+          :open-bt-setting-handler="
+            () => {
+              isPairingDialog = true;
+            }
+          "
+          id="robot-btn"
+        />
+
+        <SoundButton class="q-pa-xs" />
+
+        <div class="q-pa-xs">
+          <MusicButton />
+        </div>
       </q-card-section>
       <q-card-section class="centered q-pa-none q-mb-md">
         <ActionButton
@@ -53,32 +80,11 @@
         />
         <LogoutDialog v-model="isLogoutDialogVisible" data-cy="logout-dialog" />
       </q-card-section>
-      <q-card-section
-        class="centered q-pa-none q-mb-md"
-        v-if="path !== '/home'"
-      >
-      <SoundButton   class="q-pa-xs" />
-        <RobotConnectButton
-        class="q-pa-xs"
-          :loading-handler="
-            (isLoading) => {
-              findingRobotDialog = isLoading;
-            }
-          "
-          :open-bt-setting-handler="() =>{ (isPairingDialog = true)  
-          }"
-          id="robot-btn"
-        />
-      
-        <div class="q-pa-xs">
-          <MusicButton />
-        </div>
-      </q-card-section>
+
       <div class="col q-pl-sm">
-            <FindingDialog v-model="findingRobotDialog" />
-            <PairingDialog v-model="isPairingDialog" />
-          </div>
-      
+        <FindingDialog v-model="findingRobotDialog" />
+        <PairingDialog v-model="isPairingDialog" />
+      </div>
     </q-card>
   </q-dialog>
 </template>
