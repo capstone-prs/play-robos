@@ -55,6 +55,12 @@
                 ? settings_easy[settingNum].levels.length - 1
                 : settings_hard[settingNum].levels.length - 1
             "
+            :activity-score="currentActivityScore"
+          />
+          <BadgeDialog
+            :badge-name="badgeName"
+            :badge-url="badgeUrl"
+            v-model="isDialogOpen.badge"
           />
         </div>
         <div
@@ -161,7 +167,7 @@ import GameOver from '../GameOver.vue';
 import {
   bluetoothSerial,
   onDisconnect,
-  btListenser
+  btListenser,
 } from 'src/utils/bluetoothUtils';
 import isEqualCodes from 'src/utils/compareCode';
 import executeCodes from '../../utils/executeCodes';
@@ -169,7 +175,7 @@ import {
   addLocalActivityProgress,
   initializeLocalActivityProgress,
   solveAttemptScore,
-  solveDurationScore
+  solveDurationScore,
 } from '../../utils/activityProgress';
 import { startStudioOnboarding } from '../../onboarding/studioOnboarding';
 import { settings_easy } from '../games/levels-easy';
@@ -190,6 +196,10 @@ import victory from '../../assets/sounds/victory-effect.mp3';
 import '../../css/style.css';
 import 'intro.js/introjs.css';
 
+// Activity Progress
+import { launchBadgeReward } from '../../utils/activityProgress';
+import BadgeDialog from '../BadgeDialog.vue';
+
 const $q = useQuasar();
 const router = useRouter();
 
@@ -197,7 +207,8 @@ const isDialogOpen = ref({
   check: false,
   hint: false,
   menu: false,
-  coins: false
+  coins: false,
+  badge: false,
 });
 
 const taskStatus = ref<TaskStatus>('none');
@@ -219,6 +230,9 @@ const arrayOfLives = ref(
 const coinsStorage = computed(
   () => $q.localStorage.getItem('coin_storage') || 0
 );
+const currentActivityScore = ref(0);
+const badgeName = ref('');
+const badgeUrl = ref('');
 
 const livesCost = () => {
   if (isEqualCodes(correctCodes, blocklyGenerator()) === false) {
@@ -278,7 +292,7 @@ const notifyError = (e: string) => {
   soundEffect(errorSnd);
   $q.notify({
     type: 'negative',
-    message: e
+    message: e,
   });
 };
 
@@ -318,13 +332,13 @@ const coinsComputed = () => {
     activity: {
       setting: settingNum,
       id: levelNum,
-      difficulty: ageGroup as Difficulty
+      difficulty: ageGroup as Difficulty,
     },
     duration: solveDurationScore(stopwatch.value?.totalTime ?? 0),
     attempt: solveAttemptScore(failedAttemps.value),
     decomposition: 100,
     pattern: 100,
-    completed: true
+    completed: true,
   };
 
   soundEffect(victory); //FIXME: doubled sound
@@ -338,8 +352,9 @@ const coinsComputed = () => {
   console.log(condition);
   console.log(levelNum);
   if (condition == undefined) {
-    addLocalActivityProgress(dataToUpdate);
-
+    const activityScore = addLocalActivityProgress(dataToUpdate);
+    currentActivityScore.value = activityScore;
+    console.log('activityScore', activityScore);
     localStorage.setItem(
       'coin_storage',
       (Number(coinsStorage.value) + thisLevel.reward).toString()
@@ -350,7 +365,7 @@ const openHints = () => {
   if (($q.localStorage.getItem('coin_storage') as number) >= 60) {
     $q.notify({
       type: 'positive',
-      message: 'Hints Payment Success!'
+      message: 'Hints Payment Success!',
     });
     setDialog('hint');
     localStorage.setItem(
@@ -360,7 +375,7 @@ const openHints = () => {
   } else {
     $q.notify({
       type: 'negative',
-      message: 'Not enough Coins!'
+      message: 'Not enough Coins!',
     });
   }
 };
@@ -370,6 +385,20 @@ onMounted(() => {
     startStudioOnboarding();
     initializeLocalActivityProgress();
   }
+
+  const badge = launchBadgeReward();
+
+  console.log(isDialogOpen.value.badge);
+  if (badge.name === '' && badge.url === '') {
+    isDialogOpen.value.badge = false;
+  } else {
+    isDialogOpen.value.badge = badge.visible;
+  }
+  badgeName.value = badge.name ?? '';
+  badgeUrl.value = badge.url ?? '';
+
+  console.log(launchBadgeReward().name);
+
   workspace.value = inject(blocklyContainer.value, {
     // refer to typetoolbox.ts file
     toolbox: toolbox,
@@ -378,22 +407,22 @@ onMounted(() => {
     grid: {
       spacing: 20,
       length: 3,
-      colour: '#ccc'
+      colour: '#ccc',
     },
     zoom: {
       startScale: 1.0,
       maxScale: 2,
       minScale: 3,
-      scaleSpeed: 0.3
+      scaleSpeed: 0.3,
     },
     theme: {
       name: 'custom',
       componentStyles: {
         workspaceBackgroundColour: '#FFFFFF',
         flyoutBackgroundColour: '#D0D0D0',
-        flyoutOpacity: 0.7
-      }
-    }
+        flyoutOpacity: 0.7,
+      },
+    },
   });
 
   // workspace.value.addChangeListener(blocklyGenerator); // FIXME: DEAD CODE?
@@ -443,7 +472,7 @@ const endProgressNotify = () => {
     $q.notify({
       type: 'positive',
       message: 'Uploading done!',
-      timeout: 1000
+      timeout: 1000,
     });
     localStorage.removeItem('failed-attemps');
     localStorage.removeItem('lives');
@@ -455,7 +484,7 @@ const endProgressNotify = () => {
     $q.notify({
       type: 'negative',
       spinner: false,
-      timeout: 1500
+      timeout: 1500,
     });
     taskStatus.value = 'none';
   }
@@ -475,7 +504,7 @@ const startLoadingUpload = () => {
   $q.loading.show({
     spinnerColor: 'white',
     backgroundColor: 'black',
-    message: 'Executing'
+    message: 'Executing',
   });
 };
 

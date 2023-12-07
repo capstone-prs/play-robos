@@ -11,10 +11,14 @@
           :imageUrl="item"
           :setting-name="$props.settingNames[index]"
           :key="index"
-          :accessible="$props.accessibility[index]"
+          :accessible="index <= latestAccessibleSetting ? true : false"
           class="q-ma-lg"
           :class="index === activeSetting ? 'active-setting' : ''"
-          @click="accessibility[index] ? navigateToActivities(index) : ''"
+          @click="
+            (index <= latestAccessibleSetting ? true : false)
+              ? navigateToActivities(index)
+              : ''
+          "
         />
       </q-virtual-scroll>
     </div>
@@ -48,6 +52,7 @@ const intro = introJS();
 
 // TODO: TO change when progress is accessible
 const activeSetting = ref(0);
+const latestAccessibleSetting = ref(0);
 const startOnboarding = () => {
   intro.setOptions(settingConfig as Partial<Options>);
   intro.goToStep(8);
@@ -64,6 +69,13 @@ onMounted(() => {
     : 0;
 
   activeSetting.value = storedActiveLocalSetting;
+
+  const latestLocalAccessibleSetting = localStorage.getItem('activeSetting');
+  const storedLatestAccessibleSetting = latestLocalAccessibleSetting
+    ? parseInt(latestLocalAccessibleSetting)
+    : 0;
+
+  latestAccessibleSetting.value = storedLatestAccessibleSetting;
 });
 
 const props = defineProps<{

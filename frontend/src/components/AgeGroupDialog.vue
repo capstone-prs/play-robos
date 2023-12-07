@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import ToggleButton from './buttons/ToggleButton.vue';
 import { useQuasar } from 'quasar';
 
@@ -47,6 +47,10 @@ const emit = defineEmits(['update:openDialog', 'update:dataForHomepage']);
 const updateDataAndNotify = () => {
   emit('update:dataForHomepage', selectedOption.value);
 };
+
+watch(selectedOption, (newVal) => {
+  emit('update:dataForHomepage', newVal);
+});
 </script>
 
 <style>
