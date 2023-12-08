@@ -7,6 +7,7 @@
       single-page
       :zooms="[1]"
       ref="flipbook"
+      @flip-right-end="onFlipRightEnd"
       @flip-right-start="onFlipRightStart"
     />
   </div>
@@ -56,8 +57,7 @@ import Flipbook from 'flipbook-vue';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import ActionButton from './buttons/ActionButton.vue';
-import { narrator } from '../utils/SoundUtils';
-import sampleSound from '../assets/sounds/narrator/page1.mp3';
+import { narrator, narrations } from '../utils/SoundUtils';
 
 const show = ref(false);
 const router = useRouter();
@@ -65,7 +65,7 @@ const routeParam = router.currentRoute.value.params.param as string;
 const splitParams = routeParam.split('_');
 const startPage = parseInt(splitParams[0]);
 const endPage = parseInt(splitParams[1]);
-const settingNum = parseInt(splitParams[1]);
+const settingNum = ref(parseInt(splitParams[1]));
 const levelNum = parseInt(splitParams[2]);
 const difficulty = splitParams[3];
 const isNextSetting = splitParams[4];
@@ -73,14 +73,31 @@ const isNextSetting = splitParams[4];
 const flipbook = ref();
 
 const lottieContainer = ref();
+const howler = ref<Howl>();
 
-const onFlipRightStart = () => {
-  narrator([]);
+onMounted(() => {
+  howler.value = narrator(narrations[0]);
+  howler.value.play();
+
+  if (splitParams.length === 5) {
+    settingNum.value = parseInt(splitParams[1]);
+  } else if (splitParams.length === 6) {
+    settingNum.value = parseInt(splitParams[2]);
+  }
+});
+
+const onFlipRightEnd = (page: number) => {
+  console.log('end');
+
+  howler.value = narrator(narrations[page - 1]);
+  howler.value.play();
 };
 
-// const onFlipRightEnd = () => {
-//   narrator(sampleSound);
-// };
+const onFlipRightStart = () => {
+  console.log('start', howler.value);
+
+  howler.value?.stop();
+};
 
 console.log(splitParams);
 const scenes = [

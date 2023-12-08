@@ -1,4 +1,5 @@
 <template>
+  <LevelGoalPreview />
   <div class="row items-start">
     <div class="col">
       <div class="workspace-container" id="blockly">
@@ -163,6 +164,7 @@ import CoinsDialog from '../CoinsDialog.vue';
 import StudioSideBarButton from '../buttons/StudioSideBarButton.vue';
 import StopwatchComponent from '../StopwatchComponent.vue';
 import GameOver from '../GameOver.vue';
+import LevelGoalPreview from '../LevelGoalPreview.vue';
 // Utils
 import {
   bluetoothSerial,
