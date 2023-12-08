@@ -1,35 +1,61 @@
 import { Setting } from '../../types/Levels';
-import forward from '../../assets/forward.svg';
 
-import raisHandLeft from '../../assets/raisHandLeft.svg';
-import raisHandRight from '../../assets/raisHandRight.svg';
-import turnRightHead from '../../assets/turnRightHead.svg';
-import turnLeftHead from '../../assets/turnLeftHead.svg';
-import lookLeft from '../../assets/lookLeft.svg';
-import look from '../../assets/look.svg';
-// import lookUp from '../../assets/lookUp.svg';
-import lookRight from '../../assets/lookRight.svg';
-import LookUpLeft from '../../assets/LookUpLeft.svg';
-import LookUpRight from '../../assets/lookUpRight.svg';
-// import winkRight from '../../assets/winkRight.svg';
-// import winkLeft from '../../assets/winkLeft.svg';
+import normalArms from '../../assets/normalArms.svg';
+
+//eyes assets
+import normalLook from '../../assets/normalLook.svg';
 import closeEyes from '../../assets/closeEyes.svg';
+import lookLeft from '../../assets/lookLeft.svg';
+import lookRight from '../../assets/lookRight.svg';
+import lookUpLeft from '../../assets/LookUpLeft.svg';
+import lookUpRight from '../../assets/lookUpRight.svg';
+import winkRight from '../../assets/winkRight.svg';
+import winkLeft from '../../assets/winkLeft.svg';
+import lookUp from '../../assets/lookUp.svg';
+//head assets
+import normalHead from '../../assets/normalHead.svg';
+import turnLeftHead from '../../assets/turnLeftHead.svg';
+import turnRightHead from '../../assets/turnRightHead.svg';
+
+//left arm assets
+import raiseLeft60 from '../../assets/raiseLeft60.svg';
+import raiseLeft90 from '../../assets/raiseLeft90.svg';
+import raiseLeft120 from '../../assets/raiseLeft120.svg';
+import raiseLeft150 from '../../assets/raiseLeft150.svg';
+import raiseLeft180 from '../../assets/raiseLeft180.svg';
+
+//right arm assets
+import raiseRight60 from '../../assets/raiseRight60.svg';
+import raiseRight90 from '../../assets/raiseRight90.svg';
+import raiseRight120 from '../../assets/raiseRight120.svg';
+import raiseRight150 from '../../assets/raiseRight150.svg';
+import raiseRight180 from '../../assets/raiseRight180.svg';
+
+//legs assets
+// import forward from '../../assets/forward.svg';
+import moveForward from '../../assets/moveForwardWheel.svg';
+import moveForward2 from '../../assets/moveForwardWheel2.svg';
+import moveForward3 from '../../assets/moveForwardWheel3.svg';
+import moveForward4 from '../../assets/moveForwardWheel4.svg';
+import moveLeftWheel from '../../assets/moveLeftWheel.svg';
+import moverightWheel from '../../assets/moveRightWheel.svg';
+
+//allTogether
+import runAwayFromFire from '../../assets/runAwayFromFire.svg';
+import runAwayFromFire2 from '../../assets/runAwayFromFire2.svg';
+import runAwayFromFire3 from '../../assets/runAwayFromFire3.svg';
+import runAwayFromFire4 from '../../assets/runAwayFromFire4.svg';
+
 // import semiClose from '../../assets/semiCLose.svg';
 // import halfRaiseRightArm from '../../assets/halfRaiseRightArm.svg';
 // import halfRaiseLeftArm from '../../assets/halfRaiseLeftArm.svg';
-import normalArms from '../../assets/normalArms.svg';
 // import duration from '../../assets/duration.svg';
-import normalLook from '../../assets/NormalLook.svg';
-import raise60Right from '../../assets/raise60.svg';
-import raise150Right from '../../assets/raise150.svg';
-import raise120Right from '../../assets/raise120.svg';
-import raise60Left from '../../assets/raise60Left.svg';
-import raise150Left from '../../assets/raiseLeft150.svg';
-import raise120Left from '../../assets/raiseleft120.svg';
-import duration5 from '../../assets/duration_5.svg'
-import duration3 from '../../assets/duration_3.svg'
-import duration6 from '../../assets/duration_6.svg'
-import duration7 from '../../assets/duration_7.svg'
+
+import duration5 from '../../assets/duration_5.svg';
+import duration3 from '../../assets/duration_3.svg';
+import duration6 from '../../assets/duration_6.svg';
+import duration7 from '../../assets/duration_7.svg';
+import { lookup } from 'dns';
 
 export const settings_easy: Setting[] = [
   {
@@ -41,17 +67,35 @@ export const settings_easy: Setting[] = [
       {
         levelNum: 1,
         goalTitle: 'Top of the morning!',
-        reward: 100,
-        gif: [look],
-        hint: ['Normal Look'],
-        correctCode: [{ eyes: '0' }],
+        reward: 200,
+        gif: [
+          closeEyes,
+          normalLook,
+          lookLeft,
+          lookRight,
+          lookUpLeft,
+          lookUpRight,
+          turnLeftHead,
+          normalHead,
+          turnRightHead,
+          raiseLeft60,
+          raiseRight60,
+          raiseLeft120,
+          raiseRight120,
+          raiseLeft150,
+          raiseRight150,
+          raiseLeft180,
+          raiseRight180,
+        ], //robot
+        hint: [''], //to confirm to paul
+        correctCode: [{}],
         completed: true,
       },
       {
         levelNum: 2,
         goalTitle: 'Blink your worries away',
         reward: 80,
-        gif: [closeEyes, look, closeEyes, look],
+        gif: [closeEyes, normalLook, closeEyes, normalLook],
         hint: ['Close Eyes', 'Normal Look', 'Close Eyes', 'Normal Look'],
         correctCode: [
           { eyes: 'i' },
@@ -64,7 +108,7 @@ export const settings_easy: Setting[] = [
       {
         levelNum: 3,
         goalTitle: 'Where are you?',
-        reward: 80,
+        reward: 60,
         gif: [lookLeft, lookRight],
         hint: ['Look  Left', 'Look Right'],
         correctCode: [{ eyes: 'b' }, { eyes: 'c' }],
@@ -73,8 +117,8 @@ export const settings_easy: Setting[] = [
       {
         levelNum: 4,
         goalTitle: 'Do you hear anything?',
-        reward: 80,
-        gif: [LookUpLeft, LookUpRight],
+        reward: 60,
+        gif: [lookUpLeft, lookUpRight],
         hint: ['Look Upper Left', 'Look Upper Right'],
         correctCode: [{ eyes: 'e' }, { eyes: 'f' }],
         completed: false,
@@ -82,8 +126,8 @@ export const settings_easy: Setting[] = [
       {
         levelNum: 5,
         goalTitle: 'Stretch lightly',
-        reward: 100,
-        gif: [raise60Left, raise60Right],
+        reward: 80,
+        gif: [raiseLeft60, raiseRight60],
         hint: ['Raise Left Arm 60°', 'Raise Right Arm 60°'],
         correctCode: [{ leftArm: '1' }, { rightArm: '1' }],
         completed: false,
@@ -99,29 +143,22 @@ export const settings_easy: Setting[] = [
       {
         levelNum: 1,
         goalTitle: 'Too bright',
-        reward: 100,
-        gif: [closeEyes, look, closeEyes, look, closeEyes],
-        hint: [
-          'Close Eyes',
-          'Normal Look',
-          'Close Eyes',
-          ' Normal Look',
-          'Close Eyes',
-        ],
+        reward: 120,
+        gif: [closeEyes, normalLook, winkLeft, winkRight],
+        hint: ['Close Eyes', 'Normal Look', 'Wink Left', 'Wink Right'],
         correctCode: [
           { eyes: 'i' },
           { eyes: '0' },
-          { eyes: 'i' },
-          { eyes: '0' },
-          { eyes: 'i' },
+          { eyes: 'g' },
+          { eyes: 'h' },
         ],
         completed: true,
       },
       {
         levelNum: 2,
         goalTitle: 'Look for people',
-        reward: 80,
-        gif: [look, lookRight, LookUpRight, lookLeft, LookUpLeft],
+        reward: 120,
+        gif: [lookRight, lookUpRight, lookLeft, lookUpLeft],
         hint: [
           'Normal Look',
           'Look Right',
@@ -130,7 +167,6 @@ export const settings_easy: Setting[] = [
           'Look Upper Left',
         ],
         correctCode: [
-          { eyes: '0' },
           { eyes: 'c' },
           { eyes: 'f' },
           { eyes: 'b' },
@@ -140,29 +176,29 @@ export const settings_easy: Setting[] = [
       },
       {
         levelNum: 3,
-        goalTitle: 'Right away',
-        reward: 100,
-        gif: [turnRightHead],
-        hint: ['Head Turn Right'],
-        correctCode: [{ head: '2' }],
+        goalTitle: 'On Your Right!',
+        reward: 80,
+        gif: [turnRightHead, lookLeft, lookRight],
+        hint: ['Turn Head Right, Look Left', 'Look Right'],
+        correctCode: [{ head: '2' }, { eyes: 'b' }, { eyes: 'c' }],
         completed: false,
       },
       {
         levelNum: 4,
-        goalTitle: "Can't left",
+        goalTitle: 'On Your Left!',
         reward: 80,
-        gif: [turnLeftHead],
-        hint: ['Head Turn Left'],
-        correctCode: [{ head: '1' }],
+        gif: [turnLeftHead, lookLeft, lookRight],
+        hint: ['Head Head Left', 'Look Left', 'Look Right'],
+        correctCode: [{ head: '1' }, { eyes: 'b' }, { eyes: 'c' }],
         completed: false,
       },
       {
         levelNum: 5,
         goalTitle: 'Heard something?',
-        reward: 100,
-        gif: [turnRightHead, lookRight],
-        hint: ['Head Turn Right', 'Look Right'],
-        correctCode: [{ head: '2' }, { eyes: 'c' }],
+        reward: 60,
+        gif: [turnRightHead, lookUpRight],
+        hint: ['Head Turn Right', 'Look Upper Right'],
+        correctCode: [{ head: '2' }, { eyes: 'f' }],
         completed: false,
       },
     ],
@@ -176,21 +212,13 @@ export const settings_easy: Setting[] = [
       {
         levelNum: 1,
         goalTitle: 'Walk to the library',
-        reward: 150,
+        reward: 100,
         //gif: walk for 5 seconds
-        gif: [
-          forward,
-          duration5,
-        ],
+        gif: [moveForward],
         //hint: Walk for 5 seconds
-        hint: [
-          'Move Forward',
-          'Duration of 5 Seconds',
-        ],
-        //correctCode: wheels for 5 seconds
+        hint: ['All together with left wheel and right wheel'],
         correctCode: [
-          { rightLeg: '1' },
-          { leftLeg: '1' },
+          { leftLeg: '1', rightLeg: '1' },
           //duration 6
         ],
         completed: true,
@@ -200,59 +228,43 @@ export const settings_easy: Setting[] = [
         goalTitle: 'A torn page',
         reward: 180,
         //gif: Normal look, arms raised 160, look left, normal look, look right
-        gif: [
-          normalLook,
-          raise150Left,
-          raise120Right,
-          lookLeft,
-          normalLook,
-          lookRight,
-        ],
+        gif: [raiseLeft150, lookLeft, closeEyes, normalLook, lookRight],
         //hint: Normal look, arms raised 160, look left, normal look, look right
         hint: [
-          'Normal look',
-          'Raise Right Arm 150°',
           'Raise Left Arm 150°',
           'Look Left',
+          'Close Eyes',
           'Normal Look',
           'Look Right',
         ],
         //correctCode:
         correctCode: [
-          { eyes: '0' },
-          { rightArm: '4' },
           { leftArm: '4' },
           { eyes: 'b' },
+          { eyes: 'i' },
           { eyes: '0' },
-          { eyes: 'c' }
+          { eyes: 'c' },
         ],
         completed: false,
       },
       {
         levelNum: 3,
         goalTitle: 'Run away from fire!',
-        reward: 80,
+        reward: 100,
         //gif: raise arm 160, run for 6 seconds
-        gif: [
-          raise150Left,
-          raise150Right,
-          forward,
-          duration6,
-        ],
+        gif: [raiseLeft150, raiseRight150, moveForward],
         //hint: raise arm 160, run for 6 seconds
         hint: [
-          'Raise Left Arm 150°',
-          'Raise Right Arm 150°',
-          'Run Forward',
-          'Duration of 6 Seconds',
+          'Raise Left Arm 150° and Raise Right Arm 150° with left wheel and right wheel',
         ],
         //correctCode: raise arm 160, run for 6 seconds
         correctCode: [
-          { leftArm: '4' },
-          { rightArm: '4' },
-          { rightLeg: '1' },
-          { leftLeg: '1' },
-          //duration 6
+          {
+            leftArm: '4',
+            rightArm: '4',
+            leftLeg: '1',
+            rightLeg: '1',
+          },
         ],
         completed: false,
       },
@@ -261,12 +273,7 @@ export const settings_easy: Setting[] = [
         goalTitle: 'An abandoned hut',
         reward: 100,
         //raise left arm 60, raise right 60, raise left 160, raise left 160
-        gif: [
-          raise60Left,
-          raise60Right,
-          raise150Left,
-          raise150Right,
-        ],
+        gif: [raiseLeft60, raiseRight60, raiseLeft150, raiseRight150],
         //raise left arm 60, raise right 60, raise left 160, raise left 160
         hint: [
           'Raise Left Arm 60°',
@@ -287,31 +294,15 @@ export const settings_easy: Setting[] = [
         goalTitle: 'The book of everything',
         reward: 150,
         //normal look, look upper left, look upper right, walk for 3 seconds, raise right arm 120
-        gif: [
-          look,
-          LookUpLeft,
-          LookUpRight,
-          forward,
-          duration3,
-          raise120Right,
-        ],
+        gif: [lookUpLeft, raiseRight120, moveForward],
         //normal look, look upper left, look upper right, walk for 3 seconds, raise right arm 120
         hint: [
-          'Normal Look',
           'Look Up Left',
-          'Look Up Right',
-          'Forward',
-          'Duration of 3 Seconds',
           'Raise Right Arm 120°',
+          'Left wheel and right wheel',
         ],
         correctCode: [
-          {eyes:'0'},
-          {eyes:'e'},
-          {eyes:'f'},
-          { rightLeg: '1' },
-          { leftLeg: '1' },
-          //duration
-          { rightArm: '3' }
+          { eyes: 'e', rightArm: '3', leftLeg: '1', rightLeg: '1' },
         ],
         completed: false,
       },
@@ -329,65 +320,30 @@ export const settings_easy: Setting[] = [
         goalTitle: 'Walk with eyes closed',
         reward: 80,
         //gif: normal look, close eyes, walk for 5 seconds
-        gif: [
-          look,
-          closeEyes,
-          forward,
-          duration5,
-        ],
+        gif: [closeEyes, moveForward],
         //gif: normal look, close eyes, walk for 5 seconds
-        hint: [
-          'Normal Look',
-          'Close Eyes',
-          'Walk Forward',
-          'DUration of 5 Seconds',
-        ],
-        correctCode: [
-          { eyes: '0' },
-          { eyes: 'i' },
-          { rightLeg: '1' },
-          { leftLeg: '1' },
-          //duration
-        ],
+        hint: ['Close Eyes', 'Left wheel and right wheel'],
+        correctCode: [{ eyes: 'i', leftLeg: '1', rightLeg: '1' }],
         completed: true,
       },
       {
         levelNum: 2,
         goalTitle: 'Blend in!',
-        reward: 150,
+        reward: 80,
         //gif: raise left arm 160, raise right arm 160, walk for 3 seconds, look left, look right, walk for 3 seconds
-        gif: [
-          raise150Left,
-          raise150Right,
-          forward,
-          duration3,
-          lookLeft,
-          lookRight,
-          forward,
-          duration3,
-        ],
+        gif: [raiseLeft150, raiseRight150, lookLeft, lookRight],
         //gif: raise left arm 160, raise right arm 160, walk for 3 seconds, look left, look right, walk for 3 seconds
         hint: [
           'Raise Left Arm 150',
           'Raise Right Arm 150',
-          'Walk Forward',
-          'Duration of 3 Seconds',
           'Look Left',
           'Look Right',
-          'Forward',
-          'Duration of 3 Seconds',
         ],
         correctCode: [
           { leftArm: '4' },
           { rightArm: '4' },
-          { rightLeg: '1' },
-          { leftLeg: '1' },
-          //duration
           { eyes: 'b' },
           { eyes: 'c' },
-          { rightLeg: '1' },
-          { leftLeg: '1' },
-          //duration  
         ],
         completed: false,
       },
@@ -395,38 +351,33 @@ export const settings_easy: Setting[] = [
         levelNum: 3,
         goalTitle: 'Pretend petrified!',
         reward: 120,
-//gif: normal look,raise left arm 160, raise right arm 160, look left, upper left, normal look, look right, look upper right, normal look
+        //gif: normal look,raise left arm 160, raise right arm 160, look left, upper left, normal look, look right, look upper right, normal look
         gif: [
-          look,
-          raise150Left,
-          raise150Right,
-          lookLeft,
-          LookUpLeft,
+          raiseLeft180,
+          raiseRight180,
+          lookUpLeft,
+          lookUpRight,
           normalLook,
           lookRight,
-          LookUpRight,
-          normalLook
+          lookLeft,
         ],
         hint: [
-          'Normal Look',
-          'Raise Left Arm 150°',
-          'Raise Right Arm 150°',
-          'Look Left',
-          'Look Up Left',
+          'Raise Left Arm 180',
+          'Raise Right Arm 180°',
+          'Look Upper Left',
+          'Look Upper Right',
           'Normal Look',
           'Look Right',
-          'Look Up Right',
-          'Normal Look',
+          'Look Left',
         ],
         correctCode: [
-          { eyes: '0' },
-          { leftArm: '4' },
-          { rightArm: '4' },
-          { eyes: 'b' },
+          { leftArm: '5' },
+          { rightArm: '5' },
           { eyes: 'e' },
-          { eyes: '0' },
           { eyes: 'f' },
-          { head: '0' },
+          { eyes: '0' },
+          { eyes: 'c' },
+          { eyes: 'b' },
         ],
         completed: false,
       },
@@ -435,30 +386,9 @@ export const settings_easy: Setting[] = [
         goalTitle: 'Follow the magical path',
         reward: 100,
         //gif: turn head left, turn head right, normal head, walk 7 seconds
-        gif: [
-          turnLeftHead,
-          turnRightHead,
-          normalLook,/////////////////////////pls add normal head icon
-          forward,
-          duration7,
-
-        ],
-        hint: [
-          'Turn Head Left',
-          'Turn Head Right',
-          'Normal Head',
-          'Move Forward',
-          'Duration of 7 seconds',
-
-        ],
-        correctCode: [
-          { head: '1' },
-          { head: '2' },
-          //normalhead
-          { leftLeg: '1' },
-          { rightLeg: '1' },
-          //duration
-        ],
+        gif: [lookLeft, turnLeftHead, moveLeftWheel],
+        hint: ['Look Left', 'Turn Head left', 'Left Wheel'],
+        correctCode: [{ eyes: 'b', head: '1', leftLeg: '1' }],
         completed: false,
       },
       {
@@ -467,18 +397,18 @@ export const settings_easy: Setting[] = [
         reward: 100,
         //gif: raise right arm 180, raise left arm 180, turn head right, turn head left, raise left arm 120, raise right arm 120
         gif: [
-          raisHandRight,
-          raisHandLeft,
+          raiseRight180,
+          raiseLeft180,
           turnRightHead,
           turnLeftHead,
-          raise120Left,
-          raise120Right,
+          raiseLeft120,
+          raiseRight120,
         ],
         hint: [
           'Raise Right Arm 180,',
           'Raise Left Arm 180',
-          'Turn Right Head',
-          'Turn Left Head',
+          'Turn Head Right',
+          'Turn Head Left',
           'Raise Left Arm 120',
           'Raise Right Arm 120',
         ],
@@ -505,35 +435,21 @@ export const settings_easy: Setting[] = [
         goalTitle: 'Moving rubbles',
         reward: 150,
         //gif: raise left arm 160, raise right arm 160, walk 3 seconds, raise left arm 180, raise right arm 180, walk 5 seconds
-        gif: [
-          raise150Left,
-          raise150Right,
-          forward,
-          duration3,
-          raisHandLeft,
-          raisHandRight,
-          forward,
-          duration5,
-        ],
+        gif: [turnRightHead, raiseLeft150, raiseRight150, moveForward],
         hint: [
-          'Raise Left Arm 150',
+          'Turn Head Right',
           'Raise Right Arm 150',
-          'Walk Forward',
-          'Duration of 3 Seconds',
-          'Raise Left Arm 180',
-          'Raise Right Arm 180',
-          'Walk Forward',
-          'Duration of 5 Seconds',
+          'Raise Left Arm 150',
+          'Left wheel and right wheel',
         ],
         correctCode: [
-          { leftArm: '4' },
-          { rightArm: '4' },
-          //walkfroward
-          //duration 3seconds
-          { leftArm: '5' },
-          { rightArm: '5' },
-          //walkforward
-          //duration 3 seconds
+          {
+            head: '2',
+            leftArm: '4',
+            rightArm: '4',
+            leftLeg: '1',
+            rightLeg: '1',
+          },
         ],
         completed: true,
       },
@@ -542,62 +458,53 @@ export const settings_easy: Setting[] = [
         goalTitle: 'Break in with eye pattern',
         reward: 100,
         //gif: normal look, close eyes, normal look, look upper left, normal look, look upper right, normal look, close eyes
-        gif: [
-          look,
-          closeEyes,
-          look,
-          LookUpLeft,
-          look,
-          LookUpRight,
-          look,
-          closeEyes,
-        ],
+        gif: [lookRight, lookUpLeft, lookLeft, winkRight, winkLeft],
         hint: [
-          'Normal Look',
-          'Close Eyes',
-          'Normal Look',
-          'Look Up Left',
-          'Normal Look',
-          'Look Up Right',
-          'Normal Look',
-          'Close Eyes',
+          'Look Upper Left',
+          'Look Right',
+          'Look Upper Right',
+          'Look Left',
+          'Wink Right',
+          'Wink Left',
         ],
         correctCode: [
-          { eyes: '0' },
-          { eyes: 'i' },
-          { eyes: '0' },
-          {eyes:'e'},
-          {eyes:'0'},
-          {eyes:'f'},
-          {eyes:'0'},
-          {eyes:'i'}
+          { eyes: 'e' },
+          { eyes: 'c' },
+          { eyes: 'f' },
+          { eyes: 'b' },
+          { eyes: 'h' },
+          { eyes: 'g' },
         ],
         completed: false,
       },
       {
         levelNum: 3,
         goalTitle: 'Smash the glass!',
-        reward: 80,
+        reward: 100,
         //gif: raise right arm 120, normal left arm, raise right arm 120, normal left arm
         gif: [
-          raise120Right,
+          raiseLeft120,
           normalArms,
-          raise120Right,
+          raiseRight120,
           normalArms,
+          raiseLeft150,
+          raiseRight150,
         ],
         hint: [
-          'Raise Right Arm 120',
+          'Raise Left Arm 120',
           'Normal Arms',
           'Raise Right Arm  120',
           'Normal Arms',
-          'Normal Look',
+          'Raise Right Arm 150',
+          'Raise Right Arm 150',
         ],
         correctCode: [
+          { leftArm: '3' },
+          { leftArm: '0' },
           { rightArm: '3' },
           { rightArm: '0' },
-          { rightArm: '3' },
-          { rightArm: '0' },
-          { eyes: '0' },
+          { leftArm: '4' },
+          { rightArm: '4' },
         ],
         completed: false,
       },
@@ -606,70 +513,36 @@ export const settings_easy: Setting[] = [
         goalTitle: 'Raining antidote',
         reward: 200,
         //gif: walk 3 seconds, raise left arm 180, turn head left, turn head right, normal look, close eyes, raise right arm 180, turn head left
-        gif: [
-          look,
-          forward,
-          duration3,
-          raisHandLeft,
-          turnLeftHead,
-          turnRightHead,
-          normalLook,
-          closeEyes,
-          raisHandRight,
-          turnLeftHead
-        ],
+        gif: [raiseLeft90, raiseRight90, turnRightHead, lookUp, moveForward],
         hint: [
-          'Normal Look',
-          'Close Eyes',
-          'Normal Look',
-          'Close Eyes',
-          'Head Turn Right',
-          'Normal Eyes',
-          'Close Eyes',
-          'Normal Eyes',
-          'Head Turn Left',
+          'Raise Left Arm 90',
+          'Raise Right Arm 90',
+          'Turn Head Right',
+          'Look Up',
+          'Left wheel and right wheel',
         ],
         correctCode: [
-          { eyes: '0' },
-          { eyes: 'i' },
-          { eyes: '0' },
-          { eyes: 'i' },
-          {head:'2'},
-          {eyes: '0'},
-          {eyes:'i'},
-          {eyes: '0'},
-          {head:'1'}
-
+          {
+            eyes: 'd',
+            head: '2',
+            leftArm: '2',
+            rightArm: '2',
+            leftLeg: '1',
+            rightLeg: '1',
+          },
         ],
         completed: false,
       },
       {
         levelNum: 5,
         goalTitle: 'Have fun with Zappy!',
-        reward: 200,
+        reward: 500,
         //gif: be free to do whatever
-        gif: [''
-        ],
+        gif: [''],
         hint: [
-          'Normal Look',
-          'Close Eyes',
-          'Normal Look',
-          'Close Eyes',
-          'Head Turn Right',
-          'Normal Eyes',
-          'Close Eyes',
-          'Normal Eyes',
-          'Head Turn Left',
+
         ],
         correctCode: [
-          { eyes: '0' },
-          { eyes: 'i' },
-          { eyes: '0' },
-          { head: '2' },
-          { eyes: '0' },
-          { eyes: 'i' },
-          { eyes: '0' },
-          { head: '1' },
         ],
         completed: false,
       },
