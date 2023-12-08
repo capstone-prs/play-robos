@@ -15,12 +15,15 @@
       </div>
     </q-header>
     <q-page-container class="transparent">
-      <div class="row" align="center">
+      <div class="row">
         <div class="col">
           <q-tab-panels v-model="tab">
             <q-tab-panel name="achievements" class="row">
               <!-- Note: To-update based on gamification logic -->
-              <BadgeComponent badge-url="img:/badge-unlock.svg" />
+              <BadgeComponent
+                class="justify-center"
+                badge-url="img:/badge-unlock.svg"
+              />
             </q-tab-panel>
             <q-tab-panel name="progress" class="row">
               <!-- Note: To-update data based on real progress -->

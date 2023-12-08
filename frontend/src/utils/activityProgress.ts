@@ -1,13 +1,15 @@
-import { ActivityProgress } from '../types/Progress';
+import { ActivityProgress, Badge } from '../types/Progress';
 
 export const initializeLocalActivityProgress = () => {
   const data = {
     coins: 100,
     score: 0,
     activityProgress: [],
+    badgesReceived: [],
   };
-
-  localStorage.setItem('localData', JSON.stringify(data));
+  if (localStorage.getItem('localData') === null) {
+    localStorage.setItem('localData', JSON.stringify(data));
+  }
 };
 
 export const addLocalActivityProgress = (progress: ActivityProgress) => {
@@ -20,7 +22,7 @@ export const addLocalActivityProgress = (progress: ActivityProgress) => {
   storedUserData.activityProgress.push(progress);
 
   localStorage.setItem('localData', JSON.stringify(storedUserData));
-  solveActivityScore(
+  return solveActivityScore(
     solveAttemptScore(progress.attempt),
     solveDurationScore(progress.duration),
     progress.decomposition,
@@ -51,10 +53,10 @@ export const solveAttemptScore = (attempt: number) => {
   const maxScore = 100;
   const deductionRate = 5;
 
-  if (attempt === 1) {
+  if (attempt === 0) {
     return maxScore;
   } else {
-    const deduction = (attempt - 1) * deductionRate;
+    const deduction = attempt * deductionRate;
 
     return Math.max(maxScore - deduction, 0);
   }
@@ -66,6 +68,11 @@ export const solveActivityScore = (
   patternScore: number,
   decompScore: number
 ) => {
+  console.log(attemptScore);
+  console.log(durationScore);
+  console.log(patternScore);
+  console.log(decompScore);
+
   const attemptWeight = 25;
   const durationWeight = 15;
   const patternWeight = 30;
@@ -89,4 +96,102 @@ export const addLocalScore = (score: number) => {
 
   storedUserData.score += score;
   localStorage.setItem('localData', JSON.stringify(storedUserData));
+};
+
+export const badgeReward = () => {
+  const storedDataString = localStorage.getItem('localData');
+  const storedUserData = storedDataString ? JSON.parse(storedDataString) : null;
+
+  const currentScore = storedUserData.score;
+
+  console.log(currentScore);
+  switch (true) {
+    case currentScore >= 100 && currentScore < 300:
+      return {
+        badgeName: 'Novice Explorer',
+        badgeUrl: '../novice-explorer.svg',
+      };
+
+    case currentScore >= 300 && currentScore < 500:
+      return {
+        badgeName: 'Galactic Adventurer',
+        badgeUrl: '../galactic-adventurer.svg',
+      };
+
+    case currentScore >= 500 && currentScore < 800:
+      return {
+        badgeName: 'Celestial Guardian',
+        badgeUrl: '../celestial-guardian.svg',
+      };
+
+    case currentScore >= 800 && currentScore < 1100:
+      return {
+        badgeName: 'Cosmic Protector',
+        badgeUrl: '../cosmic-protector.svg',
+      };
+
+    case currentScore >= 1100 && currentScore < 1500:
+      return {
+        badgeName: 'Starlight Sentinel',
+        badgeUrl: '../starlight-sentinel.svg',
+      };
+
+    case currentScore >= 1500 && currentScore < 2000:
+      return {
+        badgeName: 'Intergalactic Sentinel',
+        badgeUrl: '../intergalactic-sentinel.svg',
+      };
+
+    case currentScore >= 2000 && currentScore < 2500:
+      return {
+        badgeName: 'Universal Guardian',
+        badgeUrl: '../universal-guardian.svg',
+      };
+
+    case currentScore >= 2500 && currentScore <= 3000:
+      return {
+        badgeName: 'Master of the Cosmos',
+        badgeUrl: '../master.svg',
+      };
+
+    default:
+      return {
+        badgeName: '',
+        badgeUrl: '',
+      };
+  }
+};
+
+export const launchBadgeReward = () => {
+  const storedDataString = localStorage.getItem('localData');
+  const storedUserData = storedDataString ? JSON.parse(storedDataString) : null;
+
+  if (storedUserData && !storedUserData.badgesReceived) {
+    storedUserData.badgesReceived = [];
+  }
+
+  const determinant = storedUserData.badgesReceived.find(
+    (badge: Badge) => badge.badgeName === badgeReward().badgeName
+  );
+
+  if (determinant === undefined) {
+    const reward = badgeReward();
+    const newElement = {
+      badgeName: reward.badgeName,
+      badgeUrl: reward.badgeUrl,
+    };
+    if (reward.badgeName != '' && reward.badgeUrl != '') {
+    }
+    storedUserData.badgesReceived.push(newElement);
+    localStorage.setItem('localData', JSON.stringify(storedUserData));
+    return {
+      visible: true,
+      name: newElement.badgeName,
+      url: newElement.badgeUrl,
+    };
+  } else {
+    return {
+      visible: false,
+    };
+  }
 };

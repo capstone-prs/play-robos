@@ -19,6 +19,12 @@ export interface LocalData {
   coins: number;
   score: number;
   activityProgress: Array<ActivityProgress>;
+  badgesReceived: Array<Badge>;
+}
+
+export interface Badge {
+  badgeName: string;
+  badgeUrl: string;
 }
 
 // type LevelId = 'H1' | 'H2' | '01';

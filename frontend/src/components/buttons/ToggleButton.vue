@@ -38,7 +38,6 @@ watch(selectedOption, (newVal) => {
   // Update localStorage when selectedOption changes
   localStorage.setItem('userDifficulty', newVal === 'easy' ? 'easy' : 'hard');
   emit('update:modelValue', newVal);
-  location.reload();
 });
 </script>
 

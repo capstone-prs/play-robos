@@ -121,7 +121,12 @@ const introScene = (setting: number) => {
     introMapScenes.map((scene) => {
       introMapScenes.indexOf(scene) === setting &&
       !settings_easy[settingNumber].levels[1].completed
-        ? router.push({ name: 'narrative', params: { param: scene } })
+        ? router.push({
+            name: 'narrative',
+            params: {
+              param: scene + '_' + setting + '_' + difficulty,
+            },
+          })
         : '';
     });
     sessionStorage.setItem(`hasLoadedIntro${setting}`, 'true');
@@ -169,6 +174,10 @@ const checkSettingProgress = () => {
     if (isAllCompleted) {
       settings_easy[settingNumber + 1].accessible = true;
       localStorage.setItem('activeSetting', (settingNumber + 1).toString());
+      localStorage.setItem(
+        'latestAccessibleSetting',
+        (settingNumber + 1).toString()
+      );
     }
   } else {
     const isAllCompleted = settings_hard[settingNumber].levels.every((level) =>

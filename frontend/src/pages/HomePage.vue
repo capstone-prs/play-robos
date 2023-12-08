@@ -33,9 +33,9 @@
           <q-btn
             glossy
             rounded
-            color="grey-8"
+            color="grey-7"
             text-color="white"
-            icon="img:/coin.svg"
+            icon="img:/coin-bag.svg"
             :disable="true"
             :label="coinsStorage"
           />
@@ -56,7 +56,14 @@
                   data-cy="menu-btn"
                   id="menu-btn"
                 /> -->
-                <q-btn round glossy color="purple-9" size="17px" @click="openLogoutDialog()" icon="logout"/>
+                <q-btn
+                  round
+                  glossy
+                  color="purple-9"
+                  size="17px"
+                  @click="openLogoutDialog()"
+                  icon="logout"
+                />
                 <!-- <MenuDialog
                   v-model="isMenuDialogVisible"
                   data-cy="menu-dialog"
@@ -70,12 +77,10 @@
             </div>
           </div>
         </q-header>
-        <!-- FIXME: Console is having error because of :key of the
-        SettingComponent. -->
+
         <q-page-container>
           <SettingComponent
             id="setting"
-            :key="dataForHomepage"
             :image-urls="getSettingsToDisplay.settingIcons"
             :setting-names="getSettingsToDisplay.settingNames"
             :accessibility="getSettingsToDisplay.settingAccess"
@@ -106,7 +111,7 @@
 </template>
 
 <script setup lang="ts">
-import LogoutDialog from '../components/LogoutDialog.vue'
+import LogoutDialog from '../components/LogoutDialog.vue';
 import { ref, computed, watch, onMounted } from 'vue';
 import HelpButton from '../components/buttons/HelpButton.vue';
 import AchievementButton from '../components/buttons/AchievementButton.vue';
@@ -124,15 +129,12 @@ import { settings_easy } from '../components/games/levels-easy';
 import { settings_hard } from '../components/games/levels-hard';
 import { useQuasar } from 'quasar';
 import 'intro.js/introjs.css';
-// import { getUser, userID } from '../firebase/firestore';
 import { useRouter } from 'vue-router';
 import animationData from '../../public/bgs/bg-animation.json';
 import { lottieBackgroundLoader } from '../utils/lottieUtils';
 import { startHomeOnboarding } from '../onboarding/studioOnboarding';
 
-import {
-  soundEffect,
-} from '../../../frontend/src/utils/SoundUtils';
+import { soundEffect } from '../../../frontend/src/utils/SoundUtils';
 const $q = useQuasar();
 // const isMenuDialogVisible = ref(false);
 const isAgeGroupDialogVisible = ref(false);
@@ -144,8 +146,7 @@ const dataForHomepage = ref(
 
 const router = useRouter();
 const lottieContainer = ref();
-const isLogoutDialogVisible = ref(false)
-
+const isLogoutDialogVisible = ref(false);
 
 const coinsStorage = ref(
   ($q.localStorage.getItem('coin_storage') as number) ?? 0

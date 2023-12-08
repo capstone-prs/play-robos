@@ -21,7 +21,7 @@
       <q-item-section>
         <q-card-section horizontal>
           <q-card-section>
-            <q-icon data-cy="coin-img" name="img:/coin.svg" size="20px">
+            <q-icon data-cy="coin-img" name="img:/gold-coin.svg" size="20px">
             </q-icon>
             <span data-cy="reward-label">{{ reward }}</span>
           </q-card-section>
