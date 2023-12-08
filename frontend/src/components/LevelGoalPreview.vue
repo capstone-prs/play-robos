@@ -1,35 +1,35 @@
-window-height window-width
 <template>
-  <q-dialog :persistent="true" class="q-ma-lg" v-model="open">
-    <q-card :style="style">
+  <q-dialog :persistent="true" class="q-ma-lg">
+    <q-card class="preview-goal-card" :style="style">
       <div @click="play" class="absolute-center">
         <div v-if="!showPlaying">
           <div class="row justify-center">
             <q-badge class="hitchcut-h4 q-pa-md text-h4" style="opacity: 80%"
-              >LEVEL: {{ 1 }}</q-badge
+              >LEVEL: {{ level.levelNum }}</q-badge
             >
           </div>
           <div class="row justify-center q-mt-sm">
             <q-badge class="hitchcut-h4 q-pa-md text-h4" style="opacity: 80%">{{
-              levelTitle
+              level.goalTitle
             }}</q-badge>
           </div>
         </div>
-
         <div
-          class="row justify-center q-pa-md"
+          class="fit justify-center q-pa-md"
           style="
             background-color: whitesmoke;
             border-style: solid;
             border-radius: 5%;
             border-color: black;
             border-width: 2px;
-            width: 150px;
-            height: 150px;
           "
           v-if="showPlaying"
         >
-          <q-img :src="showing" />
+          <q-img
+            :src="showing"
+            style="width: 20vw; height: auto"
+            loading="eager"
+          />
           <q-badge color="red" class="hitchcut q-pa-xs" floating label="GOAL" />
         </div>
       </div>
@@ -38,38 +38,30 @@ window-height window-width
 </template>
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
-import { settings_hard } from './games/levels-hard';
+import { Setting } from 'src/types/Levels';
 
-const levelTitle = settings_hard[0].levels[3].goalTitle;
-const imageSet = settings_hard[0].settingBg;
-const props = { pics: settings_hard[0].levels[3].gif };
+const props = defineProps<{ levelSetting: Setting; levelNum: number }>();
+const emit = defineEmits<{ (e: 'ended'): void }>();
+
 const style = computed(() => ({
-  backgroundImage: `url(${imageSet})`,
-  backgroundSize: 'cover',
-  backgroundAttachment: 'scroll',
-  borderRadius: '15px',
-  width: '100%',
-  height: '100%',
+  backgroundImage: `url(${props.levelSetting.settingBg})`,
 }));
 
-const open = ref(true);
+const level = props.levelSetting.levels[props.levelNum];
 
-const emits = defineEmits<{ (e: 'close'): void }>();
-
-const showing = ref(props.pics[0]);
+const showing = ref(level.gif[0]);
 const showPlaying = ref(false);
 
 const play = async () => {
   if (!showPlaying.value) {
     showPlaying.value = true;
-    for (let i = 0; i < props.pics.length; i++) {
-      showing.value = props.pics[i];
+    for (let i = 0; i < level.gif.length; i++) {
+      showing.value = level.gif[i];
 
       await new Promise((resolve) => setTimeout(resolve, 1000));
     }
     showPlaying.value = false;
-    open.value = false;
-    emits('close');
+    emit('ended');
   }
 };
 
@@ -86,4 +78,13 @@ onMounted(() => {
 .hitchcut-h4 {
   font-family: 'hitchcut';
 }
+
+.preview-goal-card {
+  background-size: cover;
+  background-attachment: scroll;
+  border-radius: 15px;
+  width: 100%;
+  height: 100%;
+}
 </style>
+window-height window-width
