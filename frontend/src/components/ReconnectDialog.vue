@@ -3,7 +3,7 @@ window-height window-width
   <q-dialog :persistent="true" class="q-ma-lg">
     <q-card class="cardStyle" :style="style">
       <q-card-section style="width: 500px">
-        <div class="row justify-center">
+        <div class="row justify-center q-pt-md">
           <q-badge class="text-h4 hitchcut-reconnect q-px-sm" color="red"
             >Please Reconnect</q-badge
           >

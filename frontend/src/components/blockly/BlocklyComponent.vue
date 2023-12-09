@@ -15,7 +15,12 @@
             v-model="isDialogOpen.preview"
             :level-setting="thisSetting"
             :level-num="levelNum"
-            @ended="() => setDialog('preview', false)"
+            @ended="
+              () => {
+                setDialog('preview', false);
+                setupBtListeners();
+              }
+            "
           />
           <ReconnectDialog
             :level-setting="thisSetting"
@@ -447,7 +452,6 @@ onMounted(() => {
       return false;
     }
   });
-  setupBtListeners();
   setDialog('preview');
 });
 
