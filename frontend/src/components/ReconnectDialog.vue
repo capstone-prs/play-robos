@@ -1,15 +1,15 @@
 window-height window-width
 <template>
-  <q-dialog :persistent="true" class="q-ma-lg" v-model="isOpen">
+  <q-dialog :persistent="true" class="q-ma-lg">
     <q-card class="cardStyle" :style="style">
-      <q-card-section class="row justify-center" style="width: 400px">
-        <div>
-          <q-badge class="text-h4 hitchcut q-px-sm" color="red"
+      <q-card-section style="width: 500px">
+        <div class="row justify-center">
+          <q-badge class="text-h4 hitchcut-reconnect q-px-sm" color="red"
             >Please Reconnect</q-badge
           >
         </div>
-        <div class="q-mt-xs">
-          <q-badge class="text-h5 hitchcut q-px-sm" color="red"
+        <div class="row justify-center q-mt-xs">
+          <q-badge class="text-h5 hitchcut-reconnect q-px-sm" color="red"
             >to Zappy...</q-badge
           >
         </div>
@@ -21,6 +21,11 @@ window-height window-width
             persistent
             :loading-handler="loading"
             :open-bt-setting-handler="cannotConnectHandler"
+            @connected="
+              () => {
+                emit('close');
+              }
+            "
             id="robot-btn"
           />
         </div>
@@ -34,7 +39,7 @@ window-height window-width
   </q-dialog>
 </template>
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import { useQuasar } from 'quasar';
 import RobotConnectButton from './buttons/RobotConnectButton.vue';
 import { Setting } from 'src/types/Levels';
@@ -52,17 +57,13 @@ const style = computed(() => ({
 
 const $q = useQuasar();
 
-const isOpen = ref(true);
-
 const router = useRouter();
 
 const loading = (isLoading: boolean) => {
   if (isLoading) {
-    $q.loading.show({ message: 'Connecting...' });
+    $q.loading.show({ message: 'Connecting to Zappy...' });
   } else {
     $q.loading.hide();
-    isOpen.value = false;
-    emit('close');
   }
 };
 
@@ -79,7 +80,7 @@ const redirectToHome = () => {
   font-family: hitchcut;
   src: url('/fonts/Hitchcut-Regular.woff');
 }
-.hitchcut {
+.hitchcut-reconnect {
   font-family: 'hitchcut';
   /* text-shadow: 1px 1px rgb(197, 145, 0);
   color: rgb(255, 187, 0); */
