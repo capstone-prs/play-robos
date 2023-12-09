@@ -15,7 +15,12 @@
             v-model="isDialogOpen.preview"
             :level-setting="thisSetting"
             :level-num="levelNum"
-            @ended="setDialog('preview', false)"
+            @ended="() => setDialog('preview', false)"
+          />
+          <ReconnectDialog
+            :level-setting="thisSetting"
+            v-model="isDialogOpen.reconnect"
+            @close="() => setupBtListeners()"
           />
           <CheckDialog
             v-model="isDialogOpen.check"
@@ -170,6 +175,7 @@ import StudioSideBarButton from '../buttons/StudioSideBarButton.vue';
 import StopwatchComponent from '../StopwatchComponent.vue';
 import GameOver from '../GameOver.vue';
 import LevelGoalPreview from '../LevelGoalPreview.vue';
+import ReconnectDialog from '../ReconnectDialog.vue';
 // Utils
 import {
   bluetoothSerial,
@@ -217,6 +223,7 @@ const isDialogOpen = ref({
   coins: false,
   badge: false,
   preview: false,
+  reconnect: false,
 });
 
 const taskStatus = ref<TaskStatus>('none');
@@ -282,9 +289,9 @@ const stopTime = () => {
 const startTime = () => stopwatch.value?.start();
 
 watch(isDialogOpen.value, () => {
-  const { menu, check, preview } = isDialogOpen.value;
+  const { menu, check, preview, reconnect } = isDialogOpen.value;
 
-  if (menu || check || preview) {
+  if (menu || check || preview || reconnect) {
     stopTime();
   } else if (!stopwatch.value?.isStarting) {
     startTime();
@@ -435,6 +442,20 @@ onMounted(() => {
   // progress.value(); // FIXME: DEAD CODE?
   taskStatus.value = 'none';
 
+  router.beforeEach(() => {
+    if (taskStatus.value === 'started') {
+      return false;
+    }
+  });
+  setupBtListeners();
+  setDialog('preview');
+});
+
+onUnmounted(() => {
+  clearInterval(disconnectListener.value);
+});
+
+const setupBtListeners = () => {
   btListenser(
     bluetoothSerial,
     (data: string) => {
@@ -446,24 +467,13 @@ onMounted(() => {
     },
     notifyError
   );
-
-  router.beforeEach(() => {
-    if (taskStatus.value === 'started') {
-      return false;
-    }
-  });
-
   disconnectListener.value = onDisconnect(bluetoothSerial, () => {
     taskStatus.value = 'error';
     notifyError('Bluetooth Device is Disconnected');
+    setDialog('reconnect');
   });
-
-  setDialog('preview');
-});
-
-onUnmounted(() => {
-  clearInterval(disconnectListener.value);
-});
+  setDialog('reconnect', false);
+};
 
 const startProgressNotify = () => {
   startLoadingUpload();

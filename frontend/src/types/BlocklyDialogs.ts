@@ -1,1 +1,7 @@
-export type Dialog = 'hint' | 'menu' | 'check' | 'coins' | 'preview';
+export type Dialog =
+  | 'hint'
+  | 'menu'
+  | 'check'
+  | 'coins'
+  | 'preview'
+  | 'reconnect';
