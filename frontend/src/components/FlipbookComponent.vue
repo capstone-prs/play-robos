@@ -57,7 +57,19 @@ import Flipbook from 'flipbook-vue';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import ActionButton from './buttons/ActionButton.vue';
-import { narrator, narrations } from '../utils/SoundUtils';
+import {
+  narrator,
+  introNarrationsScorcha,
+  introNarrationsFlora,
+  introNarrationsDarka,
+  introNarrationsMistica,
+  introNarrationsFutura,
+  postNarrationsScorcha,
+  postNarrationsFlora,
+  postNarrationsDarka,
+  postNarrationsMistica,
+  postNarrationsFutura,
+} from '../utils/SoundUtils';
 
 const show = ref(false);
 const router = useRouter();
@@ -66,36 +78,90 @@ const splitParams = routeParam.split('_');
 const startPage = parseInt(splitParams[0]);
 const endPage = parseInt(splitParams[1]);
 const settingNum = ref(parseInt(splitParams[1]));
-const levelNum = parseInt(splitParams[2]);
+const levelNum = ref(parseInt(splitParams[2]));
 const difficulty = splitParams[3];
 const isNextSetting = splitParams[4];
-
 const flipbook = ref();
-
 const lottieContainer = ref();
 const howler = ref<Howl>();
+const postNarrations = ref<Array<string[]>>([['']]);
+const introNarrations = ref<Array<string[]>>([['']]);
 
 onMounted(() => {
-  howler.value = narrator(narrations[0]);
-  howler.value.play();
+  postNarrations.value = [
+    postNarrationsScorcha,
+    postNarrationsFlora,
+    postNarrationsDarka,
+    postNarrationsMistica,
+    postNarrationsFutura,
+  ];
+
+  introNarrations.value = [
+    introNarrationsScorcha,
+    introNarrationsFlora,
+    introNarrationsDarka,
+    introNarrationsMistica,
+    introNarrationsFutura,
+  ];
 
   if (splitParams.length === 5) {
     settingNum.value = parseInt(splitParams[1]);
+    levelNum.value = parseInt(splitParams[2]);
+
+    postNarrations.value.forEach((postNarration) => {
+      if (postNarrations.value.indexOf(postNarration) === settingNum.value) {
+        postNarration.forEach((narration) => {
+          if (postNarration.indexOf(narration) === levelNum.value - 1) {
+            howler.value = narrator(postNarration[levelNum.value - 1]);
+            howler.value.play();
+          }
+        });
+      }
+    });
   } else if (splitParams.length === 6) {
     settingNum.value = parseInt(splitParams[2]);
+    levelNum.value = parseInt(splitParams[3]);
+
+    postNarrations.value.forEach((postNarration) => {
+      if (postNarrations.value.indexOf(postNarration) === settingNum.value) {
+        howler.value = narrator(postNarration[4]);
+        howler.value.play();
+      }
+    });
+  } else {
+    settingNum.value = parseInt(splitParams[2]);
+
+    introNarrations.value.forEach((introNarration) => {
+      if (introNarrations.value.indexOf(introNarration) === settingNum.value) {
+        howler.value = narrator(introNarration[0]);
+        howler.value.play();
+      }
+    });
   }
 });
 
 const onFlipRightEnd = (page: number) => {
-  console.log('end');
+  introNarrations.value.forEach((introNarration) => {
+    if (
+      introNarrations.value.indexOf(introNarration) === settingNum.value &&
+      splitParams.length === 4
+    ) {
+      howler.value = narrator(introNarration[page - 1]);
+      howler.value.play();
+    }
+  });
 
-  howler.value = narrator(narrations[page - 1]);
-  howler.value.play();
+  if (splitParams.length === 6) {
+    postNarrations.value.forEach((postNarration) => {
+      if (postNarrations.value.indexOf(postNarration) === settingNum.value) {
+        howler.value = narrator(postNarration[page + 3]);
+        howler.value.play();
+      }
+    });
+  }
 };
 
 const onFlipRightStart = () => {
-  console.log('start', howler.value);
-
   howler.value?.stop();
 };
 
@@ -168,6 +234,7 @@ const scenes = [
   'scenes/futura-L2-post.svg', //64
   'scenes/futura-L3-post.svg', //65
   'scenes/futura-L4-post.svg', //66
+  'scenes/ending.svg', //67
 ];
 const intropages = scenes.slice(startPage, endPage + 1);
 const inlevelpages = scenes.slice(startPage, startPage + 1);
@@ -197,14 +264,7 @@ const navigateBack = (setting: number, level: number, difficulty: string) => {
       });
     }
   } else {
-    // if (isNextSetting === 'true') {
-    //   router.push({
-    //     name: 'activity',
-    //     params: { param: (difficulty + ' ' + setting) as string },
-    //   });
-    // } else {
     router.go(-1);
-    // }
   }
 };
 </script>
@@ -213,15 +273,10 @@ const navigateBack = (setting: number, level: number, difficulty: string) => {
 .flipbook {
   height: 100% !important;
   width: 100% !important;
-  margin: 0; /* Remove any default margin */
-  padding: 0; /* Remove any default padding */
-  box-sizing: border-box; /* Ensure box sizing includes borders and padding */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-
-/* .flipbook .viewport {
-  width: 100vw !important;
-  height: calc(100vh - 50px - 40px) !important;
-} */
 
 .flipbook .bounding-box {
   box-shadow: 0 0 80px #000 !important;

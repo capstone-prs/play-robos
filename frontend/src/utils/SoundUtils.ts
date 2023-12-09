@@ -115,32 +115,25 @@ export const introNarrationsFutura = [
   '',
 ];
 
-export const narrations = [
-  page1Sound,
-  page2Sound,
-  page3Sound,
-  '',
+export const postNarrationsScorcha = [
   scorchaL1post,
   scorchaL2post,
   scorchaL3post,
   scorchaL4post,
   page6Sound,
   page7Sound,
-  page9Sound,
-  page10Sound,
-  page11Sound,
-  page12Sound,
-  '',
+];
+
+export const postNarrationsFlora = [
   floraL1post,
   floraL2post,
   floraL3post,
   floraL4post,
   page14Sound,
   page15Sound,
-  page17Sound,
-  page18Sound,
-  page19Sound,
-  '',
+];
+
+export const postNarrationsDarka = [
   darkaL1post,
   darkaL2post,
   darkaL3post,
@@ -153,24 +146,18 @@ export const narrations = [
   page26Sound,
   page27Sound,
   page28Sound,
-  page30Sound,
-  page31Sound,
-  page32Sound,
-  page33Sound,
-  page34Sound,
-  page35Sound,
-  '',
+];
+
+export const postNarrationsMistica = [
   misticaL1post,
   misticaL2post,
   misticaL3post,
   misticaL4post,
   page37Sound,
   page38Sound,
-  page40Sound,
-  page41Sound,
-  page42Sound,
-  page43Sound,
-  '',
+];
+
+export const postNarrationsFutura = [
   futuraL1post,
   futuraL2post,
   futuraL3post,
