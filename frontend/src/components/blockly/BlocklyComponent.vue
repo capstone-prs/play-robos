@@ -1,5 +1,4 @@
 <template>
-  <LevelGoalPreview />
   <div class="row items-start">
     <div class="col">
       <div class="workspace-container" id="blockly">
@@ -12,6 +11,17 @@
               :key="image"
             />
           </div>
+          <LevelGoalPreview
+            v-model="isDialogOpen.preview"
+            :level-setting="thisSetting"
+            :level-num="levelNum"
+            @ended="() => setDialog('preview', false)"
+          />
+          <ReconnectDialog
+            :level-setting="thisSetting"
+            v-model="isDialogOpen.reconnect"
+            @close="() => setupBtListeners()"
+          />
           <CheckDialog
             v-model="isDialogOpen.check"
             :correct="isEqualCodes(correctCodes, blocklyGenerator())"
@@ -165,6 +175,7 @@ import StudioSideBarButton from '../buttons/StudioSideBarButton.vue';
 import StopwatchComponent from '../StopwatchComponent.vue';
 import GameOver from '../GameOver.vue';
 import LevelGoalPreview from '../LevelGoalPreview.vue';
+import ReconnectDialog from '../ReconnectDialog.vue';
 // Utils
 import {
   bluetoothSerial,
@@ -211,6 +222,8 @@ const isDialogOpen = ref({
   menu: false,
   coins: false,
   badge: false,
+  preview: false,
+  reconnect: false,
 });
 
 const taskStatus = ref<TaskStatus>('none');
@@ -276,9 +289,9 @@ const stopTime = () => {
 const startTime = () => stopwatch.value?.start();
 
 watch(isDialogOpen.value, () => {
-  const { menu, check } = isDialogOpen.value;
+  const { menu, check, preview, reconnect } = isDialogOpen.value;
 
-  if (menu || check) {
+  if (menu || check || preview || reconnect) {
     stopTime();
   } else if (!stopwatch.value?.isStarting) {
     startTime();
@@ -316,17 +329,15 @@ const completedLevels = () => {
   return storedUserData.activityProgress;
 };
 
-const levels =
-  ageGroup === 'easy'
-    ? settings_easy[settingNum].levels
-    : settings_hard[settingNum].levels;
+const thisSetting =
+  ageGroup === 'easy' ? settings_easy[settingNum] : settings_hard[settingNum];
 
 const toolbox =
   ageGroup === 'easy'
     ? Toolbox.toolbox_easy[settingNum]
     : Toolbox.toolbox_hard[settingNum];
 
-const thisLevel = levels[levelNum - 1];
+const thisLevel = thisSetting.levels[levelNum - 1];
 const correctCodes = thisLevel.correctCode;
 
 const coinsComputed = () => {
@@ -431,6 +442,20 @@ onMounted(() => {
   // progress.value(); // FIXME: DEAD CODE?
   taskStatus.value = 'none';
 
+  router.beforeEach(() => {
+    if (taskStatus.value === 'started') {
+      return false;
+    }
+  });
+  setupBtListeners();
+  setDialog('preview');
+});
+
+onUnmounted(() => {
+  clearInterval(disconnectListener.value);
+});
+
+const setupBtListeners = () => {
   btListenser(
     bluetoothSerial,
     (data: string) => {
@@ -442,22 +467,13 @@ onMounted(() => {
     },
     notifyError
   );
-
-  router.beforeEach(() => {
-    if (taskStatus.value === 'started') {
-      return false;
-    }
-  });
-
   disconnectListener.value = onDisconnect(bluetoothSerial, () => {
     taskStatus.value = 'error';
     notifyError('Bluetooth Device is Disconnected');
+    setDialog('reconnect');
   });
-});
-
-onUnmounted(() => {
-  clearInterval(disconnectListener.value);
-});
+  setDialog('reconnect', false);
+};
 
 const startProgressNotify = () => {
   startLoadingUpload();

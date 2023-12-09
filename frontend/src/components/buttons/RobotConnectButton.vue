@@ -27,6 +27,7 @@ import bluetoothConnectDevice, {
 } from '../../utils/bluetoothUtils';
 
 const $q = useQuasar();
+const emit = defineEmits<{ (e: 'connected'): void }>();
 const isConnected = ref(false);
 const disconnectListener = ref<ReturnType<typeof onDisconnect>>();
 
@@ -45,6 +46,7 @@ const bluetoothConnect = () =>
         type: 'positive',
         message: success,
       });
+      emit('connected');
     },
     (fail) => {
       isConnected.value = false;
