@@ -11,6 +11,12 @@
               :key="image"
             />
           </div>
+          <LevelGoalPreview
+            v-model="isDialogOpen.preview"
+            :level-setting="thisSetting"
+            :level-num="levelNum"
+            @ended="setDialog('preview', false)"
+          />
           <CheckDialog
             v-model="isDialogOpen.check"
             :correct="isEqualCodes(correctCodes, blocklyGenerator())"
@@ -163,6 +169,7 @@ import CoinsDialog from '../CoinsDialog.vue';
 import StudioSideBarButton from '../buttons/StudioSideBarButton.vue';
 import StopwatchComponent from '../StopwatchComponent.vue';
 import GameOver from '../GameOver.vue';
+import LevelGoalPreview from '../LevelGoalPreview.vue';
 // Utils
 import {
   bluetoothSerial,
@@ -209,6 +216,7 @@ const isDialogOpen = ref({
   menu: false,
   coins: false,
   badge: false,
+  preview: false,
 });
 
 const taskStatus = ref<TaskStatus>('none');
@@ -274,9 +282,9 @@ const stopTime = () => {
 const startTime = () => stopwatch.value?.start();
 
 watch(isDialogOpen.value, () => {
-  const { menu, check } = isDialogOpen.value;
+  const { menu, check, preview } = isDialogOpen.value;
 
-  if (menu || check) {
+  if (menu || check || preview) {
     stopTime();
   } else if (!stopwatch.value?.isStarting) {
     startTime();
@@ -314,17 +322,15 @@ const completedLevels = () => {
   return storedUserData.activityProgress;
 };
 
-const levels =
-  ageGroup === 'easy'
-    ? settings_easy[settingNum].levels
-    : settings_hard[settingNum].levels;
+const thisSetting =
+  ageGroup === 'easy' ? settings_easy[settingNum] : settings_hard[settingNum];
 
 const toolbox =
   ageGroup === 'easy'
     ? Toolbox.toolbox_easy[settingNum]
     : Toolbox.toolbox_hard[settingNum];
 
-const thisLevel = levels[levelNum - 1];
+const thisLevel = thisSetting.levels[levelNum - 1];
 const correctCodes = thisLevel.correctCode;
 
 const coinsComputed = () => {
@@ -451,6 +457,8 @@ onMounted(() => {
     taskStatus.value = 'error';
     notifyError('Bluetooth Device is Disconnected');
   });
+
+  setDialog('preview');
 });
 
 onUnmounted(() => {

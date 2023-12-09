@@ -102,4 +102,8 @@ void loop()
     execState("<000000>");
     // indicator Fail()
   }
+  if (!isBtConnected)
+  {
+    execState("<000000>");
+  }
 }
