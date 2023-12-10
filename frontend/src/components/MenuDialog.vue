@@ -5,17 +5,29 @@
     style="background-color: transparent"
   >
     <q-card>
-      <q-card-section class="row items-center card-title" style="width: 400px">
-        <div class="text-h4 futura">Menu</div>
+      <q-card-section
+        class="row card-title"
+        style="width: 400px; justify-content: center"
+      >
+        <div class="row text-h4 futura">
+          <q-btn flat @click="atBack">
+            <q-icon name="arrow_back" color="white" />
+          </q-btn>
+        </div>
         <q-space />
-        <q-btn
-          data-cy="close-btn"
-          icon="close"
-          color="white"
-          size="md"
-          flat
-          v-close-popup
-        />
+        <div class="row text-h4 futura">Menu</div>
+
+        <q-space />
+        <div class="">
+          <q-btn
+            data-cy="close-btn"
+            icon="close"
+            color="white"
+            size="md"
+            flat
+            v-close-popup
+          />
+        </div>
       </q-card-section>
 
       <q-card-section class="centered q-mb-none" v-if="path !== '/home'">
@@ -29,28 +41,7 @@
         class="centered q-pa-none q-mb-md"
         v-if="path !== '/home'"
       >
-        <div class="q-pa-xs">
-          <q-btn
-            @click="atBack"
-            color="purple"
-            class="glossy hitchcut"
-            size="lg"
-            rounded
-          >
-            <q-icon name="arrow_back" />
-          </q-btn>
-        </div>
-        <div class="q-pa-xs">
-          <q-btn
-            @click="atHome"
-            color="pink-12"
-            class="glossy hitchcut"
-            size="lg"
-            rounded
-          >
-            <q-icon name="home" />
-          </q-btn>
-        </div>
+      <HomeButton class="q-pa-xs" />
         <RobotConnectButton
           class="q-pa-xs"
           :loading-handler="
@@ -88,6 +79,7 @@ import back from '../assets/sounds/back.mp3';
 import RobotConnectButton from './buttons/RobotConnectButton.vue';
 import { soundEffect } from 'src/utils/SoundUtils';
 import { ref } from 'vue';
+import HomeButton from './buttons/HomeButton.vue'
 const findingRobotDialog = ref(false);
 const isPairingDialog = ref(false);
 
@@ -101,7 +93,6 @@ defineProps({
 });
 
 const showDialog = ref(false);
-
 
 const atHome = () => {
   soundEffect();
