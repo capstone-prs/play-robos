@@ -19,7 +19,7 @@ import turnRightHead from '../../assets/turnRightHead.svg';
 //left arm assets
 import raiseLeft60 from '../../assets/raiseLeft60.svg';
 // import raiseLeft90 from '../../assets/raiseLeft90.svg';
-import raiseLeft120 from '../../assets/raiseLeft120.svg';
+import raiseLeft120 from '../../assets/raiseleft120.svg';
 import raiseLeft150 from '../../assets/raiseLeft150.svg';
 import raiseLeft180 from '../../assets/raiseLeft180.svg';
 
