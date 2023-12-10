@@ -88,7 +88,7 @@ export const settings_easy: Setting[] = [
           raiseRight180,
         ], //robot
         hint: [''], //to confirm to paul
-        correctCode: [{}],
+        correctCode: [],
         completed: true,
       },
       {
@@ -458,7 +458,7 @@ export const settings_easy: Setting[] = [
         goalTitle: 'Break in with eye pattern',
         reward: 100,
         //gif: normal look, close eyes, normal look, look upper left, normal look, look upper right, normal look, close eyes
-        gif: [lookRight, lookUpLeft, lookLeft, winkRight, winkLeft],
+        gif: [lookUpLeft,lookRight, lookUpLeft, lookLeft, winkRight, winkLeft],
         hint: [
           'Look Upper Left',
           'Look Right',

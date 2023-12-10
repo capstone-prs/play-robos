@@ -76,7 +76,7 @@ export const settings_hard: Setting[] = [
           raiseRight180,
         ], //robot
         hint: [''], //to confirm to paul
-        correctCode: [{}],
+        correctCode: [],
         completed: true,
       },
       {
@@ -199,9 +199,9 @@ export const settings_hard: Setting[] = [
         levelNum: 2,
         goalTitle: 'Flex fury',
         reward: 100,
-        gif: [raiseLeft120, raiseLeft120, closeEyes],
+        gif: [raiseLeft120, raiseRight120, closeEyes],
         hint: ['Raise Left Arm 120', 'Raise Right Arm 120°', 'Close Eyes'],
-        correctCode: [{ leftArm: '3' }, { rightArm: '3' }, { eyes: '0' }],
+        correctCode: [{ leftArm: '3' }, { rightArm: '3' }, { eyes: 'i' }],
         completed: false,
       },
       {
@@ -264,7 +264,7 @@ export const settings_hard: Setting[] = [
           'Turn Head Right',
           'Look Up',
         ],
-        correctCode: [{ eyes: 'd', head: '1', leftArm: '3', rightArm: '2' }],
+        correctCode: [{ eyes: 'd', head: '2', leftArm: '3', rightArm: '2' }],
         completed: false,
       },
     ],
@@ -334,10 +334,11 @@ export const settings_hard: Setting[] = [
         goalTitle: 'Escape the Flames',
         reward: 150,
         //gif: raise arm 160, run for 6 seconds
-        gif: [raiseRight180, raiseLeft180, lookLeft, moveForward],
+        gif: [raiseRight180,turnRightHead, raiseLeft180, lookLeft, moveForward],
         //hint: raise arm 160, run for 6 seconds
         hint: [
           'Raise Right Arm 180°',
+          'Turn Head RIght',
           'Raise Left Arm 180°',
           'Look Left',
           'Use Left and Right Wheel',
@@ -349,8 +350,9 @@ export const settings_hard: Setting[] = [
             head: '2',
             leftArm: '5',
             rightArm: '5',
-            rightLeg: '1',
             leftLeg: '1',
+            rightLeg: '1',
+          
           },
           //duration 6
         ],
@@ -488,7 +490,6 @@ export const settings_hard: Setting[] = [
           { eyes: 'c' },
           { eyes: '0' },
           { eyes: 'i' },
-          { eyes: 'c' },
         ],
         completed: false,
       }, //done
@@ -531,7 +532,7 @@ export const settings_hard: Setting[] = [
       }, //done
       {
         levelNum: 4,
-        goalTitle: 'Enchanting Trail',
+        goalTitle: 'The Path to Magic',
         reward: 120,
         //gif: turn head left, turn head right, normal head, walk 7 seconds
         gif: [lookLeft, moveLeftWheel, lookRight, moverightWheel],
@@ -552,7 +553,7 @@ export const settings_hard: Setting[] = [
       {
         levelNum: 5,
         goalTitle: 'Enchanting Trail',
-        reward: 100,
+        reward: 200,
         //gif: raise right arm 180, raise left arm 180, turn head right, turn head left, raise left arm 120, raise right arm 120
         gif: [
           lookRight,
@@ -683,7 +684,7 @@ export const settings_hard: Setting[] = [
           { rightArm: '5' },
           { rightArm: '0' },
           { leftArm: '4' },
-          { rightArm: '0' },
+          { leftArm: '0' },
           { rightArm: '5' },
           { rightArm: '0' },
           { leftArm: '4' },
@@ -706,6 +707,7 @@ export const settings_hard: Setting[] = [
         correctCode: [
           {
             eyes: 'd',
+            head:'1',
             leftArm: '4',
             rightArm: '5',
             leftLeg: '1',
@@ -721,7 +723,7 @@ export const settings_hard: Setting[] = [
         //gif: be free to do whatever
         gif: [''],
         hint: [''],
-        correctCode: [{}],
+        correctCode: [],
         completed: false,
       },
     ],
