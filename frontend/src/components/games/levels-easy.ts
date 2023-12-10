@@ -34,29 +34,22 @@ import raiseRight180 from '../../assets/raiseRight180.svg';
 //legs assets
 // import forward from '../../assets/forward.svg';
 import moveForward from '../../assets/moveForwardWheel.svg';
-import moveForward2 from '../../assets/moveForwardWheel2.svg';
-import moveForward3 from '../../assets/moveForwardWheel3.svg';
-import moveForward4 from '../../assets/moveForwardWheel4.svg';
+// import moveForward2 from '../../assets/moveForwardWheel2.svg';
+// import moveForward3 from '../../assets/moveForwardWheel3.svg';
+// import moveForward4 from '../../assets/moveForwardWheel4.svg';
 import moveLeftWheel from '../../assets/moveLeftWheel.svg';
-import moverightWheel from '../../assets/moveRightWheel.svg';
+// import moverightWheel from '../../assets/moveRightWheel.svg';
 
-//allTogether
-import runAwayFromFire from '../../assets/runAwayFromFire.svg';
-import runAwayFromFire2 from '../../assets/runAwayFromFire2.svg';
-import runAwayFromFire3 from '../../assets/runAwayFromFire3.svg';
-import runAwayFromFire4 from '../../assets/runAwayFromFire4.svg';
+// //allTogether
+// import runAwayFromFire from '../../assets/runAwayFromFire.svg';
+// import runAwayFromFire2 from '../../assets/runAwayFromFire2.svg';
+// import runAwayFromFire3 from '../../assets/runAwayFromFire3.svg';
+// import runAwayFromFire4 from '../../assets/runAwayFromFire4.svg';
 
 // import semiClose from '../../assets/semiCLose.svg';
 // import halfRaiseRightArm from '../../assets/halfRaiseRightArm.svg';
 // import halfRaiseLeftArm from '../../assets/halfRaiseLeftArm.svg';
 // import duration from '../../assets/duration.svg';
-
-import duration5 from '../../assets/duration_5.svg';
-import duration3 from '../../assets/duration_3.svg';
-import duration6 from '../../assets/duration_6.svg';
-import duration7 from '../../assets/duration_7.svg';
-import { lookup } from 'dns';
-
 export const settings_easy: Setting[] = [
   {
     settingName: 'Scorcha',

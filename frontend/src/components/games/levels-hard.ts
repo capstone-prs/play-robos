@@ -18,7 +18,7 @@ import turnRightHead from '../../assets/turnRightHead.svg';
 
 //left arm assets
 import raiseLeft60 from '../../assets/raiseLeft60.svg';
-import raiseLeft90 from '../../assets/raiseLeft90.svg';
+// import raiseLeft90 from '../../assets/raiseLeft90.svg';
 import raiseLeft120 from '../../assets/raiseLeft120.svg';
 import raiseLeft150 from '../../assets/raiseLeft150.svg';
 import raiseLeft180 from '../../assets/raiseLeft180.svg';
@@ -33,17 +33,17 @@ import raiseRight180 from '../../assets/raiseRight180.svg';
 //legs assets
 // import forward from '../../assets/forward.svg';
 import moveForward from '../../assets/moveForwardWheel.svg';
-import moveForward2 from '../../assets/moveForwardWheel2.svg';
-import moveForward3 from '../../assets/moveForwardWheel3.svg';
-import moveForward4 from '../../assets/moveForwardWheel4.svg';
+// import moveForward2 from '../../assets/moveForwardWheel2.svg';
+// import moveForward3 from '../../assets/moveForwardWheel3.svg';
+// import moveForward4 from '../../assets/moveForwardWheel4.svg';
 import moveLeftWheel from '../../assets/moveLeftWheel.svg';
 import moverightWheel from '../../assets/moveRightWheel.svg';
 
 //allTogether
-import runAwayFromFire from '../../assets/runAwayFromFire.svg';
-import runAwayFromFire2 from '../../assets/runAwayFromFire2.svg';
-import runAwayFromFire3 from '../../assets/runAwayFromFire3.svg';
-import runAwayFromFire4 from '../../assets/runAwayFromFire4.svg';
+// import runAwayFromFire from '../../assets/runAwayFromFire.svg';
+// import runAwayFromFire2 from '../../assets/runAwayFromFire2.svg';
+// import runAwayFromFire3 from '../../assets/runAwayFromFire3.svg';
+// import runAwayFromFire4 from '../../assets/runAwayFromFire4.svg';
 
 export const settings_hard: Setting[] = [
   {
