@@ -14,7 +14,7 @@
           <LevelGoalPreview
             v-model="isDialogOpen.preview"
             :level-setting="thisSetting"
-            :level-num="levelNum"
+            :level-num="levelNum-1"
             @ended="
               () => {
                 setDialog('preview', false);
@@ -64,7 +64,7 @@
             v-model="isDialogOpen.coins"
             :coins="thisLevel.reward"
             :setting-number="settingNum"
-            :level-number="levelNum"
+            :level-number="levelNum-1"
             :difficulty="ageGroup"
             :max-level="
               ageGroup === 'easy'
