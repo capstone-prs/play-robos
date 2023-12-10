@@ -6,10 +6,10 @@ import {
   sendPasswordResetEmail,
   fetchSignInMethodsForEmail,
   setPersistence,
-  // indexedDBLocalPersistence
-  browserLocalPersistence,
+  indexedDBLocalPersistence,
+  // browserLocalPersistence,
   User,
-  sendEmailVerification
+  sendEmailVerification,
 } from 'firebase/auth';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import getAge from '../utils/ageGetter';
@@ -41,16 +41,19 @@ export const verifyEmail = (user: User) => sendEmailVerification(user);
 
 export const login = (email: string, password: string): Promise<User> => {
   return new Promise<User>((resolve, reject) => {
-    setPersistence(auth, browserLocalPersistence)
-      .then(() => signInWithEmailAndPassword(auth, email, password))
+    setPersistence(auth, indexedDBLocalPersistence)
+      .then(() => {
+        return signInWithEmailAndPassword(auth, email, password);
+      })
       .then(async (userCredential) => {
         const user = userCredential.user;
+        console.log(user);
 
         const userDocRef = doc(db, 'users', user.uid);
         const userDocSnapshot = await getDoc(userDocRef);
 
         if (userDocSnapshot.exists()) {
-          const userBirthdate = userDocSnapshot.data().user_birthdate;
+          const userBirthdate = userDocSnapshot.data().birthdate;
 
           const difficulty =
             getAge(userBirthdate.toDate(), new Date()) >= 5 &&
@@ -63,6 +66,7 @@ export const login = (email: string, password: string): Promise<User> => {
         resolve(user);
       })
       .catch((error) => {
+        console.log(error);
         reject(error);
       });
   });
