@@ -2,7 +2,7 @@ import { Setting } from '../../types/Levels';
 import normalArms from '../../assets/normalArms.svg';
 
 //eyes assets
-import normalLook from '../../assets/normalLook.svg';
+import normalLook from '../../assets/NormalLook.svg';
 import closeEyes from '../../assets/closeEyes.svg';
 import lookLeft from '../../assets/lookLeft.svg';
 import lookRight from '../../assets/lookRight.svg';

@@ -2,7 +2,7 @@ import Blockly from 'blockly';
 import forward from '../../../assets/forward.svg';
 //eyes assets
 import normalArms from '../../../assets/normalArms.svg';
-import normalLook from '../../../assets/normalLook.svg';
+import normalLook from '../../../assets/NormalLook.svg';
 import closeEyes from '../../../assets/closeEyes.svg';
 import lookLeft from '../../../assets/lookLeft.svg';
 import lookRight from '../../../assets/lookRight.svg';
