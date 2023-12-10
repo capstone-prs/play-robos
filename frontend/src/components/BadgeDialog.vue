@@ -1,28 +1,27 @@
 <template>
-  <q-dialog v-model="isDialogOpen">
-    <q-card class="" style="width: 100%; height: 100%">
-      <q-card-section class="q-pa-sm q-mb-none" align="right">
-        <q-btn
-          data-cy="close-btn"
-          icon="close"
-          color="red-3"
-          size="md"
-          flat
-          v-close-popup
-        />
-      </q-card-section>
-      <q-card-section align="center" class="q-pa-none">
+  <q-dialog v-model="isDialogOpen" persistent>
+    <q-card class="" style="width: 40%; height: 100%; border-radius: 30px">
+      <q-card-section align="center" class="q-pa-none q-mt-lg">
         <div class="title-badge q-mb-sm">CONGRATULATIONS!</div>
-        <div class="description">
-          You have unlocked the {{ badgeName }} badge!
-        </div>
+
         <div>
           <q-icon
-            class="q-mt-sm q-mb-sm"
-            size="150px"
+            class="q-mt-sm q-mb-sm url"
+            size="160px"
             :name="'img:' + badgeUrl"
           />
         </div>
+        <div class="description q-mt-sm">
+          You have unlocked the <b>{{ badgeName }}</b> badge!
+        </div>
+      </q-card-section>
+      <q-card-section class="q-pa-sm q-mb-none q-mt-lg" align="center">
+        <q-btn
+          v-close-popup
+          label="CLOSE"
+          color="blue-6"
+          style="border-radius: 20px; padding-left: 120px; padding-right: 120px"
+        />
       </q-card-section>
     </q-card>
   </q-dialog>
@@ -58,5 +57,22 @@ defineProps({
 .description {
   font-family: 'futura';
   font-size: larger;
+}
+.url {
+  animation: badgeAnimation 1s ease 1s infinite alternate forwards;
+}
+
+@keyframes badgeAnimation {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 </style>
