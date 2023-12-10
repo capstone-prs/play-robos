@@ -186,7 +186,7 @@ const isConPwd = ref(true);
 const triggerNotify = (type: string, message: string) => {
   $q.notify({
     type: type,
-    message: message
+    message: message,
   });
 };
 const verfyopen = ref(false);
@@ -206,43 +206,43 @@ const data = {
   name: {
     ref: ref<QInput | null>(null),
     model: ref<string>(''),
-    rules: [validate('NAME')]
+    rules: [validate('NAME')],
   },
   gender: {
     ref: ref<QInput | null>(null),
     model: ref<Gender>(),
     options: ['Male', 'Female'],
-    rules: [validate('GENDER')]
+    rules: [validate('GENDER')],
   },
   birthdate: {
     ref: ref<QInput | null>(null),
     model: ref<string>(),
-    rules: [validate('BIRTHDATE')]
+    rules: [validate('BIRTHDATE')],
   },
   email: {
     ref: ref<QInput | null>(null),
     model: ref<string>(''),
     rules: [validate('EMAIL')],
     isError: ref(false),
-    errorMessage: ref<string>('')
+    errorMessage: ref<string>(''),
   },
   password: {
     ref: ref<QInput | null>(null),
     model: ref<string>(''),
-    rules: [validate('PASSWORD')]
+    rules: [validate('PASSWORD')],
   },
   rePassword: {
     ref: ref<QInput | null>(null),
     model: ref<string>(''),
-    rules: [validateRePassword]
-  }
+    rules: [validateRePassword],
+  },
 };
 
 const showLoading = () => {
   $q.loading.show({
     spinnerColor: 'white',
     backgroundColor: 'black',
-    message: 'Setting everthing up...'
+    message: 'Setting everthing up...',
   });
 
   setTimeout(() => {
@@ -285,9 +285,11 @@ const submit = () => {
           localStorage.setItem('userDifficulty', difficulty);
           return addUser(
             {
-              user_name: data.name.model.value,
-              user_gender: data.gender.model.value,
-              user_birthdate: new Date(data.birthdate.model.value)
+              name: data.name.model.value,
+              gender: data.gender.model.value,
+              birthdate: new Date(data.birthdate.model.value),
+              coins: 0,
+              score: 0,
             },
             newUser.uid
           ).then(() => {

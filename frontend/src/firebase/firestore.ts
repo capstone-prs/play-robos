@@ -8,7 +8,7 @@ const auth = getAuth();
 export const addUser = (data: NewUser, id: string) =>
   setDoc(doc(db, 'users', id), {
     ...data,
-    user_id: id,
+    id: id,
   });
 
 export const getUser = (id: string) =>
