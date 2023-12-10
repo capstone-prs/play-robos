@@ -72,14 +72,6 @@
           <MusicButton />
         </div>
       </q-card-section>
-      <q-card-section class="centered q-pa-none q-mb-md">
-        <ActionButton
-          text-label="Logout"
-          @click="openLogoutDialog"
-          data-cy="logout-btn"
-        />
-        <LogoutDialog v-model="isLogoutDialogVisible" data-cy="logout-dialog" />
-      </q-card-section>
 
       <div class="col q-pl-sm">
         <FindingDialog v-model="findingRobotDialog" />
@@ -90,8 +82,6 @@
 </template>
 
 <script setup lang="ts">
-import LogoutDialog from './LogoutDialog.vue';
-import ActionButton from './buttons/ActionButton.vue';
 import MusicButton from './buttons/MusicButton.vue';
 import SoundButton from './buttons/SoundButton.vue';
 import back from '../assets/sounds/back.mp3';
@@ -110,11 +100,8 @@ defineProps({
   dataForHomepage: String
 });
 
-const isLogoutDialogVisible = ref(false);
 const showDialog = ref(false);
-const openLogoutDialog = () => {
-  isLogoutDialogVisible.value = true;
-};
+
 
 const atHome = () => {
   soundEffect();
