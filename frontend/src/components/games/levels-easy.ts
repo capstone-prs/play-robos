@@ -451,7 +451,7 @@ export const settings_easy: Setting[] = [
         goalTitle: 'Break in with eye pattern',
         reward: 100,
         //gif: normal look, close eyes, normal look, look upper left, normal look, look upper right, normal look, close eyes
-        gif: [lookUpLeft,lookRight, lookUpLeft, lookLeft, winkRight, winkLeft],
+        gif: [lookUpLeft, lookRight, lookUpLeft, lookLeft, winkRight, winkLeft],
         hint: [
           'Look Upper Left',
           'Look Right',
@@ -532,11 +532,8 @@ export const settings_easy: Setting[] = [
         reward: 500,
         //gif: be free to do whatever
         gif: [''],
-        hint: [
-
-        ],
-        correctCode: [
-        ],
+        hint: [],
+        correctCode: [],
         completed: false,
       },
     ],
