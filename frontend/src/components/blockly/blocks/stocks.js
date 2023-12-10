@@ -11,8 +11,8 @@ import lookUpRight from '../../../assets/lookUpRight.svg';
 import winkRight from '../../../assets/winkRight.svg';
 import winkLeft from '../../../assets/winkLeft.svg';
 import lookUp from '../../../assets/lookUp.svg';
-import semiClose from '../../../assets/semiCLose.svg'
-import duration from '../../../assets/duration.svg'
+import semiClose from '../../../assets/semiCLose.svg';
+import duration from '../../../assets/duration.svg';
 //head assets
 import normalHead from '../../../assets/normalHead.svg';
 import turnLeftHead from '../../../assets/turnLeftHead.svg';
@@ -31,7 +31,7 @@ import raiseRight90 from '../../../assets/raiseRight90.svg';
 import raiseRight120 from '../../../assets/raiseRight120.svg';
 import raiseRight150 from '../../../assets/raiseRight150.svg';
 import raiseRight180 from '../../../assets/raiseRight180.svg';
-import backward from '../../../assets/backward.svg'
+import backward from '../../../assets/backward.svg';
 
 Blockly.defineBlocksWithJsonArray([
   {
@@ -466,15 +466,16 @@ Blockly.defineBlocksWithJsonArray([
     tooltip: '',
     helpUrl: '',
   },
+
   {
     type: 'normal_right_arm',
     message0: 'normal right arm %1',
     args0: [
       {
         type: 'field_image',
-        src: 'https://www.gstatic.com/codesite/ph/images/star_on.gif',
-        width: 15,
-        height: 15,
+        src: normalArms,
+        width: 25,
+        height: 25,
         alt: '*',
         flipRtl: false,
       },
@@ -482,6 +483,25 @@ Blockly.defineBlocksWithJsonArray([
     previousStatement: null,
     nextStatement: null,
     colour: 300,
+    tooltip: '',
+    helpUrl: '',
+  },
+  {
+    type: 'normal_left_arm',
+    message0: 'normal left arm %1',
+    args0: [
+      {
+        type: 'field_image',
+        src: normalArms,
+        width: 25,
+        height: 25,
+        alt: '*',
+        flipRtl: false,
+      },
+    ],
+    previousStatement: null,
+    nextStatement: null,
+    colour: 45,
     tooltip: '',
     helpUrl: '',
   },
