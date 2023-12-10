@@ -106,12 +106,10 @@ const settingNumber = parseInt(splitParams[1]);
 
 onMounted(() => {
   introScene(settingNumber);
-  outroScene(settingNumber);
   checkSettingProgress();
 });
 
 const introMapScenes = ['0_3', '8_12', '16_19', '29_35', '39_43'];
-const outroMapScenes = ['4_6', '13_14,', '20_27', '36-37', '44_46'];
 
 const introScene = (setting: number) => {
   const hasLoadedIntroScene = sessionStorage.getItem(
@@ -131,24 +129,6 @@ const introScene = (setting: number) => {
     });
     sessionStorage.setItem(`hasLoadedIntro${setting}`, 'true');
   }
-};
-
-const outroScene = (setting: number) => {
-  outroMapScenes.map((scene) => {
-    if (difficulty === 'easy') {
-      const easyLength = settings_easy[settingNumber].levels.length;
-      outroMapScenes.indexOf(scene) === setting &&
-      settings_easy[settingNumber].levels[easyLength - 2].completed
-        ? router.push({ name: 'narrative', params: { param: scene } })
-        : '';
-    } else {
-      const hardLength = settings_hard[settingNumber].levels.length;
-      outroMapScenes.indexOf(scene) === setting &&
-      settings_hard[settingNumber].levels[hardLength - 2].completed
-        ? router.push({ name: 'narrative', params: { param: scene } })
-        : '';
-    }
-  });
 };
 
 const completedLevels = () => {
