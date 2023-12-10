@@ -77,8 +77,8 @@
     rgb(114, 221, 237) 45%,
     rgb(177, 243, 255) 100%
   );
-  height: 100vh;
-  overflow: hidden;
+  /* height: 100vh;
+  overflow: auto; */
 }
 
 .element-signup {

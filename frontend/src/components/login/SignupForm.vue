@@ -35,16 +35,17 @@
               rounded
               outlined
               v-model="data.birthdate.model.value"
-              type="date"
+              type="text"
               label="Birthday"
               :rules="data.birthdate.rules"
+              placeholder="YYYY/MM/DD"
               lazyRules
+              mask="date"
             >
               <template v-slot:prepend>
                 <q-icon name="cake" />
               </template>
             </q-input>
-
             <q-select
               class="authInputsSmall"
               rounded
@@ -154,7 +155,6 @@
           ></ActionButton>
         </div>
         <VerifyDIalog v-model="verfyopen" />
-        <q-btn @click="open()" />
       </div>
     </form>
   </div>
@@ -186,13 +186,11 @@ const isConPwd = ref(true);
 const triggerNotify = (type: string, message: string) => {
   $q.notify({
     type: type,
-    message: message
+    message: message,
   });
 };
 const verfyopen = ref(false);
-const open = () => {
-  verfyopen.value = true;
-};
+
 const validateRePassword = (val: string) =>
   validate('REPASSWORD', data.password.model.value ?? '')(val);
 
@@ -206,43 +204,43 @@ const data = {
   name: {
     ref: ref<QInput | null>(null),
     model: ref<string>(''),
-    rules: [validate('NAME')]
+    rules: [validate('NAME')],
   },
   gender: {
     ref: ref<QInput | null>(null),
     model: ref<Gender>(),
     options: ['Male', 'Female'],
-    rules: [validate('GENDER')]
+    rules: [validate('GENDER')],
   },
   birthdate: {
     ref: ref<QInput | null>(null),
     model: ref<string>(),
-    rules: [validate('BIRTHDATE')]
+    rules: [validate('BIRTHDATE')],
   },
   email: {
     ref: ref<QInput | null>(null),
     model: ref<string>(''),
     rules: [validate('EMAIL')],
     isError: ref(false),
-    errorMessage: ref<string>('')
+    errorMessage: ref<string>(''),
   },
   password: {
     ref: ref<QInput | null>(null),
     model: ref<string>(''),
-    rules: [validate('PASSWORD')]
+    rules: [validate('PASSWORD')],
   },
   rePassword: {
     ref: ref<QInput | null>(null),
     model: ref<string>(''),
-    rules: [validateRePassword]
-  }
+    rules: [validateRePassword],
+  },
 };
 
 const showLoading = () => {
   $q.loading.show({
     spinnerColor: 'white',
     backgroundColor: 'black',
-    message: 'Setting everthing up...'
+    message: 'Setting everthing up...',
   });
 
   setTimeout(() => {
@@ -287,7 +285,7 @@ const submit = () => {
             {
               user_name: data.name.model.value,
               user_gender: data.gender.model.value,
-              user_birthdate: new Date(data.birthdate.model.value)
+              user_birthdate: new Date(data.birthdate.model.value),
             },
             newUser.uid
           ).then(() => {
