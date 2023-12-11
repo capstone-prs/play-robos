@@ -1,34 +1,73 @@
-import { ActivityProgress, Badge } from '../types/Progress';
+import {
+  Activity,
+  ActivityProgress,
+  Badge,
+  Difficulty,
+} from '../types/Progress';
 
-export const initializeLocalActivityProgress = () => {
-  const data = {
-    coins: 100,
-    score: 0,
-    activityProgress: [],
-    badgesReceived: [],
+export const localActivityProgress = (
+  activity: Activity,
+  duration: number,
+  attempt: number,
+  decomp: number,
+  pattern: number
+) => {
+  const inputProgress: ActivityProgress = {
+    activity: activity,
+    duration: solveDurationScore(duration),
+    attempt: solveAttemptScore(attempt),
+    decomposition: decomp,
+    pattern: pattern,
   };
-  if (localStorage.getItem('localData') === null) {
-    localStorage.setItem('localData', JSON.stringify(data));
-  }
+  return inputProgress;
 };
 
-export const addLocalActivityProgress = (progress: ActivityProgress) => {
-  const storedDataString = localStorage.getItem('localData');
-  const storedUserData = storedDataString ? JSON.parse(storedDataString) : null;
-
-  if (storedUserData && !storedUserData.activityProgress) {
-    storedUserData.activityProgress = [];
-  }
-  storedUserData.activityProgress.push(progress);
-
-  localStorage.setItem('localData', JSON.stringify(storedUserData));
-  return solveActivityScore(
-    solveAttemptScore(progress.attempt),
-    solveDurationScore(progress.duration),
-    progress.decomposition,
-    progress.decomposition
-  );
+export const localActivity = (
+  id: number,
+  title: string,
+  reward: number,
+  setting: number,
+  difficulty: Difficulty
+) => {
+  const inputActivity: Activity = {
+    id: id,
+    title: title,
+    reward: reward,
+    setting: setting,
+    difficulty: difficulty,
+  };
+  return inputActivity;
 };
+
+// export const initializeLocalActivityProgress = () => {
+//   const data = {
+//     coins: 100,
+//     score: 0,
+//     activityProgress: [],
+//     badgesReceived: [],
+//   };
+//   if (localStorage.getItem('localData') === null) {
+//     localStorage.setItem('localData', JSON.stringify(data));
+//   }
+// };
+
+// export const addLocalActivityProgress = (progress: ActivityProgress) => {
+//   const storedDataString = localStorage.getItem('localData');
+//   const storedUserData = storedDataString ? JSON.parse(storedDataString) : null;
+
+//   if (storedUserData && !storedUserData.activityProgress) {
+//     storedUserData.activityProgress = [];
+//   }
+//   storedUserData.activityProgress.push(progress);
+
+//   localStorage.setItem('localData', JSON.stringify(storedUserData));
+//   return solveActivityScore(
+//     solveAttemptScore(progress.attempt),
+//     solveDurationScore(progress.duration),
+//     progress.decomposition,
+//     progress.decomposition
+//   );
+// };
 
 export const solveDurationScore = (duration: number) => {
   const maxScore = 100;
@@ -171,7 +210,7 @@ export const launchBadgeReward = () => {
   }
 
   const determinant = storedUserData.badgesReceived.find(
-    (badge: Badge) => badge.badgeName === badgeReward().badgeName
+    (badge: Badge) => badge.name === badgeReward().badgeName
   );
 
   if (determinant === undefined) {

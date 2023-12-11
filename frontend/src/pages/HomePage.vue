@@ -101,8 +101,11 @@
             />
           </div>
           <div class="col q-pl-sm">
+            {{ badges }}
             <FindingDialog v-model="findingRobotDialog" />
             <PairingDialog v-model="isPairingDialog" />
+            <q-btn label="addBadge" @click="clickMe" />
+            <q-btn label="getBadges" @click="getBadges" />
           </div>
         </q-page-container>
       </q-layout>
@@ -134,6 +137,30 @@ import animationData from '../../public/bgs/bg-animation.json';
 import { lottieBackgroundLoader } from '../utils/lottieUtils';
 import { startHomeOnboarding } from '../onboarding/studioOnboarding';
 import { soundEffect } from '../utils/SoundUtils';
+import { addLocalBadge, getLocalBadges } from '../dexie/db';
+
+// export interface Badge {
+//   id?: number;
+//   name: string;
+//   url: string;
+//   description: string;
+// }
+
+const clickMe = () => {
+  addLocalBadge({
+    name: 'Novice Explorer',
+    url: 'novice-explorer.svg',
+    description: 'You received this after reaching 100 poins',
+  });
+};
+
+const badges = ref();
+
+const getBadges = () => {
+  getLocalBadges().then((res) => {
+    badges.value = res;
+  });
+};
 
 const $q = useQuasar();
 // const isMenuDialogVisible = ref(false);

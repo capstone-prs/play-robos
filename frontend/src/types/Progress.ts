@@ -1,30 +1,27 @@
 export type Difficulty = 'easy' | 'hard';
 
 export interface Activity {
-  setting: number;
   id: number;
+  title: string;
+  reward: number;
+  setting: number;
   difficulty: Difficulty;
 }
 
 export interface ActivityProgress {
+  id?: number;
   activity: Activity;
   duration: number;
   attempt: number;
   decomposition: number;
   pattern: number;
-  completed: boolean;
-}
-
-export interface LocalData {
-  coins: number;
-  score: number;
-  activityProgress: Array<ActivityProgress>;
-  badgesReceived: Array<Badge>;
 }
 
 export interface Badge {
-  badgeName: string;
-  badgeUrl: string;
+  id?: number;
+  name: string;
+  url: string;
+  description: string;
 }
 
 // type LevelId = 'H1' | 'H2' | '01';

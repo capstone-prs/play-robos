@@ -47,7 +47,6 @@ export const login = (email: string, password: string): Promise<User> => {
       })
       .then(async (userCredential) => {
         const user = userCredential.user;
-        console.log(user);
 
         const userDocRef = doc(db, 'users', user.uid);
         const userDocSnapshot = await getDoc(userDocRef);
