@@ -5,7 +5,7 @@
         <div class="row justify-center items-center">
           <q-icon
             class="col-3 stars"
-            v-for="index in 3"
+            v-for="index in elementsArray"
             :key="index"
             name="stars"
             size="60px"
@@ -28,9 +28,7 @@
           <q-icon size="30px" name="img:/coin-bag.svg" /> {{ coins }}
         </div>
       </q-card-section>
-      <!-- <q-card-section class="q-pa-xs" align="center">
 
-      </q-card-section> -->
       <q-card-section align="center">
         <div class="row justify-center items-center">
           <IconButton
@@ -38,7 +36,13 @@
             @click="atHome"
             class="col-2 q-ma-xs"
           />
-          <IconButton icon="img:/restart.svg" class="col-2 q-ma-md" />
+          <IconButton
+            icon="img:/restart.svg"
+            class="col-2 q-ma-md"
+            @click="
+              retry(levelNumber-1 , settingNumber, difficulty as Difficulty)
+            "
+          />
           <IconButton
             icon="img:/next.svg"
             class="col-2 q-ma-xs"
@@ -58,9 +62,8 @@ import { soundEffect } from 'src/utils/SoundUtils';
 import { useRouter } from 'vue-router';
 import { useQuasar } from 'quasar';
 import IconButton from './buttons/IconButton.vue';
+import { Difficulty } from 'src/types/Progress';
 const $q = useQuasar();
-
-const lottieContainer = ref();
 
 const elementsArray = computed(() =>
   Array.from(
@@ -94,12 +97,12 @@ const computeStarsToDisplay = (activityScore: number) => {
 
 const isDialogOpen = ref(false);
 
-const navigateToActivities = (settingNum: number, difficulty: string) => {
-  soundEffect();
+const retry = (level: number, setting: number, difficulty: Difficulty) => {
   return router.push({
-    name: 'activity',
-    params: { param: (difficulty + ' ' + settingNum) as string }
+    name: 'studio',
+    params: { param: level + '_' + setting + '_' + difficulty }
   });
+
 };
 
 // const redo = () => {
