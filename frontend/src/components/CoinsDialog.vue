@@ -1,17 +1,10 @@
 <template>
-  <q-dialog v-model="isDialogOpen">
-    <q-card class="q-ma-lg" style="width: 200%; height: 85%">
-      <div ref="lottieContainer"></div>
-      <q-card-section class="q-pt-lg" align="center">
-        <div class="text-h3 correct-text">CONGRATULATIONS!</div>
-        <div class="text-h4 detail-text q-pt-md">
-          YOU WON <q-icon name="img:/coin-bag.svg" />{{ coins }}!
-        </div>
-      </q-card-section>
-      <q-card-section class="q-pa-xs" align="center">
-        <div class="stars row justify-center items-center">
+  <q-dialog v-model="isDialogOpen" persistent>
+    <q-card class="" style="width: 35%; height: 100%; border-radius: 20px">
+      <q-card-section>
+        <div class="row justify-center items-center">
           <q-icon
-            class="col-2"
+            class="col-3 stars"
             v-for="index in elementsArray"
             :key="index"
             name="stars"
@@ -19,39 +12,40 @@
             color="amber-5"
           />
         </div>
+        <div align="center">
+          <div class="text-h6 level-label">LEVEL{{ levelNumber }}</div>
+          <div class="text-h4 correct-text">COMPLETE</div>
+        </div>
       </q-card-section>
+
+      <q-card-section align="center" class="q-pa-none">
+        <div class="text-h7 detail-title">SCORE</div>
+        <div class="text-h6 detail-text q-mb-sm">
+          {{ coins }}
+        </div>
+        <div class="text-h7 detail-title">REWARD</div>
+        <div class="text-h6 detail-text">
+          <q-icon size="30px" name="img:/coin-bag.svg" /> {{ coins }}
+        </div>
+      </q-card-section>
+
       <q-card-section align="center">
-        <div class="row q-pa-none">
-          <q-btn
-            class="col q-ma-xs"
-            @click="navigateToActivities(settingNumber, difficulty)"
-            icon="arrow_back"
-            color="purple"
-            rounded
-            text-color="white"
-            size="lg"
-            data-testid="upload-btn"
+        <div class="row justify-center items-center">
+          <IconButton
+            icon="img:/home.svg"
+            @click="atHome"
+            class="col-2 q-ma-xs"
           />
-          <!-- <q-btn
-            class="col q-ma-xs"
-            rounded
-            icon="refresh"
-            color="pink-6"
-            size="lg"
-            text-color="white"
-            @click="redo"
-            data-testid="upload-btn"
-          ></q-btn> -->
-          <q-btn
-            class="col q-ma-xs"
-            rounded
-            text-label="Next Level"
-            icon="play_arrow"
-            color="amber-4"
-            size="lg"
-            text-color="white"
-            data-testid="upload-btn"
-            icon-class="custom-icon"
+          <IconButton
+            icon="img:/restart.svg"
+            class="col-2 q-ma-md"
+            @click="
+              retry(levelNumber-1 , settingNumber, difficulty as Difficulty)
+            "
+          />
+          <IconButton
+            icon="img:/next.svg"
+            class="col-2 q-ma-xs"
             @click="
               postCutscenes(settingNumber, levelNumber, difficulty, maxLevel)
             "
@@ -67,10 +61,9 @@ import { computed, ref } from 'vue';
 import { soundEffect } from 'src/utils/SoundUtils';
 import { useRouter } from 'vue-router';
 import { useQuasar } from 'quasar';
-
+import IconButton from './buttons/IconButton.vue';
+import { Difficulty } from 'src/types/Progress';
 const $q = useQuasar();
-
-const lottieContainer = ref();
 
 const elementsArray = computed(() =>
   Array.from(
@@ -104,12 +97,12 @@ const computeStarsToDisplay = (activityScore: number) => {
 
 const isDialogOpen = ref(false);
 
-const navigateToActivities = (settingNum: number, difficulty: string) => {
-  soundEffect();
+const retry = (level: number, setting: number, difficulty: Difficulty) => {
   return router.push({
-    name: 'activity',
-    params: { param: (difficulty + ' ' + settingNum) as string }
+    name: 'studio',
+    params: { param: level + '_' + setting + '_' + difficulty }
   });
+
 };
 
 // const redo = () => {
@@ -117,6 +110,11 @@ const navigateToActivities = (settingNum: number, difficulty: string) => {
 //   // FIXME: Add logic to bring back to the current level
 //   // location.reload();
 // };
+const atHome = () => {
+  soundEffect();
+  // FIXME: Add logic to bring back to the current level
+  return router.push('/home');
+};
 
 const postCutscenesMap = [
   ['47', '48', '49', '50', '5_6'],
@@ -167,7 +165,10 @@ const postCutscenes = (
   font-family: hitchcut;
   src: url('/fonts/Hitchcut-Regular.woff');
 }
-
+@font-face {
+  font-family: futura;
+  src: url('../css/fonts/FuturaLT.woff');
+}
 @font-face {
   font-family: GillSans;
   src: url('/fonts/GillSansInfant.woff');
@@ -185,12 +186,26 @@ const postCutscenes = (
 }
 
 .detail-text {
-  color: #e4b304;
-  font-family: GillSans;
+  color: rgb(70, 68, 68);
+  font-family: 'futura';
+  background-color: rgb(255, 249, 165);
+  border-radius: 30px;
+  margin-left: 50px;
+  margin-right: 50px;
 }
 
 .stars {
   animation: RewardsAnimation 6s ease 0s infinite normal forwards;
+}
+
+.level-label {
+  font-family: 'futura';
+  color: grey;
+}
+
+.detail-title {
+  font-family: 'futura';
+  color: grey;
 }
 @keyframes RewardsAnimation {
   0%,
@@ -200,7 +215,7 @@ const postCutscenes = (
   }
 
   10% {
-    transform: rotate(5deg);
+    transform: rotate(10deg);
   }
 
   20%,
@@ -212,7 +227,7 @@ const postCutscenes = (
   30%,
   50%,
   70% {
-    transform: rotate(5deg);
+    transform: rotate(10deg);
   }
 
   80% {

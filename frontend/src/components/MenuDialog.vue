@@ -36,7 +36,7 @@
       >
       </q-card-section>
       <q-card-section class="centered q-mb-lg" v-if="path !== '/home'">
-        <HomeButton class="q-pa-xs" />
+        <IconButton icon="img:/home.svg" @click='atHome' class="col-2 q-pa-xs" />
         <RobotConnectButton
           class="q-pa-xs"
           :loading-handler="
@@ -71,7 +71,7 @@ import back from '../assets/sounds/back.mp3';
 import RobotConnectButton from './buttons/RobotConnectButton.vue';
 import { soundEffect } from 'src/utils/SoundUtils';
 import { ref } from 'vue';
-import HomeButton from './buttons/HomeButton.vue';
+import IconButton from './buttons/IconButton.vue';
 const findingRobotDialog = ref(false);
 const isPairingDialog = ref(false);
 
