@@ -16,9 +16,7 @@
       <div>
         <q-card-section align="center" v-if="correct">
           <div class="text-h2 correct-text">CORRECT!</div>
-          <div class="text-h6 detail-text">
-            Upload your progam to collect coins.
-          </div>
+          <div class="text-h6 detail-text">Congratulations!!!</div>
         </q-card-section>
         <q-card-section align="center" v-else-if="!correct">
           <div class="text-h2 incorrect-text">INCORRECT</div>
@@ -29,12 +27,11 @@
       </div>
       <q-card-section align="center">
         <ActionButton
-          text-label="UPLOAD"
+          :text-label="correct ? 'DONE' : 'TRY AGAIN'"
           color="amber-4"
           text-color="blue"
-          @click="onCorrect"
+          @click="onClick"
           data-testid="upload-btn"
-          :is-disabled="!correct"
         />
       </q-card-section>
     </q-card>
@@ -42,13 +39,22 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, defineEmits } from 'vue';
 import ActionButton from './buttons/ActionButton.vue';
 
-defineProps<{
+const props = defineProps<{
   correct: boolean;
-  onCorrect: () => void;
 }>();
+
+const emits = defineEmits<{ (e: 'done'): void; (e: 'tryAgain'): void }>();
+
+const onClick = () => {
+  if (props.correct) {
+    emits('done');
+  } else {
+    emits('tryAgain');
+  }
+};
 
 const isDialogOpen = ref(false);
 </script>
