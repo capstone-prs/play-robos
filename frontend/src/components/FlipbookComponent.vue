@@ -9,6 +9,8 @@
       ref="flipbook"
       @flip-right-end="onFlipRightEnd"
       @flip-right-start="onFlipRightStart"
+      @flip-left-end="onFlipLeftEnd"
+      @flip-left-start="onFlipLeftStart"
     />
   </div>
 
@@ -54,7 +56,7 @@
 
 <script setup lang="ts">
 import Flipbook from 'flipbook-vue';
-import { onMounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import ActionButton from './buttons/ActionButton.vue';
 import {
@@ -161,7 +163,32 @@ const onFlipRightEnd = (page: number) => {
   }
 };
 
+const onFlipLeftEnd = (page: number) => {
+  introNarrations.value.forEach((introNarration) => {
+    if (
+      introNarrations.value.indexOf(introNarration) === settingNum.value &&
+      splitParams.length === 4
+    ) {
+      howler.value = narrator(introNarration[page - 1]);
+      howler.value.play();
+    }
+  });
+
+  if (splitParams.length === 6) {
+    postNarrations.value.forEach((postNarration) => {
+      if (postNarrations.value.indexOf(postNarration) === settingNum.value) {
+        howler.value = narrator(postNarration[page + 3]);
+        howler.value.play();
+      }
+    });
+  }
+};
+
 const onFlipRightStart = () => {
+  howler.value?.stop();
+};
+
+const onFlipLeftStart = () => {
   howler.value?.stop();
 };
 
@@ -241,6 +268,10 @@ const inlevelpages = scenes.slice(startPage, startPage + 1);
 
 onMounted(() => {
   show.value = true;
+});
+
+onUnmounted(() => {
+  howler.value?.stop();
 });
 
 const navigateBack = (setting: number, level: number, difficulty: string) => {

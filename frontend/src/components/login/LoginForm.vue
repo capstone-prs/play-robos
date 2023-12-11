@@ -162,7 +162,6 @@ const submit = () => {
         })
     )
     .catch(() => {
-      console.log(data.email.value, data.password.value);
       isSubmitted.value = false;
       soundEffect(errorSnd);
       data.isError.value = true;

@@ -27,12 +27,39 @@
             </div>
           </q-linear-progress>
           <div class="q-mt-lg">
-            <q-table
-              title="Gradebook"
-              :rows="rows"
-              :columns="columns"
-              row-key="name"
-            />
+            <q-table :rows="rows" :columns="columns" row-key="name" />
+          </div>
+          <div class="q-mt-lg">
+            <q-card class="q-pa-sm">
+              <q-card-section class="text-h6">
+                <q-icon name="info" size="md" color="blue" />
+                More About Computational Thinking...
+                <q-separator />
+              </q-card-section>
+              <q-card-section class="q-pt-none">
+                <div class="row">
+                  <div class="col-2 text-h6 text-style" align="center">
+                    <q-icon name="img:pattern.svg" size="80px" />
+                  </div>
+                  <div class="col-4 text-justify">
+                    Pattern Recognition is one of the fundamental elements of
+                    Computational Thinking. It involves finding the similarities
+                    or patterns among small, decomposed problems that can help
+                    us solve more complex problems more efficiently.
+                  </div>
+                  <div class="col-2 text-h6 text-style" align="center">
+                    <q-icon name="img:decomposition.svg" size="80px" />
+                  </div>
+                  <div class="col-4 text-justify">
+                    Decomposition is a fundamental concept in computational
+                    thinking that involves breaking down complex problems into
+                    smaller, more manageable parts. It is a problem-solving
+                    approach that allows individuals to tackle intricate tasks
+                    by dividing them into simpler subtasks.
+                  </div>
+                </div>
+              </q-card-section>
+            </q-card>
           </div>
         </div>
       </div>
@@ -41,34 +68,12 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import { LocalData } from '../types/Progress';
+import { ref } from 'vue';
 import { QTableColumn } from 'quasar';
 
 const userScore = ref(0);
 const percentage = (userScore.value / 3000) * 1000;
 let rows: any[] = [];
-
-onMounted(() => {
-  const storedDataString = localStorage.getItem('localData');
-  const storedUserData: LocalData = storedDataString
-    ? JSON.parse(storedDataString)
-    : null;
-
-  userScore.value = storedUserData.score;
-  rows = storedUserData.activityProgress.map((progress) => {
-    return {
-      activity: `S${progress.activity.setting + 1}-L${progress.activity.id}`,
-      difficulty: progress.activity.difficulty,
-      duration: progress.duration,
-      attempt: progress.attempt,
-      decomposition: progress.decomposition,
-      pattern: progress.pattern,
-    };
-  });
-
-  console.log(rows);
-});
 
 const columns: QTableColumn[] = [
   {
@@ -92,19 +97,19 @@ const columns: QTableColumn[] = [
   {
     name: 'attempt',
     align: 'center',
-    label: 'Attempt',
+    label: 'No. of Attempt',
     field: 'attempt',
   },
   {
     name: 'decomposition',
     align: 'center',
-    label: 'Decomposition %',
+    label: 'Decomposition (%)',
     field: 'decomposition',
   },
   {
     name: 'pattern',
     align: 'center',
-    label: 'Pattern %',
+    label: 'Pattern (%)',
     field: 'pattern',
   },
 ];

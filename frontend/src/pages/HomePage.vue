@@ -133,8 +133,8 @@ import { useRouter } from 'vue-router';
 import animationData from '../../public/bgs/bg-animation.json';
 import { lottieBackgroundLoader } from '../utils/lottieUtils';
 import { startHomeOnboarding } from '../onboarding/studioOnboarding';
+import { soundEffect } from '../utils/SoundUtils';
 
-import { soundEffect } from '../../../frontend/src/utils/SoundUtils';
 const $q = useQuasar();
 // const isMenuDialogVisible = ref(false);
 const isAgeGroupDialogVisible = ref(false);
