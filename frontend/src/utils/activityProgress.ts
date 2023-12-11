@@ -23,8 +23,8 @@ export const addLocalActivityProgress = (progress: ActivityProgress) => {
 
   localStorage.setItem('localData', JSON.stringify(storedUserData));
   return solveActivityScore(
-    solveAttemptScore(progress.attempt),
-    solveDurationScore(progress.duration),
+    progress.attempt,
+    progress.duration,
     progress.decomposition,
     progress.decomposition
   );

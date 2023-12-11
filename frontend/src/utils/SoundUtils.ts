@@ -66,7 +66,7 @@ import page47Sound from '../assets/sounds/narrator/page47.mp3';
 
 const $q = useQuasar();
 export const musicFX = ref<boolean>(
-  ($q?.localStorage.getItem('fx-sound') as boolean) || false
+  ($q?.localStorage.getItem('fx-sound') as boolean) || true
 );
 export const musicBackground = ref<boolean>(
   ($q?.localStorage.getItem('bg-sound') as boolean) || false

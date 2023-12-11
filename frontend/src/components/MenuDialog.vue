@@ -5,52 +5,38 @@
     style="background-color: transparent"
   >
     <q-card>
-      <q-card-section class="row items-center card-title" style="width: 400px">
-        <div class="text-h4 futura">Menu</div>
+      <q-card-section
+        class="row card-title"
+        style="width: 400px; justify-content: center"
+      >
+        <div class="row text-h4 futura">
+          <q-btn flat @click="atBack">
+            <q-icon name="arrow_back" color="white" />
+          </q-btn>
+        </div>
         <q-space />
-        <q-btn
-          data-cy="close-btn"
-          icon="close"
-          color="white"
-          size="md"
-          flat
-          v-close-popup
-        />
+        <div class="row text-h4 futura">Menu</div>
+        <q-space />
+        <div class="">
+          <q-btn
+            data-cy="close-btn"
+            icon="close"
+            color="white"
+            size="md"
+            flat
+            v-close-popup
+          />
+        </div>
       </q-card-section>
-
       <q-card-section class="centered q-mb-none" v-if="path !== '/home'">
       </q-card-section>
       <q-card-section
-        class="centered q-pa-none q-mb-md"
+        class="centered q-pa-none q-mb-none"
         v-if="path !== '/home'"
       >
       </q-card-section>
-      <q-card-section
-        class="centered q-pa-none q-mb-md"
-        v-if="path !== '/home'"
-      >
-        <div class="q-pa-xs">
-          <q-btn
-            @click="atBack"
-            color="purple"
-            class="glossy hitchcut"
-            size="lg"
-            rounded
-          >
-            <q-icon name="arrow_back" />
-          </q-btn>
-        </div>
-        <div class="q-pa-xs">
-          <q-btn
-            @click="atHome"
-            color="pink-12"
-            class="glossy hitchcut"
-            size="lg"
-            rounded
-          >
-            <q-icon name="home" />
-          </q-btn>
-        </div>
+      <q-card-section class="centered q-mb-lg" v-if="path !== '/home'">
+        <HomeButton class="q-pa-xs" />
         <RobotConnectButton
           class="q-pa-xs"
           :loading-handler="
@@ -72,32 +58,20 @@
           <MusicButton />
         </div>
       </q-card-section>
-      <q-card-section class="centered q-pa-none q-mb-md">
-        <ActionButton
-          text-label="Logout"
-          @click="openLogoutDialog"
-          data-cy="logout-btn"
-        />
-        <LogoutDialog v-model="isLogoutDialogVisible" data-cy="logout-dialog" />
-      </q-card-section>
-
-      <div class="col q-pl-sm">
-        <FindingDialog v-model="findingRobotDialog" />
-        <PairingDialog v-model="isPairingDialog" />
-      </div>
+      <FindingDialog v-model="findingRobotDialog" />
+      <PairingDialog v-model="isPairingDialog" />
     </q-card>
   </q-dialog>
 </template>
 
 <script setup lang="ts">
-import LogoutDialog from './LogoutDialog.vue';
-import ActionButton from './buttons/ActionButton.vue';
 import MusicButton from './buttons/MusicButton.vue';
 import SoundButton from './buttons/SoundButton.vue';
 import back from '../assets/sounds/back.mp3';
 import RobotConnectButton from './buttons/RobotConnectButton.vue';
 import { soundEffect } from 'src/utils/SoundUtils';
 import { ref } from 'vue';
+import HomeButton from './buttons/HomeButton.vue';
 const findingRobotDialog = ref(false);
 const isPairingDialog = ref(false);
 
@@ -110,11 +84,7 @@ defineProps({
   dataForHomepage: String
 });
 
-const isLogoutDialogVisible = ref(false);
 const showDialog = ref(false);
-const openLogoutDialog = () => {
-  isLogoutDialogVisible.value = true;
-};
 
 const atHome = () => {
   soundEffect();

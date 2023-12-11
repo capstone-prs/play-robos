@@ -1,6 +1,6 @@
 <template>
     <q-dialog v-model="isDialogOpen" persistent>
-      <q-card class="q-pa-md" style="width: 100%; height: 100% CLaa" >
+      <q-card class="q-pa-md" style="width: 100%; height: 70% " >
            
         <q-card-section class="q-pt-lg q-pm-none q-pa" align="center">
             <div class="text-h2 incorrect-text">GameOver</div>
@@ -30,7 +30,7 @@
             data-testid="upload-btn"
             @click="retry"
           ></q-btn>
-          <q-btn
+          <!-- <q-btn
             class="col q-ma-xs"
             rounded
             text-label="100"
@@ -41,7 +41,7 @@
             data-testid="upload-btn"
             @click="navigateHome"
 
-          />
+          /> -->
         </div>
       </q-card>
     </q-dialog>
@@ -52,7 +52,7 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 const isDialogOpen = ref(false)
-
+// soundEffect(gameoverSnd);
 const router = useRouter()
   const retry = () => {
     localStorage.removeItem('lives');
@@ -62,9 +62,9 @@ const navigateBack = () => {
   localStorage.removeItem('lives');
      router.go(-1);
 }
-const navigateHome = () => {
-  localStorage.removeItem('lives');
-    router.push('/home')
-}
+// const navigateHome = () => {
+//   localStorage.removeItem('lives');
+//     router.push('/home')
+// }
 
 </script>

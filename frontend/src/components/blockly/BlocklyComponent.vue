@@ -14,7 +14,7 @@
           <LevelGoalPreview
             v-model="isDialogOpen.preview"
             :level-setting="thisSetting"
-            :level-num="levelNum"
+            :level-num="levelNum-1"
             @ended="
               () => {
                 setDialog('preview', false);

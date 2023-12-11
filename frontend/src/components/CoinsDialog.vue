@@ -1,25 +1,27 @@
 <template>
   <q-dialog v-model="isDialogOpen">
-    <q-card class="q-ma-lg" style="width: 200%; height: 70%">
+    <q-card class="q-ma-lg" style="width: 200%; height: 85%">
       <div ref="lottieContainer"></div>
-
-      <div class="q-pt-lg">
-        <q-card-section class="col" align="center">
-          <div class="text-h3 correct-text">CONGRATULATIONS!</div>
-          <div class="text-h4 detail-text q-pt-md">
-            YOU WON <q-icon name="img:/coin-bag.svg" />{{ coins }}!
-          </div>
-        </q-card-section>
-      </div>
-
-      <q-card-section class="row fix-center" align="center">
-        <div class="stars" v-for="index in elementsArray" :key="index">
-          <q-icon name="stars" size="60px" color="amber-5" />
+      <q-card-section class="q-pt-lg" align="center">
+        <div class="text-h3 correct-text">CONGRATULATIONS!</div>
+        <div class="text-h4 detail-text q-pt-md">
+          YOU WON <q-icon name="img:/coin-bag.svg" />{{ coins }}!
         </div>
       </q-card-section>
-
+      <q-card-section class="q-pa-xs" align="center">
+        <div class="stars row justify-center items-center">
+          <q-icon
+            class="col-2"
+            v-for="index in elementsArray"
+            :key="index"
+            name="stars"
+            size="60px"
+            color="amber-5"
+          />
+        </div>
+      </q-card-section>
       <q-card-section align="center">
-        <div class="row q-pa-xl">
+        <div class="row q-pa-none">
           <q-btn
             class="col q-ma-xs"
             @click="navigateToActivities(settingNumber, difficulty)"
@@ -30,7 +32,7 @@
             size="lg"
             data-testid="upload-btn"
           />
-          <q-btn
+          <!-- <q-btn
             class="col q-ma-xs"
             rounded
             icon="refresh"
@@ -39,7 +41,7 @@
             text-color="white"
             @click="redo"
             data-testid="upload-btn"
-          ></q-btn>
+          ></q-btn> -->
           <q-btn
             class="col q-ma-xs"
             rounded
@@ -106,22 +108,22 @@ const navigateToActivities = (settingNum: number, difficulty: string) => {
   soundEffect();
   return router.push({
     name: 'activity',
-    params: { param: (difficulty + ' ' + settingNum) as string },
+    params: { param: (difficulty + ' ' + settingNum) as string }
   });
 };
 
-const redo = () => {
-  soundEffect();
-  // FIXME: Add logic to bring back to the current level
-  // location.reload();
-};
+// const redo = () => {
+//   soundEffect();
+//   // FIXME: Add logic to bring back to the current level
+//   // location.reload();
+// };
 
 const postCutscenesMap = [
   ['47', '48', '49', '50', '5_6'],
   ['51', '52', '53', '54', '13_14'],
   ['55', '56', '57', '58', '20_27'],
   ['59', '60', '61', '62', '36_37'],
-  ['63', '64', '65', '66', '44_46'],
+  ['63', '64', '65', '66', '44_46']
 ];
 
 const postCutscenes = (
@@ -150,8 +152,8 @@ const postCutscenes = (
                 '_' +
                 difficulty +
                 '_' +
-                isNextSetting.value,
-            },
+                isNextSetting.value
+            }
           });
         }
       });
@@ -188,7 +190,7 @@ const postCutscenes = (
 }
 
 .stars {
-  animation: RewardsAnimation 3s ease 0s infinite normal forwards;
+  animation: RewardsAnimation 6s ease 0s infinite normal forwards;
 }
 @keyframes RewardsAnimation {
   0%,
@@ -198,23 +200,23 @@ const postCutscenes = (
   }
 
   10% {
-    transform: rotate(8deg);
+    transform: rotate(5deg);
   }
 
   20%,
   40%,
   60% {
-    transform: rotate(-10deg);
+    transform: rotate(-5deg);
   }
 
   30%,
   50%,
   70% {
-    transform: rotate(10deg);
+    transform: rotate(5deg);
   }
 
   80% {
-    transform: rotate(-8deg);
+    transform: rotate(-5deg);
   }
 
   90% {
