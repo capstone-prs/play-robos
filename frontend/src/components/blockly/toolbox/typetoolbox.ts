@@ -63,12 +63,12 @@ export const toolbox_easy: Array<ToolboxDefinition> = [
       },
       {
         kind: 'category',
-        name: 'Left Arms',
+        name: 'Left Arm',
         contents: getBlocks(setting1_easy_left_arms),
       },
       {
         kind: 'category',
-        name: 'Right Arms',
+        name: 'Right Arm',
         contents: getBlocks(setting1_easy_right_arms),
       },
       {
@@ -96,12 +96,12 @@ export const toolbox_easy: Array<ToolboxDefinition> = [
       },
       {
         kind: 'category',
-        name: 'Left Arms',
+        name: 'Left Arm',
         contents: getBlocks(setting1_easy_left_arms),
       },
       {
         kind: 'category',
-        name: 'Right Arms',
+        name: 'Right Arm',
         contents: getBlocks(setting1_easy_right_arms),
       },
       {
@@ -129,12 +129,12 @@ export const toolbox_easy: Array<ToolboxDefinition> = [
       },
       {
         kind: 'category',
-        name: 'Left Arms',
+        name: 'Left Arm',
         contents: getBlocks(setting1_easy_left_arms),
       },
       {
         kind: 'category',
-        name: 'Right Arms',
+        name: 'Right Arm',
         contents: getBlocks(setting1_easy_right_arms),
       },
       {
@@ -159,12 +159,12 @@ export const toolbox_easy: Array<ToolboxDefinition> = [
       },
       {
         kind: 'category',
-        name: 'Left Arms',
+        name: 'Left Arm',
         contents: getBlocks(setting1_easy_left_arms),
       },
       {
         kind: 'category',
-        name: 'Right Arms',
+        name: 'Right Arm',
         contents: getBlocks(setting1_easy_right_arms),
       },
       {
@@ -189,12 +189,12 @@ export const toolbox_easy: Array<ToolboxDefinition> = [
       },
       {
         kind: 'category',
-        name: 'Left Arms',
+        name: 'Left Arm',
         contents: getBlocks(setting1_easy_left_arms),
       },
       {
         kind: 'category',
-        name: 'Right Arms',
+        name: 'Right Arm',
         contents: getBlocks(setting1_easy_right_arms),
       },
       {
@@ -274,12 +274,12 @@ export const toolbox_hard: Array<ToolboxDefinition> = [
       },
       {
         kind: 'category',
-        name: 'Left Arms',
+        name: 'Left Arm',
         contents: getBlocks(setting1_easy_left_arms),
       },
       {
         kind: 'category',
-        name: 'Right Arms',
+        name: 'Right Arm',
         contents: getBlocks(setting1_easy_right_arms),
       },
       {
@@ -304,12 +304,12 @@ export const toolbox_hard: Array<ToolboxDefinition> = [
       },
       {
         kind: 'category',
-        name: 'Left Arms',
+        name: 'Left Arm',
         contents: getBlocks(setting1_easy_left_arms),
       },
       {
         kind: 'category',
-        name: 'Right Arms',
+        name: 'Right Arm',
         contents: getBlocks(setting1_easy_right_arms),
       },
       {
@@ -334,12 +334,12 @@ export const toolbox_hard: Array<ToolboxDefinition> = [
       },
       {
         kind: 'category',
-        name: 'Left Arms',
+        name: 'Left Arm',
         contents: getBlocks(setting1_easy_left_arms),
       },
       {
         kind: 'category',
-        name: 'Right Arms',
+        name: 'Right Arm',
         contents: getBlocks(setting1_easy_right_arms),
       },
       {
@@ -364,12 +364,12 @@ export const toolbox_hard: Array<ToolboxDefinition> = [
       },
       {
         kind: 'category',
-        name: 'Left Arms',
+        name: 'Left Arm',
         contents: getBlocks(setting1_easy_left_arms),
       },
       {
         kind: 'category',
-        name: 'Right Arms',
+        name: 'Right Arm',
         contents: getBlocks(setting1_easy_right_arms),
       },
       {
@@ -394,12 +394,12 @@ export const toolbox_hard: Array<ToolboxDefinition> = [
       },
       {
         kind: 'category',
-        name: 'Left Arms',
+        name: 'Left Arm',
         contents: getBlocks(setting1_easy_left_arms),
       },
       {
         kind: 'category',
-        name: 'Right Arms',
+        name: 'Right Arm',
         contents: getBlocks(setting1_easy_right_arms),
       },
       {
