@@ -1,31 +1,38 @@
 import Blockly from 'blockly';
 import forward from '../../../assets/forward.svg';
-import backward from '../../../assets/backward.svg';
-import raisHandLeft from '../../../assets/raisHandLeft.svg';
-import raisHandRight from '../../../assets/raisHandRight.svg';
-import turnRightHead from '../../../assets/turnRightHead.svg';
-import turnLeftHead from '../../../assets/turnLeftHead.svg';
+//eyes assets
+import normalArms from '../../../assets/normalArms.svg';
+import normalLook from '../../../assets/NormalLook.svg';
+import closeEyes from '../../../assets/closeEyes.svg';
 import lookLeft from '../../../assets/lookLeft.svg';
-import look from '../../../assets/look.svg';
-import lookUp from '../../../assets/lookUp.svg';
 import lookRight from '../../../assets/lookRight.svg';
-import LookUpLeft from '../../../assets/LookUpLeft.svg';
-import LookUpRight from '../../../assets/lookUpRight.svg';
+import lookUpLeft from '../../../assets/LookUpLeft.svg';
+import lookUpRight from '../../../assets/lookUpRight.svg';
 import winkRight from '../../../assets/winkRight.svg';
 import winkLeft from '../../../assets/winkLeft.svg';
-import closeEyes from '../../../assets/closeEyes.svg';
+import lookUp from '../../../assets/lookUp.svg';
 import semiClose from '../../../assets/semiCLose.svg';
-import halfRaiseRightArm from '../../../assets/halfRaiseRightArm.svg';
-import halfRaiseLeftArm from '../../../assets/halfRaiseLeftArm.svg';
-import normalArms from '../../../assets/normalArms.svg';
 import duration from '../../../assets/duration.svg';
-import normalLook from '../../../assets/NormalLook.svg';
-import raise60Right from '../../../assets/raise60.svg';
-import raise150Right from '../../../assets/raise150.svg';
-import raise120Right from '../../../assets/raise120.svg';
-import raise60Left from '../../../assets/raise60Left.svg';
-import raise150Left from '../../../assets/raiseLeft150.svg';
-import raise120Left from '../../../assets/raiseleft120.svg';
+//head assets
+import normalHead from '../../../assets/normalHead.svg';
+import turnLeftHead from '../../../assets/turnLeftHead.svg';
+import turnRightHead from '../../../assets/turnRightHead.svg';
+
+//left arm assets
+import raiseLeft60 from '../../../assets/raiseLeft60.svg';
+import raiseLeft90 from '../../../assets/raiseLeft90.svg';
+import raiseLeft120 from '../../../assets/raiseleft120.svg';
+import raiseLeft150 from '../../../assets/raiseLeft150.svg';
+import raiseLeft180 from '../../../assets/raiseLeft180.svg';
+
+//right arm assets
+import raiseRight60 from '../../../assets/raiseRight60.svg';
+import raiseRight90 from '../../../assets/raiseRight90.svg';
+import raiseRight120 from '../../../assets/raiseRight120.svg';
+import raiseRight150 from '../../../assets/raiseRight150.svg';
+import raiseRight180 from '../../../assets/raiseRight180.svg';
+import backward from '../../../assets/backward.svg';
+
 Blockly.defineBlocksWithJsonArray([
   {
     type: 'normal_look',
@@ -33,7 +40,7 @@ Blockly.defineBlocksWithJsonArray([
     args0: [
       {
         type: 'field_image',
-        src: look,
+        src: normalLook,
         width: 25,
         height: 25,
         alt: '*',
@@ -128,7 +135,7 @@ Blockly.defineBlocksWithJsonArray([
     args0: [
       {
         type: 'field_image',
-        src: LookUpLeft,
+        src: lookUpLeft,
         width: 25,
         height: 25,
         alt: '*',
@@ -251,7 +258,7 @@ Blockly.defineBlocksWithJsonArray([
     args0: [
       {
         type: 'field_image',
-        src: LookUpRight,
+        src: lookUpRight,
         width: 25,
         height: 25,
         alt: '*',
@@ -265,167 +272,82 @@ Blockly.defineBlocksWithJsonArray([
     helpUrl: '',
   },
   {
-    'type': 'all_parts',
-    'message0': 'Duration: %1 sec %2 eyes %3 head %4 left arm %5 right arm %6 left leg %7 right leg %8',
-    'args0': [
+    type: 'all_parts',
+    message0:
+      'eyes %1 head %2 left arm %3 right arm %4 left leg %5 right leg %6',
+    args0: [
       {
-        'type': 'field_dropdown',
-        'name': 'NAME',
-        'options': [
-          [
-            '1',
-            '1'
-          ],
-          [
-            '2',
-            '2'
-          ],
-          [
-            '3',
-            '3'
-          ],
-          [
-            '4',
-            '4'
-          ],
-          [
-            '5',
-            '5'
-          ],
-          [
-            '6',
-            '6'
-          ],
-          [
-            '7',
-            '7'
-          ],
-          [
-            '8',
-            '8'
-          ],
-          [
-            '9',
-            '9'
-          ],
-          [
-            '0',
-            '0'
-          ],
-          [
-            '0.5',
-            '0.5'
-          ]
-        ]
+        type: 'input_statement',
+        name: 'eyes',
+        check: 'eye',
       },
       {
-        'type': 'input_dummy'
+        type: 'input_statement',
+        name: 'head',
+        check: 'head',
       },
       {
-        'type': 'input_statement',
-        'name': 'eyes',
-        'check': 'eye'
+        type: 'input_statement',
+        name: 'left_arm',
       },
       {
-        'type': 'input_statement',
-        'name': 'head',
-        'check': 'head'
+        type: 'input_statement',
+        name: 'right_arm',
       },
       {
-        'type': 'input_statement',
-        'name': 'left_arm'
+        type: 'input_statement',
+        name: 'left_leg',
       },
       {
-        'type': 'input_statement',
-        'name': 'right_arm'
+        type: 'input_statement',
+        name: 'right_leg',
       },
-      {
-        'type': 'input_statement',
-        'name': 'left_leg'
-      },
-      {
-        'type': 'input_statement',
-        'name': 'right_leg'
-      }
     ],
-    'previousStatement': null,
-    'nextStatement': null,
-    'colour': 40,
-    'tooltip': '',
-    'helpUrl': ''
+    previousStatement: null,
+    nextStatement: null,
+    colour: 40,
+    tooltip: '',
+    helpUrl: '',
   },
   {
-    'type': 'time_block',
-    'message0': 'Duration:  %1 sec %2 %3',
-    'args0': [
+    type: 'time_block',
+    message0: 'Duration:  %1 sec %2 %3',
+    args0: [
       {
-        'type': 'field_dropdown',
-        'name': 'sec',
-        'options': [
-          [
-            '1',
-            '1'
-          ],
-          [
-            '2',
-            '2'
-          ],
-          [
-            '3',
-            '3'
-          ],
-          [
-            '4',
-            '4'
-          ],
-          [
-            '5',
-            '5'
-          ],
-          [
-            '6',
-            '6'
-          ],
-          [
-            '7',
-            '7'
-          ],
-          [
-            '8',
-            '8'
-          ],
-          [
-            '9',
-            '9'
-          ],
-          [
-            '0',
-            '0'
-          ],
-          [
-            '0.5',
-            '0.5'
-          ]
-        ]
+        type: 'field_dropdown',
+        name: 'sec',
+        options: [
+          ['1', '1'],
+          ['2', '2'],
+          ['3', '3'],
+          ['4', '4'],
+          ['5', '5'],
+          ['6', '6'],
+          ['7', '7'],
+          ['8', '8'],
+          ['9', '9'],
+          ['0', '0'],
+          ['0.5', '0.5'],
+        ],
       },
       {
-        'type': 'field_image',
-        'src': duration,
-        'width': 20,
-        'height': 20,
-        'alt': '*',
-        'flipRtl': false
+        type: 'field_image',
+        src: duration,
+        width: 20,
+        height: 20,
+        alt: '*',
+        flipRtl: false,
       },
       {
-        'type': 'input_statement',
-        'name': 'duration'
-      }
+        type: 'input_statement',
+        name: 'duration',
+      },
     ],
-    'previousStatement': null,
-    'nextStatement': null,
-    'colour': 60,
-    'tooltip': '',
-    'helpUrl': ''
+    previousStatement: null,
+    nextStatement: null,
+    colour: 60,
+    tooltip: '',
+    helpUrl: '',
   },
   {
     type: 'right_wheel_forward',
@@ -512,7 +434,7 @@ Blockly.defineBlocksWithJsonArray([
     args0: [
       {
         type: 'field_image',
-        src: normalLook,
+        src: normalHead,
         width: 25,
         height: 25,
         alt: '*',
@@ -544,15 +466,16 @@ Blockly.defineBlocksWithJsonArray([
     tooltip: '',
     helpUrl: '',
   },
+
   {
     type: 'normal_right_arm',
     message0: 'normal right arm %1',
     args0: [
       {
         type: 'field_image',
-        src: 'https://www.gstatic.com/codesite/ph/images/star_on.gif',
-        width: 15,
-        height: 15,
+        src: normalArms,
+        width: 25,
+        height: 25,
         alt: '*',
         flipRtl: false,
       },
@@ -564,12 +487,31 @@ Blockly.defineBlocksWithJsonArray([
     helpUrl: '',
   },
   {
+    type: 'normal_left_arm',
+    message0: 'normal left arm %1',
+    args0: [
+      {
+        type: 'field_image',
+        src: normalArms,
+        width: 25,
+        height: 25,
+        alt: '*',
+        flipRtl: false,
+      },
+    ],
+    previousStatement: null,
+    nextStatement: null,
+    colour: 45,
+    tooltip: '',
+    helpUrl: '',
+  },
+  {
     type: 'raise_left_arm_60_',
     message0: 'raise left arm 60° %1',
     args0: [
       {
         type: 'field_image',
-        src: raise60Left,
+        src: raiseLeft60,
         width: 25,
         height: 25,
         alt: '*',
@@ -588,7 +530,7 @@ Blockly.defineBlocksWithJsonArray([
     args0: [
       {
         type: 'field_image',
-        src: raisHandLeft,
+        src: raiseLeft180,
         width: 25,
         height: 25,
         alt: '*',
@@ -607,7 +549,7 @@ Blockly.defineBlocksWithJsonArray([
     args0: [
       {
         type: 'field_image',
-        src: raise150Left,
+        src: raiseLeft150,
         width: 25,
         height: 25,
         alt: '*',
@@ -626,7 +568,7 @@ Blockly.defineBlocksWithJsonArray([
     args0: [
       {
         type: 'field_image',
-        src: raise120Left,
+        src: raiseLeft120,
         width: 25,
         height: 25,
         alt: '*',
@@ -645,7 +587,7 @@ Blockly.defineBlocksWithJsonArray([
     args0: [
       {
         type: 'field_image',
-        src: raise60Right,
+        src: raiseRight60,
         width: 25,
         height: 25,
         alt: '*',
@@ -664,7 +606,7 @@ Blockly.defineBlocksWithJsonArray([
     args0: [
       {
         type: 'field_image',
-        src: raise120Right,
+        src: raiseRight120,
         width: 25,
         height: 25,
         alt: '*',
@@ -683,7 +625,7 @@ Blockly.defineBlocksWithJsonArray([
     args0: [
       {
         type: 'field_image',
-        src: raise150Right,
+        src: raiseRight150,
         width: 25,
         height: 25,
         alt: '*',
@@ -702,7 +644,7 @@ Blockly.defineBlocksWithJsonArray([
     args0: [
       {
         type: 'field_image',
-        src: raisHandRight,
+        src: raiseRight180,
         width: 25,
         height: 25,
         alt: '*',
@@ -721,7 +663,7 @@ Blockly.defineBlocksWithJsonArray([
     args0: [
       {
         type: 'field_image',
-        src: halfRaiseRightArm,
+        src: raiseRight90,
         width: 25,
         height: 25,
         alt: '*',
@@ -740,7 +682,7 @@ Blockly.defineBlocksWithJsonArray([
     args0: [
       {
         type: 'field_image',
-        src: halfRaiseLeftArm,
+        src: raiseLeft90,
         width: 25,
         height: 25,
         alt: '*',

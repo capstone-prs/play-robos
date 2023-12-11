@@ -12,6 +12,7 @@
     "dev": "quasar dev",
     "dev:android": "npx quasar dev -m cordova -T android",
     "build": "quasar build",
+    "build:android": "quasar build -m android",
     "test:unit:ui": "vitest --ui",
     "test:unit": "vitest",
     "test:unit:ci": "vitest run",

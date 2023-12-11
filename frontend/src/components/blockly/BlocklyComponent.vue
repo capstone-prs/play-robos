@@ -14,8 +14,13 @@
           <LevelGoalPreview
             v-model="isDialogOpen.preview"
             :level-setting="thisSetting"
-            :level-num="levelNum"
-            @ended="() => setDialog('preview', false)"
+            :level-num="levelNum - 1"
+            @ended="
+              () => {
+                setDialog('preview', false);
+                setupBtListeners();
+              }
+            "
           />
           <ReconnectDialog
             :level-setting="thisSetting"
@@ -25,12 +30,8 @@
           <CheckDialog
             v-model="isDialogOpen.check"
             :correct="isEqualCodes(correctCodes, blocklyGenerator())"
-            :onCorrect="
-              () => {
-                setDialog('menu', false);
-                write();
-              }
-            "
+            @done="checkDone"
+            @try-again="() => setDialog('check', false)"
           />
           <HintDialog
             v-model="isDialogOpen.hint"
@@ -149,8 +150,7 @@
           icon="upload"
           @click="
             () => {
-              setDialog('check');
-              livesCost();
+              write();
             }
           "
           data-cy="check-btn"
@@ -452,10 +452,15 @@ onMounted(() => {
       return false;
     }
   });
-  setupBtListeners();
   setDialog('preview');
 });
 
+const checkDone = () => {
+  setDialog('menu', false);
+  coinsComputed();
+  localStorage.removeItem('failed-attemps');
+  localStorage.removeItem('lives');
+};
 onUnmounted(() => {
   clearInterval(disconnectListener.value);
 });
@@ -490,22 +495,22 @@ const endProgressNotify = () => {
   $q.loading.hide();
 
   if (taskStatus.value === 'success') {
-    coinsComputed();
     soundEffect(success);
     $q.notify({
       type: 'positive',
       message: 'Uploading done!',
       timeout: 1000,
     });
-    localStorage.removeItem('failed-attemps');
-    localStorage.removeItem('lives');
-    //FIXME: doubled sound
-    //code for UI COINS
+
+    setDialog('check');
+    livesCost();
+
     taskStatus.value = 'none';
     // To-verify: when the execution is successful, it will unlock the next level
   } else if (taskStatus.value === 'error' || taskStatus.value === 'started') {
     $q.notify({
       type: 'negative',
+      message: 'Upload Failed',
       spinner: false,
       timeout: 1500,
     });

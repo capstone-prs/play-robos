@@ -129,7 +129,7 @@ javascriptGenerator.forBlock['all_parts'] = function (
     'left_leg',
     'right_leg',
   ];
-  const duration = block.getFieldValue('NAME');
+  // const duration = block.getFieldValue('NAME');
 
   const collatedCode = blockNames.reduce((previous, blockName) => {
     const blockValue = generator.statementToCode(block, blockName);
@@ -144,7 +144,7 @@ javascriptGenerator.forBlock['all_parts'] = function (
   }, {} as { [key: string]: string });
 
   if (Object.keys(collatedCode).length !== 0) {
-    return JSON.stringify({ ...collatedCode, duration });
+    return JSON.stringify({ ...collatedCode });
   }
 
   return '';

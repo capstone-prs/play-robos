@@ -35,16 +35,17 @@
               rounded
               outlined
               v-model="data.birthdate.model.value"
-              type="date"
+              type="text"
               label="Birthday"
               :rules="data.birthdate.rules"
+              placeholder="YYYY/MM/DD"
               lazyRules
+              mask="date"
             >
               <template v-slot:prepend>
                 <q-icon name="cake" />
               </template>
             </q-input>
-
             <q-select
               class="authInputsSmall"
               rounded
@@ -154,7 +155,6 @@
           ></ActionButton>
         </div>
         <VerifyDIalog v-model="verfyopen" />
-        <q-btn @click="open()" />
       </div>
     </form>
   </div>
@@ -190,9 +190,7 @@ const triggerNotify = (type: string, message: string) => {
   });
 };
 const verfyopen = ref(false);
-const open = () => {
-  verfyopen.value = true;
-};
+
 const validateRePassword = (val: string) =>
   validate('REPASSWORD', data.password.model.value ?? '')(val);
 
