@@ -1,22 +1,25 @@
 <template>
   <div>
     <q-btn round>
-      <q-icon
-        name="img:/home.svg"
-        size="50px"
-        @click="click"
-      />
+      <q-icon :name="icon" size="50px" @click="click" />
     </q-btn>
   </div>
 </template>
 
 <script setup lang="ts">
 import { soundEffect } from '../../utils/SoundUtils';
-import { useRouter } from 'vue-router';
 
-const router = useRouter();
+defineProps({
+    icon:{
+      type:String,
+      required:true
+    }
+})
+
+// })
+// const router = useRouter();
 const click = () => {
   soundEffect();
-  return router.push('/home');
+  // return router.push('/home');
 };
 </script>
