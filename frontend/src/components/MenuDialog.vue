@@ -105,9 +105,11 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 const path = router.currentRoute.value.path;
-defineProps({
+const props = defineProps({
   value: Boolean,
-  dataForHomepage: String
+  dataForHomepage: String,
+  difficulty: String,
+  settingNo: Number,
 });
 
 const isLogoutDialogVisible = ref(false);
@@ -122,7 +124,10 @@ const atHome = () => {
 };
 const atBack = () => {
   soundEffect(back);
-  return router.go(-1);
+  return router.push({
+    name: 'activity',
+    params: { param: (props.difficulty + ' ' + props.settingNo) as string },
+  });
 };
 </script>
 
