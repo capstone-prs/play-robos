@@ -54,7 +54,11 @@
             "
             :is-playing="extra"
           />
-          <MenuDialog v-model="isDialogOpen.menu" />
+          <MenuDialog
+            v-model="isDialogOpen.menu"
+            :setting-no="settingNum"
+            :difficulty="ageGroup"
+          />
           <CoinsDialog
             v-model="isDialogOpen.coins"
             :coins="thisLevel.reward"
@@ -184,12 +188,7 @@ import {
 } from 'src/utils/bluetoothUtils';
 import isEqualCodes from 'src/utils/compareCode';
 import executeCodes from '../../utils/executeCodes';
-import {
-  addLocalActivityProgress,
-  initializeLocalActivityProgress,
-  solveAttemptScore,
-  solveDurationScore,
-} from '../../utils/activityProgress';
+import { localActivityProgress } from '../../utils/activityProgress';
 import { startStudioOnboarding } from '../../onboarding/studioOnboarding';
 import { settings_easy } from '../games/levels-easy';
 import { settings_hard } from '../games/levels-hard';
@@ -197,7 +196,7 @@ import generator from '../../utils/blockly';
 import lives from '../../assets/PlayRobos1.svg';
 import ExtraLives from '../../components/ExtraLivesDIalog.vue';
 // Types
-import { ActivityProgress, Difficulty, LocalData } from '../../types/Progress';
+import { Activity, Difficulty } from '../../types/Progress';
 import { TaskStatus } from '../../types/Status';
 import { Dialog } from '../../types/BlocklyDialogs';
 
@@ -212,6 +211,7 @@ import 'intro.js/introjs.css';
 // Activity Progress
 import { launchBadgeReward } from '../../utils/activityProgress';
 import BadgeDialog from '../BadgeDialog.vue';
+import { addLocalActivityProgress } from '../../dexie/db';
 
 const $q = useQuasar();
 const router = useRouter();
@@ -320,15 +320,6 @@ const undo = () => {
   }
 };
 
-const completedLevels = () => {
-  const storedDataString = localStorage.getItem('localData');
-  const storedUserData: LocalData = storedDataString
-    ? JSON.parse(storedDataString)
-    : null;
-
-  return storedUserData.activityProgress;
-};
-
 const thisSetting =
   ageGroup === 'easy' ? settings_easy[settingNum] : settings_hard[settingNum];
 
@@ -341,39 +332,54 @@ const thisLevel = thisSetting.levels[levelNum - 1];
 const correctCodes = thisLevel.correctCode;
 
 const coinsComputed = () => {
-  const dataToUpdate: ActivityProgress = {
-    activity: {
-      setting: settingNum,
-      id: levelNum,
-      difficulty: ageGroup as Difficulty,
-    },
-    duration: solveDurationScore(stopwatch.value?.totalTime ?? 0),
-    attempt: solveAttemptScore(failedAttemps.value),
-    decomposition: 100,
-    pattern: 100,
-    completed: true,
+  //data progress
+  const activityData: Activity = {
+    id: levelNum - 1,
+    title: thisLevel.goalTitle,
+    reward: thisLevel.reward,
+    setting: settingNum,
+    difficulty: ageGroup as Difficulty,
   };
+
+  const dataToUpdate = localActivityProgress(
+    activityData,
+    stopwatch.value?.totalTime ?? 0,
+    1, //atempt
+    100, // decomposition
+    100 // pattern
+  );
+
+  //indexing the data progress to dexie
+  addLocalActivityProgress(dataToUpdate)
+    .then((result) => {
+      console.log(result);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 
   soundEffect(victory); //FIXME: doubled sound
   setDialog('coins');
-  const condition = completedLevels().find(
-    (level) =>
-      level.activity.difficulty === ageGroup &&
-      level.activity.setting === settingNum &&
-      level.activity.id === levelNum
-  );
-  console.log(condition);
+  // const condition = completedLevels().find(
+  //   (level) =>
+  //     level.activity.difficulty === ageGroup &&
+  //     level.activity.setting === settingNum &&
+  //     level.activity.id === levelNum
+  // );
+
   console.log(levelNum);
-  if (condition == undefined) {
-    const activityScore = addLocalActivityProgress(dataToUpdate);
-    currentActivityScore.value = activityScore;
-    console.log('activityScore', activityScore);
-    localStorage.setItem(
-      'coin_storage',
-      (Number(coinsStorage.value) + thisLevel.reward).toString()
-    );
-  }
+  //   if (condition == undefined) {
+  //     const activityScore = addLocalActivityProgress(dataToUpdate);
+  //     currentActivityScore.value = activityScore;
+  //     console.log('activityScore', activityScore);
+  //     localStorage.setItem(
+  //       'coin_storage',
+  //       (Number(coinsStorage.value) + thisLevel.reward).toString()
+  //     );
+  //   }
+  // };
 };
+
 const openHints = () => {
   if (($q.localStorage.getItem('coin_storage') as number) >= 60) {
     $q.notify({
@@ -396,21 +402,20 @@ const openHints = () => {
 onMounted(() => {
   if (settingNum == 0 && levelNum == 1) {
     startStudioOnboarding();
-    initializeLocalActivityProgress();
   }
 
-  const badge = launchBadgeReward();
+  // const badge = launchBadgeReward();
 
-  console.log(isDialogOpen.value.badge);
-  if (badge.name === '' && badge.url === '') {
-    isDialogOpen.value.badge = false;
-  } else {
-    isDialogOpen.value.badge = badge.visible;
-  }
-  badgeName.value = badge.name ?? '';
-  badgeUrl.value = badge.url ?? '';
+  // console.log(isDialogOpen.value.badge);
+  // if (badge.name === '' && badge.url === '') {
+  //   isDialogOpen.value.badge = false;
+  // } else {
+  //   isDialogOpen.value.badge = badge.visible;
+  // }
+  // badgeName.value = badge.name ?? '';
+  // badgeUrl.value = badge.url ?? '';
 
-  console.log(launchBadgeReward().name);
+  // console.log(launchBadgeReward().name);
 
   workspace.value = inject(blocklyContainer.value, {
     // refer to typetoolbox.ts file
