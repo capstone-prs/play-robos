@@ -1,8 +1,13 @@
 import { InputForms } from '../types/signUpForm';
 
+const fiveYearsInMillis = 157680000000;
+
 export const isEmpty = (val: number | string | null) =>
   val === '' || val === null;
 // export const isValidAge = (val: number) => val >= 5 && val <= 11;
+
+export const isValidBirthDate = (val: string) =>
+  new Date(val).getTime() < Date.now() - fiveYearsInMillis;
 
 const validate = (inputForms: InputForms, prev?: string) => (val: string) => {
   if (isEmpty(val)) {
@@ -29,10 +34,12 @@ const validate = (inputForms: InputForms, prev?: string) => (val: string) => {
       return true;
 
     case 'BIRTHDATE':
-      if (new Date(val) && new Date(val).getTime() < Date.now()) {
+      if (isNaN(new Date(val).getTime())) {
+        return 'Please enter a valid date in the format YYYY/MM/DD';
+      } else if (isValidBirthDate(val)) {
         return true;
       }
-      return 'Enter a valid birthdate';
+      return 'Child must be atleast 5 years old';
 
     case 'EMAIL':
       const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;

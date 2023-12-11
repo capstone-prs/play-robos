@@ -60,8 +60,8 @@ onMounted(() => {
     renderer: 'svg',
     animationData: animationData,
     rendererSettings: {
-      preserveAspectRatio: 'xMidYMid slice' // Adjust the preserveAspectRatio as needed
-    }
+      preserveAspectRatio: 'xMidYMid slice', // Adjust the preserveAspectRatio as needed
+    },
   });
 });
 
