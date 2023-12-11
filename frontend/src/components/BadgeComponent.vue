@@ -1,14 +1,23 @@
 <template>
   <div class="row">
     <q-card
-      style="width: 150px"
+      style="width: 120px; border-radius: 30px"
       class="q-ma-md"
       v-for="index in badges"
-      :key="index.badgeName"
+      :key="index.name"
     >
       <q-card-section align="center">
-        <q-icon :name="'img:' + index.badgeUrl" size="80px" />
-        <h8 class="title" align="center">{{ index.badgeName }}</h8>
+        <q-icon
+          class="q-mb-sm"
+          :name="'img:' + index.url"
+          size="80px"
+          style="
+            background-color: rgb(236, 236, 233);
+            border-radius: 50px;
+            box-shadow: rgba(163, 163, 163, 0.55) 5px 5px 2px -3px;
+          "
+        />
+        <h8 class="title" align="center">{{ index.name }}</h8>
       </q-card-section>
     </q-card>
     <q-card-section>
@@ -25,29 +34,27 @@
 
 <script setup lang="ts">
 import { onBeforeMount } from 'vue';
-import { Badge, LocalData } from '../types/Progress';
+import { Badge } from '../types/Progress';
 
+const sampleArray = [
+  {
+    badgeName: 'Galactic Adventurer',
+    badgeUrl: '/galactic-adventurer.svg',
+    description: 'You received this after reaching 100 points.',
+  },
+];
 let badges: Badge[] = [];
-
 onBeforeMount(() => {
-  const storedDataString = localStorage.getItem('localData');
-  const storedUserData: LocalData = storedDataString
-    ? JSON.parse(storedDataString)
-    : null;
-
-  storedUserData.badgesReceived.forEach((badge) => {
+  sampleArray.forEach((badge) => {
     if (badge.badgeName != '' && badge.badgeUrl != '') {
       const newElement = {
-        badgeName: badge.badgeName,
-        badgeUrl: badge.badgeUrl,
+        name: badge.badgeName,
+        url: badge.badgeUrl,
+        description: badge.description,
       };
       badges.push(newElement);
     }
   });
-});
-
-defineProps({
-  badgeUrl: String,
 });
 </script>
 
