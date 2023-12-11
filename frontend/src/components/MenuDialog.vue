@@ -16,7 +16,6 @@
         </div>
         <q-space />
         <div class="row text-h4 futura">Menu</div>
-
         <q-space />
         <div class="">
           <q-btn
@@ -29,19 +28,15 @@
           />
         </div>
       </q-card-section>
-
       <q-card-section class="centered q-mb-none" v-if="path !== '/home'">
       </q-card-section>
       <q-card-section
-        class="centered q-pa-none q-mb-md"
+        class="centered q-pa-none q-mb-none"
         v-if="path !== '/home'"
       >
       </q-card-section>
-      <q-card-section
-        class="centered q-pa-none q-mb-md"
-        v-if="path !== '/home'"
-      >
-      <HomeButton class="q-pa-xs" />
+      <q-card-section class="centered q-mb-lg" v-if="path !== '/home'">
+        <HomeButton class="q-pa-xs" />
         <RobotConnectButton
           class="q-pa-xs"
           :loading-handler="
@@ -63,11 +58,8 @@
           <MusicButton />
         </div>
       </q-card-section>
-
-      <div class="col q-pl-sm">
-        <FindingDialog v-model="findingRobotDialog" />
-        <PairingDialog v-model="isPairingDialog" />
-      </div>
+      <FindingDialog v-model="findingRobotDialog" />
+      <PairingDialog v-model="isPairingDialog" />
     </q-card>
   </q-dialog>
 </template>
@@ -79,7 +71,7 @@ import back from '../assets/sounds/back.mp3';
 import RobotConnectButton from './buttons/RobotConnectButton.vue';
 import { soundEffect } from 'src/utils/SoundUtils';
 import { ref } from 'vue';
-import HomeButton from './buttons/HomeButton.vue'
+import HomeButton from './buttons/HomeButton.vue';
 const findingRobotDialog = ref(false);
 const isPairingDialog = ref(false);
 
