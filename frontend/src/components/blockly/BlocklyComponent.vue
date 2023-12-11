@@ -64,7 +64,7 @@
             v-model="isDialogOpen.coins"
             :coins="thisLevel.reward"
             :setting-number="settingNum"
-            :level-number="levelNum-1"
+            :level-number="levelNum"
             :difficulty="ageGroup"
             :max-level="
               ageGroup === 'easy'
