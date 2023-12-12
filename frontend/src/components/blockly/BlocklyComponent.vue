@@ -30,6 +30,7 @@
           <CheckDialog
             v-model="isDialogOpen.check"
             :correct="isEqualCodes(correctCodes, blocklyGenerator())"
+            :level-no="levelNum"
             @done="checkDone"
             @try-again="() => setDialog('check', false)"
           />
@@ -400,10 +401,6 @@ const openHints = () => {
 };
 
 onMounted(() => {
-  if (settingNum == 0 && levelNum == 1) {
-    startStudioOnboarding();
-  }
-
   // const badge = launchBadgeReward();
 
   // console.log(isDialogOpen.value.badge);
