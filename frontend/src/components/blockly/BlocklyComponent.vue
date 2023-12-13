@@ -72,6 +72,7 @@
                 ? settings_easy[settingNum].levels.length - 1
                 : settings_hard[settingNum].levels.length - 1
             "
+            :score="activityScore"
             :activity-score="currentActivityScore"
           />
           <BadgeDialog
@@ -255,6 +256,7 @@ const badge = ref<Badge>({
   url: '',
   description: '',
 });
+const activityScore = ref(0);
 
 const livesCost = () => {
   if (isEqualCodes(correctCodes, blocklyGenerator()) === false) {
@@ -369,6 +371,7 @@ const coinsComputed = () => {
     dataToUpdate.pattern
   )
     .then((result) => {
+      activityScore.value = result;
       console.log(result);
     })
     .catch((error) => {
@@ -378,11 +381,7 @@ const coinsComputed = () => {
   soundEffect(victory); //FIXME: doubled sound
   setDialog('coins');
 
-  if (badge.value.name === '' && badge.value.url === '') {
-    isDialogOpen.value.badge = false;
-  } else {
-    isDialogOpen.value.badge = true;
-  }
+  // launches the reward dialog when new reward is achieved
 
   // const condition = completedLevels().find(
   //   (level) =>
@@ -391,7 +390,6 @@ const coinsComputed = () => {
   //     level.activity.id === levelNum
   // );
 
-  console.log(levelNum);
   //   if (condition == undefined) {
   //     const activityScore = addLocalActivityProgress(dataToUpdate);
   //     currentActivityScore.value = activityScore;
@@ -430,6 +428,11 @@ onMounted(() => {
       url: result.badgeUrl,
       description: result.description,
     };
+    if (badge.value.name === '' && badge.value.url === '') {
+      isDialogOpen.value.badge = false;
+    } else {
+      isDialogOpen.value.badge = true;
+    }
   });
 
   console.log(isDialogOpen.value.badge);

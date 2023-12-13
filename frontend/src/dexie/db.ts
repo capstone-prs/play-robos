@@ -1,6 +1,7 @@
 import Dexie from 'dexie';
 import { User } from '../types/Users';
 import { Activity, ActivityProgress, Badge } from '../types/Progress';
+import { solveActivityScore } from '../utils/activityProgress';
 
 export class IndexedDB extends Dexie {
   users!: Dexie.Table<User, string>;
@@ -43,11 +44,20 @@ export const addLocalActivityProgress = async (
   attempt: number,
   decompScore: number,
   patternScore: number
-): Promise<ActivityProgress> => {
-  return new Promise<ActivityProgress>((resolve, reject) => {
+): Promise<number> => {
+  return new Promise<number>((resolve, reject) => {
     addLocalActivity(activity).then((res) => {
       const actId = res;
       console.log(activity);
+
+      const score = solveActivityScore(
+        attempt,
+        duration,
+        decompScore,
+        patternScore
+      );
+
+      updateLocalUserScore(user, score);
 
       const dataProgress = {
         userId: user,
@@ -60,7 +70,7 @@ export const addLocalActivityProgress = async (
       dexie_db.userActivityProgresses
         .add(dataProgress)
         .then(() => {
-          resolve(dataProgress);
+          resolve(score);
         })
         .catch((error) => {
           reject(error);
@@ -151,6 +161,26 @@ export const getLocalUser = async (id: string): Promise<User | undefined> => {
       .get(id)
       .then((result) => {
         resolve(result);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+export const updateLocalUserScore = async (
+  id: string,
+  score: number
+): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    dexie_db.users
+      .where('id')
+      .equals(id)
+      .modify((user) => {
+        user.score = user.score + score;
+      })
+      .then(() => {
+        resolve(id);
       })
       .catch((error) => {
         reject(error);

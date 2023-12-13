@@ -21,7 +21,7 @@
       <q-card-section align="center" class="q-pa-none">
         <div class="text-h7 detail-title">SCORE</div>
         <div class="text-h6 detail-text-coin q-mb-sm">
-          {{ coins }}
+          {{ score }}
         </div>
         <div class="text-h7 detail-title">REWARD</div>
         <div class="text-h6 detail-text-coin">
@@ -81,6 +81,7 @@ const props = defineProps<{
   difficulty: string;
   maxLevel: number;
   activityScore: number;
+  score: number;
 }>();
 
 const computeStarsToDisplay = (activityScore: number) => {

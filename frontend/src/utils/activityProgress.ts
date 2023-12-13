@@ -64,6 +64,9 @@ export const solveActivityScore = (
   console.log(patternScore);
   console.log(decompScore);
 
+  // const finalAttemptScore = solveAttemptScore(attemptScore);
+  // const finalDurationScore = solveDurationScore(durationScore);
+
   const attemptWeight = 25;
   const durationWeight = 15;
   const patternWeight = 30;
@@ -77,17 +80,18 @@ export const solveActivityScore = (
 
   const total = Math.max(0, Math.min(100, weightedSum));
 
-  addLocalScore(total);
+  console.log(total);
+  // addLocalScore(total);
   return total;
 };
 
-export const addLocalScore = (score: number) => {
-  const storedDataString = localStorage.getItem('localData');
-  const storedUserData = storedDataString ? JSON.parse(storedDataString) : null;
+// export const addLocalScore = (score: number) => {
+//   const storedDataString = localStorage.getItem('localData');
+//   const storedUserData = storedDataString ? JSON.parse(storedDataString) : null;
 
-  storedUserData.score += score;
-  localStorage.setItem('localData', JSON.stringify(storedUserData));
-};
+//   storedUserData.score += score;
+//   localStorage.setItem('localData', JSON.stringify(storedUserData));
+// };
 
 export const badgeReward = async () => {
   const currentUser = await getLocalUser(userID());
@@ -175,7 +179,11 @@ export const launchBadgeReward = async () => {
     (badge: Badge) => badge.name === badgeRew.badgeName
   );
 
-  if (determinant === undefined) {
+  if (
+    determinant === undefined &&
+    badgeRew.badgeName != '' &&
+    badgeRew.badgeUrl != ''
+  ) {
     addLocalBadge({
       name: badgeRew.badgeName,
       url: badgeRew.badgeUrl,
