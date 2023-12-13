@@ -6,8 +6,11 @@ export const isEmpty = (val: number | string | null) =>
   val === '' || val === null;
 // export const isValidAge = (val: number) => val >= 5 && val <= 11;
 
-export const isValidBirthDate = (val: string) =>
-  new Date(val).getTime() < Date.now() - fiveYearsInMillis;
+export const isValidBirthDate = (date: Date) =>
+  date.getTime() < Date.now() - fiveYearsInMillis;
+
+export const isValidLifeSpan = (date: Date) =>
+  new Date().getFullYear() - date.getFullYear() < 120;
 
 const validate = (inputForms: InputForms, prev?: string) => (val: string) => {
   if (isEmpty(val)) {
@@ -34,9 +37,15 @@ const validate = (inputForms: InputForms, prev?: string) => (val: string) => {
       return true;
 
     case 'BIRTHDATE':
-      if (isNaN(new Date(val).getTime())) {
+      const parsedInput = new Date(val);
+
+      if (isNaN(parsedInput.getTime())) {
         return 'Please enter a valid date in the format YYYY/MM/DD';
-      } else if (isValidBirthDate(val)) {
+      } else if (Number(val.split('/')[2]) !== parsedInput.getDate()) {
+        return 'Please enter a valid date';
+      } else if (!isValidLifeSpan(parsedInput)) {
+        return 'Invalid Birthdate';
+      } else if (isValidBirthDate(parsedInput)) {
         return true;
       }
       return 'Child must be atleast 5 years old';
