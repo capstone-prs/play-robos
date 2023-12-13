@@ -13,6 +13,7 @@ import {
 } from 'firebase/auth';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import getAge from '../utils/ageGetter';
+import { addLocalUser } from '../dexie/db';
 
 const auth = getAuth();
 const db = getFirestore();
@@ -50,9 +51,22 @@ export const login = (email: string, password: string): Promise<User> => {
 
         const userDocRef = doc(db, 'users', user.uid);
         const userDocSnapshot = await getDoc(userDocRef);
-
         if (userDocSnapshot.exists()) {
           const userBirthdate = userDocSnapshot.data().birthdate;
+          const userName = userDocSnapshot.data().name;
+          const userGender = userDocSnapshot.data().gender;
+          const userCoins = userDocSnapshot.data().coins;
+          const userScore = userDocSnapshot.data().score;
+
+          addLocalUser({
+            id: user.uid,
+            name: userName,
+            birthdate: userBirthdate,
+            gender: userGender,
+            coins: userCoins,
+            score: userScore,
+          });
+          console.log(userDocSnapshot.data());
 
           const difficulty =
             getAge(userBirthdate.toDate(), new Date()) >= 5 &&

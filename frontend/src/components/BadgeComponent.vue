@@ -1,10 +1,17 @@
 <template>
   <div class="row">
+    <BadgeDetails
+      :badge-name="selectedBadge.name"
+      :badge-url="selectedBadge.url"
+      :badge-desc="selectedBadge.description"
+      v-model="isDetailOpen"
+    />
     <q-card
       style="width: 120px; border-radius: 30px"
       class="q-ma-md"
-      v-for="index in badges"
+      v-for="index in allBadges"
       :key="index.name"
+      @click="openDetail(index)"
     >
       <q-card-section align="center">
         <q-icon
@@ -22,7 +29,7 @@
     </q-card>
     <q-card-section>
       <div
-        v-if="badges.length === 0"
+        v-if="allBadges.length === 0"
         class="description fixed-center"
         style="color: grey"
       >
@@ -33,27 +40,35 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount } from 'vue';
+import { onBeforeMount, ref } from 'vue';
 import { Badge } from '../types/Progress';
+import { getLocalBadges } from '../dexie/db';
+import BadgeDetails from './BadgeDetails.vue';
 
-const sampleArray = [
+const isDetailOpen = ref(false);
+
+const openDetail = (badge: Badge) => {
+  selectedBadge.value = badge;
+  isDetailOpen.value = true;
+};
+
+const allBadges = ref<Badge[]>([
   {
-    badgeName: 'Galactic Adventurer',
-    badgeUrl: '/galactic-adventurer.svg',
-    description: 'You received this after reaching 100 points.',
+    name: '',
+    url: '',
+    description: '',
   },
-];
-let badges: Badge[] = [];
+]);
+
+const selectedBadge = ref<Badge>({
+  name: '',
+  url: '',
+  description: '',
+});
+
 onBeforeMount(() => {
-  sampleArray.forEach((badge) => {
-    if (badge.badgeName != '' && badge.badgeUrl != '') {
-      const newElement = {
-        name: badge.badgeName,
-        url: badge.badgeUrl,
-        description: badge.description,
-      };
-      badges.push(newElement);
-    }
+  getLocalBadges().then((result) => {
+    allBadges.value = result;
   });
 });
 </script>

@@ -20,7 +20,7 @@ export const getUser = (id: string) =>
     }
   });
 
-export const userID = () => {
+export const userID = (): string => {
   return auth.currentUser ? auth.currentUser.uid : '0'; // FIXME:
 };
 

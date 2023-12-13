@@ -11,30 +11,61 @@ export class IndexedDB extends Dexie {
   constructor() {
     super('IndexedDB');
 
-    this.version(1).stores({
+    this.version(3).stores({
       users: 'id, name, birthdate, gender, coins, score',
-      activities: 'id, setting, difficulty',
+      activities: '++id, title, reward, setting, level, difficulty, completed',
       userActivityProgresses:
-        '++id, activity, duration, attempt, decomposition, pattern, completed',
-      badges: '++id, name, url, criterion, description',
+        '++id, user, activity, duration, attempt, decomposition, pattern',
+      badges: '++id, name, url, description',
     });
   }
 }
 
 export const dexie_db = new IndexedDB();
 
-export const addLocalActivityProgress = async (
-  progress: ActivityProgress
-): Promise<ActivityProgress> => {
-  return new Promise<ActivityProgress>((resolve, reject) => {
-    dexie_db.userActivityProgresses
-      .add(progress)
-      .then(() => {
-        resolve(progress);
+export const addLocalActivity = async (activity: Activity) => {
+  return new Promise<number>((resolve, reject) => {
+    dexie_db.activities
+      .add(activity)
+      .then((res) => {
+        resolve(res);
       })
       .catch((error) => {
         reject(error);
       });
+  });
+};
+
+export const addLocalActivityProgress = async (
+  user: string,
+  activity: Activity,
+  duration: number,
+  attempt: number,
+  decompScore: number,
+  patternScore: number
+): Promise<ActivityProgress> => {
+  return new Promise<ActivityProgress>((resolve, reject) => {
+    addLocalActivity(activity).then((res) => {
+      const actId = res;
+      console.log(activity);
+
+      const dataProgress = {
+        userId: user,
+        activityId: actId,
+        duration: duration,
+        attempt: attempt,
+        decomposition: decompScore,
+        pattern: patternScore,
+      };
+      dexie_db.userActivityProgresses
+        .add(dataProgress)
+        .then(() => {
+          resolve(dataProgress);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
   });
 };
 
@@ -56,6 +87,68 @@ export const getLocalBadges = async (): Promise<Badge[]> => {
     const collection = dexie_db.badges;
     collection
       .toArray()
+      .then((result) => {
+        resolve(result);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+export const addLocalUser = async (user: User): Promise<User> => {
+  const existingUser = await dexie_db.users.get(user.id || '');
+
+  return new Promise<User>((resolve, reject) => {
+    if (!existingUser) {
+      dexie_db.users
+        .add(user)
+        .then(() => {
+          resolve(user);
+        })
+        .catch((error) => {
+          console.log(error.name);
+          reject(error);
+        });
+    }
+  });
+};
+
+export const getLocalActivityProgress = async (): Promise<
+  ActivityProgress[]
+> => {
+  return new Promise<ActivityProgress[]>((resolve, reject) => {
+    const collection = dexie_db.userActivityProgresses;
+    collection
+      .toArray()
+      .then((result) => {
+        resolve(result);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+export const getLocalActivities = async (): Promise<Activity[]> => {
+  return new Promise<Activity[]>((resolve, reject) => {
+    const collection = dexie_db.activities;
+
+    collection
+      .toArray()
+      .then((result) => {
+        resolve(result);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+export const getLocalUser = async (id: string): Promise<User | undefined> => {
+  return new Promise<User | undefined>((resolve, reject) => {
+    dexie_db.users
+      .get(id)
       .then((result) => {
         resolve(result);
       })

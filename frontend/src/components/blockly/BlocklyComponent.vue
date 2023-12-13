@@ -75,8 +75,8 @@
             :activity-score="currentActivityScore"
           />
           <BadgeDialog
-            :badge-name="badgeName"
-            :badge-url="badgeUrl"
+            :badge-name="badge.name"
+            :badge-url="badge.url"
             v-model="isDialogOpen.badge"
           />
         </div>
@@ -197,7 +197,7 @@ import generator from '../../utils/blockly';
 import lives from '../../assets/PlayRobos1.svg';
 import ExtraLives from '../../components/ExtraLivesDIalog.vue';
 // Types
-import { Activity, Difficulty } from '../../types/Progress';
+import { Activity, Badge, Difficulty } from '../../types/Progress';
 import { TaskStatus } from '../../types/Status';
 import { Dialog } from '../../types/BlocklyDialogs';
 
@@ -213,6 +213,7 @@ import 'intro.js/introjs.css';
 import { launchBadgeReward } from '../../utils/activityProgress';
 import BadgeDialog from '../BadgeDialog.vue';
 import { addLocalActivityProgress } from '../../dexie/db';
+import { userID } from '../../firebase/firestore';
 
 const $q = useQuasar();
 const router = useRouter();
@@ -249,6 +250,11 @@ const coinsStorage = computed(
 const currentActivityScore = ref(0);
 const badgeName = ref('');
 const badgeUrl = ref('');
+const badge = ref<Badge>({
+  name: '',
+  url: '',
+  description: '',
+});
 
 const livesCost = () => {
   if (isEqualCodes(correctCodes, blocklyGenerator()) === false) {
@@ -333,16 +339,19 @@ const thisLevel = thisSetting.levels[levelNum - 1];
 const correctCodes = thisLevel.correctCode;
 
 const coinsComputed = () => {
-  //data progress
+  //data activity
   const activityData: Activity = {
-    id: levelNum - 1,
     title: thisLevel.goalTitle,
     reward: thisLevel.reward,
     setting: settingNum,
+    level: thisLevel.levelNum,
     difficulty: ageGroup as Difficulty,
+    completed: true,
   };
 
+  //data progress
   const dataToUpdate = localActivityProgress(
+    userID(),
     activityData,
     stopwatch.value?.totalTime ?? 0,
     1, //atempt
@@ -351,7 +360,14 @@ const coinsComputed = () => {
   );
 
   //indexing the data progress to dexie
-  addLocalActivityProgress(dataToUpdate)
+  addLocalActivityProgress(
+    dataToUpdate.userId,
+    dataToUpdate.activity,
+    dataToUpdate.duration,
+    dataToUpdate.attempt,
+    dataToUpdate.decomposition,
+    dataToUpdate.pattern
+  )
     .then((result) => {
       console.log(result);
     })
@@ -361,6 +377,13 @@ const coinsComputed = () => {
 
   soundEffect(victory); //FIXME: doubled sound
   setDialog('coins');
+
+  if (badge.value.name === '' && badge.value.url === '') {
+    isDialogOpen.value.badge = false;
+  } else {
+    isDialogOpen.value.badge = true;
+  }
+
   // const condition = completedLevels().find(
   //   (level) =>
   //     level.activity.difficulty === ageGroup &&
@@ -401,16 +424,18 @@ const openHints = () => {
 };
 
 onMounted(() => {
-  // const badge = launchBadgeReward();
+  launchBadgeReward().then((result) => {
+    badge.value = {
+      name: result.badgeName,
+      url: result.badgeUrl,
+      description: result.description,
+    };
+  });
 
-  // console.log(isDialogOpen.value.badge);
-  // if (badge.name === '' && badge.url === '') {
-  //   isDialogOpen.value.badge = false;
-  // } else {
-  //   isDialogOpen.value.badge = badge.visible;
-  // }
-  // badgeName.value = badge.name ?? '';
-  // badgeUrl.value = badge.url ?? '';
+  console.log(isDialogOpen.value.badge);
+
+  badgeName.value = badge.value.name ?? '';
+  badgeUrl.value = badge.value.url ?? '';
 
   // console.log(launchBadgeReward().name);
 

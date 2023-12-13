@@ -1,18 +1,17 @@
-import {
-  Activity,
-  ActivityProgress,
-  Badge,
-  Difficulty,
-} from '../types/Progress';
+import { addLocalBadge, getLocalBadges, getLocalUser } from '../dexie/db';
+import { userID } from '../firebase/firestore';
+import { Activity, Badge } from '../types/Progress';
 
 export const localActivityProgress = (
+  userId: string,
   activity: Activity,
   duration: number,
   attempt: number,
   decomp: number,
   pattern: number
 ) => {
-  const inputProgress: ActivityProgress = {
+  const inputProgress = {
+    userId: userId,
     activity: activity,
     duration: solveDurationScore(duration),
     attempt: solveAttemptScore(attempt),
@@ -21,53 +20,6 @@ export const localActivityProgress = (
   };
   return inputProgress;
 };
-
-export const localActivity = (
-  id: number,
-  title: string,
-  reward: number,
-  setting: number,
-  difficulty: Difficulty
-) => {
-  const inputActivity: Activity = {
-    id: id,
-    title: title,
-    reward: reward,
-    setting: setting,
-    difficulty: difficulty,
-  };
-  return inputActivity;
-};
-
-// export const initializeLocalActivityProgress = () => {
-//   const data = {
-//     coins: 100,
-//     score: 0,
-//     activityProgress: [],
-//     badgesReceived: [],
-//   };
-//   if (localStorage.getItem('localData') === null) {
-//     localStorage.setItem('localData', JSON.stringify(data));
-//   }
-// };
-
-// export const addLocalActivityProgress = (progress: ActivityProgress) => {
-//   const storedDataString = localStorage.getItem('localData');
-//   const storedUserData = storedDataString ? JSON.parse(storedDataString) : null;
-
-//   if (storedUserData && !storedUserData.activityProgress) {
-//     storedUserData.activityProgress = [];
-//   }
-//   storedUserData.activityProgress.push(progress);
-
-//   localStorage.setItem('localData', JSON.stringify(storedUserData));
-//   return solveActivityScore(
-//     solveAttemptScore(progress.attempt),
-//     solveDurationScore(progress.duration),
-//     progress.decomposition,
-//     progress.decomposition
-//   );
-// };
 
 export const solveDurationScore = (duration: number) => {
   const maxScore = 100;
@@ -137,100 +89,143 @@ export const addLocalScore = (score: number) => {
   localStorage.setItem('localData', JSON.stringify(storedUserData));
 };
 
-export const badgeReward = () => {
-  const storedDataString = localStorage.getItem('localData');
-  const storedUserData = storedDataString ? JSON.parse(storedDataString) : null;
+export const badgeReward = async () => {
+  const currentUser = await getLocalUser(userID());
+  const currentScore = currentUser?.score ?? 0;
 
-  const currentScore = storedUserData.score;
-
-  console.log(currentScore);
   switch (true) {
     case currentScore >= 100 && currentScore < 300:
       return {
         badgeName: 'Novice Explorer',
         badgeUrl: '../novice-explorer.svg',
+        description:
+          'Congratulations! You have earned the Novice Explorer badge for scoring between 100 and 299. Your cosmic journey has just begun!',
       };
 
     case currentScore >= 300 && currentScore < 500:
       return {
         badgeName: 'Galactic Adventurer',
         badgeUrl: '../galactic-adventurer.svg',
+        description:
+          'You are now a Galactic Adventurer, having achieved a score of 300 to 499. Navigate the galaxy with confidence and explore new frontiers!',
       };
 
     case currentScore >= 500 && currentScore < 800:
       return {
         badgeName: 'Celestial Guardian',
         badgeUrl: '../celestial-guardian.svg',
+        description:
+          'Well done! You have become a Celestial Guardian, with a remarkable score between 500 and 799. Embrace your role as a protector of celestial wonders.',
       };
 
     case currentScore >= 800 && currentScore < 1100:
       return {
         badgeName: 'Cosmic Protector',
         badgeUrl: '../cosmic-protector.svg',
+        description:
+          'Bravo! Achieve the title of Cosmic Protector by scoring 800 to 1099. Your commitment to safeguarding the cosmic realms is truly commendable.',
       };
 
     case currentScore >= 1100 && currentScore < 1500:
       return {
         badgeName: 'Starlight Sentinel',
         badgeUrl: '../starlight-sentinel.svg',
+        description:
+          'Shine bright as a Starlight Sentinel! Your score of 1100 to 1499 illuminates the cosmos, marking you as a guiding force in the universe.',
       };
 
     case currentScore >= 1500 && currentScore < 2000:
       return {
         badgeName: 'Intergalactic Sentinel',
         badgeUrl: '../intergalactic-sentinel.svg',
+        description:
+          'Stellar achievement! As an Intergalactic Sentinel with a score of 1500 to 1999, you stand as a beacon of wisdom in the vast interstellar expanse.',
       };
 
     case currentScore >= 2000 && currentScore < 2500:
       return {
         badgeName: 'Universal Guardian',
         badgeUrl: '../universal-guardian.svg',
+        description:
+          'You have reached the status of Universal Guardian with a score of 2000 to 2499. Your dedication ensures balance and harmony across the universe.',
       };
 
     case currentScore >= 2500 && currentScore <= 3000:
       return {
         badgeName: 'Master of the Cosmos',
         badgeUrl: '../master.svg',
+        description:
+          'Phenomenal accomplishment! As the Master of the Cosmos with a score of 2500 to 3000, you have mastered cosmic challenges like no other. Congratulations!',
       };
 
     default:
       return {
         badgeName: '',
         badgeUrl: '',
+        description: '',
       };
   }
 };
 
-export const launchBadgeReward = () => {
-  const storedDataString = localStorage.getItem('localData');
-  const storedUserData = storedDataString ? JSON.parse(storedDataString) : null;
+export const launchBadgeReward = async () => {
+  const allBadges = await getLocalBadges();
+  const badgeRew = await badgeReward();
 
-  if (storedUserData && !storedUserData.badgesReceived) {
-    storedUserData.badgesReceived = [];
-  }
-
-  const determinant = storedUserData.badgesReceived.find(
-    (badge: Badge) => badge.name === badgeReward().badgeName
+  const determinant = allBadges.find(
+    (badge: Badge) => badge.name === badgeRew.badgeName
   );
 
   if (determinant === undefined) {
-    const reward = badgeReward();
-    const newElement = {
-      badgeName: reward.badgeName,
-      badgeUrl: reward.badgeUrl,
-    };
-    if (reward.badgeName != '' && reward.badgeUrl != '') {
-    }
-    storedUserData.badgesReceived.push(newElement);
-    localStorage.setItem('localData', JSON.stringify(storedUserData));
+    addLocalBadge({
+      name: badgeRew.badgeName,
+      url: badgeRew.badgeUrl,
+      description: badgeRew.description,
+    });
+
     return {
-      visible: true,
-      name: newElement.badgeName,
-      url: newElement.badgeUrl,
+      badgeName: badgeRew.badgeName,
+      badgeUrl: badgeRew.badgeUrl,
+      description: badgeRew.description,
     };
   } else {
     return {
-      visible: false,
+      badgeName: '',
+      badgeUrl: '',
+      description: badgeRew.description,
     };
   }
 };
+
+// export const launchBadgeReward = () => {
+//   const storedDataString = localStorage.getItem('localData');
+//   const storedUserData = storedDataString ? JSON.parse(storedDataString) : null;
+
+//   if (storedUserData && !storedUserData.badgesReceived) {
+//     storedUserData.badgesReceived = [];
+//   }
+
+//   const determinant = storedUserData.badgesReceived.find(
+//     (badge: Badge) => badge.name === badgeReward().badgeName
+//   );
+
+//   if (determinant === undefined) {
+//     const reward = badgeReward();
+//     const newElement = {
+//       badgeName: reward.badgeName,
+//       badgeUrl: reward.badgeUrl,
+//     };
+//     if (reward.badgeName != '' && reward.badgeUrl != '') {
+//     }
+//     storedUserData.badgesReceived.push(newElement);
+//     localStorage.setItem('localData', JSON.stringify(storedUserData));
+//     return {
+//       visible: true,
+//       name: newElement.badgeName,
+//       url: newElement.badgeUrl,
+//     };
+//   } else {
+//     return {
+//       visible: false,
+//     };
+//   }
+// };

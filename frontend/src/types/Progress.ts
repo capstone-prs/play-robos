@@ -1,16 +1,19 @@
 export type Difficulty = 'easy' | 'hard';
 
 export interface Activity {
-  id: number;
+  id?: number;
   title: string;
   reward: number;
   setting: number;
+  level: number;
   difficulty: Difficulty;
+  completed: boolean;
 }
 
 export interface ActivityProgress {
   id?: number;
-  activity: Activity;
+  userId: string;
+  activityId: number;
   duration: number;
   attempt: number;
   decomposition: number;
@@ -23,31 +26,3 @@ export interface Badge {
   url: string;
   description: string;
 }
-
-// type LevelId = 'H1' | 'H2' | '01';
-
-// interface x {
-//   completed: boolean;
-//   time: number;
-//   tries: number;
-// }
-
-// export interface Progress {
-//   id: number;
-//   level: LevelId;
-//   easyLevel: x | null;
-//   hardLevel: x | null;
-// }
-
-// const firestore: Progress[] = [
-//   {
-//     id: 1,
-//     level: 'H1',
-//     easyLevel: {
-//       completed: true,
-//       time: 100,
-//       tries: 100,
-//     },
-//     hardLevel: null,
-//   },
-// ];
