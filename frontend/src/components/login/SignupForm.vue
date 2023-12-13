@@ -1,163 +1,163 @@
 <template>
-  <div class="full-width column justify-center">
-    <form @submit.prevent.stop="submit" class="q-gutter-md">
-      <div class="element-signup">
-        <div class="wrap" style="padding: 10px 0px 0px 10px">
-          <q-btn
-            class="glossy"
-            round
-            color="red"
-            icon="arrow_back"
-            @click="navigateBack"
-          />
-        </div>
-        <div>
-          <q-card-section class="authInputContainer">
-            <q-input
-              class="authInputsBig"
-              id="name"
-              :ref="data.name.ref"
-              rounded
-              outlined
-              v-model="data.name.model.value"
-              label="Your name"
-              :rules="data.name.rules"
-              lazyRules
-            >
-              <template v-slot:prepend> <q-icon name="person" /></template>
-            </q-input>
-          </q-card-section>
-
-          <q-card-section class="authInputContainer">
-            <q-input
-              :ref="data.birthdate.ref"
-              class="authInputsSmall"
-              rounded
-              outlined
-              v-model="data.birthdate.model.value"
-              type="text"
-              label="Birthday"
-              :rules="data.birthdate.rules"
-              placeholder="YYYY/MM/DD"
-              lazyRules
-              mask="date"
-            >
-              <template v-slot:prepend>
-                <q-icon name="cake" />
-              </template>
-            </q-input>
-            <q-select
-              class="authInputsSmall"
-              rounded
-              outlined
-              :ref="data.gender.ref"
-              v-model="data.gender.model.value"
-              :options="data.gender.options"
-              label="Gender"
-              style="margin-left: 5%"
-              :rules="data.gender.rules"
-              lazyRules
-            >
-              <template v-slot:prepend>
-                <q-icon name="wc" />
-              </template>
-            </q-select>
-          </q-card-section>
-
-          <div class="groupedSignIn">
+  <q-layout class="element-signup">
+    <div class="full-width column justify-center">
+      <form @submit.prevent.stop="submit" class="q-gutter-md">
+        <div class="q-mb-xl">
+          <div class="wrap" style="padding: 10px 0px 0px 10px">
+            <q-btn
+              class="glossy"
+              round
+              color="red"
+              icon="arrow_back"
+              @click="navigateBack"
+            />
+          </div>
+          <div>
             <q-card-section class="authInputContainer">
               <q-input
-                :ref="data.email.ref"
                 class="authInputsBig"
+                id="name"
+                :ref="data.name.ref"
                 rounded
                 outlined
-                v-model="data.email.model.value"
-                id="email"
-                type="email"
-                label="Email"
-                :error="data.email.isError.value"
-                :errorMessage="data.email.errorMessage.value"
-                :rules="data.email.rules"
-                :onChange="
-                  () => {
-                    if (data.email.isError.value) {
-                      data.email.isError.value = false;
-                      data.email.errorMessage.value = '';
-                    }
-                  }
-                "
+                v-model="data.name.model.value"
+                label="Your name"
+                :rules="data.name.rules"
+                lazyRules
+              >
+                <template v-slot:prepend> <q-icon name="person" /></template>
+              </q-input>
+            </q-card-section>
+
+            <q-card-section class="authInputContainer">
+              <q-input
+                :ref="data.birthdate.ref"
+                class="authInputsSmall"
+                rounded
+                outlined
+                v-model="data.birthdate.model.value"
+                type="text"
+                label="Birthday"
+                :rules="data.birthdate.rules"
+                placeholder="YYYY/MM/DD"
+                lazyRules
+                mask="date"
+              >
+                <template v-slot:prepend>
+                  <q-icon name="cake" />
+                </template>
+              </q-input>
+              <q-select
+                class="authInputsSmall"
+                rounded
+                outlined
+                :ref="data.gender.ref"
+                v-model="data.gender.model.value"
+                :options="data.gender.options"
+                label="Gender"
+                style="margin-left: 5%"
+                :rules="data.gender.rules"
                 lazyRules
               >
                 <template v-slot:prepend>
-                  <q-icon name="mail" />
+                  <q-icon name="wc" />
                 </template>
-              </q-input>
+              </q-select>
             </q-card-section>
 
-            <q-card-section class="authInputContainer">
-              <q-input
-                :ref="data.password.ref"
-                class="authInputsBig"
-                rounded
-                outlined
-                v-model="data.password.model.value"
-                id="password"
-                label="Password"
-                :type="isPwd ? 'password' : 'text'"
-                :rules="data.password.rules"
-                lazyRules
-              >
-                <template v-slot:append>
-                  <q-icon
-                    :name="isPwd ? 'visibility_off' : 'visibility'"
-                    class="cursor-pointer"
-                    @click="isPwd = !isPwd"
-                  />
-                </template>
-                <template v-slot:prepend> <q-icon name="lock" /></template>
-              </q-input>
-            </q-card-section>
+            <div class="groupedSignIn">
+              <q-card-section class="authInputContainer">
+                <q-input
+                  :ref="data.email.ref"
+                  class="authInputsBig"
+                  rounded
+                  outlined
+                  v-model="data.email.model.value"
+                  id="email"
+                  type="email"
+                  label="Email"
+                  :error="data.email.isError.value"
+                  :errorMessage="data.email.errorMessage.value"
+                  :rules="data.email.rules"
+                  :onChange="
+                    () => {
+                      if (data.email.isError.value) {
+                        data.email.isError.value = false;
+                        data.email.errorMessage.value = '';
+                      }
+                    }
+                  "
+                  lazyRules
+                >
+                  <template v-slot:prepend>
+                    <q-icon name="mail" />
+                  </template>
+                </q-input>
+              </q-card-section>
 
-            <q-card-section class="authInputContainer">
-              <q-input
-                :ref="data.rePassword.ref"
-                class="authInputsBig"
-                rounded
-                outlined
-                v-model="data.rePassword.model.value"
-                id="rePassword"
-                label="Confirm Password"
-                :type="isConPwd ? 'password' : 'text'"
-                :rules="data.rePassword.rules"
-                lazyRules
-                aria-required
-              >
-                <template v-slot:append>
-                  <q-icon
-                    :name="isConPwd ? 'visibility_off' : 'visibility'"
-                    class="cursor-pointer"
-                    @click="isConPwd = !isConPwd"
-                  />
-                </template>
-                <template v-slot:prepend> <q-icon name="lock" /> </template>
-              </q-input>
-            </q-card-section>
+              <q-card-section class="authInputContainer">
+                <q-input
+                  :ref="data.password.ref"
+                  class="authInputsSmall"
+                  rounded
+                  outlined
+                  v-model="data.password.model.value"
+                  id="password"
+                  label="Password"
+                  :type="isPwd ? 'password' : 'text'"
+                  :rules="data.password.rules"
+                  lazyRules
+                >
+                  <template v-slot:append>
+                    <q-icon
+                      :name="isPwd ? 'visibility_off' : 'visibility'"
+                      class="cursor-pointer"
+                      @click="isPwd = !isPwd"
+                    />
+                  </template>
+                  <template v-slot:prepend> <q-icon name="lock" /></template>
+                </q-input>
+                <q-input
+                  :ref="data.rePassword.ref"
+                  style="margin-left: 5%"
+                  class="authInputsSmall"
+                  rounded
+                  outlined
+                  v-model="data.rePassword.model.value"
+                  id="rePassword"
+                  label="Confirm Password"
+                  :type="isConPwd ? 'password' : 'text'"
+                  :rules="data.rePassword.rules"
+                  lazyRules
+                  aria-required
+                >
+                  <template v-slot:append>
+                    <q-icon
+                      :name="isConPwd ? 'visibility_off' : 'visibility'"
+                      class="cursor-pointer"
+                      @click="isConPwd = !isConPwd"
+                    />
+                  </template>
+                  <template v-slot:prepend> <q-icon name="lock" /> </template>
+                </q-input>
+              </q-card-section>
+            </div>
           </div>
+          <div class="container-auth-modal-signup q-py-lg q-mb-md">
+            <ActionButton
+              :textLabel="Text"
+              color="pink-12"
+              text-color="white"
+              class="text"
+              @click="submit"
+              :isDisabled="isSubmitted"
+            ></ActionButton>
+          </div>
+          <VerifyDIalog v-model="verfyopen" />
         </div>
-        <div class="container-auth-modal-signup">
-          <ActionButton
-            :textLabel="Text"
-            color="pink-12"
-            text-color="white"
-            class="text"
-            @click="submit"
-            :isDisabled="isSubmitted"
-          ></ActionButton>
-        </div>
-        <VerifyDIalog v-model="verfyopen" />
-      </div>
-    </form>
-  </div>
+      </form>
+    </div>
+  </q-layout>
 </template>
 
 <script setup lang="ts">

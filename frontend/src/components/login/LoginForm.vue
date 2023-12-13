@@ -1,83 +1,96 @@
 <template>
-  <div class="full-width column justify-center">
-    <form @submit.prevent.stop="submit" class="q-gutter-md">
-      <div class="element-login">
-        <q-btn
-          class="glossy"
-          round
-          color="red"
-          icon="arrow_back"
-          style="position: absolute; left: 20px; top: 20px"
-          @click="navigateBack"
-        />
+  <q-layout class="element-login">
+    <div class="full-width column justify-center">
+      <form @submit.prevent.stop="submit" class="q-gutter-md">
+        <div class="q-mb-xl">
+          <q-btn
+            class="glossy"
+            round
+            color="red"
+            icon="arrow_back"
+            style="position: absolute; left: 20px; top: 20px"
+            @click="navigateBack"
+          />
 
-        <div class="groupedLogIn">
-          <q-card-section class="authInputContainer">
-            <q-input
-              class="authInputsBig"
-              rounded
-              outlined
-              v-model="data.email.value"
-              id="email"
-              type="email"
-              label="Email"
-              :error="data.isError.value"
-            >
-              <template v-slot:prepend>
-                <q-icon name="mail" />
-              </template>
-            </q-input>
-          </q-card-section>
-          <q-card-section class="authInputContainer">
-            <q-input
-              class="authInputsBig"
-              rounded
-              outlined
-              v-model="data.password.value"
-              id="password"
-              label="Password"
-              :error="data.isError.value"
-              type="password"
-            >
-              <template v-slot:prepend>
-                <q-icon name="lock" />
-              </template>
-            </q-input>
-            <div class="">
-              <ForgetPassDialog v-model="isForgetPasswordOpen" />
-              <q-btn
-                flat
+          <div class="groupedLogIn">
+            <q-card-section class="authInputContainer">
+              <q-input
+                class="authInputsBig"
                 rounded
-                color="grey-7"
-                label="Forgot password"
-                style="position: absolute; left: 20%; bottom: -30%"
-                @click="openForgetPassword()"
-              />
-            </div>
-          </q-card-section>
+                outlined
+                v-model="data.email.value"
+                id="email"
+                type="email"
+                label="Email"
+                :error="data.isError.value"
+              >
+                <template v-slot:prepend>
+                  <q-icon name="mail" />
+                </template>
+              </q-input>
+            </q-card-section>
+            <q-card-section class="authInputContainer">
+              <q-input
+                class="authInputsBig"
+                rounded
+                outlined
+                password-reveal
+                v-model="data.password.value"
+                id="password"
+                label="Password"
+                :error="data.isError.value"
+                :type="showPwd ? 'text' : 'password'"
+                :ref="password"
+              >
+                <template v-slot:append>
+                  <q-icon
+                    :name="showPwd ? 'visibility' : 'visibility_off'"
+                    class="cursor-pointer"
+                    @click="showPwd = !showPwd"
+                  />
+                </template>
+                <template v-slot:prepend>
+                  <q-icon name="lock" />
+                </template>
+              </q-input>
+              <div>
+                <ForgetPassDialog v-model="isForgetPasswordOpen" />
+                <q-btn
+                  flat
+                  rounded
+                  color="grey-7"
+                  label="Forgot password"
+                  style="position: absolute; left: 20%; bottom: -30%"
+                  @click="openForgetPassword()"
+                />
+              </div>
+            </q-card-section>
 
-          <p
-            v-if="data.errorMessage.value"
-            class="errorPrompt text-red"
-            style="font-size: 20px"
-          >
-            {{ data.errorMessage.value }}
-          </p>
-        </div>
+            <p
+              v-if="data.errorMessage.value"
+              class="errorPrompt text-red"
+              style="font-size: 20px"
+            >
+              {{ data.errorMessage.value }}
+            </p>
+          </div>
 
-        <div class="container-auth-modal q-pt-lg">
-          <ActionButton
-            :textLabel="Text"
-            class="text"
-            @click="submit"
-            type="submit"
-            :isDisabled="isSubmitted"
-          >
-          </ActionButton>
+          <div class="container-auth-modal q-py-lg">
+            <ActionButton
+              :textLabel="Text"
+              class="text"
+              @click="submit"
+              type="submit"
+              :textColor="isSubmitted ? 'white' : undefined"
+              :isDisabled="isSubmitted"
+              :loading="isSubmitted"
+            >
+            </ActionButton>
+          </div>
         </div>
-      </div>
-    </form>
-  </div>
+      </form>
+    </div>
+  </q-layout>
 </template>
 
 <script setup lang="ts">
@@ -98,6 +111,8 @@ import { soundEffect } from '../../utils/SoundUtils';
 const $q = useQuasar();
 const router = useRouter();
 
+const password = ref();
+const showPwd = ref(false);
 const isForgetPasswordOpen = ref(false);
 
 const openForgetPassword = () => {
