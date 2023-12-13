@@ -9,6 +9,7 @@
       data-cy="action-btn"
       :disable="isDisabled"
       @click="click"
+      :loading="loading"
     >
       {{ textLabel }}
     </q-btn>
@@ -16,10 +17,10 @@
 </template>
 
 <script setup lang="ts">
-import { soundEffect } from '../../utils/SoundUtils'
+import { soundEffect } from '../../utils/SoundUtils';
 const click = () => {
-    soundEffect();
-  }
+  soundEffect();
+};
 defineProps({
   textLabel: {
     type: String,
@@ -39,13 +40,15 @@ defineProps({
   },
   size: {
     type: String,
-    default: 'lg'
-  }
-  
+    default: 'lg',
+  },
+  loading: {
+    type: Boolean,
+    default: undefined,
+  },
 });
-
-</script >
-const 
+</script>
+const
 <style>
 @font-face {
   font-family: hitchcut;
