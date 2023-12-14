@@ -1,30 +1,25 @@
 <template>
-  <q-dialog v-model="isDialogOpen">
-    <q-card style="width: 100%; height: 100%">
-      <q-card-section class="row">
+  <q-dialog v-model="isDialogOpen" persistent>
+    <q-card style="width: 100%; height: 70%; border-radius: 30px">
+      <q-card-section class="row q-pa-none q-mt-lg q-mb-md">
         <q-space />
-        <q-btn
-          data-testid="close-btn"
-          icon="close"
-          color="pink-4"
-          size="md"
-          round
-          v-close-popup
-          data-test-id="close-btn"
-        />
+        <div class="row text-h5 detail-text-level">
+          <b>LEVEL {{ levelNo }}</b>
+        </div>
+        <q-space />
       </q-card-section>
-      <div>
-        <q-card-section align="center" v-if="correct">
-          <div class="text-h2 correct-text">CORRECT!</div>
-          <div class="text-h6 detail-text">Congratulations!!!</div>
-        </q-card-section>
-        <q-card-section align="center" v-else-if="!correct">
-          <div class="text-h2 incorrect-text">INCORRECT</div>
-          <div class="text-h6 detail-text">
-            Check your program and try again.
-          </div>
-        </q-card-section>
-      </div>
+      <q-card-section class="q-pa-none" align="center" v-if="correct">
+        <div class="text-h2 correct-text">CORRECT</div>
+        <div class="q-pa-sm text-h5 detail-text">
+          Congratulations! You got it right!
+        </div>
+      </q-card-section>
+      <q-card-section class="q-pa-none" align="center" v-else-if="!correct">
+        <div class="text-h2 incorrect-text">INCORRECT</div>
+        <div class="q-pa-sm text-h5 detail-text">
+          Check your program and try again.
+        </div>
+      </q-card-section>
       <q-card-section align="center">
         <ActionButton
           :text-label="correct ? 'DONE' : 'TRY AGAIN'"
@@ -44,6 +39,7 @@ import ActionButton from './buttons/ActionButton.vue';
 
 const props = defineProps<{
   correct: boolean;
+  levelNo: number;
 }>();
 
 const emits = defineEmits<{ (e: 'done'): void; (e: 'tryAgain'): void }>();
@@ -82,7 +78,12 @@ const isDialogOpen = ref(false);
 }
 
 .detail-text {
-  color: #e4b304;
+  color: rgb(141, 141, 141);
+  font-family: GillSans;
+}
+
+.detail-text-level {
+  color: rgb(0, 113, 200);
   font-family: GillSans;
 }
 </style>

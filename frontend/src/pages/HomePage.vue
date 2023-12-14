@@ -133,8 +133,10 @@ import { useRouter } from 'vue-router';
 import animationData from '../../public/bgs/bg-animation.json';
 import { lottieBackgroundLoader } from '../utils/lottieUtils';
 import { startHomeOnboarding } from '../onboarding/studioOnboarding';
+import { soundEffect } from '../utils/SoundUtils';
+import { getLocalUser } from '../dexie/db';
+import { userID } from '../firebase/firestore';
 
-import { soundEffect } from '../../../frontend/src/utils/SoundUtils';
 const $q = useQuasar();
 // const isMenuDialogVisible = ref(false);
 const isAgeGroupDialogVisible = ref(false);
@@ -148,13 +150,13 @@ const router = useRouter();
 const lottieContainer = ref();
 const isLogoutDialogVisible = ref(false);
 
-const coinsStorage = ref(
-  ($q.localStorage.getItem('coin_storage') as number) ?? 0
-);
+const coinsStorage = ref();
 onMounted(() => {
   lottieBackgroundLoader(animationData, lottieContainer);
   startOnboarding();
-  $q.localStorage.set('coin_storage', coinsStorage.value);
+  getLocalUser(userID()).then((user) => {
+    coinsStorage.value = user?.coins;
+  });
   lottieBackgroundLoader(animationData, lottieContainer);
 });
 // $q.localStorage.set('coin_storage',coinsStorage.value+=100)

@@ -23,6 +23,7 @@
                 if (settingNum == 0 && levelNum == 1) {
                   startStudioOnboarding();
                 }
+                badgeReward();
               }
             "
           />
@@ -34,6 +35,7 @@
           <CheckDialog
             v-model="isDialogOpen.check"
             :correct="isEqualCodes(correctCodes, blocklyGenerator())"
+            :level-no="levelNum"
             @done="checkDone"
             @try-again="() => setDialog('check', false)"
           />
@@ -59,7 +61,11 @@
             "
             :is-playing="extra"
           />
-          <MenuDialog v-model="isDialogOpen.menu" />
+          <MenuDialog
+            v-model="isDialogOpen.menu"
+            :setting-no="settingNum"
+            :difficulty="ageGroup"
+          />
           <CoinsDialog
             v-model="isDialogOpen.coins"
             :coins="thisLevel.reward"
@@ -71,11 +77,13 @@
                 ? settings_easy[settingNum].levels.length - 1
                 : settings_hard[settingNum].levels.length - 1
             "
+            :score="activityScore"
             :activity-score="currentActivityScore"
+            :is-retry="retried"
           />
           <BadgeDialog
-            :badge-name="badgeName"
-            :badge-url="badgeUrl"
+            :badge-name="badge.name"
+            :badge-url="badge.url"
             v-model="isDialogOpen.badge"
           />
         </div>
@@ -188,12 +196,7 @@ import {
 } from 'src/utils/bluetoothUtils';
 import isEqualCodes from 'src/utils/compareCode';
 import executeCodes from '../../utils/executeCodes';
-import {
-  addLocalActivityProgress,
-  initializeLocalActivityProgress,
-  solveAttemptScore,
-  solveDurationScore,
-} from '../../utils/activityProgress';
+import { localActivityProgress } from '../../utils/activityProgress';
 import { startStudioOnboarding } from '../../onboarding/studioOnboarding';
 import { settings_easy } from '../games/levels-easy';
 import { settings_hard } from '../games/levels-hard';
@@ -201,7 +204,7 @@ import generator from '../../utils/blockly';
 import lives from '../../assets/PlayRobos1.svg';
 import ExtraLives from '../../components/ExtraLivesDIalog.vue';
 // Types
-import { ActivityProgress, Difficulty, LocalData } from '../../types/Progress';
+import { Activity, Badge, Difficulty } from '../../types/Progress';
 import { TaskStatus } from '../../types/Status';
 import { Dialog } from '../../types/BlocklyDialogs';
 
@@ -216,6 +219,13 @@ import 'intro.js/introjs.css';
 // Activity Progress
 import { launchBadgeReward } from '../../utils/activityProgress';
 import BadgeDialog from '../BadgeDialog.vue';
+import {
+  addLocalActivityProgress,
+  getLocalActivities,
+  updateLocalActivityProgress,
+  updateLocalUserCoins,
+} from '../../dexie/db';
+import { userID } from '../../firebase/firestore';
 
 const $q = useQuasar();
 const router = useRouter();
@@ -250,8 +260,13 @@ const coinsStorage = computed(
   () => $q.localStorage.getItem('coin_storage') || 0
 );
 const currentActivityScore = ref(0);
-const badgeName = ref('');
-const badgeUrl = ref('');
+const badge = ref<Badge>({
+  name: '',
+  url: '',
+  description: '',
+});
+const activityScore = ref(0);
+const retried = ref(false);
 
 const livesCost = () => {
   if (isEqualCodes(correctCodes, blocklyGenerator()) === false) {
@@ -324,15 +339,6 @@ const undo = () => {
   }
 };
 
-const completedLevels = () => {
-  const storedDataString = localStorage.getItem('localData');
-  const storedUserData: LocalData = storedDataString
-    ? JSON.parse(storedDataString)
-    : null;
-
-  return storedUserData.activityProgress;
-};
-
 const thisSetting =
   ageGroup === 'easy' ? settings_easy[settingNum] : settings_hard[settingNum];
 
@@ -344,40 +350,84 @@ const toolbox =
 const thisLevel = thisSetting.levels[levelNum - 1];
 const correctCodes = thisLevel.correctCode;
 
+const badgeReward = () => {
+  launchBadgeReward().then((result) => {
+    badge.value = {
+      name: result.badgeName,
+      url: result.badgeUrl,
+      description: result.description,
+    };
+    if (badge.value.name === '' && badge.value.url === '') {
+      isDialogOpen.value.badge = false;
+    } else {
+      isDialogOpen.value.badge = true;
+    }
+  });
+};
+
 const coinsComputed = () => {
-  const dataToUpdate: ActivityProgress = {
-    activity: {
-      setting: settingNum,
-      id: levelNum,
-      difficulty: ageGroup as Difficulty,
-    },
-    duration: solveDurationScore(stopwatch.value?.totalTime ?? 0),
-    attempt: solveAttemptScore(failedAttemps.value),
-    decomposition: 100,
-    pattern: 100,
+  //data activity
+  const activityData: Activity = {
+    title: thisLevel.goalTitle,
+    reward: thisLevel.reward,
+    setting: settingNum,
+    level: thisLevel.levelNum,
+    difficulty: ageGroup as Difficulty,
     completed: true,
   };
 
+  //data progress
+  const dataToUpdate = localActivityProgress(
+    userID(),
+    activityData,
+    stopwatch.value?.totalTime ?? 0,
+    parseInt($q.localStorage.getItem('failed-attemps') || '0'), //TODO: add number of attempts here
+    100, // decomposition
+    100 // pattern
+  );
   soundEffect(victory); //FIXME: doubled sound
   setDialog('coins');
-  const condition = completedLevels().find(
-    (level) =>
-      level.activity.difficulty === ageGroup &&
-      level.activity.setting === settingNum &&
-      level.activity.id === levelNum
-  );
-  console.log(condition);
-  console.log(levelNum);
-  if (condition == undefined) {
-    const activityScore = addLocalActivityProgress(dataToUpdate);
-    currentActivityScore.value = activityScore;
-    console.log('activityScore', activityScore);
-    localStorage.setItem(
-      'coin_storage',
-      (Number(coinsStorage.value) + thisLevel.reward).toString()
+
+  getLocalActivities().then((localActivities) => {
+    const condition = localActivities.find(
+      (activity) =>
+        activity.difficulty === ageGroup &&
+        activity.setting === settingNum &&
+        activity.level === levelNum
     );
-  }
+
+    if (condition === undefined || localActivities.length === 0) {
+      //indexing the data progress to dexie
+      addLocalActivityProgress(
+        dataToUpdate.userId,
+        dataToUpdate.activity,
+        dataToUpdate.duration,
+        dataToUpdate.attempt,
+        dataToUpdate.decomposition,
+        dataToUpdate.pattern
+      ).then((result) => {
+        activityScore.value = result;
+      });
+
+      updateLocalUserCoins(userID(), thisLevel.reward);
+    } else {
+      updateLocalActivityProgress(
+        dataToUpdate.userId,
+        dataToUpdate.decomposition,
+        dataToUpdate.attempt,
+        dataToUpdate.pattern,
+        dataToUpdate.duration,
+        thisLevel.levelNum,
+        settingNum
+      ).then((result) => {
+        activityScore.value = result;
+      });
+
+      retried.value = true;
+    }
+  });
 };
+
 const openHints = () => {
   if (($q.localStorage.getItem('coin_storage') as number) >= 60) {
     $q.notify({
@@ -398,23 +448,6 @@ const openHints = () => {
 };
 
 onMounted(() => {
-  if (settingNum == 0 && levelNum == 1) {
-    initializeLocalActivityProgress();
-  }
-
-  const badge = launchBadgeReward();
-
-  console.log(isDialogOpen.value.badge);
-  if (badge.name === '' && badge.url === '') {
-    isDialogOpen.value.badge = false;
-  } else {
-    isDialogOpen.value.badge = badge.visible;
-  }
-  badgeName.value = badge.name ?? '';
-  badgeUrl.value = badge.url ?? '';
-
-  console.log(launchBadgeReward().name);
-
   workspace.value = inject(blocklyContainer.value, {
     // refer to typetoolbox.ts file
     toolbox: toolbox,
@@ -441,8 +474,6 @@ onMounted(() => {
     },
   });
 
-  // workspace.value.addChangeListener(blocklyGenerator); // FIXME: DEAD CODE?
-  // progress.value(); // FIXME: DEAD CODE?
   taskStatus.value = 'none';
 
   router.beforeEach(() => {
@@ -504,7 +535,6 @@ const endProgressNotify = () => {
     livesCost();
 
     taskStatus.value = 'none';
-    // To-verify: when the execution is successful, it will unlock the next level
   } else if (taskStatus.value === 'error' || taskStatus.value === 'started') {
     $q.notify({
       type: 'negative',
