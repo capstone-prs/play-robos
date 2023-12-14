@@ -59,11 +59,6 @@ export const solveActivityScore = (
   patternScore: number,
   decompScore: number
 ) => {
-  console.log(attemptScore);
-  console.log(durationScore);
-  console.log(patternScore);
-  console.log(decompScore);
-
   const attemptWeight = 25;
   const durationWeight = 15;
   const patternWeight = 30;
@@ -77,7 +72,6 @@ export const solveActivityScore = (
 
   const total = Math.max(0, Math.min(100, weightedSum));
 
-  console.log(total);
   return total;
 };
 

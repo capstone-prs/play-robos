@@ -116,7 +116,6 @@ export const addLocalUser = (user: User): Promise<User> => {
             resolve(user);
           })
           .catch((error) => {
-            console.log(error.name);
             reject(error);
           });
       }
@@ -218,70 +217,6 @@ export const getLocalActivity = (id: number): Promise<Activity | undefined> => {
       .catch((error) => {
         reject(error);
       });
-  });
-};
-
-export const tryUpdate = (
-  user: string,
-  activityParam: Activity,
-  duration: number,
-  attempt: number,
-  decompScore: number,
-  patternScore: number
-): Promise<number> => {
-  return new Promise<number>((resolve, reject) => {
-    const score = solveActivityScore(
-      attempt,
-      duration,
-      decompScore,
-      patternScore
-    );
-
-    getLocalActivityProgress().then((progresses) => {
-      //always undefined because the progress is always not yet created
-      const existingProgress = progresses.find((progress) => {
-        getLocalActivity(progress.activityId).then((res) => {
-          progress.activityId === res?.id;
-        });
-      });
-
-      console.log(existingProgress);
-
-      if (!existingProgress) {
-        addLocalActivityProgress(
-          user,
-          activityParam,
-          duration,
-          attempt,
-          decompScore,
-          patternScore
-        )
-          .then(() => {
-            resolve(score);
-          })
-          .catch((error) => {
-            reject(error);
-          });
-      } else {
-        updateLocalUserScore(user, score);
-
-        dexie_db.userActivityProgresses
-          .where('activityId')
-          .equals(existingProgress.activityId)
-          .modify((prog) => {
-            prog.attempt = attempt;
-            prog.duration = duration;
-            prog.decomposition = decompScore;
-            prog.pattern = patternScore;
-          })
-          .then(() => {
-            resolve(score);
-          })
-          .catch((error) => {
-            reject(error);
-          });
-      }
-    });
   });
 };
 

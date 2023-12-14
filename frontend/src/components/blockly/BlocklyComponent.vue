@@ -395,7 +395,7 @@ const coinsComputed = () => {
         activity.setting === settingNum &&
         activity.level === levelNum
     );
-    console.log(condition);
+
     if (condition === undefined || localActivities.length === 0) {
       //indexing the data progress to dexie
       addLocalActivityProgress(
@@ -405,14 +405,10 @@ const coinsComputed = () => {
         dataToUpdate.attempt,
         dataToUpdate.decomposition,
         dataToUpdate.pattern
-      )
-        .then((result) => {
-          activityScore.value = result;
-          console.log('was here', result);
-        })
-        .catch((error) => {
-          console.log('error', error);
-        });
+      ).then((result) => {
+        activityScore.value = result;
+      });
+
       updateLocalUserCoins(userID(), thisLevel.reward);
     } else {
       updateLocalActivityProgress(
@@ -423,13 +419,10 @@ const coinsComputed = () => {
         dataToUpdate.duration,
         thisLevel.levelNum,
         settingNum
-      )
-        .then((result) => {
-          activityScore.value = result;
-        })
-        .catch(() => {
-          console.log('error');
-        });
+      ).then((result) => {
+        activityScore.value = result;
+      });
+
       retried.value = true;
     }
   });
@@ -455,8 +448,6 @@ const openHints = () => {
 };
 
 onMounted(() => {
-  console.log(isDialogOpen.value.badge);
-
   workspace.value = inject(blocklyContainer.value, {
     // refer to typetoolbox.ts file
     toolbox: toolbox,

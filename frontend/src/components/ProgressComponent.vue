@@ -89,7 +89,6 @@ onMounted(() => {
   });
 
   getLocalActivityProgress().then((activities) => {
-    console.log(activities);
     activities.forEach((activity) => {
       getLocalActivity(activity.activityId).then((act) => {
         const data = {
@@ -101,12 +100,9 @@ onMounted(() => {
           pattern: activity.pattern,
         };
         testRows.value.push(data);
-        console.log(data);
       });
     });
   });
-
-  console.log(testRows);
 });
 
 const columns: QTableColumn[] = [
