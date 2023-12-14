@@ -74,6 +74,7 @@
             "
             :score="activityScore"
             :activity-score="currentActivityScore"
+            :is-retry="retried"
           />
           <BadgeDialog
             :badge-name="badge.name"
@@ -213,7 +214,11 @@ import 'intro.js/introjs.css';
 // Activity Progress
 import { launchBadgeReward } from '../../utils/activityProgress';
 import BadgeDialog from '../BadgeDialog.vue';
-import { addLocalActivityProgress } from '../../dexie/db';
+import {
+  addLocalActivityProgress,
+  getLocalActivities,
+  updateLocalUserCoins,
+} from '../../dexie/db';
 import { userID } from '../../firebase/firestore';
 
 const $q = useQuasar();
@@ -257,6 +262,7 @@ const badge = ref<Badge>({
   description: '',
 });
 const activityScore = ref(0);
+const retried = ref(false);
 
 const livesCost = () => {
   if (isEqualCodes(correctCodes, blocklyGenerator()) === false) {
@@ -361,45 +367,40 @@ const coinsComputed = () => {
     100 // pattern
   );
 
-  //indexing the data progress to dexie
-  addLocalActivityProgress(
-    dataToUpdate.userId,
-    dataToUpdate.activity,
-    dataToUpdate.duration,
-    dataToUpdate.attempt,
-    dataToUpdate.decomposition,
-    dataToUpdate.pattern
-  )
-    .then((result) => {
-      activityScore.value = result;
-      console.log(result);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-
   soundEffect(victory); //FIXME: doubled sound
   setDialog('coins');
 
-  // launches the reward dialog when new reward is achieved
-
-  // const condition = completedLevels().find(
-  //   (level) =>
-  //     level.activity.difficulty === ageGroup &&
-  //     level.activity.setting === settingNum &&
-  //     level.activity.id === levelNum
-  // );
-
-  //   if (condition == undefined) {
-  //     const activityScore = addLocalActivityProgress(dataToUpdate);
-  //     currentActivityScore.value = activityScore;
-  //     console.log('activityScore', activityScore);
-  //     localStorage.setItem(
-  //       'coin_storage',
-  //       (Number(coinsStorage.value) + thisLevel.reward).toString()
-  //     );
-  //   }
-  // };
+  getLocalActivities().then((localActivities) => {
+    const condition = localActivities.find(
+      (activity) =>
+        activity.difficulty === ageGroup &&
+        activity.setting === settingNum &&
+        activity.level === levelNum
+    );
+    console.log(condition);
+    if (condition === undefined) {
+      //indexing the data progress to dexie
+      addLocalActivityProgress(
+        dataToUpdate.userId,
+        dataToUpdate.activity,
+        dataToUpdate.duration,
+        dataToUpdate.attempt,
+        dataToUpdate.decomposition,
+        dataToUpdate.pattern
+      )
+        .then((result) => {
+          activityScore.value = result;
+          console.log(result);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      updateLocalUserCoins(userID(), thisLevel.reward);
+    } else {
+      retried.value = true;
+      //TODO: Handle the logic and business rules for retry
+    }
+  });
 };
 
 const openHints = () => {
@@ -440,8 +441,6 @@ onMounted(() => {
   badgeName.value = badge.value.name ?? '';
   badgeUrl.value = badge.value.url ?? '';
 
-  // console.log(launchBadgeReward().name);
-
   workspace.value = inject(blocklyContainer.value, {
     // refer to typetoolbox.ts file
     toolbox: toolbox,
@@ -468,8 +467,6 @@ onMounted(() => {
     },
   });
 
-  // workspace.value.addChangeListener(blocklyGenerator); // FIXME: DEAD CODE?
-  // progress.value(); // FIXME: DEAD CODE?
   taskStatus.value = 'none';
 
   router.beforeEach(() => {
@@ -531,7 +528,6 @@ const endProgressNotify = () => {
     livesCost();
 
     taskStatus.value = 'none';
-    // To-verify: when the execution is successful, it will unlock the next level
   } else if (taskStatus.value === 'error' || taskStatus.value === 'started') {
     $q.notify({
       type: 'negative',

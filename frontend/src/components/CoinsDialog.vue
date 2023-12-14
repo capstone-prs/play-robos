@@ -25,7 +25,8 @@
         </div>
         <div class="text-h7 detail-title">REWARD</div>
         <div class="text-h6 detail-text-coin">
-          <q-icon size="30px" name="img:/coin-bag.svg" /> {{ coins }}
+          <q-icon size="30px" name="img:/coin-bag.svg" />
+          {{ isRetry ? 0 : coins }}
         </div>
       </q-card-section>
 
@@ -67,7 +68,7 @@ const $q = useQuasar();
 
 const elementsArray = computed(() =>
   Array.from(
-    { length: computeStarsToDisplay(props.activityScore) },
+    { length: computeStarsToDisplay(props.score) },
     (_, index) => index + 1
   )
 );
@@ -82,6 +83,7 @@ const props = defineProps<{
   maxLevel: number;
   activityScore: number;
   score: number;
+  isRetry: boolean;
 }>();
 
 const computeStarsToDisplay = (activityScore: number) => {

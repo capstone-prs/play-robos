@@ -187,3 +187,25 @@ export const updateLocalUserScore = async (
       });
   });
 };
+
+export const updateLocalUserCoins = async (
+  id: string,
+  coins: number
+): Promise<number> => {
+  return new Promise<number>((resolve, reject) => {
+    let totalCoins = 0;
+    dexie_db.users
+      .where('id')
+      .equals(id)
+      .modify((user) => {
+        user.coins = user.coins + coins;
+        totalCoins = user.coins;
+      })
+      .then(() => {
+        resolve(totalCoins);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};

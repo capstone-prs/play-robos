@@ -64,9 +64,6 @@ export const solveActivityScore = (
   console.log(patternScore);
   console.log(decompScore);
 
-  // const finalAttemptScore = solveAttemptScore(attemptScore);
-  // const finalDurationScore = solveDurationScore(durationScore);
-
   const attemptWeight = 25;
   const durationWeight = 15;
   const patternWeight = 30;
@@ -81,17 +78,8 @@ export const solveActivityScore = (
   const total = Math.max(0, Math.min(100, weightedSum));
 
   console.log(total);
-  // addLocalScore(total);
   return total;
 };
-
-// export const addLocalScore = (score: number) => {
-//   const storedDataString = localStorage.getItem('localData');
-//   const storedUserData = storedDataString ? JSON.parse(storedDataString) : null;
-
-//   storedUserData.score += score;
-//   localStorage.setItem('localData', JSON.stringify(storedUserData));
-// };
 
 export const badgeReward = async () => {
   const currentUser = await getLocalUser(userID());
@@ -203,37 +191,3 @@ export const launchBadgeReward = async () => {
     };
   }
 };
-
-// export const launchBadgeReward = () => {
-//   const storedDataString = localStorage.getItem('localData');
-//   const storedUserData = storedDataString ? JSON.parse(storedDataString) : null;
-
-//   if (storedUserData && !storedUserData.badgesReceived) {
-//     storedUserData.badgesReceived = [];
-//   }
-
-//   const determinant = storedUserData.badgesReceived.find(
-//     (badge: Badge) => badge.name === badgeReward().badgeName
-//   );
-
-//   if (determinant === undefined) {
-//     const reward = badgeReward();
-//     const newElement = {
-//       badgeName: reward.badgeName,
-//       badgeUrl: reward.badgeUrl,
-//     };
-//     if (reward.badgeName != '' && reward.badgeUrl != '') {
-//     }
-//     storedUserData.badgesReceived.push(newElement);
-//     localStorage.setItem('localData', JSON.stringify(storedUserData));
-//     return {
-//       visible: true,
-//       name: newElement.badgeName,
-//       url: newElement.badgeUrl,
-//     };
-//   } else {
-//     return {
-//       visible: false,
-//     };
-//   }
-// };

@@ -68,12 +68,26 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { QTableColumn } from 'quasar';
+import { getLocalActivityProgress, getLocalUser } from '../dexie/db';
+import { ActivityProgress } from '../types/Progress';
+import { userID } from '../firebase/firestore';
 
-const userScore = ref(0);
+const userScore = ref<number>(0);
 const percentage = (userScore.value / 3000) * 1000;
-let rows: any[] = [];
+const rows = ref<Array<ActivityProgress>>([]);
+
+onMounted(() => {
+  getLocalActivityProgress().then((progresses) => {
+    rows.value = progresses;
+  });
+
+  getLocalUser(userID()).then((user) => {
+    const score = user?.score || 0;
+    userScore.value = score;
+  });
+});
 
 const columns: QTableColumn[] = [
   {
