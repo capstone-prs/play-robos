@@ -65,10 +65,9 @@
                 />
               </div>
             </q-card-section>
-
             <p
               v-if="data.errorMessage.value"
-              class="errorPrompt text-red"
+              class="errorPrompt text-red q-pb-lg"
               style="font-size: 20px"
             >
               {{ data.errorMessage.value }}
@@ -176,11 +175,16 @@ const submit = () => {
           return triggerNotify('negative', 'Login Failed: Email Not Verified');
         })
     )
-    .catch(() => {
+    .catch((e) => {
       isSubmitted.value = false;
       soundEffect(errorSnd);
       data.isError.value = true;
       data.password.value = '';
+      if (e.code === 'auth/network-request-failed') {
+        data.errorMessage.value = 'Network Error. Please try Again';
+
+        return triggerNotify('negative', 'Login Failed: Network Error');
+      }
       data.errorMessage.value = 'Invalid credentials';
       return triggerNotify('negative', 'Login Failed: Invalid credentials');
     });

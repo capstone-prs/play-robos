@@ -1,36 +1,50 @@
 <template>
   <q-dialog :persistent="true" class="q-ma-lg">
-    <q-card class="preview-goal-card" :style="style">
-      <div @click="play" class="absolute-center">
-        <div v-if="!showPlaying">
-          <div class="row justify-center">
-            <q-badge class="hitchcut-h4 q-pa-md text-h4" style="opacity: 80%"
-              >LEVEL: {{ level.levelNum }}</q-badge
+    <q-card class="preview-goal-card">
+      <q-card-section :style="style" class="q-ma-md">
+        <div @click="play" class="absolute-center">
+          <div v-if="!showPlaying">
+            <div
+              class="row justify-center q-mt-sm"
+              style="opacity: 80%; color: white"
             >
-          </div>
-          <div class="row justify-center q-mt-sm">
-            <q-badge class="hitchcut-h4 q-pa-md text-h4" style="opacity: 80%">{{
-              level.goalTitle
-            }}</q-badge>
+              <div
+                class="no-wrap-text text-h3 hitchcut-h4 beat"
+                style="
+                  white-space: nowrap;
+                  text-shadow: 4px 4px 5px rgb(0, 47, 47);
+                "
+              >
+                {{ level.goalTitle }}
+              </div>
+            </div>
           </div>
         </div>
-        <div
-          class="fit justify-center q-pa-md"
-          style="
-            background-color: whitesmoke;
-            border-style: solid;
-            border-radius: 5%;
-            border-color: black;
-            border-width: 2px;
-          "
-          v-if="showPlaying"
-        >
-          <q-img
-            :src="showing"
-            style="width: 20vw; height: auto"
-            loading="eager"
-          />
-          <q-badge color="red" class="hitchcut q-pa-xs" floating label="GOAL" />
+        <div>
+          <div v-if="showPlaying">
+            <div class="row justify-center">
+              <q-img
+                :src="showing"
+                style="width: 20vw; height: auto"
+                loading="eager"
+              />
+            </div>
+          </div>
+        </div>
+      </q-card-section>
+
+      <div v-if="!showPlaying" class="row justify-center q-mt-lg">
+        <q-badge class="hitchcut-h4 q-px-md text-h4" color="red">
+          LEVEL: {{ level.levelNum }}
+        </q-badge>
+      </div>
+      <div>
+        <div v-if="showPlaying">
+          <div class="row justify-center aligh-bottom q-mt-lg">
+            <q-badge class="hitchcut-h4 q-px-lg text-h4" color="red"
+              >LEVEL GOAL</q-badge
+            >
+          </div>
         </div>
       </div>
     </q-card>
@@ -45,6 +59,10 @@ const emit = defineEmits<{ (e: 'ended'): void }>();
 
 const style = computed(() => ({
   backgroundImage: `url(${props.levelSetting.settingBg})`,
+  height: '65%',
+  backgroundSize: 'cover',
+  boxShadow: '8px 8px 2px #dcdcdc',
+  borderRadius: '20px 20px 5px 5px',
 }));
 
 const level = props.levelSetting.levels[props.levelNum];
@@ -57,7 +75,6 @@ const play = async () => {
     showPlaying.value = true;
     for (let i = 0; i < level.gif.length; i++) {
       showing.value = level.gif[i];
-
       await new Promise((resolve) => setTimeout(resolve, 1000));
     }
     showPlaying.value = false;
@@ -82,9 +99,19 @@ onMounted(() => {
 .preview-goal-card {
   background-size: cover;
   background-attachment: scroll;
-  border-radius: 15px;
+  border-radius: 20px;
   width: 100%;
   height: 100%;
+}
+
+.beat {
+  animation: beat 3s infinite alternate;
+}
+
+@keyframes beat {
+  to {
+    transform: scale(0.9);
+  }
 }
 </style>
 window-height window-width
