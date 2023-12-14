@@ -19,6 +19,10 @@
               () => {
                 setDialog('preview', false);
                 setupBtListeners();
+
+                if (settingNum == 0 && levelNum == 1) {
+                  startStudioOnboarding();
+                }
               }
             "
           />
@@ -395,7 +399,6 @@ const openHints = () => {
 
 onMounted(() => {
   if (settingNum == 0 && levelNum == 1) {
-    startStudioOnboarding();
     initializeLocalActivityProgress();
   }
 
@@ -514,13 +517,17 @@ const endProgressNotify = () => {
 };
 
 const write = () => {
-  executeCodes(
-    bluetoothSerial,
-    blocklyGenerator(),
-    startProgressNotify,
-    endProgressNotify,
-    notifyError
-  );
+  if (blocklyGenerator().length === 0) {
+    executeCodes(
+      bluetoothSerial,
+      blocklyGenerator(),
+      startProgressNotify,
+      endProgressNotify,
+      notifyError
+    );
+  } else {
+    $q.notify({ type: 'negative', message: 'No Blocks to Upload' });
+  }
 };
 
 const startLoadingUpload = () => {
