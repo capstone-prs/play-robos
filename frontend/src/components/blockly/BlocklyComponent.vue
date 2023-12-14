@@ -217,6 +217,7 @@ import BadgeDialog from '../BadgeDialog.vue';
 import {
   addLocalActivityProgress,
   getLocalActivities,
+  updateLocalActivityProgress,
   updateLocalUserCoins,
 } from '../../dexie/db';
 import { userID } from '../../firebase/firestore';
@@ -254,8 +255,6 @@ const coinsStorage = computed(
   () => $q.localStorage.getItem('coin_storage') || 0
 );
 const currentActivityScore = ref(0);
-const badgeName = ref('');
-const badgeUrl = ref('');
 const badge = ref<Badge>({
   name: '',
   url: '',
@@ -362,11 +361,10 @@ const coinsComputed = () => {
     userID(),
     activityData,
     stopwatch.value?.totalTime ?? 0,
-    1, //atempt
+    parseInt($q.localStorage.getItem('failed-attemps') || '0'), //TODO: add number of attempts here
     100, // decomposition
     100 // pattern
   );
-
   soundEffect(victory); //FIXME: doubled sound
   setDialog('coins');
 
@@ -378,7 +376,7 @@ const coinsComputed = () => {
         activity.level === levelNum
     );
     console.log(condition);
-    if (condition === undefined) {
+    if (condition === undefined || localActivities.length === 0) {
       //indexing the data progress to dexie
       addLocalActivityProgress(
         dataToUpdate.userId,
@@ -390,15 +388,29 @@ const coinsComputed = () => {
       )
         .then((result) => {
           activityScore.value = result;
-          console.log(result);
+          console.log('was here', result);
         })
         .catch((error) => {
-          console.log(error);
+          console.log('error', error);
         });
       updateLocalUserCoins(userID(), thisLevel.reward);
     } else {
+      updateLocalActivityProgress(
+        dataToUpdate.userId,
+        dataToUpdate.decomposition,
+        dataToUpdate.attempt,
+        dataToUpdate.pattern,
+        dataToUpdate.duration,
+        thisLevel.levelNum,
+        settingNum
+      )
+        .then((result) => {
+          activityScore.value = result;
+        })
+        .catch(() => {
+          console.log('error');
+        });
       retried.value = true;
-      //TODO: Handle the logic and business rules for retry
     }
   });
 };
@@ -437,9 +449,6 @@ onMounted(() => {
   });
 
   console.log(isDialogOpen.value.badge);
-
-  badgeName.value = badge.value.name ?? '';
-  badgeUrl.value = badge.value.url ?? '';
 
   workspace.value = inject(blocklyContainer.value, {
     // refer to typetoolbox.ts file

@@ -13,8 +13,8 @@ export const localActivityProgress = (
   const inputProgress = {
     userId: userId,
     activity: activity,
-    duration: solveDurationScore(duration),
-    attempt: solveAttemptScore(attempt),
+    duration: duration,
+    attempt: attempt,
     decomposition: decomp,
     pattern: pattern,
   };
@@ -70,8 +70,8 @@ export const solveActivityScore = (
   const decompWeight = 30;
 
   const weightedSum =
-    attemptScore * (attemptWeight / 100) +
-    durationScore * (durationWeight / 100) +
+    solveAttemptScore(attemptScore) * (attemptWeight / 100) +
+    solveDurationScore(durationScore) * (durationWeight / 100) +
     patternScore * (patternWeight / 100) +
     decompScore * (decompWeight / 100);
 

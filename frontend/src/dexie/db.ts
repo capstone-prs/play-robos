@@ -37,7 +37,7 @@ export const addLocalActivity = async (activity: Activity) => {
   });
 };
 
-export const addLocalActivityProgress = async (
+export const addLocalActivityProgress = (
   user: string,
   activity: Activity,
   duration: number,
@@ -48,7 +48,6 @@ export const addLocalActivityProgress = async (
   return new Promise<number>((resolve, reject) => {
     addLocalActivity(activity).then((res) => {
       const actId = res;
-      console.log(activity);
 
       const score = solveActivityScore(
         attempt,
@@ -67,6 +66,7 @@ export const addLocalActivityProgress = async (
         decomposition: decompScore,
         pattern: patternScore,
       };
+
       dexie_db.userActivityProgresses
         .add(dataProgress)
         .then(() => {
@@ -79,7 +79,7 @@ export const addLocalActivityProgress = async (
   });
 };
 
-export const addLocalBadge = async (badge: Badge): Promise<Badge> => {
+export const addLocalBadge = (badge: Badge): Promise<Badge> => {
   return new Promise<Badge>((resolve, reject) => {
     dexie_db.badges
       .add(badge)
@@ -92,7 +92,7 @@ export const addLocalBadge = async (badge: Badge): Promise<Badge> => {
   });
 };
 
-export const getLocalBadges = async (): Promise<Badge[]> => {
+export const getLocalBadges = (): Promise<Badge[]> => {
   return new Promise<Badge[]>((resolve, reject) => {
     const collection = dexie_db.badges;
     collection
@@ -106,27 +106,25 @@ export const getLocalBadges = async (): Promise<Badge[]> => {
   });
 };
 
-export const addLocalUser = async (user: User): Promise<User> => {
-  const existingUser = await dexie_db.users.get(user.id || '');
-
-  return new Promise<User>((resolve, reject) => {
-    if (!existingUser) {
-      dexie_db.users
-        .add(user)
-        .then(() => {
-          resolve(user);
-        })
-        .catch((error) => {
-          console.log(error.name);
-          reject(error);
-        });
-    }
+export const addLocalUser = (user: User): Promise<User> => {
+  return dexie_db.users.get(user.id || '').then((existingUser) => {
+    return new Promise<User>((resolve, reject) => {
+      if (!existingUser) {
+        dexie_db.users
+          .add(user)
+          .then(() => {
+            resolve(user);
+          })
+          .catch((error) => {
+            console.log(error.name);
+            reject(error);
+          });
+      }
+    });
   });
 };
 
-export const getLocalActivityProgress = async (): Promise<
-  ActivityProgress[]
-> => {
+export const getLocalActivityProgress = (): Promise<ActivityProgress[]> => {
   return new Promise<ActivityProgress[]>((resolve, reject) => {
     const collection = dexie_db.userActivityProgresses;
     collection
@@ -140,7 +138,7 @@ export const getLocalActivityProgress = async (): Promise<
   });
 };
 
-export const getLocalActivities = async (): Promise<Activity[]> => {
+export const getLocalActivities = (): Promise<Activity[]> => {
   return new Promise<Activity[]>((resolve, reject) => {
     const collection = dexie_db.activities;
 
@@ -155,7 +153,7 @@ export const getLocalActivities = async (): Promise<Activity[]> => {
   });
 };
 
-export const getLocalUser = async (id: string): Promise<User | undefined> => {
+export const getLocalUser = (id: string): Promise<User | undefined> => {
   return new Promise<User | undefined>((resolve, reject) => {
     dexie_db.users
       .get(id)
@@ -168,7 +166,7 @@ export const getLocalUser = async (id: string): Promise<User | undefined> => {
   });
 };
 
-export const updateLocalUserScore = async (
+export const updateLocalUserScore = (
   id: string,
   score: number
 ): Promise<string> => {
@@ -188,7 +186,7 @@ export const updateLocalUserScore = async (
   });
 };
 
-export const updateLocalUserCoins = async (
+export const updateLocalUserCoins = (
   id: string,
   coins: number
 ): Promise<number> => {
@@ -203,6 +201,129 @@ export const updateLocalUserCoins = async (
       })
       .then(() => {
         resolve(totalCoins);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+export const getLocalActivity = (id: number): Promise<Activity | undefined> => {
+  return new Promise<Activity | undefined>((resolve, reject) => {
+    dexie_db.activities
+      .get(id)
+      .then((res) => {
+        resolve(res);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+export const tryUpdate = (
+  user: string,
+  activityParam: Activity,
+  duration: number,
+  attempt: number,
+  decompScore: number,
+  patternScore: number
+): Promise<number> => {
+  return new Promise<number>((resolve, reject) => {
+    const score = solveActivityScore(
+      attempt,
+      duration,
+      decompScore,
+      patternScore
+    );
+
+    getLocalActivityProgress().then((progresses) => {
+      //always undefined because the progress is always not yet created
+      const existingProgress = progresses.find((progress) => {
+        getLocalActivity(progress.activityId).then((res) => {
+          progress.activityId === res?.id;
+        });
+      });
+
+      console.log(existingProgress);
+
+      if (!existingProgress) {
+        addLocalActivityProgress(
+          user,
+          activityParam,
+          duration,
+          attempt,
+          decompScore,
+          patternScore
+        )
+          .then(() => {
+            resolve(score);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      } else {
+        updateLocalUserScore(user, score);
+
+        dexie_db.userActivityProgresses
+          .where('activityId')
+          .equals(existingProgress.activityId)
+          .modify((prog) => {
+            prog.attempt = attempt;
+            prog.duration = duration;
+            prog.decomposition = decompScore;
+            prog.pattern = patternScore;
+          })
+          .then(() => {
+            resolve(score);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      }
+    });
+  });
+};
+
+export const updateLocalActivityProgress = (
+  userID: string,
+  decompScore: number,
+  attempt: number,
+  patternScore: number,
+  duration: number,
+  activityNum: number,
+  settingNum: number
+): Promise<number> => {
+  return new Promise<number>((resolve, reject) => {
+    const score = solveActivityScore(
+      attempt,
+      duration,
+      decompScore,
+      patternScore
+    );
+    const matchActivity = dexie_db.activities
+      .where('level')
+      .equals(activityNum)
+      .and((level) => level.setting === settingNum);
+
+    const determinant = matchActivity.toArray();
+
+    determinant
+      .then((activities) => {
+        updateLocalUserScore(userID, score);
+
+        return dexie_db.userActivityProgresses
+          .where('activity')
+          .equals(activities[0].id ?? 0)
+          .modify((progress) => {
+            progress.attempt = attempt;
+            progress.duration = duration;
+            progress.decomposition = decompScore;
+            progress.pattern = patternScore;
+          });
+      })
+      .then(() => {
+        resolve(score);
       })
       .catch((error) => {
         reject(error);

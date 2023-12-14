@@ -27,7 +27,7 @@
             </div>
           </q-linear-progress>
           <div class="q-mt-lg">
-            <q-table :rows="rows" :columns="columns" row-key="name" />
+            <q-table :rows="testRows" :columns="columns" row-key="name" />
           </div>
           <div class="q-mt-lg">
             <q-card class="q-pa-sm">
@@ -70,23 +70,43 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { QTableColumn } from 'quasar';
-import { getLocalActivityProgress, getLocalUser } from '../dexie/db';
-import { ActivityProgress } from '../types/Progress';
+import {
+  getLocalActivity,
+  getLocalActivityProgress,
+  getLocalUser,
+} from '../dexie/db';
 import { userID } from '../firebase/firestore';
 
 const userScore = ref<number>(0);
 const percentage = (userScore.value / 3000) * 1000;
-const rows = ref<Array<ActivityProgress>>([]);
+
+const testRows = ref<Array<object>>([]);
 
 onMounted(() => {
-  getLocalActivityProgress().then((progresses) => {
-    rows.value = progresses;
-  });
-
   getLocalUser(userID()).then((user) => {
     const score = user?.score || 0;
-    userScore.value = score;
+    userScore.value = Math.floor(score);
   });
+
+  getLocalActivityProgress().then((activities) => {
+    console.log(activities);
+    activities.forEach((activity) => {
+      getLocalActivity(activity.activityId).then((act) => {
+        const data = {
+          activity: act?.title,
+          difficulty: act?.difficulty,
+          duration: activity.duration,
+          attempt: activity.attempt,
+          decomposition: activity.decomposition,
+          pattern: activity.pattern,
+        };
+        testRows.value.push(data);
+        console.log(data);
+      });
+    });
+  });
+
+  console.log(testRows);
 });
 
 const columns: QTableColumn[] = [
@@ -105,7 +125,7 @@ const columns: QTableColumn[] = [
   {
     name: 'duration',
     align: 'center',
-    label: 'Duration',
+    label: 'Duration (s)',
     field: 'duration',
   },
   {
