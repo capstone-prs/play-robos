@@ -46,7 +46,7 @@ describe('Firebase Functions', () => {
     return addUser(userData, id).then(() =>
       expect(setDoc).toHaveBeenCalledWith(expect.anything(), {
         ...userData,
-        user_id: id,
+        id: id,
       })
     );
   });
