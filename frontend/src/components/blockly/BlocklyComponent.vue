@@ -23,6 +23,7 @@
                 if (settingNum == 0 && levelNum == 1) {
                   startStudioOnboarding();
                 }
+                badgeReward();
               }
             "
           />
@@ -349,6 +350,21 @@ const toolbox =
 const thisLevel = thisSetting.levels[levelNum - 1];
 const correctCodes = thisLevel.correctCode;
 
+const badgeReward = () => {
+  launchBadgeReward().then((result) => {
+    badge.value = {
+      name: result.badgeName,
+      url: result.badgeUrl,
+      description: result.description,
+    };
+    if (badge.value.name === '' && badge.value.url === '') {
+      isDialogOpen.value.badge = false;
+    } else {
+      isDialogOpen.value.badge = true;
+    }
+  });
+};
+
 const coinsComputed = () => {
   //data activity
   const activityData: Activity = {
@@ -439,19 +455,6 @@ const openHints = () => {
 };
 
 onMounted(() => {
-  launchBadgeReward().then((result) => {
-    badge.value = {
-      name: result.badgeName,
-      url: result.badgeUrl,
-      description: result.description,
-    };
-    if (badge.value.name === '' && badge.value.url === '') {
-      isDialogOpen.value.badge = false;
-    } else {
-      isDialogOpen.value.badge = true;
-    }
-  });
-
   console.log(isDialogOpen.value.badge);
 
   workspace.value = inject(blocklyContainer.value, {
