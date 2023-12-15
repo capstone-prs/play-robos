@@ -81,7 +81,7 @@ export const settings_easy: Setting[] = [
           raiseRight180,
         ], //robot
         hint: [''], //to confirm to paul
-        correctCode: [],
+        correctCode: [{ eyes: '0' }],
         completed: true,
       },
       {
