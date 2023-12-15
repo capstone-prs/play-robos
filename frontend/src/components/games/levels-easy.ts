@@ -61,25 +61,7 @@ export const settings_easy: Setting[] = [
         levelNum: 1,
         goalTitle: 'Top of the morning!',
         reward: 200,
-        gif: [
-          closeEyes,
-          normalLook,
-          lookLeft,
-          lookRight,
-          lookUpLeft,
-          lookUpRight,
-          turnLeftHead,
-          normalHead,
-          turnRightHead,
-          raiseLeft60,
-          raiseRight60,
-          raiseLeft120,
-          raiseRight120,
-          raiseLeft150,
-          raiseRight150,
-          raiseLeft180,
-          raiseRight180,
-        ], //robot
+        gif: [], //robot
         hint: [''], //to confirm to paul
         correctCode: [{ eyes: '0' }],
         completed: true,

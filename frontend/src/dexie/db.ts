@@ -2,6 +2,7 @@ import Dexie from 'dexie';
 import { User } from '../types/Users';
 import { Activity, ActivityProgress, Badge } from '../types/Progress';
 import { solveActivityScore } from '../utils/activityProgress';
+import { userID } from '../firebase/firestore';
 
 export class IndexedDB extends Dexie {
   users!: Dexie.Table<User, string>;
@@ -12,12 +13,13 @@ export class IndexedDB extends Dexie {
   constructor() {
     super('IndexedDB');
 
-    this.version(3).stores({
+    this.version(5).stores({
       users: 'id, name, birthdate, gender, coins, score',
-      activities: '++id, title, reward, setting, level, difficulty, completed',
+      activities:
+        '++id, userId, title, reward, setting, level, difficulty, completed',
       userActivityProgresses:
-        '++id, user, activity, duration, attempt, decomposition, pattern',
-      badges: '++id, name, url, description',
+        '++id, userId, activityId, duration, attempt, decomposition, pattern',
+      badges: '++id, userId, name, url, description',
     });
   }
 }
@@ -94,7 +96,7 @@ export const addLocalBadge = (badge: Badge): Promise<Badge> => {
 
 export const getLocalBadges = (): Promise<Badge[]> => {
   return new Promise<Badge[]>((resolve, reject) => {
-    const collection = dexie_db.badges;
+    const collection = dexie_db.badges.where('userId').equals(userID());
     collection
       .toArray()
       .then((result) => {
@@ -125,7 +127,9 @@ export const addLocalUser = (user: User): Promise<User> => {
 
 export const getLocalActivityProgress = (): Promise<ActivityProgress[]> => {
   return new Promise<ActivityProgress[]>((resolve, reject) => {
-    const collection = dexie_db.userActivityProgresses;
+    const collection = dexie_db.userActivityProgresses
+      .where('userId')
+      .equals(userID());
     collection
       .toArray()
       .then((result) => {
@@ -139,7 +143,7 @@ export const getLocalActivityProgress = (): Promise<ActivityProgress[]> => {
 
 export const getLocalActivities = (): Promise<Activity[]> => {
   return new Promise<Activity[]>((resolve, reject) => {
-    const collection = dexie_db.activities;
+    const collection = dexie_db.activities.where('userId').equals(userID());
 
     collection
       .toArray()
@@ -210,6 +214,7 @@ export const updateLocalUserCoins = (
 export const getLocalActivity = (id: number): Promise<Activity | undefined> => {
   return new Promise<Activity | undefined>((resolve, reject) => {
     dexie_db.activities
+
       .get(id)
       .then((res) => {
         resolve(res);
@@ -236,31 +241,49 @@ export const updateLocalActivityProgress = (
       decompScore,
       patternScore
     );
+
     const matchActivity = dexie_db.activities
       .where('level')
       .equals(activityNum)
       .and((level) => level.setting === settingNum);
+    console.log(matchActivity);
+    matchActivity
+      .first()
+      .then((activity) => {
+        if (!activity) {
+          throw new Error('No matching activity found.');
+        }
 
-    const determinant = matchActivity.toArray();
-
-    determinant
-      .then((activities) => {
+        // Update local user score before modifying progress records
+        console.log('Updating user score...');
         updateLocalUserScore(userID, score);
 
-        return dexie_db.userActivityProgresses
-          .where('activity')
-          .equals(activities[0].id ?? 0)
+        // Use a separate promise chain for modifying progress records
+        console.log('Modifying userActivityProgresses...');
+        console.log(activity);
+        const x = dexie_db.userActivityProgresses;
+        return x
+          .where('activityId')
+          .equals(activity.id ?? 1)
           .modify((progress) => {
+            console.log('inside modify');
             progress.attempt = attempt;
             progress.duration = duration;
             progress.decomposition = decompScore;
             progress.pattern = patternScore;
+
+            console.log('Progress modified:', progress);
+          })
+          .then((res) => {
+            console.log(res);
           });
       })
       .then(() => {
+        console.log('Resolution with score:', score);
         resolve(score);
       })
       .catch((error) => {
+        console.error('Error:', error);
         reject(error);
       });
   });

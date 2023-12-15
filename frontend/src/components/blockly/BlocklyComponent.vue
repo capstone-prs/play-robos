@@ -269,6 +269,7 @@ const badge = ref<Badge>({
   name: '',
   url: '',
   description: '',
+  userId: '',
 });
 const activityScore = ref(0);
 const retried = ref(false);
@@ -372,6 +373,7 @@ const badgeReward = () => {
       name: result.badgeName,
       url: result.badgeUrl,
       description: result.description,
+      userId: userID(),
     };
     if (badge.value.name === '' && badge.value.url === '') {
       isDialogOpen.value.badge = false;
@@ -390,6 +392,7 @@ const coinsComputed = () => {
     level: thisLevel.levelNum,
     difficulty: ageGroup as Difficulty,
     completed: true,
+    userId: userID(),
   };
 
   //data progress
