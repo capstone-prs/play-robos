@@ -76,19 +76,19 @@ const blocks: BlockGeneratorType[] = [
     data: { rightLeg: '1' },
   },
 
-  {
-    name: 'right_wheel_backward',
-    data: { rightLeg: '2' },
-  },
+  // {
+  //   name: 'right_wheel_backward',
+  //   data: { rightLeg: '2' },
+  // },
 
   {
     name: 'left_wheel_forward',
     data: { leftLeg: '1' },
   },
-  {
-    name: 'left_wheel_backward',
-    data: { leftLeg: '2' },
-  },
+  // {
+  //   name: 'left_wheel_backward',
+  //   data: { leftLeg: '2' },
+  // },
 ];
 
 blocks.forEach((block) => {
@@ -124,10 +124,10 @@ javascriptGenerator.forBlock['all_parts'] = function (
   const blockNames = [
     'eyes',
     'head',
-    'left_arm',
-    'right_arm',
-    'left_leg',
-    'right_leg',
+    'leftArm',
+    'rightArm',
+    'leftLeg',
+    'rightLeg',
   ];
   // const duration = block.getFieldValue('NAME');
 
@@ -135,16 +135,24 @@ javascriptGenerator.forBlock['all_parts'] = function (
     const blockValue = generator.statementToCode(block, blockName);
 
     if (blockValue !== '') {
-      const value = JSON.parse(blockValue);
+      if (blockValue.trim().split('\n').length > 1) {
+        throw 'Ilegal Build';
+      }
 
-      return { ...previous, ...value };
+      const value = JSON.parse(blockValue);
+      const inputedBlock = Object.keys(value);
+
+      if (inputedBlock.length === 1 && inputedBlock[0] === blockName) {
+        return { ...previous, ...value };
+      }
+      throw 'Block Mismatched';
     }
 
     return previous;
   }, {} as { [key: string]: string });
 
   if (Object.keys(collatedCode).length !== 0) {
-    return JSON.stringify({ ...collatedCode });
+    return JSON.stringify({ ...collatedCode }) + '\n';
   }
 
   return '';
