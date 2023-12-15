@@ -16,11 +16,12 @@
           </div>
         </div>
       </div>
+
       <div class="col level-board" align="center">
         <div class="setting-level-text">
           <!-- to change settings name -->
           <q-icon color="red-7" name="place" size="xl" />
-          <span style="color: rgb(244, 240, 0)"> {{ getSettingName }}</span>
+          <span style="color: rgb(255, 247, 28)"> {{ getSettingName }}</span>
         </div>
       </div>
 
@@ -76,6 +77,29 @@
     <q-footer class="transparent">
       <div class="home row q-ml-md q-mb-md">
         <PreviousButton @click="navigateBack" data-cy="previous-btn" />
+        <div
+          class="col q-mr-xl q-ml-xl q-mt-sm"
+          align="center"
+          style="margin-left: 200px; margin-right: 270px"
+        >
+          <q-linear-progress
+            stripe
+            size="30px"
+            :value="doneAct / 5"
+            color="green-4"
+            track-color="white"
+            rounded
+            style="border-radius: 30px"
+          >
+            <div class="absolute-full flex flex-center">
+              <q-badge
+                color="white"
+                text-color="red-5"
+                :label="doneAct.toString() + ' / 5'"
+              />
+            </div>
+          </q-linear-progress>
+        </div>
       </div>
     </q-footer>
   </q-layout>
@@ -105,11 +129,13 @@ const splitParams = levelNumber.split(' ');
 const difficulty = splitParams[0];
 const settingNumber = parseInt(splitParams[1]);
 const allLevels = ref<Array<Activity>>([]);
+const doneAct = ref(0);
 
 onMounted(async () => {
   allLevels.value = await getLocalActivities();
   introScene(settingNumber);
   checkSettingProgress();
+  determineProgress();
 });
 
 const introMapScenes = ['0_3', '8_12', '16_19', '29_35', '39_43'];
@@ -215,6 +241,19 @@ const setBackgroundImage = computed(() => ({
   backgroundImage: `url(${getSettingImage.value})`,
   backgroundSize: 'cover',
 }));
+
+const determineProgress = () => {
+  determineLevelsToDisplay.value.forEach((level) => {
+    const determinant = allLevels.value.find(
+      (completedLevel) =>
+        completedLevel.difficulty === difficulty &&
+        completedLevel.setting === settingNumber &&
+        completedLevel.level === level.levelNum - 1
+    )?.completed;
+
+    determinant ? (doneAct.value += 1) : '';
+  });
+};
 </script>
 
 <style>

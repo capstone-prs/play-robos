@@ -127,7 +127,7 @@ const showLoading = () => {
 
   setTimeout(() => {
     $q.loading.hide();
-  }, 2000);
+  }, 500);
 };
 
 // send age group and active setting via route parameter
