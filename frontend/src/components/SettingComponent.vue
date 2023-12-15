@@ -20,6 +20,7 @@
               : ''
           "
         />
+        {{ determineSettingIndication(index) }}
       </q-virtual-scroll>
     </div>
   </div>
@@ -46,9 +47,17 @@ import 'intro.js/introjs.css';
 import settingConfig from '../onboarding/intro.json';
 import { Options } from 'intro.js/src/option';
 
+const props = defineProps<{
+  imageUrls: Array<string>;
+  ageGroup: string;
+  settingNames: Array<string>;
+  accessibility: Array<boolean>;
+}>();
+
 const $q = useQuasar();
 const router = useRouter();
 const intro = introJS();
+const currentSett = ref(0);
 
 // TODO: TO change when progress is accessible
 const activeSetting = ref(0);
@@ -62,28 +71,52 @@ onMounted(() => {
   if (sessionStorage.getItem('hasCompletedOnboarding') == 'true') {
     startOnboarding();
   }
-
-  const activeLocalSetting = localStorage.getItem('activeSetting');
-  const storedActiveLocalSetting = activeLocalSetting
-    ? parseInt(activeLocalSetting)
-    : 0;
-
-  activeSetting.value = storedActiveLocalSetting;
-
-  const latestLocalAccessibleSetting = localStorage.getItem('activeSetting');
-  const storedLatestAccessibleSetting = latestLocalAccessibleSetting
-    ? parseInt(latestLocalAccessibleSetting)
-    : 0;
-
-  latestAccessibleSetting.value = storedLatestAccessibleSetting;
 });
 
-const props = defineProps<{
-  imageUrls: Array<string>;
-  ageGroup: string;
-  settingNames: Array<string>;
-  accessibility: Array<boolean>;
-}>();
+const determineSettingIndication = (index: number) => {
+  currentSett.value = index;
+  if (props.ageGroup === 'easy') {
+    const activeLocalSetting = localStorage.getItem('activeSetting');
+    const storedActiveLocalSetting = activeLocalSetting
+      ? parseInt(activeLocalSetting)
+      : 0;
+    storedActiveLocalSetting > index
+      ? (activeSetting.value = storedActiveLocalSetting)
+      : (activeSetting.value = activeSetting.value);
+    // activeSetting.value = storedActiveLocalSetting;
+
+    const latestLocalAccessibleSetting = localStorage.getItem('activeSetting');
+    const storedLatestAccessibleSetting = latestLocalAccessibleSetting
+      ? parseInt(latestLocalAccessibleSetting)
+      : 0;
+
+    storedLatestAccessibleSetting > index
+      ? (latestAccessibleSetting.value = storedLatestAccessibleSetting)
+      : (latestAccessibleSetting.value = latestAccessibleSetting.value);
+    // latestAccessibleSetting.value = storedLatestAccessibleSetting;
+  } else {
+    const activeLocalSetting = localStorage.getItem('activeSettingHard');
+    const storedActiveLocalSetting = activeLocalSetting
+      ? parseInt(activeLocalSetting)
+      : 0;
+    storedActiveLocalSetting > index
+      ? (activeSetting.value = storedActiveLocalSetting)
+      : (activeSetting.value = activeSetting.value);
+    // activeSetting.value = storedActiveLocalSetting;
+
+    const latestLocalAccessibleSetting =
+      localStorage.getItem('activeSettingHard');
+    const storedLatestAccessibleSetting = latestLocalAccessibleSetting
+      ? parseInt(latestLocalAccessibleSetting)
+      : 0;
+
+    storedLatestAccessibleSetting > index
+      ? (latestAccessibleSetting.value = storedLatestAccessibleSetting)
+      : (latestAccessibleSetting.value = latestAccessibleSetting.value);
+
+    // latestAccessibleSetting.value = storedLatestAccessibleSetting;
+  }
+};
 
 const showLoading = () => {
   $q.loading.show({

@@ -2,6 +2,7 @@ export type Difficulty = 'easy' | 'hard';
 
 export interface Activity {
   id?: number;
+  userId: string;
   title: string;
   reward: number;
   setting: number;
@@ -22,6 +23,7 @@ export interface ActivityProgress {
 
 export interface Badge {
   id?: number;
+  userId: string;
   name: string;
   url: string;
   description: string;

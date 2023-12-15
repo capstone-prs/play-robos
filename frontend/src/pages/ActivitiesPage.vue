@@ -145,8 +145,9 @@ const checkSettingProgress = async () => {
           lev.levelNum
       )
     );
+    const currentCompleted = localStorage.getItem('activeSetting') ?? '0';
 
-    if (isAllCompleted) {
+    if (isAllCompleted && settingNumber >= parseInt(currentCompleted)) {
       settings_easy[settingNumber + 1].accessible = true;
       localStorage.setItem('activeSetting', (settingNumber + 1).toString());
       localStorage.setItem(
@@ -165,9 +166,11 @@ const checkSettingProgress = async () => {
       )
     );
 
-    if (isAllCompleted) {
+    const currentCompleted = localStorage.getItem('activeSettingHard') ?? '0';
+
+    if (isAllCompleted && settingNumber >= parseInt(currentCompleted)) {
       settings_hard[settingNumber + 1].accessible = true;
-      localStorage.setItem('activeSetting', (settingNumber + 1).toString());
+      localStorage.setItem('activeSettingHard', (settingNumber + 1).toString());
     }
   }
 };

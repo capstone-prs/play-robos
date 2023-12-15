@@ -170,6 +170,7 @@ export const launchBadgeReward = async () => {
       name: badgeRew.badgeName,
       url: badgeRew.badgeUrl,
       description: badgeRew.description,
+      userId: userID(),
     });
 
     return {
