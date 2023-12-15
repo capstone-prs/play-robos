@@ -8,7 +8,7 @@ const auth = getAuth();
 export const addUser = (data: NewUser, id: string) =>
   setDoc(doc(db, 'users', id), {
     ...data,
-    user_id: id,
+    id: id,
   });
 
 export const getUser = (id: string) =>
@@ -20,7 +20,7 @@ export const getUser = (id: string) =>
     }
   });
 
-export const userID = () => {
+export const userID = (): string => {
   return auth.currentUser ? auth.currentUser.uid : '0'; // FIXME:
 };
 

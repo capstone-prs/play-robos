@@ -283,9 +283,11 @@ const submit = () => {
           localStorage.setItem('userDifficulty', difficulty);
           return addUser(
             {
-              user_name: data.name.model.value,
-              user_gender: data.gender.model.value,
-              user_birthdate: new Date(data.birthdate.model.value),
+              name: data.name.model.value,
+              gender: data.gender.model.value,
+              birthdate: new Date(data.birthdate.model.value),
+              coins: 0,
+              score: 0,
             },
             newUser.uid
           ).then(() => {

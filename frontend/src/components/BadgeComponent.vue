@@ -1,19 +1,35 @@
 <template>
   <div class="row">
+    <BadgeDetails
+      :badge-name="selectedBadge.name"
+      :badge-url="selectedBadge.url"
+      :badge-desc="selectedBadge.description"
+      v-model="isDetailOpen"
+    />
     <q-card
-      style="width: 150px"
+      style="width: 120px; border-radius: 30px"
       class="q-ma-md"
-      v-for="index in badges"
-      :key="index.badgeName"
+      v-for="index in allBadges"
+      :key="index.name"
+      @click="openDetail(index)"
     >
       <q-card-section align="center">
-        <q-icon :name="'img:' + index.badgeUrl" size="80px" />
-        <h8 class="title" align="center">{{ index.badgeName }}</h8>
+        <q-icon
+          class="q-mb-sm"
+          :name="'img:' + index.url"
+          size="80px"
+          style="
+            background-color: rgb(236, 236, 233);
+            border-radius: 50px;
+            box-shadow: rgba(163, 163, 163, 0.55) 5px 5px 2px -3px;
+          "
+        />
+        <h8 class="title" align="center">{{ index.name }}</h8>
       </q-card-section>
     </q-card>
     <q-card-section>
       <div
-        v-if="badges.length === 0"
+        v-if="allBadges.length === 0"
         class="description fixed-center"
         style="color: grey"
       >
@@ -24,30 +40,36 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount } from 'vue';
-import { Badge, LocalData } from '../types/Progress';
+import { onBeforeMount, ref } from 'vue';
+import { Badge } from '../types/Progress';
+import { getLocalBadges } from '../dexie/db';
+import BadgeDetails from './BadgeDetails.vue';
 
-let badges: Badge[] = [];
+const isDetailOpen = ref(false);
 
-onBeforeMount(() => {
-  const storedDataString = localStorage.getItem('localData');
-  const storedUserData: LocalData = storedDataString
-    ? JSON.parse(storedDataString)
-    : null;
+const openDetail = (badge: Badge) => {
+  selectedBadge.value = badge;
+  isDetailOpen.value = true;
+};
 
-  storedUserData.badgesReceived.forEach((badge) => {
-    if (badge.badgeName != '' && badge.badgeUrl != '') {
-      const newElement = {
-        badgeName: badge.badgeName,
-        badgeUrl: badge.badgeUrl,
-      };
-      badges.push(newElement);
-    }
-  });
+const allBadges = ref<Badge[]>([
+  {
+    name: '',
+    url: '',
+    description: '',
+  },
+]);
+
+const selectedBadge = ref<Badge>({
+  name: '',
+  url: '',
+  description: '',
 });
 
-defineProps({
-  badgeUrl: String,
+onBeforeMount(() => {
+  getLocalBadges().then((result) => {
+    allBadges.value = result;
+  });
 });
 </script>
 

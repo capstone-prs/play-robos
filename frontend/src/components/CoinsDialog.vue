@@ -1,7 +1,7 @@
 <template>
   <q-dialog v-model="isDialogOpen" persistent>
     <q-card class="" style="width: 35%; height: 100%; border-radius: 20px">
-      <q-card-section>
+      <q-card-section class="q-mt-sm">
         <div class="row justify-center items-center">
           <q-icon
             class="col-3 stars"
@@ -20,12 +20,13 @@
 
       <q-card-section align="center" class="q-pa-none">
         <div class="text-h7 detail-title">SCORE</div>
-        <div class="text-h6 detail-text q-mb-sm">
-          {{ coins }}
+        <div class="text-h6 detail-text-coin q-mb-sm">
+          {{ score }}
         </div>
         <div class="text-h7 detail-title">REWARD</div>
-        <div class="text-h6 detail-text">
-          <q-icon size="30px" name="img:/coin-bag.svg" /> {{ coins }}
+        <div class="text-h6 detail-text-coin">
+          <q-icon size="30px" name="img:/coin-bag.svg" />
+          {{ isRetry ? 0 : coins }}
         </div>
       </q-card-section>
 
@@ -40,7 +41,7 @@
             icon="img:/restart.svg"
             class="col-2 q-ma-md"
             @click="
-              retry(levelNumber-1 , settingNumber, difficulty as Difficulty)
+              retry(levelNumber - 1, settingNumber, difficulty as Difficulty)
             "
           />
           <IconButton
@@ -67,7 +68,7 @@ const $q = useQuasar();
 
 const elementsArray = computed(() =>
   Array.from(
-    { length: computeStarsToDisplay(props.activityScore) },
+    { length: computeStarsToDisplay(props.score) },
     (_, index) => index + 1
   )
 );
@@ -81,6 +82,8 @@ const props = defineProps<{
   difficulty: string;
   maxLevel: number;
   activityScore: number;
+  score: number;
+  isRetry: boolean;
 }>();
 
 const computeStarsToDisplay = (activityScore: number) => {
@@ -100,9 +103,8 @@ const isDialogOpen = ref(false);
 const retry = (level: number, setting: number, difficulty: Difficulty) => {
   return router.push({
     name: 'studio',
-    params: { param: level + '_' + setting + '_' + difficulty }
+    params: { param: level + '_' + setting + '_' + difficulty },
   });
-
 };
 
 // const redo = () => {
@@ -121,7 +123,7 @@ const postCutscenesMap = [
   ['51', '52', '53', '54', '13_14'],
   ['55', '56', '57', '58', '20_27'],
   ['59', '60', '61', '62', '36_37'],
-  ['63', '64', '65', '66', '44_46']
+  ['63', '64', '65', '66', '44_46'],
 ];
 
 const postCutscenes = (
@@ -150,8 +152,8 @@ const postCutscenes = (
                 '_' +
                 difficulty +
                 '_' +
-                isNextSetting.value
-            }
+                isNextSetting.value,
+            },
           });
         }
       });
@@ -185,7 +187,7 @@ const postCutscenes = (
   text-shadow: 3px 0px 2px rgba(248, 239, 0, 0.906);
 }
 
-.detail-text {
+.detail-text-coin {
   color: rgb(70, 68, 68);
   font-family: 'futura';
   background-color: rgb(255, 249, 165);

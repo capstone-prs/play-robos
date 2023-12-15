@@ -1,8 +1,8 @@
 <template>
-  <q-dialog v-model="isDialogOpen" persistent>
+  <q-dialog v-model="isDialogOpen">
     <q-card class="" style="width: 40%; height: 100%; border-radius: 30px">
       <q-card-section align="center" class="q-pa-none q-mt-lg">
-        <div class="title-badge q-mb-sm">CONGRATULATIONS!</div>
+        <div class="title-badge q-mb-sm">{{ badgeName }}</div>
 
         <div>
           <q-icon
@@ -11,17 +11,9 @@
             :name="'img:' + badgeUrl"
           />
         </div>
-        <div class="description q-mt-sm">
-          You have unlocked the <b>{{ badgeName }}</b> badge!
+        <div class="description q-mt-sm q-ml-xl q-mr-xl">
+          {{ badgeDesc }}
         </div>
-      </q-card-section>
-      <q-card-section class="q-pa-sm q-mb-none q-mt-lg" align="center">
-        <q-btn
-          v-close-popup
-          label="CLOSE"
-          color="blue-6"
-          style="border-radius: 20px; padding-left: 120px; padding-right: 120px"
-        />
       </q-card-section>
     </q-card>
   </q-dialog>
@@ -35,6 +27,7 @@ const isDialogOpen = ref(false);
 defineProps({
   badgeName: String,
   badgeUrl: String,
+  badgeDesc: String,
 });
 </script>
 
