@@ -63,7 +63,7 @@ export const settings_easy: Setting[] = [
         reward: 200,
         gif: [], //robot
         hint: [''], //to confirm to paul
-        correctCode: [],
+        correctCode: [{ eyes: '0' }],
         completed: true,
       },
       {

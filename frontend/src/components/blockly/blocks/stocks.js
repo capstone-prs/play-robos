@@ -288,19 +288,19 @@ Blockly.defineBlocksWithJsonArray([
       },
       {
         type: 'input_statement',
-        name: 'left_arm',
+        name: 'leftArm',
       },
       {
         type: 'input_statement',
-        name: 'right_arm',
+        name: 'rightArm',
       },
       {
         type: 'input_statement',
-        name: 'left_leg',
+        name: 'leftLeg',
       },
       {
         type: 'input_statement',
-        name: 'right_leg',
+        name: 'rightLeg',
       },
     ],
     previousStatement: null,
@@ -695,40 +695,40 @@ Blockly.defineBlocksWithJsonArray([
     tooltip: '',
     helpUrl: '',
   },
-  {
-    type: 'all_part',
-    message0:
-      'eyes %1 head %2 left arm %3 right arm %4 left leg %5 right leg %6',
-    args0: [
-      {
-        type: 'input_statement',
-        name: 'eyes',
-      },
-      {
-        type: 'input_statement',
-        name: 'head',
-      },
-      {
-        type: 'input_statement',
-        name: 'left_arm',
-      },
-      {
-        type: 'input_statement',
-        name: 'right_arm',
-      },
-      {
-        type: 'input_statement',
-        name: 'left_leg',
-      },
-      {
-        type: 'input_statement',
-        name: 'right_leg',
-      },
-    ],
-    previousStatement: null,
-    nextStatement: null,
-    colour: 330,
-    tooltip: '',
-    helpUrl: '',
-  },
+  // {
+  //   type: 'all_part',
+  //   message0:
+  //     'eyes %1 head %2 left arm %3 right arm %4 left leg %5 right leg %6',
+  //   args0: [
+  //     {
+  //       type: 'input_statement',
+  //       name: 'eyes',
+  //     },
+  //     {
+  //       type: 'input_statement',
+  //       name: 'head',
+  //     },
+  //     {
+  //       type: 'input_statement',
+  //       name: 'left_arm',
+  //     },
+  //     {
+  //       type: 'input_statement',
+  //       name: 'right_arm',
+  //     },
+  //     {
+  //       type: 'input_statement',
+  //       name: 'left_leg',
+  //     },
+  //     {
+  //       type: 'input_statement',
+  //       name: 'right_leg',
+  //     },
+  //   ],
+  //   previousStatement: null,
+  //   nextStatement: null,
+  //   colour: 330,
+  //   tooltip: '',
+  //   helpUrl: '',
+  // },
 ]);
