@@ -23,7 +23,7 @@ export const localActivityProgress = (
 
 export const solveDurationScore = (duration: number) => {
   const maxScore = 100;
-  const timeThreshold = 60;
+  const timeThreshold = 40;
   const deductionRate = 10;
 
   let durationScore = 0;

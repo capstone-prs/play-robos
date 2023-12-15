@@ -12,11 +12,11 @@ export class IndexedDB extends Dexie {
   constructor() {
     super('IndexedDB');
 
-    this.version(3).stores({
+    this.version(4).stores({
       users: 'id, name, birthdate, gender, coins, score',
       activities: '++id, title, reward, setting, level, difficulty, completed',
       userActivityProgresses:
-        '++id, user, activity, duration, attempt, decomposition, pattern',
+        '++id, userId, activityId, duration, attempt, decomposition, pattern',
       badges: '++id, name, url, description',
     });
   }
@@ -236,31 +236,49 @@ export const updateLocalActivityProgress = (
       decompScore,
       patternScore
     );
+
     const matchActivity = dexie_db.activities
       .where('level')
       .equals(activityNum)
       .and((level) => level.setting === settingNum);
+    console.log(matchActivity);
+    matchActivity
+      .first()
+      .then((activity) => {
+        if (!activity) {
+          throw new Error('No matching activity found.');
+        }
 
-    const determinant = matchActivity.toArray();
-
-    determinant
-      .then((activities) => {
+        // Update local user score before modifying progress records
+        console.log('Updating user score...');
         updateLocalUserScore(userID, score);
 
-        return dexie_db.userActivityProgresses
-          .where('activity')
-          .equals(activities[0].id ?? 0)
+        // Use a separate promise chain for modifying progress records
+        console.log('Modifying userActivityProgresses...');
+        console.log(activity);
+        const x = dexie_db.userActivityProgresses;
+        return x
+          .where('activityId')
+          .equals(activity.id ?? 1)
           .modify((progress) => {
+            console.log('inside modify');
             progress.attempt = attempt;
             progress.duration = duration;
             progress.decomposition = decompScore;
             progress.pattern = patternScore;
+
+            console.log('Progress modified:', progress);
+          })
+          .then((res) => {
+            console.log(res);
           });
       })
       .then(() => {
+        console.log('Resolution with score:', score);
         resolve(score);
       })
       .catch((error) => {
+        console.error('Error:', error);
         reject(error);
       });
   });
