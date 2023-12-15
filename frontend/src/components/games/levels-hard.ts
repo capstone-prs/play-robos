@@ -59,7 +59,7 @@ export const settings_hard: Setting[] = [
         gif: [
         ], //robot
         hint: [''], //to confirm to paul
-        correctCode: [],
+        correctCode: [{ eyes: '0' }],
         completed: true,
       },
       {
@@ -317,7 +317,13 @@ export const settings_hard: Setting[] = [
         goalTitle: 'Escape the Flames',
         reward: 150,
         //gif: raise arm 160, run for 6 seconds
-        gif: [raiseRight180,turnRightHead, raiseLeft180, lookLeft, moveForward],
+        gif: [
+          raiseRight180,
+          turnRightHead,
+          raiseLeft180,
+          lookLeft,
+          moveForward,
+        ],
         //hint: raise arm 160, run for 6 seconds
         hint: [
           'Raise Right Arm 180°',
@@ -335,7 +341,6 @@ export const settings_hard: Setting[] = [
             rightArm: '5',
             leftLeg: '1',
             rightLeg: '1',
-          
           },
           //duration 6
         ],
@@ -690,7 +695,7 @@ export const settings_hard: Setting[] = [
         correctCode: [
           {
             eyes: 'd',
-            head:'1',
+            head: '1',
             leftArm: '4',
             rightArm: '5',
             leftLeg: '1',

@@ -34,14 +34,14 @@
           />
           <CheckDialog
             v-model="isDialogOpen.check"
-            :correct="isEqualCodes(correctCodes, blocklyGenerator())"
+            :correct="isEqualCodes(correctCodes, generatedCode)"
             :level-no="levelNum"
             @done="checkDone"
             @try-again="() => setDialog('check', false)"
           />
           <HintDialog
             v-model="isDialogOpen.hint"
-            :user-code="blocklyGenerator()"
+            :user-code="generatedCode"
             :level="thisLevel"
           />
           <GameOver v-model="gameover" />
@@ -53,8 +53,8 @@
               (isAdd) => {
                 if (isAdd <= (($q.localStorage.getItem('coin_storage') as number))) {
                   extralife();
-                }
-                else{notifyError('NOT ENOUGH COINS!')
+                } else{
+                notifyError('NOT ENOUGH COINS!');
                 openGameover();
               }
               }
@@ -170,11 +170,12 @@
 </template>
 
 <script setup lang="ts">
-import { useQuasar } from 'quasar';
+import { QNotifyUpdateOptions, useQuasar } from 'quasar';
 import { ref, onMounted, computed, watch, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { inject, WorkspaceSvg } from 'blockly';
 import * as Toolbox from './toolbox/typetoolbox';
+
 import './blocks/stocks';
 import './blocks/generator';
 import { onStart } from './OnStart';
@@ -227,6 +228,8 @@ import {
   updateLocalUserCoins
 } from '../../dexie/db';
 import { userID } from '../../firebase/firestore';
+import { Abstract } from 'blockly/core/events/events_abstract';
+import { GeneratorCode } from 'src/types/robotParts';
 
 const $q = useQuasar();
 const router = useRouter();
@@ -250,9 +253,11 @@ const openGameover = () => (gameover.value = true);
 const extra = ref(false);
 const disconnectListener = ref<ReturnType<typeof onDisconnect>>();
 const workspace = ref<WorkspaceSvg>();
+const generatedCode = ref<GeneratorCode[]>([]);
 const blocklyContainer = ref<string | Element>('');
 const stopwatch = ref<InstanceType<typeof StopwatchComponent> | null>(null);
-const initialTime = ref(0); // TODO: To be stored in user progress NOTE that only updates when timer is stopped @jenny
+const initialTime = ref(0);
+const errorNotify = ref<(props?: QNotifyUpdateOptions) => void>();
 // const arrayOfLives = ref<Array<string>>([lives, lives, lives]);
 const arrayOfLives = ref(
   ($q.localStorage.getItem('lives') as Array<string>) ?? [lives, lives, lives]
@@ -264,13 +269,14 @@ const currentActivityScore = ref(0);
 const badge = ref<Badge>({
   name: '',
   url: '',
-  description: ''
+  description: '',
+  userId: '',
 });
 const activityScore = ref(0);
 const retried = ref(false);
 
 const livesCost = () => {
-  if (isEqualCodes(correctCodes, blocklyGenerator()) === false) {
+  if (isEqualCodes(correctCodes, generatedCode.value) === false) {
     arrayOfLives.value.pop();
     $q.localStorage.set('lives', arrayOfLives.value);
   }
@@ -325,13 +331,24 @@ const setDialog = (key: Dialog, open = true) => {
 
 const notifyError = (e: string) => {
   soundEffect(errorSnd);
-  $q.notify({
+  return $q.notify({
     type: 'negative',
     message: e
   });
 };
 
-const blocklyGenerator = () => generator(workspace.value);
+const blocklyGenerator = () => {
+  errorNotify.value?.();
+  return generator(workspace.value)
+    .then((codes) => {
+      generatedCode.value = codes;
+      return codes;
+    })
+    .catch((error) => {
+      errorNotify.value = notifyError(error);
+      throw error;
+    });
+};
 
 const undo = () => {
   soundEffect();
@@ -356,7 +373,8 @@ const badgeReward = () => {
     badge.value = {
       name: result.badgeName,
       url: result.badgeUrl,
-      description: result.description
+      description: result.description,
+      userId: userID(),
     };
     if (badge.value.name === '' && badge.value.url === '') {
       isDialogOpen.value.badge = false;
@@ -374,7 +392,8 @@ const coinsComputed = () => {
     setting: settingNum,
     level: thisLevel.levelNum,
     difficulty: ageGroup as Difficulty,
-    completed: true
+    completed: true,
+    userId: userID(),
   };
 
   //data progress
@@ -485,6 +504,14 @@ onMounted(() => {
     }
   });
   setDialog('preview');
+
+  workspace.value.addChangeListener(
+    (e: Abstract & { newInputName?: string; reason?: string[] }) => {
+      if (e.reason && e.reason[0] === 'connect') {
+        blocklyGenerator();
+      }
+    }
+  );
 });
 
 const checkDone = () => {
@@ -550,17 +577,23 @@ const endProgressNotify = () => {
 };
 
 const write = () => {
-  if (blocklyGenerator().length === 0) {
-    executeCodes(
-      bluetoothSerial,
-      blocklyGenerator(),
-      startProgressNotify,
-      endProgressNotify,
-      notifyError
-    );
-  } else {
-    $q.notify({ type: 'negative', message: 'No Blocks to Upload' });
-  }
+  blocklyGenerator().then(() => {
+    if (generatedCode.value.length > 0) {
+      executeCodes(
+        bluetoothSerial,
+        generatedCode.value,
+        startProgressNotify,
+        endProgressNotify,
+        notifyError
+      );
+    } else {
+      console.log(errorNotify.value);
+      $q.notify({
+        type: 'negative',
+        message: 'No Blocks to Upload',
+      });
+    }
+  });
 };
 
 const startLoadingUpload = () => {

@@ -1,8 +1,8 @@
 <template>
   <q-dialog v-model="isFindingDialogOpen">
-    <q-card style="width: 60%; height: 90%">
-      <q-card-section class="row items-center card-title" >
-        <div class="text-h4 futura">Finding</div>
+    <q-card style="width: 50%; height: 60%; border-radius: 20px">
+      <q-card-section class="row items-center card-title">
+        <div class="text-h4 futura">Please Wait...</div>
         <q-space />
         <q-btn
           icon="close"
@@ -13,14 +13,16 @@
           data-test-id="close-btn"
         />
       </q-card-section>
-      <q-card-section align="center">
-        <q-card-section >
-          <q-spinner-rings style="color: #096cef" size="90px" />
-        </q-card-section>
-        <text class="text " style="font-size: 200%">
-          <span style="color: #fe66c4">Please Wait</span>
-        </text>
-
+      <q-card-section align="center" class="q-pa-none q-mt-sm">
+        <div>
+          <q-spinner-rings style="color: #27cf01" size="100px" />
+        </div>
+        <div
+          class="text-h6"
+          style="font-style: italic; color: grey; font-family: 'futura'"
+        >
+          Scanning for Zappy
+        </div>
       </q-card-section>
     </q-card>
   </q-dialog>

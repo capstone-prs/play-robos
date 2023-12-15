@@ -99,7 +99,10 @@ onMounted(() => {
           decomposition: activity.decomposition,
           pattern: activity.pattern,
         };
-        testRows.value.push(data);
+
+        if (userID() === activity.userId) {
+          testRows.value.push(data);
+        }
       });
     });
   });
