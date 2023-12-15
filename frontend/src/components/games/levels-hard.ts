@@ -57,23 +57,6 @@ export const settings_hard: Setting[] = [
         goalTitle: 'Rise and Shine!',
         reward: 400,
         gif: [
-          closeEyes,
-          normalLook,
-          lookLeft,
-          lookRight,
-          lookUpLeft,
-          lookUpRight,
-          turnLeftHead,
-          normalHead,
-          turnRightHead,
-          raiseLeft60,
-          raiseRight60,
-          raiseLeft120,
-          raiseRight120,
-          raiseLeft150,
-          raiseRight150,
-          raiseLeft180,
-          raiseRight180,
         ], //robot
         hint: [''], //to confirm to paul
         correctCode: [],
