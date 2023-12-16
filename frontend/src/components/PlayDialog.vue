@@ -5,42 +5,37 @@
     transition-show="scale"
     transition-hide="scale"
   >
-    <q-card style="width: 65%; height: 65%">
-      <q-card-section class="row items-center q-pt-md q-pb-xs q-pl-md q-pr-md">
-        <div class="play-level-text">
-          LEVEL: <span style="color: rgb(116, 201, 11)">{{ levelNum }}</span>
-        </div>
-        <q-space />
-        <q-btn
-          icon="close"
-          color="pink"
-          size="md"
-          round
-          v-close-popup
-          data-test-id="close-btn"
-        />
-      </q-card-section>
+    <q-card style="width: 35%; height: 320px; border-radius: 15px">
       <q-card-section>
-        <div class="row">
-          <q-icon name="img:/goal.svg" size="25px"> </q-icon>
-          <div class="play-dialog" style="font-size: 130%">
-            Goal: {{ goalTitle }}
-          </div>
-          <q-space />
-          <q-icon name="img:/coin.svg" size="25px"> </q-icon>
-          <div class="play-dialog" style="font-size: 130%">
-            Reward: {{ reward }}
-          </div>
+        <div align="center">
+          <div class="text-h4 correct-text">LEVEL {{ levelNum }}</div>
         </div>
       </q-card-section>
-      <q-card-section align="center" class="q-pt-none">
-        <action-button
-          :is-disabled="completed ? false : true"
-          text-label="PLAY"
-          @click="
-            !completed ? '' : navigateToStudio(settingNum, levelNum, difficulty)
-          "
-        />
+
+      <q-separator class="q-ml-xl q-mr-xl" />
+
+      <q-card-section align="center" class="q-pa-none q-mt-sm">
+        <div class="text-h6 detail-title">{{ goalTitle }}</div>
+
+        <div class="text-h7 detail-title q-mt-md">EXPECTED REWARD</div>
+        <div class="text-h6 detail-text-coin q-mt-sm">
+          <q-icon size="30px" name="img:/coin-bag.svg" />
+          {{ reward }}
+        </div>
+      </q-card-section>
+
+      <q-card-section align="center">
+        <div class="row justify-center items-center q-mt-md">
+          <ActionButton
+            :is-disabled="completed ? false : true"
+            text-label="PLAY"
+            @click="
+              !completed
+                ? ''
+                : navigateToStudio(settingNum, levelNum, difficulty)
+            "
+          />
+        </div>
       </q-card-section>
     </q-card>
   </q-dialog>
@@ -94,25 +89,50 @@ const navigateToStudio = (
 
 <style>
 @font-face {
-  font-family: futura;
-  src: url('/fonts/FuturaLT.woff');
-}
-
-@font-face {
   font-family: hitchcut;
   src: url('/fonts/Hitchcut-Regular.woff');
 }
-
-.play-dialog {
-  font-family: 'futura';
-  color: rgb(0, 0, 0);
-  padding-left: 5px;
+@font-face {
+  font-family: futura;
+  src: url('../css/fonts/FuturaLT.woff');
+}
+@font-face {
+  font-family: GillSans;
+  src: url('/fonts/GillSansInfant.woff');
+}
+.correct-text {
+  font-family: 'hitchcut';
+  color: rgb(255, 222, 37);
+  text-shadow: 3px 0px 2px rgba(0, 120, 112, 0.6);
 }
 
-.play-level-text {
+.incorrect-text {
   font-family: 'hitchcut';
-  color: rgb(255, 240, 29);
-  font-size: 290%;
-  text-shadow: 3px 0px 2px rgba(9, 39, 0, 0.6);
+  color: rgb(236, 74, 49);
+  text-shadow: 3px 0px 2px rgba(248, 239, 0, 0.906);
+}
+
+.detail-text-coin {
+  color: rgb(70, 68, 68);
+  font-family: 'futura';
+  background-color: rgb(255, 249, 165);
+  border-radius: 30px;
+  margin-left: 50px;
+  margin-right: 50px;
+  padding: 5px;
+}
+
+.stars {
+  animation: RewardsAnimation 6s ease 0s infinite normal forwards;
+}
+
+.level-label {
+  font-family: 'futura';
+  color: grey;
+}
+
+.detail-title {
+  font-family: 'futura';
+  color: rgb(82, 82, 82);
 }
 </style>

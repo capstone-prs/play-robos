@@ -51,12 +51,12 @@
             :coins="(coinsStorage as number)"
             @num="
               (isAdd) => {
-                if (isAdd <= (($q.localStorage.getItem('coin_storage') as number))) {
+                if (isAdd <= coinsStorage) {
                   extralife();
-                } else{
-                notifyError('NOT ENOUGH COINS!');
-                openGameover();
-              }
+                } else {
+                  notifyError('NOT ENOUGH COINS!');
+                  openGameover();
+                }
               }
             "
             :is-playing="extra"
@@ -171,7 +171,7 @@
 
 <script setup lang="ts">
 import { QNotifyUpdateOptions, useQuasar } from 'quasar';
-import { ref, onMounted, computed, watch, onUnmounted } from 'vue';
+import { ref, onMounted, watch, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { inject, WorkspaceSvg } from 'blockly';
 import * as Toolbox from './toolbox/typetoolbox';
@@ -224,6 +224,7 @@ import BadgeDialog from '../BadgeDialog.vue';
 import {
   addLocalActivityProgress,
   getLocalActivities,
+  getLocalUser,
   updateLocalActivityProgress,
   updateLocalUserCoins
 } from '../../dexie/db';
@@ -262,9 +263,7 @@ const errorNotify = ref<(props?: QNotifyUpdateOptions) => void>();
 const arrayOfLives = ref(
   ($q.localStorage.getItem('lives') as Array<string>) ?? [lives, lives, lives]
 );
-const coinsStorage = computed(
-  () => $q.localStorage.getItem('coin_storage') || 0
-);
+const coinsStorage = ref(0);
 const currentActivityScore = ref(0);
 const badge = ref<Badge>({
   name: '',
@@ -288,13 +287,17 @@ const livesCost = () => {
     }, 1000);
   }
 };
+
 const extralife = () => {
   arrayOfLives.value.push(lives);
   $q.localStorage.set('lives', arrayOfLives.value);
-  localStorage.setItem(
-    'coin_storage',
-    (Number(coinsStorage.value) - 100).toString()
-  );
+  if (coinsStorage.value) {
+    updateLocalUserCoins(userID(), -100);
+  }
+  // localStorage.setItem(
+  //   'coin_storage',
+  //   (Number(coinsStorage.value) - 100).toString()
+  // );
 };
 
 const routeParam = router.currentRoute.value.params.param as string;
@@ -453,25 +456,27 @@ const coinsComputed = () => {
 };
 
 const openHints = () => {
-  if (($q.localStorage.getItem('coin_storage') as number) >= 60) {
-    $q.notify({
-      type: 'positive',
-      message: 'Hints Payment Success!'
-    });
-    setDialog('hint');
-    localStorage.setItem(
-      'coin_storage',
-      (($q.localStorage.getItem('coin_storage') as number) - 60).toString()
-    );
-  } else {
-    $q.notify({
-      type: 'negative',
-      message: 'Not enough Coins!'
-    });
-  }
+  getLocalUser(userID()).then((user) => {
+    if ((user?.coins ?? 0) >= 60 && (user?.coins ?? 0 >= 0)) {
+      $q.notify({
+        type: 'positive',
+        message: 'Hints Payment Success!',
+      });
+      updateLocalUserCoins(userID(), -60);
+      setDialog('hint');
+    } else {
+      $q.notify({
+        type: 'negative',
+        message: 'Not enough Coins!',
+      });
+    }
+  });
 };
 
 onMounted(() => {
+  getLocalUser(userID()).then((user) => {
+    coinsStorage.value = user?.coins ?? 0;
+  });
   workspace.value = inject(blocklyContainer.value, {
     // refer to typetoolbox.ts file
     toolbox: toolbox,

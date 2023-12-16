@@ -16,6 +16,11 @@
       "position": "bottom"
     },
     {
+      "element": "#coin-storage",
+      "intro": "View your coins here",
+      "position": "bottom"
+    },
+    {
       "element": "#sound-btn",
       "intro": "Click here to on or off sound effects",
       "position": "bottom"
@@ -26,7 +31,7 @@
       "position": "bottom"
     },
     {
-      "element": "#menu-btn",
+      "element": "#logout-btn",
       "intro": "Click here to see more actions",
       "position": "bottom"
     },
@@ -37,7 +42,7 @@
     },
     {
       "element": "#enter-setting-btn",
-      "intro": "Click here to enter the current setting",
+      "intro": "Click here to enter the current setting or tap on the card",
       "position": "top"
     },
     {
