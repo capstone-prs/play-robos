@@ -173,11 +173,12 @@
 import { QNotifyUpdateOptions, useQuasar } from 'quasar';
 import { ref, onMounted, computed, watch, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { inject, Workspace } from 'blockly';
+import { inject, WorkspaceSvg } from 'blockly';
 import * as Toolbox from './toolbox/typetoolbox';
 
 import './blocks/stocks';
 import './blocks/generator';
+import { onStart } from './OnStart';
 // Components
 import CheckDialog from '../CheckDialog.vue';
 import ImageViewer from '../buttons/ImageViewer.vue';
@@ -193,7 +194,7 @@ import ReconnectDialog from '../ReconnectDialog.vue';
 import {
   bluetoothSerial,
   onDisconnect,
-  btListenser,
+  btListenser
 } from 'src/utils/bluetoothUtils';
 import isEqualCodes from 'src/utils/compareCode';
 import executeCodes from '../../utils/executeCodes';
@@ -224,7 +225,7 @@ import {
   addLocalActivityProgress,
   getLocalActivities,
   updateLocalActivityProgress,
-  updateLocalUserCoins,
+  updateLocalUserCoins
 } from '../../dexie/db';
 import { userID } from '../../firebase/firestore';
 import { Abstract } from 'blockly/core/events/events_abstract';
@@ -240,7 +241,7 @@ const isDialogOpen = ref({
   coins: false,
   badge: false,
   preview: false,
-  reconnect: false,
+  reconnect: false
 });
 
 const taskStatus = ref<TaskStatus>('none');
@@ -251,7 +252,7 @@ const failedAttemps = ref(
 const openGameover = () => (gameover.value = true);
 const extra = ref(false);
 const disconnectListener = ref<ReturnType<typeof onDisconnect>>();
-const workspace = ref<Workspace>();
+const workspace = ref<WorkspaceSvg>();
 const generatedCode = ref<GeneratorCode[]>([]);
 const blocklyContainer = ref<string | Element>('');
 const stopwatch = ref<InstanceType<typeof StopwatchComponent> | null>(null);
@@ -324,7 +325,9 @@ watch(isDialogOpen.value, () => {
 });
 
 const setDialog = (key: Dialog, open = true) => {
-  soundEffect();
+  if(key!= 'preview'){
+    soundEffect();
+  }
   isDialogOpen.value[key] = open;
 };
 
@@ -332,7 +335,7 @@ const notifyError = (e: string) => {
   soundEffect(errorSnd);
   return $q.notify({
     type: 'negative',
-    message: e,
+    message: e
   });
 };
 
@@ -451,7 +454,7 @@ const openHints = () => {
   if (($q.localStorage.getItem('coin_storage') as number) >= 60) {
     $q.notify({
       type: 'positive',
-      message: 'Hints Payment Success!',
+      message: 'Hints Payment Success!'
     });
     setDialog('hint');
     localStorage.setItem(
@@ -461,7 +464,7 @@ const openHints = () => {
   } else {
     $q.notify({
       type: 'negative',
-      message: 'Not enough Coins!',
+      message: 'Not enough Coins!'
     });
   }
 };
@@ -475,26 +478,28 @@ onMounted(() => {
     grid: {
       spacing: 20,
       length: 3,
-      colour: '#ccc',
+      colour: '#ccc'
     },
     zoom: {
       startScale: 1.0,
       maxScale: 2,
       minScale: 3,
-      scaleSpeed: 0.3,
+      scaleSpeed: 0.3
     },
     theme: {
       name: 'custom',
       componentStyles: {
         workspaceBackgroundColour: '#FFFFFF',
         flyoutBackgroundColour: '#D0D0D0',
-        flyoutOpacity: 0.7,
-      },
-    },
+        flyoutOpacity: 0.7
+      }
+    }
   });
 
   taskStatus.value = 'none';
-
+  if (settingNum == 0 && levelNum == 1) {
+    onStart(workspace.value);
+  }
   router.beforeEach(() => {
     if (taskStatus.value === 'started') {
       return false;
@@ -555,7 +560,7 @@ const endProgressNotify = () => {
     $q.notify({
       type: 'positive',
       message: 'Uploading done!',
-      timeout: 1000,
+      timeout: 1000
     });
 
     setDialog('check');
@@ -567,7 +572,7 @@ const endProgressNotify = () => {
       type: 'negative',
       message: 'Upload Failed',
       spinner: false,
-      timeout: 1500,
+      timeout: 1500
     });
     taskStatus.value = 'none';
   }
@@ -597,7 +602,7 @@ const startLoadingUpload = () => {
   $q.loading.show({
     spinnerColor: 'white',
     backgroundColor: 'black',
-    message: 'Executing',
+    message: 'Executing'
   });
 };
 
