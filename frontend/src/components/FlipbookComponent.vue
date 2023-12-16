@@ -57,6 +57,7 @@
 <script setup lang="ts">
 import Flipbook from 'flipbook-vue';
 import { onMounted, onUnmounted, ref } from 'vue';
+import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
 import ActionButton from './buttons/ActionButton.vue';
 import {
@@ -71,9 +72,11 @@ import {
   postNarrationsDarka,
   postNarrationsMistica,
   postNarrationsFutura,
+  backgroundMusic
 } from '../utils/SoundUtils';
 
 const show = ref(false);
+const $q = useQuasar();
 const router = useRouter();
 const routeParam = router.currentRoute.value.params.param as string;
 const splitParams = routeParam.split('_');
@@ -90,6 +93,7 @@ const postNarrations = ref<Array<string[]>>([['']]);
 const introNarrations = ref<Array<string[]>>([['']]);
 
 onMounted(() => {
+
   postNarrations.value = [
     postNarrationsScorcha,
     postNarrationsFlora,
@@ -267,10 +271,14 @@ const intropages = scenes.slice(startPage, endPage + 1);
 const inlevelpages = scenes.slice(startPage, startPage + 1);
 
 onMounted(() => {
+  backgroundMusic.pause();
   show.value = true;
 });
 
 onUnmounted(() => {
+  if(($q?.localStorage.getItem('bg-sound')) != true){
+    backgroundMusic.play();
+  }
   howler.value?.stop();
 });
 
