@@ -95,7 +95,7 @@ const activityStyle = computed(() => {
   width: 100%;
   max-width: 80%;
   max-height: 100%;
-  height: 120px;
+  height: 130px;
   border-radius: 10px;
   cursor: pointer;
 }

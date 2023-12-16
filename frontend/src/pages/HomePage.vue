@@ -38,6 +38,7 @@
             icon="img:/coin-bag.svg"
             :disable="true"
             :label="coinsStorage"
+            id="coin-storage"
           />
 
           <div class="col-3">
@@ -51,11 +52,6 @@
               </div>
 
               <div class="col q-pr-sm">
-                <!-- <MenuButton
-                  @open-dialog="openMenuDialog"
-                  data-cy="menu-btn"
-                  id="menu-btn"
-                /> -->
                 <q-btn
                   round
                   glossy
@@ -63,12 +59,9 @@
                   size="17px"
                   @click="openLogoutDialog()"
                   icon="logout"
+                  id="logout-btn"
                 />
-                <!-- <MenuDialog
-                  v-model="isMenuDialogVisible"
-                  data-cy="menu-dialog"
-                  @update:data-for-homepage="updateData"
-                /> -->
+
                 <LogoutDialog
                   v-model="isLogoutDialogVisible"
                   data-cy="menu-dialog"
