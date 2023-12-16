@@ -136,7 +136,7 @@ javascriptGenerator.forBlock['all_parts'] = function (
 
     if (blockValue !== '') {
       if (blockValue.trim().split('\n').length > 1) {
-        throw 'Ilegal Build';
+        throw 'Illegal Build';
       }
 
       const value = JSON.parse(blockValue);
@@ -145,7 +145,7 @@ javascriptGenerator.forBlock['all_parts'] = function (
       if (inputedBlock.length === 1 && inputedBlock[0] === blockName) {
         return { ...previous, ...value };
       }
-      throw 'Block Mismatched';
+      throw 'Block Mismatch';
     }
 
     return previous;

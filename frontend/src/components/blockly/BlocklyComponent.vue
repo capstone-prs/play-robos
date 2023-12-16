@@ -173,11 +173,12 @@
 import { QNotifyUpdateOptions, useQuasar } from 'quasar';
 import { ref, onMounted, watch, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { inject, Workspace } from 'blockly';
+import { inject, WorkspaceSvg } from 'blockly';
 import * as Toolbox from './toolbox/typetoolbox';
 
 import './blocks/stocks';
 import './blocks/generator';
+import { onStart } from './OnStart';
 // Components
 import CheckDialog from '../CheckDialog.vue';
 import ImageViewer from '../buttons/ImageViewer.vue';
@@ -193,7 +194,7 @@ import ReconnectDialog from '../ReconnectDialog.vue';
 import {
   bluetoothSerial,
   onDisconnect,
-  btListenser,
+  btListenser
 } from 'src/utils/bluetoothUtils';
 import isEqualCodes from 'src/utils/compareCode';
 import executeCodes from '../../utils/executeCodes';
@@ -225,7 +226,7 @@ import {
   getLocalActivities,
   getLocalUser,
   updateLocalActivityProgress,
-  updateLocalUserCoins,
+  updateLocalUserCoins
 } from '../../dexie/db';
 import { userID } from '../../firebase/firestore';
 import { Abstract } from 'blockly/core/events/events_abstract';
@@ -241,7 +242,7 @@ const isDialogOpen = ref({
   coins: false,
   badge: false,
   preview: false,
-  reconnect: false,
+  reconnect: false
 });
 
 const taskStatus = ref<TaskStatus>('none');
@@ -252,7 +253,7 @@ const failedAttemps = ref(
 const openGameover = () => (gameover.value = true);
 const extra = ref(false);
 const disconnectListener = ref<ReturnType<typeof onDisconnect>>();
-const workspace = ref<Workspace>();
+const workspace = ref<WorkspaceSvg>();
 const generatedCode = ref<GeneratorCode[]>([]);
 const blocklyContainer = ref<string | Element>('');
 const stopwatch = ref<InstanceType<typeof StopwatchComponent> | null>(null);
@@ -327,7 +328,9 @@ watch(isDialogOpen.value, () => {
 });
 
 const setDialog = (key: Dialog, open = true) => {
-  soundEffect();
+  if(key!= 'preview'){
+    soundEffect();
+  }
   isDialogOpen.value[key] = open;
 };
 
@@ -335,11 +338,11 @@ const notifyError = (e: string) => {
   soundEffect(errorSnd);
   return $q.notify({
     type: 'negative',
-    message: e,
+    message: e
   });
 };
 
-const blocklyGenerator = () => {
+const blocklyGenerator = (toUpload = true) => {
   errorNotify.value?.();
   return generator(workspace.value)
     .then((codes) => {
@@ -347,7 +350,9 @@ const blocklyGenerator = () => {
       return codes;
     })
     .catch((error) => {
-      errorNotify.value = notifyError(error);
+      if (error !== 'Blocks are not connected' || toUpload) {
+        errorNotify.value = notifyError(error);
+      }
       throw error;
     });
 };
@@ -480,26 +485,28 @@ onMounted(() => {
     grid: {
       spacing: 20,
       length: 3,
-      colour: '#ccc',
+      colour: '#ccc'
     },
     zoom: {
       startScale: 1.0,
       maxScale: 2,
       minScale: 3,
-      scaleSpeed: 0.3,
+      scaleSpeed: 0.3
     },
     theme: {
       name: 'custom',
       componentStyles: {
         workspaceBackgroundColour: '#FFFFFF',
         flyoutBackgroundColour: '#D0D0D0',
-        flyoutOpacity: 0.7,
-      },
-    },
+        flyoutOpacity: 0.7
+      }
+    }
   });
 
   taskStatus.value = 'none';
-
+  if (settingNum == 0 && levelNum == 1) {
+    onStart(workspace.value);
+  }
   router.beforeEach(() => {
     if (taskStatus.value === 'started') {
       return false;
@@ -510,7 +517,7 @@ onMounted(() => {
   workspace.value.addChangeListener(
     (e: Abstract & { newInputName?: string; reason?: string[] }) => {
       if (e.reason && e.reason[0] === 'connect') {
-        blocklyGenerator();
+        blocklyGenerator(false);
       }
     }
   );
@@ -560,7 +567,7 @@ const endProgressNotify = () => {
     $q.notify({
       type: 'positive',
       message: 'Uploading done!',
-      timeout: 1000,
+      timeout: 1000
     });
 
     setDialog('check');
@@ -572,24 +579,23 @@ const endProgressNotify = () => {
       type: 'negative',
       message: 'Upload Failed',
       spinner: false,
-      timeout: 1500,
+      timeout: 1500
     });
     taskStatus.value = 'none';
   }
 };
 
 const write = () => {
-  blocklyGenerator().then(() => {
-    if (generatedCode.value.length > 0) {
+  blocklyGenerator().then((codes) => {
+    if (codes.length > 0) {
       executeCodes(
         bluetoothSerial,
-        generatedCode.value,
+        codes,
         startProgressNotify,
         endProgressNotify,
         notifyError
       );
     } else {
-      console.log(errorNotify.value);
       $q.notify({
         type: 'negative',
         message: 'No Blocks to Upload',
@@ -602,7 +608,7 @@ const startLoadingUpload = () => {
   $q.loading.show({
     spinnerColor: 'white',
     backgroundColor: 'black',
-    message: 'Executing',
+    message: 'Executing'
   });
 };
 

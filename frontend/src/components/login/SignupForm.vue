@@ -150,6 +150,7 @@
               text-color="white"
               class="text"
               @click="submit"
+              :loading="isSubmitted"
               :isDisabled="isSubmitted"
             ></ActionButton>
           </div>

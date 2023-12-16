@@ -9,7 +9,7 @@
               style="opacity: 80%; color: white"
             >
               <div
-                class="no-wrap-text text-h3 hitchcut-h4 beat"
+                class="no-wrap-text text-h4 hitchcut-h4 beat"
                 style="
                   white-space: nowrap;
                   text-shadow: 4px 4px 5px rgb(0, 47, 47);
@@ -34,14 +34,14 @@
       </q-card-section>
 
       <div v-if="!showPlaying" class="row justify-center q-mt-lg">
-        <q-badge class="hitchcut-h4 q-px-md text-h4" color="red">
+        <q-badge class="hitchcut-h4 q-px-md text-h5" color="red">
           LEVEL: {{ level.levelNum }}
         </q-badge>
       </div>
       <div>
         <div v-if="showPlaying">
           <div class="row justify-center aligh-bottom q-mt-lg">
-            <q-badge class="hitchcut-h4 q-px-lg text-h4" color="red"
+            <q-badge class="hitchcut-h4 q-px-lg text-h5" color="red"
               >LEVEL GOAL</q-badge
             >
           </div>
@@ -59,6 +59,8 @@ const emit = defineEmits<{ (e: 'ended'): void }>();
 
 const style = computed(() => ({
   backgroundImage: `url(${props.levelSetting.settingBg})`,
+  backgroundColor: showPlaying.value ? 'rgb(166, 166, 166)' : '',
+  backgroundBlendMode: showPlaying.value ? 'multiply' : '',
   height: '65%',
   backgroundSize: 'cover',
   boxShadow: '8px 8px 2px #dcdcdc',
