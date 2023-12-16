@@ -38,12 +38,8 @@ const setting1_easy_right_arms = [
   'raise_right_arm_150_',
   'raise_right_arm_180_',
 ];
-const setting1_easy_wheels = [
-  'left_wheel_forward',
-  'right_wheel_forward',
-  'time_block',
-  'all_parts',
-];
+const setting1_easy_wheels = ['left_wheel_forward', 'right_wheel_forward'];
+const special_block = ['all_parts'];
 
 // export the toolbox of each setting. NOTE: To improve
 export const toolbox_easy: Array<ToolboxDefinition> = [
@@ -76,6 +72,11 @@ export const toolbox_easy: Array<ToolboxDefinition> = [
         name: 'Wheels',
         contents: getBlocks(setting1_easy_wheels),
       },
+      {
+        kind: 'category',
+        name: 'Special Block',
+        contents: getBlocks(special_block),
+      },
     ],
   },
   //<-------- setting 1 ---------------->
@@ -109,6 +110,11 @@ export const toolbox_easy: Array<ToolboxDefinition> = [
         name: 'Wheels',
         contents: getBlocks(setting1_easy_wheels),
       },
+      {
+        kind: 'category',
+        name: 'Special Block',
+        contents: getBlocks(special_block),
+      },
     ],
   },
   //<-------- setting 2 ---------------->
@@ -142,35 +148,10 @@ export const toolbox_easy: Array<ToolboxDefinition> = [
         name: 'Wheels',
         contents: getBlocks(setting1_easy_wheels),
       },
-    ],
-  },
-  {
-    kind: 'categoryToolbox',
-    contents: [
       {
         kind: 'category',
-        name: 'Head',
-        contents: getBlocks(setting1_easy_head),
-      },
-      {
-        kind: 'category',
-        name: 'Eyes',
-        contents: getBlocks(setting1_easy_eyes),
-      },
-      {
-        kind: 'category',
-        name: 'Left Arm',
-        contents: getBlocks(setting1_easy_left_arms),
-      },
-      {
-        kind: 'category',
-        name: 'Right Arm',
-        contents: getBlocks(setting1_easy_right_arms),
-      },
-      {
-        kind: 'category',
-        name: 'Wheels',
-        contents: getBlocks(setting1_easy_wheels),
+        name: 'Special Block',
+        contents: getBlocks(special_block),
       },
     ],
   },
@@ -201,61 +182,51 @@ export const toolbox_easy: Array<ToolboxDefinition> = [
         kind: 'category',
         name: 'Wheels',
         contents: getBlocks(setting1_easy_wheels),
+      },
+      {
+        kind: 'category',
+        name: 'Special Block',
+        contents: getBlocks(special_block),
+      },
+    ],
+  },
+  {
+    kind: 'categoryToolbox',
+    contents: [
+      {
+        kind: 'category',
+        name: 'Head',
+        contents: getBlocks(setting1_easy_head),
+      },
+      {
+        kind: 'category',
+        name: 'Eyes',
+        contents: getBlocks(setting1_easy_eyes),
+      },
+      {
+        kind: 'category',
+        name: 'Left Arm',
+        contents: getBlocks(setting1_easy_left_arms),
+      },
+      {
+        kind: 'category',
+        name: 'Right Arm',
+        contents: getBlocks(setting1_easy_right_arms),
+      },
+      {
+        kind: 'category',
+        name: 'Wheels',
+        contents: getBlocks(setting1_easy_wheels),
+      },
+      {
+        kind: 'category',
+        name: 'Special Block',
+        contents: getBlocks(special_block),
       },
     ],
   },
 ];
-//<-------- setting 1 age group8-11---------------->
-// const setting1_hard_eyes = [
-//   'normal_look',
-//   'close_eyes',
-//   'look_right',
-//   'look_left',
-//   'look_up_left',
-//   'look_up_right',
-// ];
-// const setting1_hard_head = ['head_trun_left', 'turn_head_right'];
-// const setting1_hard_arms = [
-//   'raise_left_arm_120',
-//   'raise_right_arm_120_',
-//   'raise_right_arm_60_',
-//   'raise_left_arm_60_',
-// ];
-// //<-------- setting 1 age group8-11---------------->
 
-// const setting2_hard_eyes = [
-//   'normal_look',
-//   'close_eyes',
-//   'look_right',
-//   'look_left',
-//   'look_up_left',
-//   'look_up_right',
-// ];
-// const setting2_hard_head = ['head_trun_left', 'turn_head_right'];
-// const setting2_hard_arms = [
-//   'raise_left_arm_120',
-//   'raise_right_arm_120_',
-//   'raise_left_arm_90_',
-//   'raise_right_arm_90_',
-// ];
-
-// const setting3_hard_eyes = [
-//   'normal_look',
-//   'close_eyes',
-//   'look_right',
-//   'look_left',
-//   'look_up_left',
-//   'look_up_right',
-// ];
-// const setting3_hard_head = ['head_trun_left', 'turn_head_right'];
-// const setting3_hard_arms = [
-//   'raise_left_arm_120',
-//   'raise_right_arm_120_',
-//   'raise_left_arm_90_',
-//   'raise_right_arm_90_',
-//   'raise_right_arm_150_',
-//   'raise_left_arm_150',
-// ];
 
 // NOTE: To improve
 export const toolbox_hard: Array<ToolboxDefinition> = [
@@ -287,35 +258,10 @@ export const toolbox_hard: Array<ToolboxDefinition> = [
         name: 'Wheels',
         contents: getBlocks(setting1_easy_wheels),
       },
-    ],
-  },
-  {
-    kind: 'categoryToolbox',
-    contents: [
       {
         kind: 'category',
-        name: 'Head',
-        contents: getBlocks(setting1_easy_head),
-      },
-      {
-        kind: 'category',
-        name: 'Eyes',
-        contents: getBlocks(setting1_easy_eyes),
-      },
-      {
-        kind: 'category',
-        name: 'Left Arm',
-        contents: getBlocks(setting1_easy_left_arms),
-      },
-      {
-        kind: 'category',
-        name: 'Right Arm',
-        contents: getBlocks(setting1_easy_right_arms),
-      },
-      {
-        kind: 'category',
-        name: 'Wheels',
-        contents: getBlocks(setting1_easy_wheels),
+        name: 'Special Block',
+        contents: getBlocks(special_block),
       },
     ],
   },
@@ -347,35 +293,10 @@ export const toolbox_hard: Array<ToolboxDefinition> = [
         name: 'Wheels',
         contents: getBlocks(setting1_easy_wheels),
       },
-    ],
-  },
-  {
-    kind: 'categoryToolbox',
-    contents: [
       {
         kind: 'category',
-        name: 'Head',
-        contents: getBlocks(setting1_easy_head),
-      },
-      {
-        kind: 'category',
-        name: 'Eyes',
-        contents: getBlocks(setting1_easy_eyes),
-      },
-      {
-        kind: 'category',
-        name: 'Left Arm',
-        contents: getBlocks(setting1_easy_left_arms),
-      },
-      {
-        kind: 'category',
-        name: 'Right Arm',
-        contents: getBlocks(setting1_easy_right_arms),
-      },
-      {
-        kind: 'category',
-        name: 'Wheels',
-        contents: getBlocks(setting1_easy_wheels),
+        name: 'Special Block',
+        contents: getBlocks(special_block),
       },
     ],
   },
@@ -406,6 +327,81 @@ export const toolbox_hard: Array<ToolboxDefinition> = [
         kind: 'category',
         name: 'Wheels',
         contents: getBlocks(setting1_easy_wheels),
+      },
+      {
+        kind: 'category',
+        name: 'Special Block',
+        contents: getBlocks(special_block),
+      },
+    ],
+  },
+  {
+    kind: 'categoryToolbox',
+    contents: [
+      {
+        kind: 'category',
+        name: 'Head',
+        contents: getBlocks(setting1_easy_head),
+      },
+      {
+        kind: 'category',
+        name: 'Eyes',
+        contents: getBlocks(setting1_easy_eyes),
+      },
+      {
+        kind: 'category',
+        name: 'Left Arm',
+        contents: getBlocks(setting1_easy_left_arms),
+      },
+      {
+        kind: 'category',
+        name: 'Right Arm',
+        contents: getBlocks(setting1_easy_right_arms),
+      },
+      {
+        kind: 'category',
+        name: 'Wheels',
+        contents: getBlocks(setting1_easy_wheels),
+      },
+      {
+        kind: 'category',
+        name: 'Special Block',
+        contents: getBlocks(special_block),
+      },
+    ],
+  },
+  {
+    kind: 'categoryToolbox',
+    contents: [
+      {
+        kind: 'category',
+        name: 'Head',
+        contents: getBlocks(setting1_easy_head),
+      },
+      {
+        kind: 'category',
+        name: 'Eyes',
+        contents: getBlocks(setting1_easy_eyes),
+      },
+      {
+        kind: 'category',
+        name: 'Left Arm',
+        contents: getBlocks(setting1_easy_left_arms),
+      },
+      {
+        kind: 'category',
+        name: 'Right Arm',
+        contents: getBlocks(setting1_easy_right_arms),
+      },
+      {
+        kind: 'category',
+        name: 'Wheels',
+        contents: getBlocks(setting1_easy_wheels),
+      },
+      {
+        kind: 'category',
+        name: 'Special Block',
+        contents: getBlocks(special_block),
       },
     ],
   },

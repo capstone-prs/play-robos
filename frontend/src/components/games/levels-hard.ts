@@ -59,7 +59,22 @@ export const settings_hard: Setting[] = [
         gif: [
         ], //robot
         hint: [''], //to confirm to paul
-        correctCode: [{ eyes: '0' }],
+        correctCode: [
+          { eyes: 'e' },
+          { eyes: 'f' },
+          { rightArm: '1' },
+          { rightArm: '4' },
+          { leftArm: '1' },
+          { leftArm: '4' },
+          {
+            eyes: 'd',
+            head: '1',
+            leftArm: '5',
+            rightArm: '5',
+            leftLeg: '1',
+            rightLeg: '1',
+          },
+        ],
         completed: true,
       },
       {

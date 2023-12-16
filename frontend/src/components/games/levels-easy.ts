@@ -13,7 +13,7 @@ import winkRight from '../../assets/winkRight.svg';
 import winkLeft from '../../assets/winkLeft.svg';
 import lookUp from '../../assets/lookUp.svg';
 //head assets
-import normalHead from '../../assets/normalHead.svg';
+// import normalHead from '../../assets/normalHead.svg';
 import turnLeftHead from '../../assets/turnLeftHead.svg';
 import turnRightHead from '../../assets/turnRightHead.svg';
 
@@ -63,7 +63,22 @@ export const settings_easy: Setting[] = [
         reward: 200,
         gif: [], //robot
         hint: [''], //to confirm to paul
-        correctCode: [{ eyes: '0' }],
+        correctCode: [
+          { eyes: 'e' },
+          { eyes: 'f' },
+          { rightArm: '1' },
+          { rightArm: '4' },
+          { leftArm: '1' },
+          { leftArm: '4' },
+          {
+            eyes: 'd',
+            head: '1',
+            leftArm: '5',
+            rightArm: '5',
+            leftLeg: '1',
+            rightLeg: '1',
+          },
+        ],
         completed: true,
       },
       {
