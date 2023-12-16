@@ -325,7 +325,9 @@ watch(isDialogOpen.value, () => {
 });
 
 const setDialog = (key: Dialog, open = true) => {
-  soundEffect();
+  if(key!= 'preview'){
+    soundEffect();
+  }
   isDialogOpen.value[key] = open;
 };
 
