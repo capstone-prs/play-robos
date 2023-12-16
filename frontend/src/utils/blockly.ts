@@ -12,12 +12,17 @@ const generator = (workspace: Workspace | undefined) => {
           res([]);
         }
 
-        res(
-          value
-            .trimEnd()
-            .split('\n')
-            .map((code) => JSON.parse(code))
-        );
+        const parsed = value
+          .trimEnd()
+          .split('\n')
+          .map((code) => {
+            if (code !== '') {
+              return JSON.parse(code);
+            }
+            rej('Blocks are not connected');
+          });
+
+        res(parsed);
       } catch (error) {
         rej(error);
       }
