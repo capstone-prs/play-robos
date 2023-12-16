@@ -339,7 +339,7 @@ const notifyError = (e: string) => {
   });
 };
 
-const blocklyGenerator = () => {
+const blocklyGenerator = (toUpload = true) => {
   errorNotify.value?.();
   return generator(workspace.value)
     .then((codes) => {
@@ -347,7 +347,9 @@ const blocklyGenerator = () => {
       return codes;
     })
     .catch((error) => {
-      errorNotify.value = notifyError(error);
+      if (error !== 'Blocks are not connected' || toUpload) {
+        errorNotify.value = notifyError(error);
+      }
       throw error;
     });
 };
@@ -510,7 +512,7 @@ onMounted(() => {
   workspace.value.addChangeListener(
     (e: Abstract & { newInputName?: string; reason?: string[] }) => {
       if (e.reason && e.reason[0] === 'connect') {
-        blocklyGenerator();
+        blocklyGenerator(false);
       }
     }
   );
@@ -579,17 +581,16 @@ const endProgressNotify = () => {
 };
 
 const write = () => {
-  blocklyGenerator().then(() => {
-    if (generatedCode.value.length > 0) {
+  blocklyGenerator().then((codes) => {
+    if (codes.length > 0) {
       executeCodes(
         bluetoothSerial,
-        generatedCode.value,
+        codes,
         startProgressNotify,
         endProgressNotify,
         notifyError
       );
     } else {
-      console.log(errorNotify.value);
       $q.notify({
         type: 'negative',
         message: 'No Blocks to Upload',
