@@ -5,12 +5,16 @@
       class="my-card level-text q-ml-sm q-mr-sm q-mt-sm q-mb-sm"
       @click="openPlayDialog"
     >
-      <q-item class="title" :class="activityStyle">
+      <q-item
+        class="title"
+        :class="activityStyle"
+        style="box-shadow: rgba(163, 163, 163, 0.55) 5px 5px 7px -4px"
+      >
         <q-item-section>
-          <q-item-label data-cy="level-label"
+          <q-item-label data-cy="level-label" class="text-h6"
             >Level: {{ levelNum }}
           </q-item-label>
-          <q-item-label data-cy="goal-label"
+          <q-item-label data-cy="goal-label" style="color: rgb(40, 39, 39)"
             >Goal: {{ goalTitle }}
           </q-item-label>
         </q-item-section>
@@ -21,9 +25,9 @@
       <q-item-section>
         <q-card-section horizontal>
           <q-card-section>
-            <q-icon data-cy="coin-img" name="img:/gold-coin.svg" size="20px">
-            </q-icon>
-            <span data-cy="reward-label">{{ reward }}</span>
+            <q-icon data-cy="coin-img" name="img:/gold-coin.svg" size="25px" />
+
+            <span data-cy="reward-label">{{ ' ' + reward }}</span>
           </q-card-section>
         </q-card-section>
       </q-item-section>

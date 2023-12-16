@@ -23,7 +23,7 @@ export const localActivityProgress = (
 
 export const solveDurationScore = (duration: number) => {
   const maxScore = 100;
-  const timeThreshold = 60;
+  const timeThreshold = 40;
   const deductionRate = 10;
 
   let durationScore = 0;
@@ -170,6 +170,7 @@ export const launchBadgeReward = async () => {
       name: badgeRew.badgeName,
       url: badgeRew.badgeUrl,
       description: badgeRew.description,
+      userId: userID(),
     });
 
     return {
