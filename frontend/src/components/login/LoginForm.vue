@@ -106,6 +106,9 @@ import success from '../../assets/sounds/success-notify.mp3';
 import back from '../../assets/sounds/back.mp3';
 import errorSnd from '../../assets/sounds/errorSnd.mp3';
 import { soundEffect } from '../../utils/SoundUtils';
+import getUser, { userID } from 'src/firebase/firestore';
+import { getLocalUser } from 'src/dexie/db';
+import { insertFromFirebase, pushLocalToFirebase } from 'src/firebase/sync';
 
 const $q = useQuasar();
 const router = useRouter();
@@ -138,7 +141,7 @@ const showLoading = () => {
 
   setTimeout(() => {
     $q.loading.hide();
-  }, 4000);
+  }, 2000);
 };
 
 const triggerNotify = (type: string, message: string) => {
@@ -151,6 +154,28 @@ const navigateBack = () => {
   soundEffect(back);
   return router.go(-1);
 };
+
+const sync = (): Promise<void> =>
+  new Promise((resolve, reject) => {
+    getLocalUser(userID()).then((localUser) =>
+      getUser(userID()).then((user) => {
+        if (!!localUser) {
+          console.log(
+            user.score < localUser.score,
+            user.score,
+            localUser.score
+          );
+          if (user.score < localUser.score) {
+            pushLocalToFirebase().then(() => resolve());
+          } else {
+            insertFromFirebase().then(() => resolve());
+          }
+        } else {
+          reject('User not found');
+        }
+      })
+    );
+  });
 
 const submit = () => {
   soundEffect(click);
@@ -166,16 +191,29 @@ const submit = () => {
           return triggerNotify('positive', 'Successful Login');
         })
         .then(() => {
-          router.push('/home');
-          showLoading();
+          $q.loading.show({
+            spinnerColor: 'white',
+            backgroundColor: 'black',
+            message: 'Syncing progress...',
+          });
+
+          return sync();
         })
-        .catch(() => {
+        .then(() => {
+          router.push('/home');
+          $q.loading.hide();
+        })
+        .catch((e) => {
+          $q.loading.hide();
+          showLoading();
+          console.log(e);
           verifyEmail(user);
           router.push('/verifyemail');
           return triggerNotify('negative', 'Login Failed: Email Not Verified');
         })
     )
     .catch((e) => {
+      console.log(e, 'error');
       isSubmitted.value = false;
       soundEffect(errorSnd);
       data.isError.value = true;

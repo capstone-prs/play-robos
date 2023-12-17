@@ -1,14 +1,21 @@
 import Dexie from 'dexie';
 import { User } from '../types/Users';
-import { Activity, ActivityProgress, Badge } from '../types/Progress';
+import {
+  Activity,
+  ActivityProgress,
+  Badge,
+  NewActivity,
+  NewBadge,
+} from '../types/Progress';
 import { solveActivityScore } from '../utils/activityProgress';
 import { userID } from '../firebase/firestore';
+import { v4 as uuidv4 } from 'uuid';
 
 export class IndexedDB extends Dexie {
   users!: Dexie.Table<User, string>;
-  activities!: Dexie.Table<Activity, number>;
-  userActivityProgresses!: Dexie.Table<ActivityProgress, number>;
-  badges!: Dexie.Table<Badge, number>;
+  activities!: Dexie.Table<Activity, string>;
+  userActivityProgresses!: Dexie.Table<ActivityProgress, string>;
+  badges!: Dexie.Table<Badge, string>;
 
   constructor() {
     super('IndexedDB');
@@ -16,32 +23,76 @@ export class IndexedDB extends Dexie {
     this.version(5).stores({
       users: 'id, name, birthdate, gender, coins, score',
       activities:
-        '++id, userId, title, reward, setting, level, difficulty, completed',
+        'id, userId, title, reward, setting, level, difficulty, completed',
       userActivityProgresses:
-        '++id, userId, activityId, duration, attempt, decomposition, pattern',
-      badges: '++id, userId, name, url, description',
+        'id, userId, activityId, duration, attempt, decomposition, pattern',
+      badges: 'id, userId, name, url, description',
     });
   }
 }
 
 export const dexie_db = new IndexedDB();
 
-export const addLocalActivity = async (activity: Activity) => {
-  return new Promise<number>((resolve, reject) => {
+export const addLocalActivity = async (activity: NewActivity) => {
+  return new Promise<string>((resolve, reject) => {
+    const newActivity = { ...activity, id: uuidv4() };
     dexie_db.activities
-      .add(activity)
-      .then((res) => {
-        resolve(res);
-      })
+      .add(newActivity)
+      .then(resolve)
       .catch((error) => {
         reject(error);
       });
   });
 };
 
+export const upsertLocalUser = async (user: User) => {
+  return new Promise<string>((resolve, reject) => {
+    console.log('user');
+    addLocalUser(user)
+      .then((e) => {
+        console.log(e, 'added');
+        resolve(user.id);
+      })
+      .catch((error) => {
+        if (error.name === 'ConstraintError') {
+          dexie_db.users
+            .where('id')
+            .equals(user.id)
+            .modify((localUser) => {
+              localUser.score = user.score;
+              localUser.coins = user.coins;
+            })
+            .then(() => resolve(user.id))
+            .catch(reject);
+        } else {
+          reject(error);
+        }
+      });
+  });
+};
+
+export const clearLocalUserActivities = (userId: string) =>
+  dexie_db.activities.where('userId').equals(userId).delete();
+
+export const clearLocalUserActivitiesProgress = (userId: string) =>
+  dexie_db.userActivityProgresses.where('userId').equals(userId).delete();
+
+export const clearLocalUserBadge = (userId: string) =>
+  dexie_db.badges.where('userId').equals(userId).delete();
+
+export const bulkAddLocalBadges = (badges: Badge[]) =>
+  dexie_db.badges.bulkAdd(badges);
+
+export const bulkAddLocalActivities = (activities: Activity[]) =>
+  dexie_db.activities.bulkAdd(activities);
+
+export const bulkAddLocalActivityProgresses = (
+  activityProgresses: ActivityProgress[]
+) => dexie_db.userActivityProgresses.bulkAdd(activityProgresses);
+
 export const addLocalActivityProgress = (
   user: string,
-  activity: Activity,
+  activity: NewActivity,
   duration: number,
   attempt: number,
   decompScore: number,
@@ -61,6 +112,7 @@ export const addLocalActivityProgress = (
       updateLocalUserScore(user, score);
 
       const dataProgress = {
+        id: uuidv4(),
         userId: user,
         activityId: actId,
         duration: duration,
@@ -81,12 +133,13 @@ export const addLocalActivityProgress = (
   });
 };
 
-export const addLocalBadge = (badge: Badge): Promise<Badge> => {
+export const addLocalBadge = (badge: NewBadge): Promise<Badge> => {
   return new Promise<Badge>((resolve, reject) => {
+    const newBadge = { ...badge, id: uuidv4() };
     dexie_db.badges
-      .add(badge)
+      .add(newBadge)
       .then(() => {
-        resolve(badge);
+        resolve(newBadge);
       })
       .catch((error) => {
         reject(error);
@@ -120,12 +173,14 @@ export const addLocalUser = (user: User): Promise<User> => {
           .catch((error) => {
             reject(error);
           });
+      } else {
+        reject({ name: 'ConstraintError' });
       }
     });
   });
 };
 
-export const getLocalActivityProgress = (): Promise<ActivityProgress[]> => {
+export const getLocalActivityProgresses = (): Promise<ActivityProgress[]> => {
   return new Promise<ActivityProgress[]>((resolve, reject) => {
     const collection = dexie_db.userActivityProgresses
       .where('userId')
@@ -144,7 +199,7 @@ export const getLocalActivityProgress = (): Promise<ActivityProgress[]> => {
 export const getLocalActivities = (): Promise<Activity[]> => {
   return new Promise<Activity[]>((resolve, reject) => {
     const collection = dexie_db.activities.where('userId').equals(userID());
-
+    // console.log(userID(), 'activities');
     collection
       .toArray()
       .then((result) => {
@@ -211,10 +266,9 @@ export const updateLocalUserCoins = (
   });
 };
 
-export const getLocalActivity = (id: number): Promise<Activity | undefined> => {
+export const getLocalActivity = (id: string): Promise<Activity | undefined> => {
   return new Promise<Activity | undefined>((resolve, reject) => {
     dexie_db.activities
-
       .get(id)
       .then((res) => {
         resolve(res);
