@@ -61,10 +61,8 @@
 import { computed, ref } from 'vue';
 import { soundEffect } from 'src/utils/SoundUtils';
 import { useRouter } from 'vue-router';
-import { useQuasar } from 'quasar';
 import IconButton from './buttons/IconButton.vue';
 import { Difficulty } from 'src/types/Progress';
-const $q = useQuasar();
 
 const elementsArray = computed(() =>
   Array.from(
@@ -73,7 +71,6 @@ const elementsArray = computed(() =>
   )
 );
 
-console.log($q.localStorage.getItem('coin_storage'));
 const router = useRouter();
 const props = defineProps<{
   coins: number;

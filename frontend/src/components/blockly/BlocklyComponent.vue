@@ -95,7 +95,7 @@
       </div>
     </div>
 
-    <div class="col-3 q-px-md">
+    <div class="col-3 q-px-md" id="studioSidebar">
       <div class="row q-mt-sm">
         <div class="col q-ma-xs">
           <StudioSideBarButton
@@ -103,6 +103,7 @@
             label="help"
             color="purple"
             @click="startStudioOnboarding"
+            id="studio-help"
           />
         </div>
         <div class="col q-ma-xs">
@@ -110,8 +111,8 @@
             icon="menu"
             label="menu"
             color="teal"
-            id="menu-btn"
             @click="() => setDialog('menu')"
+            id="studio-menu"
           />
         </div>
       </div>
@@ -122,6 +123,7 @@
             icon="undo"
             label="undo"
             @click="undo"
+            id="studio-undo"
           />
         </div>
         <div class="col q-ma-xs">
@@ -130,6 +132,7 @@
             icon="emoji_objects"
             label="hint"
             @click="() => openHints()"
+            id="studio-hint"
           />
         </div>
       </div>
@@ -145,10 +148,10 @@
           </div>
         </div>
       </div>
-      <div class="row justify-center q-my-md">
+      <div class="row justify-center q-my-md" id="stopwatch">
         <StopwatchComponent :initial-time="initialTime" ref="stopwatch" />
       </div>
-      <div class="row justify-center q-ma-md">
+      <div class="row justify-center q-ma-md" id="goal">
         <ImageViewer :pics="thisLevel.gif" id="goal" />
       </div>
 
@@ -163,6 +166,7 @@
           "
           data-cy="check-btn"
           label="upload"
+          id="studio-upload"
         />
       </div>
     </div>
@@ -194,7 +198,7 @@ import ReconnectDialog from '../ReconnectDialog.vue';
 import {
   bluetoothSerial,
   onDisconnect,
-  btListenser
+  btListenser,
 } from 'src/utils/bluetoothUtils';
 import isEqualCodes from 'src/utils/compareCode';
 import executeCodes from '../../utils/executeCodes';
@@ -226,7 +230,7 @@ import {
   getLocalActivities,
   getLocalUser,
   updateLocalActivityProgress,
-  updateLocalUserCoins
+  updateLocalUserCoins,
 } from '../../dexie/db';
 import { userID } from '../../firebase/firestore';
 import { Abstract } from 'blockly/core/events/events_abstract';
@@ -242,7 +246,7 @@ const isDialogOpen = ref({
   coins: false,
   badge: false,
   preview: false,
-  reconnect: false
+  reconnect: false,
 });
 
 const taskStatus = ref<TaskStatus>('none');
@@ -328,7 +332,7 @@ watch(isDialogOpen.value, () => {
 });
 
 const setDialog = (key: Dialog, open = true) => {
-  if(key!= 'preview'){
+  if (key != 'preview') {
     soundEffect();
   }
   isDialogOpen.value[key] = open;
@@ -338,7 +342,7 @@ const notifyError = (e: string) => {
   soundEffect(errorSnd);
   return $q.notify({
     type: 'negative',
-    message: e
+    message: e,
   });
 };
 
@@ -446,8 +450,8 @@ const coinsComputed = () => {
         dataToUpdate.duration,
         thisLevel.levelNum,
         settingNum
-      ).then((result) => {
-        activityScore.value = result;
+      ).then(() => {
+        activityScore.value = 0;
       });
 
       retried.value = true;
@@ -485,22 +489,22 @@ onMounted(() => {
     grid: {
       spacing: 20,
       length: 3,
-      colour: '#ccc'
+      colour: '#ccc',
     },
     zoom: {
       startScale: 1.0,
       maxScale: 2,
       minScale: 3,
-      scaleSpeed: 0.3
+      scaleSpeed: 0.3,
     },
     theme: {
       name: 'custom',
       componentStyles: {
         workspaceBackgroundColour: '#FFFFFF',
         flyoutBackgroundColour: '#D0D0D0',
-        flyoutOpacity: 0.7
-      }
-    }
+        flyoutOpacity: 0.7,
+      },
+    },
   });
 
   taskStatus.value = 'none';
@@ -567,7 +571,7 @@ const endProgressNotify = () => {
     $q.notify({
       type: 'positive',
       message: 'Uploading done!',
-      timeout: 1000
+      timeout: 1000,
     });
 
     setDialog('check');
@@ -579,7 +583,7 @@ const endProgressNotify = () => {
       type: 'negative',
       message: 'Upload Failed',
       spinner: false,
-      timeout: 1500
+      timeout: 1500,
     });
     taskStatus.value = 'none';
   }
@@ -608,7 +612,7 @@ const startLoadingUpload = () => {
   $q.loading.show({
     spinnerColor: 'white',
     backgroundColor: 'black',
-    message: 'Executing'
+    message: 'Executing',
   });
 };
 

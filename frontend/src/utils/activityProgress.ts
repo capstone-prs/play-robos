@@ -59,10 +59,10 @@ export const solveActivityScore = (
   patternScore: number,
   decompScore: number
 ) => {
-  const attemptWeight = 25;
-  const durationWeight = 15;
-  const patternWeight = 30;
-  const decompWeight = 30;
+  const attemptWeight = 30;
+  const durationWeight = 30;
+  const patternWeight = 20;
+  const decompWeight = 20;
 
   const weightedSum =
     solveAttemptScore(attemptScore) * (attemptWeight / 100) +
@@ -183,6 +183,26 @@ export const launchBadgeReward = async () => {
       badgeName: '',
       badgeUrl: '',
       description: badgeRew.description,
+    };
+  }
+};
+
+export const solveAccuracyAndEfficiency = (
+  attempts: number,
+  duration: number
+) => {
+  if (attempts > 0) {
+    const accuracy = 1 / attempts;
+    const efficiency = 1 / (attempts * duration);
+
+    return {
+      accuracy: accuracy,
+      efficiency: efficiency,
+    };
+  } else {
+    return {
+      accuracy: 0,
+      efficiency: 0,
     };
   }
 };

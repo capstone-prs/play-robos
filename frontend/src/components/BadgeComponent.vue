@@ -54,6 +54,7 @@ const openDetail = (badge: Badge) => {
 
 const allBadges = ref<Badge[]>([
   {
+    userId: '',
     name: '',
     url: '',
     description: '',
@@ -61,6 +62,7 @@ const allBadges = ref<Badge[]>([
 ]);
 
 const selectedBadge = ref<Badge>({
+  userId: '',
   name: '',
   url: '',
   description: '',

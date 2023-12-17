@@ -51,6 +51,7 @@ export const login = (email: string, password: string): Promise<User> => {
 
         const userDocRef = doc(db, 'users', user.uid);
         const userDocSnapshot = await getDoc(userDocRef);
+        console.log(userDocSnapshot.data());
         if (userDocSnapshot.exists()) {
           const userBirthdate = userDocSnapshot.data().birthdate;
           const userName = userDocSnapshot.data().name;
