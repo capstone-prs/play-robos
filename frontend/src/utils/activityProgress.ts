@@ -201,8 +201,8 @@ export const solveAccuracyAndEfficiency = (
     };
   } else {
     return {
-      accuracy: 0,
-      efficiency: 0,
+      accuracy: 1,
+      efficiency: 1 / (1 * duration),
     };
   }
 };

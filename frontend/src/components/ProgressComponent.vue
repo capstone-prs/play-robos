@@ -145,7 +145,7 @@ const testRows = ref<Array<ScoreSheet>>([]);
 const accuracyAndEfficiencyValues = ref<Array<AccuracyAndEfficiency>>([]);
 
 const totalEfficiency = ref(0);
-const totalAccuracy = ref(0);
+const totalAccuracy = ref(1);
 const tab = ref('overview');
 
 const averageAccuracy = ref(0);
@@ -192,7 +192,7 @@ onMounted(() => {
                   0
                 ) / totalAccuracy.value;
             } else {
-              averageAccuracy.value = 0;
+              averageAccuracy.value = 1;
             }
 
             averageEfficiency.value =
