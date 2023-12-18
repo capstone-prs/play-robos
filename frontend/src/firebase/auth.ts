@@ -47,17 +47,6 @@ export const login = (email: string, password: string): Promise<User> => {
       .then(async (userCredential) => {
         const user = userCredential.user;
 
-<<<<<<< HEAD
-        const userDocRef = doc(db, 'users', user.uid);
-        const userDocSnapshot = await getDoc(userDocRef);
-        console.log(userDocSnapshot.data());
-        if (userDocSnapshot.exists()) {
-          const userBirthdate = userDocSnapshot.data().birthdate;
-          const userName = userDocSnapshot.data().name;
-          const userGender = userDocSnapshot.data().gender;
-          const userCoins = userDocSnapshot.data().coins;
-          const userScore = userDocSnapshot.data().score;
-=======
         // const userDocRef = doc(db, 'users', user.uid);
         await getLocalUser(user.uid).then(async (localUser) => {
           if (!localUser) {
@@ -68,7 +57,6 @@ export const login = (email: string, password: string): Promise<User> => {
               const userGender = firebaseUser.gender;
               const userCoins = firebaseUser.coins;
               const userScore = firebaseUser.score;
->>>>>>> 99a5dc66cd2ab751785b967873705f99457c01ea
 
               const difficulty =
                 getAge(userBirthdate, new Date()) >= 5 &&
