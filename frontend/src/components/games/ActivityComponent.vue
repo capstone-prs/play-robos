@@ -49,7 +49,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import PlayDialog from '../PlayDialog.vue';
-
+import { soundEffect } from '../../utils/SoundUtils';
 const props = defineProps({
   difficulty: {
     type: String,
@@ -79,6 +79,7 @@ const props = defineProps({
 
 const showPlayDialog = ref(false);
 const openPlayDialog = () => {
+  soundEffect();
   showPlayDialog.value = true;
 };
 
