@@ -13,7 +13,9 @@ installQuasarPlugin();
 vi.mock('firebase/firestore', () => ({
   getDoc: vi.fn().mockResolvedValueOnce({
     exists: vi.fn(() => true),
-    data: vi.fn(() => ({})),
+    data: vi.fn(() => ({
+      birthdate: { toDate: vi.fn() },
+    })),
   }),
   setDoc: vi.fn(),
   doc: vi.fn(),

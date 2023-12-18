@@ -131,7 +131,7 @@ import { onMounted, ref } from 'vue';
 import { QTableColumn } from 'quasar';
 import {
   getLocalActivity,
-  getLocalActivityProgress,
+  getLocalActivityProgresses,
   getLocalUser,
 } from '../dexie/db';
 import { userID } from '../firebase/firestore';
@@ -157,7 +157,7 @@ onMounted(() => {
     userScore.value = Math.floor(score);
   });
 
-  getLocalActivityProgress().then((activities) => {
+  getLocalActivityProgresses().then((activities) => {
     activities.forEach((activity) => {
       getLocalActivity(activity.activityId).then((act) => {
         const data = {

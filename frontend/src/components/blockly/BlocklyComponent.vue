@@ -202,7 +202,6 @@ import {
 } from 'src/utils/bluetoothUtils';
 import isEqualCodes from 'src/utils/compareCode';
 import executeCodes from '../../utils/executeCodes';
-import { localActivityProgress } from '../../utils/activityProgress';
 import { startStudioOnboarding } from '../../onboarding/studioOnboarding';
 import { settings_easy } from '../games/levels-easy';
 import { settings_hard } from '../games/levels-hard';
@@ -210,7 +209,7 @@ import generator from '../../utils/blockly';
 import lives from '../../assets/PlayRobos1.svg';
 import ExtraLives from '../../components/ExtraLivesDIalog.vue';
 // Types
-import { Activity, Badge, Difficulty } from '../../types/Progress';
+import { Difficulty, NewActivity, NewBadge } from '../../types/Progress';
 import { TaskStatus } from '../../types/Status';
 import { Dialog } from '../../types/BlocklyDialogs';
 
@@ -269,7 +268,7 @@ const arrayOfLives = ref(
 );
 const coinsStorage = ref(0);
 const currentActivityScore = ref(0);
-const badge = ref<Badge>({
+const badge = ref<NewBadge>({
   name: '',
   url: '',
   description: '',
@@ -397,7 +396,7 @@ const badgeReward = () => {
 
 const coinsComputed = () => {
   //data activity
-  const activityData: Activity = {
+  const activityData: NewActivity = {
     title: thisLevel.goalTitle,
     reward: thisLevel.reward,
     setting: settingNum,
@@ -407,19 +406,19 @@ const coinsComputed = () => {
     userId: userID(),
   };
 
-  //data progress
-  const dataToUpdate = localActivityProgress(
-    userID(),
-    activityData,
-    stopwatch.value?.totalTime ?? 0,
-    parseInt($q.localStorage.getItem('failed-attemps') || '0'), //TODO: add number of attempts here
-    100, // decomposition
-    100 // pattern
-  );
-  soundEffect(victory); //FIXME: doubled sound
+  const dataToUpdate = {
+    userId: userID(),
+    activity: activityData,
+    duration: stopwatch.value?.totalTime ?? 0,
+    attempt: parseInt($q.localStorage.getItem('failed-attemps') || '0'), //TODO: add number of attempts here
+    decomposition: 100, // decomposition
+    pattern: 100, // pattern
+  };
+
+  soundEffect(victory);
   setDialog('coins');
 
-  getLocalActivities().then((localActivities) => {
+  return getLocalActivities().then(async (localActivities) => {
     const condition = localActivities.find(
       (activity) =>
         activity.difficulty === ageGroup &&
@@ -429,20 +428,25 @@ const coinsComputed = () => {
 
     if (condition === undefined || localActivities.length === 0) {
       //indexing the data progress to dexie
-      addLocalActivityProgress(
+      await addLocalActivityProgress(
         dataToUpdate.userId,
         dataToUpdate.activity,
         dataToUpdate.duration,
         dataToUpdate.attempt,
         dataToUpdate.decomposition,
         dataToUpdate.pattern
-      ).then((result) => {
-        activityScore.value = result;
-      });
-
-      updateLocalUserCoins(userID(), thisLevel.reward);
+      )
+        .then((result) => {
+          activityScore.value = result;
+        })
+        .then(() => {
+          console.log(thisLevel.reward, 'coins');
+          return updateLocalUserCoins(userID(), thisLevel.reward);
+        });
     } else {
-      updateLocalActivityProgress(
+      retried.value = true;
+
+      return updateLocalActivityProgress(
         dataToUpdate.userId,
         dataToUpdate.decomposition,
         dataToUpdate.attempt,
@@ -453,10 +457,59 @@ const coinsComputed = () => {
       ).then(() => {
         activityScore.value = 0;
       });
-
-      retried.value = true;
     }
   });
+
+  //data progress
+  // const dataToUpdate = localActivityProgress(
+  //   userID(),
+  //   activityData,
+  //   stopwatch.value?.totalTime ?? 0,
+  //   parseInt($q.localStorage.getItem('failed-attemps') || '0'), //TODO: add number of attempts here
+  //   100, // decomposition
+  //   100 // pattern
+  // );
+  // soundEffect(victory); //FIXME: doubled sound
+  // setDialog('coins');
+
+  // getLocalActivities().then((localActivities) => {
+  //   const condition = localActivities.find(
+  //     (activity) =>
+  //       activity.difficulty === ageGroup &&
+  //       activity.setting === settingNum &&
+  //       activity.level === levelNum
+  //   );
+
+  //   if (condition === undefined || localActivities.length === 0) {
+  //     //indexing the data progress to dexie
+  //     addLocalActivityProgress(
+  //       dataToUpdate.userId,
+  //       dataToUpdate.activity,
+  //       dataToUpdate.duration,
+  //       dataToUpdate.attempt,
+  //       dataToUpdate.decomposition,
+  //       dataToUpdate.pattern
+  //     ).then((result) => {
+  //       activityScore.value = result;
+  //     });
+
+  //     updateLocalUserCoins(userID(), thisLevel.reward);
+  //   } else {
+  //     updateLocalActivityProgress(
+  //       dataToUpdate.userId,
+  //       dataToUpdate.decomposition,
+  //       dataToUpdate.attempt,
+  //       dataToUpdate.pattern,
+  //       dataToUpdate.duration,
+  //       thisLevel.levelNum,
+  //       settingNum
+  //     ).then((result) => {
+  //       activityScore.value = result;
+  //     });
+
+  //     retried.value = true;
+  //   }
+  // });
 };
 
 const openHints = () => {

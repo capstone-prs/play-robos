@@ -1,10 +1,10 @@
 import { addLocalBadge, getLocalBadges, getLocalUser } from '../dexie/db';
 import { userID } from '../firebase/firestore';
-import { Activity, Badge } from '../types/Progress';
+import { Badge, NewActivity } from '../types/Progress';
 
 export const localActivityProgress = (
   userId: string,
-  activity: Activity,
+  activity: NewActivity,
   duration: number,
   attempt: number,
   decomp: number,

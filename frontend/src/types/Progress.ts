@@ -1,7 +1,7 @@
 export type Difficulty = 'easy' | 'hard';
 
 export interface Activity {
-  id?: number;
+  id: string;
   userId: string;
   title: string;
   reward: number;
@@ -11,18 +11,22 @@ export interface Activity {
   completed: boolean;
 }
 
+export type NewActivity = Omit<Activity, 'id'>;
+
 export interface ActivityProgress {
-  id?: number;
+  id: string;
   userId: string;
-  activityId: number;
+  activityId: string;
   duration: number;
   attempt: number;
   decomposition: number;
   pattern: number;
 }
 
+export type NewActivityProgress = Omit<ActivityProgress, 'id'>;
+
 export interface Badge {
-  id?: number;
+  id: string;
   userId: string;
   name: string;
   url: string;
@@ -42,3 +46,4 @@ export interface AccuracyAndEfficiency {
   accuracy: number;
   efficiency: number;
 }
+export type NewBadge = Omit<Badge, 'id'>;
