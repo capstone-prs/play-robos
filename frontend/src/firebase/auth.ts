@@ -11,12 +11,11 @@ import {
   User,
   sendEmailVerification,
 } from 'firebase/auth';
-import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import getAge from '../utils/ageGetter';
-import { addLocalUser } from '../dexie/db';
+import { getLocalUser, upsertLocalUser } from '../dexie/db';
+import getUser from './firestore';
 
 const auth = getAuth();
-const db = getFirestore();
 
 export const signup = (email: string, password: string): Promise<User> => {
   return new Promise<User>((resolve, reject) => {
@@ -27,7 +26,6 @@ export const signup = (email: string, password: string): Promise<User> => {
         resolve(user);
       })
       .catch((error) => {
-        console.log(error);
         reject(error);
       });
   });
@@ -49,37 +47,48 @@ export const login = (email: string, password: string): Promise<User> => {
       .then(async (userCredential) => {
         const user = userCredential.user;
 
-        const userDocRef = doc(db, 'users', user.uid);
-        const userDocSnapshot = await getDoc(userDocRef);
-        if (userDocSnapshot.exists()) {
-          const userBirthdate = userDocSnapshot.data().birthdate;
-          const userName = userDocSnapshot.data().name;
-          const userGender = userDocSnapshot.data().gender;
-          const userCoins = userDocSnapshot.data().coins;
-          const userScore = userDocSnapshot.data().score;
+        // const userDocRef = doc(db, 'users', user.uid);
+        await getLocalUser(user.uid).then(async (localUser) => {
+          if (!localUser) {
+            const firebaseUser = await getUser(user.uid);
+            if (firebaseUser) {
+              const userBirthdate = firebaseUser.birthdate;
+              const userName = firebaseUser.name;
+              const userGender = firebaseUser.gender;
+              const userCoins = firebaseUser.coins;
+              const userScore = firebaseUser.score;
 
-          addLocalUser({
-            id: user.uid,
-            name: userName,
-            birthdate: userBirthdate,
-            gender: userGender,
-            coins: userCoins,
-            score: userScore,
-          });
-          console.log(userDocSnapshot.data());
-
-          const difficulty =
-            getAge(userBirthdate.toDate(), new Date()) >= 5 &&
-            getAge(userBirthdate.toDate(), new Date()) <= 7
-              ? 'easy'
-              : 'hard';
-          localStorage.setItem('userDifficulty', difficulty);
-        }
-
-        resolve(user);
+              const difficulty =
+                getAge(userBirthdate, new Date()) >= 5 &&
+                getAge(userBirthdate, new Date()) <= 7
+                  ? 'easy'
+                  : 'hard';
+              localStorage.setItem('userDifficulty', difficulty);
+              await upsertLocalUser({
+                id: user.uid,
+                name: userName,
+                birthdate: userBirthdate,
+                gender: userGender,
+                coins: userCoins,
+                score: userScore,
+              })
+                .then(() => resolve(user))
+                .catch(reject);
+            } else {
+              reject('User does not exist');
+            }
+          } else {
+            const difficulty =
+              getAge(new Date(localUser.birthdate), new Date()) >= 5 &&
+              getAge(new Date(localUser.birthdate), new Date()) <= 7
+                ? 'easy'
+                : 'hard';
+            localStorage.setItem('userDifficulty', difficulty);
+            resolve(user);
+          }
+        });
       })
       .catch((error) => {
-        console.log(error);
         reject(error);
       });
   });

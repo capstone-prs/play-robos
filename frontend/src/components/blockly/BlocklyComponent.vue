@@ -219,7 +219,7 @@ import ReconnectDialog from '../ReconnectDialog.vue';
 import {
   bluetoothSerial,
   onDisconnect,
-  btListenser
+  btListenser,
 } from 'src/utils/bluetoothUtils';
 import isEqualCodes from 'src/utils/compareCode';
 import executeCodes from '../../utils/executeCodes';
@@ -230,7 +230,7 @@ import { settings_hard } from '../games/levels-hard';
 import generator from '../../utils/blockly';
 import ExtraLives from '../../components/ExtraLivesDIalog.vue';
 // Types
-import { Activity, Badge, Difficulty } from '../../types/Progress';
+import { Difficulty, NewActivity, NewBadge } from '../../types/Progress';
 import { TaskStatus } from '../../types/Status';
 import { Dialog } from '../../types/BlocklyDialogs';
 
@@ -251,7 +251,7 @@ import {
   getLocalActivities,
   getLocalUser,
   updateLocalActivityProgress,
-  updateLocalUserCoins
+  updateLocalUserCoins,
 } from '../../dexie/db';
 import { userID } from '../../firebase/firestore';
 import { Abstract } from 'blockly/core/events/events_abstract';
@@ -267,7 +267,7 @@ const isDialogOpen = ref({
   coins: false,
   badge: false,
   preview: false,
-  reconnect: false
+  reconnect: false,
 });
 
 const taskStatus = ref<TaskStatus>('none');
@@ -290,7 +290,7 @@ const arrayOfLives = ref(
 
 const coinsStorage = ref(0);
 const currentActivityScore = ref(0);
-const badge = ref<Badge>({
+const badge = ref<NewBadge>({
   name: '',
   url: '',
   description: '',
@@ -377,7 +377,7 @@ const notifyError = (e: string) => {
   soundEffect(errorSnd);
   return $q.notify({
     type: 'negative',
-    message: e
+    message: e,
   });
 };
 
@@ -433,7 +433,7 @@ const badgeReward = () => {
 
 const coinsComputed = () => {
   //data activity
-  const activityData: Activity = {
+  const activityData: NewActivity = {
     title: thisLevel.goalTitle,
     reward: thisLevel.reward,
     setting: settingNum,
@@ -443,19 +443,19 @@ const coinsComputed = () => {
     userId: userID(),
   };
 
-  //data progress
-  const dataToUpdate = localActivityProgress(
-    userID(),
-    activityData,
-    stopwatch.value?.totalTime ?? 0,
-    parseInt($q.localStorage.getItem('failed-attemps') || '0'), //TODO: add number of attempts here
-    100, // decomposition
-    100 // pattern
-  );
-  soundEffect(victory); //FIXME: doubled sound
+  const dataToUpdate = {
+    userId: userID(),
+    activity: activityData,
+    duration: stopwatch.value?.totalTime ?? 0,
+    attempt: parseInt($q.localStorage.getItem('failed-attemps') || '0'), //TODO: add number of attempts here
+    decomposition: 100, // decomposition
+    pattern: 100, // pattern
+  };
+
+  soundEffect(victory);
   setDialog('coins');
 
-  getLocalActivities().then((localActivities) => {
+  return getLocalActivities().then(async (localActivities) => {
     const condition = localActivities.find(
       (activity) =>
         activity.difficulty === ageGroup &&
@@ -465,20 +465,25 @@ const coinsComputed = () => {
 
     if (condition === undefined || localActivities.length === 0) {
       //indexing the data progress to dexie
-      addLocalActivityProgress(
+      await addLocalActivityProgress(
         dataToUpdate.userId,
         dataToUpdate.activity,
         dataToUpdate.duration,
         dataToUpdate.attempt,
         dataToUpdate.decomposition,
         dataToUpdate.pattern
-      ).then((result) => {
-        activityScore.value = result;
-      });
-
-      updateLocalUserCoins(userID(), thisLevel.reward);
+      )
+        .then((result) => {
+          activityScore.value = result;
+        })
+        .then(() => {
+          console.log(thisLevel.reward, 'coins');
+          return updateLocalUserCoins(userID(), thisLevel.reward);
+        });
     } else {
-      updateLocalActivityProgress(
+      retried.value = true;
+
+      return updateLocalActivityProgress(
         dataToUpdate.userId,
         dataToUpdate.decomposition,
         dataToUpdate.attempt,
@@ -489,10 +494,59 @@ const coinsComputed = () => {
       ).then((result) => {
         activityScore.value = result;
       });
-
-      retried.value = true;
     }
   });
+
+  //data progress
+  // const dataToUpdate = localActivityProgress(
+  //   userID(),
+  //   activityData,
+  //   stopwatch.value?.totalTime ?? 0,
+  //   parseInt($q.localStorage.getItem('failed-attemps') || '0'), //TODO: add number of attempts here
+  //   100, // decomposition
+  //   100 // pattern
+  // );
+  // soundEffect(victory); //FIXME: doubled sound
+  // setDialog('coins');
+
+  // getLocalActivities().then((localActivities) => {
+  //   const condition = localActivities.find(
+  //     (activity) =>
+  //       activity.difficulty === ageGroup &&
+  //       activity.setting === settingNum &&
+  //       activity.level === levelNum
+  //   );
+
+  //   if (condition === undefined || localActivities.length === 0) {
+  //     //indexing the data progress to dexie
+  //     addLocalActivityProgress(
+  //       dataToUpdate.userId,
+  //       dataToUpdate.activity,
+  //       dataToUpdate.duration,
+  //       dataToUpdate.attempt,
+  //       dataToUpdate.decomposition,
+  //       dataToUpdate.pattern
+  //     ).then((result) => {
+  //       activityScore.value = result;
+  //     });
+
+  //     updateLocalUserCoins(userID(), thisLevel.reward);
+  //   } else {
+  //     updateLocalActivityProgress(
+  //       dataToUpdate.userId,
+  //       dataToUpdate.decomposition,
+  //       dataToUpdate.attempt,
+  //       dataToUpdate.pattern,
+  //       dataToUpdate.duration,
+  //       thisLevel.levelNum,
+  //       settingNum
+  //     ).then((result) => {
+  //       activityScore.value = result;
+  //     });
+
+  //     retried.value = true;
+  //   }
+  // });
 };
 
 const openHints = () => {
@@ -525,22 +579,22 @@ onMounted(() => {
     grid: {
       spacing: 20,
       length: 3,
-      colour: '#ccc'
+      colour: '#ccc',
     },
     zoom: {
       startScale: 1.0,
       maxScale: 2,
       minScale: 3,
-      scaleSpeed: 0.3
+      scaleSpeed: 0.3,
     },
     theme: {
       name: 'custom',
       componentStyles: {
         workspaceBackgroundColour: '#FFFFFF',
         flyoutBackgroundColour: '#D0D0D0',
-        flyoutOpacity: 0.7
-      }
-    }
+        flyoutOpacity: 0.7,
+      },
+    },
   });
 
   taskStatus.value = 'none';
@@ -607,7 +661,7 @@ const endProgressNotify = () => {
     $q.notify({
       type: 'positive',
       message: 'Uploading done!',
-      timeout: 1000
+      timeout: 1000,
     });
 
     setDialog('check');
@@ -619,7 +673,7 @@ const endProgressNotify = () => {
       type: 'negative',
       message: 'Upload Failed',
       spinner: false,
-      timeout: 1500
+      timeout: 1500,
     });
     taskStatus.value = 'none';
   }
@@ -648,7 +702,7 @@ const startLoadingUpload = () => {
   $q.loading.show({
     spinnerColor: 'white',
     backgroundColor: 'black',
-    message: 'Executing'
+    message: 'Executing',
   });
 };
 
