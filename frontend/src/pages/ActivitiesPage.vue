@@ -63,7 +63,7 @@
                       completedLevel.difficulty === difficulty &&
                       completedLevel.setting === settingNumber &&
                       completedLevel.level === level.levelNum - 1
-                  )?.completed
+                  )?.completed ?? false
             "
             :difficulty="difficulty"
             :setting-num="settingNumber"

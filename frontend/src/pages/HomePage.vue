@@ -148,7 +148,7 @@ onMounted(() => {
   lottieBackgroundLoader(animationData, lottieContainer);
   startOnboarding();
   getLocalUser(userID()).then((user) => {
-    coinsStorage.value = user?.coins;
+    coinsStorage.value = user?.coins ?? 0;
   });
   lottieBackgroundLoader(animationData, lottieContainer);
 });
