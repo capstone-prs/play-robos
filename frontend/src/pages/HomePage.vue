@@ -142,7 +142,6 @@ const dataForHomepage = ref(
 const router = useRouter();
 const lottieContainer = ref();
 const isLogoutDialogVisible = ref(false);
-
 const coinsStorage = ref();
 onMounted(() => {
   lottieBackgroundLoader(animationData, lottieContainer);
