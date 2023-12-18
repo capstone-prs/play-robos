@@ -1,70 +1,76 @@
 <template>
-    <q-dialog v-model="isDialogOpen" persistent>
-      <q-card class="q-pa-md" style="width: 100%; height: 70% " >
-           
-        <q-card-section class="q-pt-lg q-pm-none q-pa" align="center">
-            <div class="text-h2 incorrect-text">GameOver</div>
-            <div class="text-h4 detail-text q-pt-md">
-            Better Luck Next Time! 
-          </div>
-        </q-card-section>
+  <q-dialog v-model="isDialogOpen" persistent>
+    <q-card
+      class="q-pa-md"
+      style="width: 35%; height: 100%; border-radius: 20px"
+    >
+      <q-card-section class="q-pt-xl q-pm-none q-pa" align="center">
+        <div class="text-h4 incorrect-text">GameOver</div>
+        <div class="text-h6 game-over q-pt-md">Better Luck Next Time!</div>
+      </q-card-section>
 
-        <div class="row" q-pa-md>
-          <q-btn
-            class="col q-ma-xs"
-            icon="arrow_back"
-            color="purple"
-            rounded
-            text-color="white"
-            size="lg"
-            data-testid="upload-btn"
-            @click="navigateBack"
-          />
-          <q-btn
-            class="col q-ma-xs"
-            rounded
-            icon="refresh"
-            color="pink-6"
-            size="lg"
-            text-color="white"
-            data-testid="upload-btn"
-            @click="retry"
-          ></q-btn>
-          <!-- <q-btn
-            class="col q-ma-xs"
-            rounded
-            text-label="100"
-            icon="home"
-            color="green-6"
-            size="lg"
-            text-color="white"
-            data-testid="upload-btn"
-            @click="navigateHome"
-
-          /> -->
-        </div>
-      </q-card>
-    </q-dialog>
-  </template>
+      <div class="row justify-center items-center">
+        <IconButton
+          icon="img:/home.svg"
+          @click="atHome"
+          class="col-2 q-ma-xs"
+        />
+        <IconButton
+          icon="img:/restart.svg"
+          class="col-2 q-ma-md"
+          @click="retry"
+          v-close-popup
+        />
+      </div>
+    </q-card>
+  </q-dialog>
+</template>
 
 <script setup lang="ts">
-
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-const isDialogOpen = ref(false)
-// soundEffect(gameoverSnd);
-const router = useRouter()
-  const retry = () => {
-    localStorage.removeItem('lives');
+import { WorkspaceSvg } from 'blockly';
+import IconButton from './buttons/IconButton.vue';
+import { useQuasar } from 'quasar';
+const $q = useQuasar();
+const isDialogOpen = ref(false);
+const router = useRouter();
 
-  }
-const navigateBack = () => {
+
+const props = defineProps<{
+  clear?: WorkspaceSvg;
+}>();
+const showLoading = () => {
+  $q.loading.show({
+    spinnerColor: 'white',
+    backgroundColor: 'black',
+    message: 'Setting everthing up...',
+  });
+
+  setTimeout(() => {
+    $q.loading.hide();
+  }, 2000);
+};
+
+const emit = defineEmits<{ (e: 'retry'): void;  (e: 'new-life'): void; }>();
+
+const retry = () => {
+  showLoading();
+  props.clear?.clear();
+  emit('retry');
+  emit('new-life');
+  // $q.localStorage.set('lives', arrayOfLives.value);
+
+};
+
+const atHome = () => {
   localStorage.removeItem('lives');
-     router.go(-1);
-}
-// const navigateHome = () => {
-//   localStorage.removeItem('lives');
-//     router.push('/home')
-// }
-
+  return router.push('/home');
+};
 </script>
+<style>
+.game-over {
+  color: rgb(70, 68, 68);
+  font-family: 'futura';
+}
+</style>

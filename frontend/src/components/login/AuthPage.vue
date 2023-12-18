@@ -48,7 +48,6 @@ import { onMounted, ref } from 'vue';
 import '../../css/style.css';
 import lottie from 'lottie-web';
 import animationData from '../../../public/bgs/index-bg.json';
-import { soundEffect } from 'src/utils/SoundUtils';
 
 const lottieContainer = ref();
 
@@ -67,12 +66,10 @@ onMounted(() => {
 
 const router = useRouter();
 const navigateToLogin = () => {
-  soundEffect();
   router.push('/login');
 };
 
 const navigateToSignup = () => {
-  soundEffect();
   return router.push('/signup');
 };
 </script>

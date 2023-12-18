@@ -11,10 +11,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import BlocklyComponent from '../components/blockly/BlocklyComponent.vue';
-import {
-  backgroundMusicStudio,
-  backgroundMusicHome
-} from '../../src/utils/SoundUtils';
 
 const blockly = ref();
 const options = {
@@ -26,10 +22,7 @@ const options = {
     snap: true
   }
 };
-if (backgroundMusicHome.playing() == true) {
-  backgroundMusicHome.stop();
-  backgroundMusicStudio.play();
-}
+
 </script>
 
 <style>

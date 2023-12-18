@@ -7,7 +7,7 @@
     <q-card>
       <q-card-section
         class="row card-title"
-        style="width: 400px; justify-content: center"
+        style="width: 280px; justify-content: center"
       >
         <div class="row text-h4 futura">
           <q-btn flat @click="atBack">
@@ -36,30 +36,17 @@
       >
       </q-card-section>
       <q-card-section class="centered q-mb-lg" v-if="path !== '/home'">
-        <IconButton icon="img:/home.svg" @click='atHome' class="col-2 q-pa-xs" />
-        <RobotConnectButton
-          class="q-pa-xs"
-          :loading-handler="
-            (isLoading) => {
-              findingRobotDialog = isLoading;
-            }
-          "
-          :open-bt-setting-handler="
-            () => {
-              isPairingDialog = true;
-            }
-          "
-          id="robot-btn"
+        <IconButton
+          icon="img:/home.svg"
+          @click="atHome"
+          class="col-2 q-pa-xs"
         />
-
         <SoundButton class="q-pa-xs" />
 
         <div class="q-pa-xs">
           <MusicButton />
         </div>
       </q-card-section>
-      <FindingDialog v-model="findingRobotDialog" />
-      <PairingDialog v-model="isPairingDialog" />
     </q-card>
   </q-dialog>
 </template>
@@ -68,12 +55,9 @@
 import MusicButton from './buttons/MusicButton.vue';
 import SoundButton from './buttons/SoundButton.vue';
 import back from '../assets/sounds/back.mp3';
-import RobotConnectButton from './buttons/RobotConnectButton.vue';
 import { soundEffect } from 'src/utils/SoundUtils';
 import { ref } from 'vue';
 import IconButton from './buttons/IconButton.vue';
-const findingRobotDialog = ref(false);
-const isPairingDialog = ref(false);
 
 import { useRouter } from 'vue-router';
 

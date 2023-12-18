@@ -15,6 +15,7 @@
           class="q-ma-lg"
           :class="index === activeSetting ? 'active-setting' : ''"
           @click="
+            soundEffect(back);
             (index <= latestAccessibleSetting ? true : false)
               ? navigateToActivities(index)
               : ''
@@ -31,7 +32,8 @@
       text-label="ENTER"
       class="absolute-center"
       style="margin-top: 130px"
-      @click="navigateToActivities(activeSetting)"
+      @click="navigateToActivities(activeSetting);    
+      soundEffect(back);"
     />
   </q-card-actions>
 </template>
@@ -46,7 +48,8 @@ import introJS from 'intro.js';
 import 'intro.js/introjs.css';
 import settingConfig from '../onboarding/intro.json';
 import { Options } from 'intro.js/src/option';
-
+import {soundEffect} from '../utils/SoundUtils'
+import back from '../assets/sounds/back.mp3'
 const props = defineProps<{
   imageUrls: Array<string>;
   ageGroup: string;
