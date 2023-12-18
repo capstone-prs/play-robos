@@ -511,57 +511,6 @@ const coinsComputed = () => {
       });
     }
   });
-
-  //data progress
-  // const dataToUpdate = localActivityProgress(
-  //   userID(),
-  //   activityData,
-  //   stopwatch.value?.totalTime ?? 0,
-  //   parseInt($q.localStorage.getItem('failed-attemps') || '0'), //TODO: add number of attempts here
-  //   100, // decomposition
-  //   100 // pattern
-  // );
-  // soundEffect(victory); //FIXME: doubled sound
-  // setDialog('coins');
-
-  // getLocalActivities().then((localActivities) => {
-  //   const condition = localActivities.find(
-  //     (activity) =>
-  //       activity.difficulty === ageGroup &&
-  //       activity.setting === settingNum &&
-  //       activity.level === levelNum
-  //   );
-
-  //   if (condition === undefined || localActivities.length === 0) {
-  //     //indexing the data progress to dexie
-  //     addLocalActivityProgress(
-  //       dataToUpdate.userId,
-  //       dataToUpdate.activity,
-  //       dataToUpdate.duration,
-  //       dataToUpdate.attempt,
-  //       dataToUpdate.decomposition,
-  //       dataToUpdate.pattern
-  //     ).then((result) => {
-  //       activityScore.value = result;
-  //     });
-
-  //     updateLocalUserCoins(userID(), thisLevel.reward);
-  //   } else {
-  //     updateLocalActivityProgress(
-  //       dataToUpdate.userId,
-  //       dataToUpdate.decomposition,
-  //       dataToUpdate.attempt,
-  //       dataToUpdate.pattern,
-  //       dataToUpdate.duration,
-  //       thisLevel.levelNum,
-  //       settingNum
-  //     ).then((result) => {
-  //       activityScore.value = result;
-  //     });
-
-  //     retried.value = true;
-  //   }
-  // });
 };
 
 const openHints = () => {
