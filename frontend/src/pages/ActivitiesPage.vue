@@ -27,7 +27,17 @@
 
       <div class="col-3">
         <div class="row float-right">
-          <div class="col q-pr-sm">
+          <q-btn
+            glossy
+            rounded
+            color="grey-7"
+            text-color="white"
+            icon="img:/coin-bag.svg"
+            :disable="true"
+            :label="coinsStorage"
+            id="coin-storage"
+          />
+          <div class="col q-pr-sm q-pl-sm">
             <SoundButton data-cy="sound-btn" />
           </div>
 
@@ -35,15 +45,6 @@
             <MusicButton data-cy="music-btn" />
           </div>
 
-          <div class="col q-pr-sm">
-            <MenuButton @open-dialog="openMenuDialog" data-cy="menu-btn" />
-            <MenuDialog
-              v-model="isMenuDialogVisible"
-              data-cy="menu-dialog"
-              :data-for-homepage="difficulty"
-              @update:data-for-homepage="updateData"
-            />
-          </div>
         </div>
       </div>
     </q-header>
@@ -112,17 +113,15 @@ import { useRouter } from 'vue-router';
 import AchievementButton from '../components/buttons/AchievementButton.vue';
 import SoundButton from '../components/buttons/SoundButton.vue';
 import MusicButton from '../components/buttons/MusicButton.vue';
-import MenuDialog from '../components/MenuDialog.vue';
-import MenuButton from '../components/buttons/MenuButton.vue';
 import ActivityComponent from '../components/games/ActivityComponent.vue';
 import { settings_easy } from '../components/games/levels-easy';
 import { settings_hard } from '../components/games/levels-hard';
 import PreviousButton from '../components/buttons/PreviousButton.vue';
 import { Activity } from '../types/Progress';
-import { getLocalActivities } from '../dexie/db';
-
-const isMenuDialogVisible = ref(false);
+import { getLocalActivities, getLocalUser } from '../dexie/db';
+import { userID } from 'src/firebase/firestore';
 const router = useRouter();
+const coinsStorage = ref();
 const route = router.currentRoute;
 const levelNumber = route.value.params.param as string;
 const splitParams = levelNumber.split(' ');
@@ -201,9 +200,11 @@ const checkSettingProgress = async () => {
   }
 };
 
-const openMenuDialog = () => {
-  isMenuDialogVisible.value = true;
-};
+onMounted(()=>{
+  getLocalUser(userID()).then((user) => {
+    coinsStorage.value = user?.coins;
+  });
+})
 
 const dataForHomepage = ref('8-11');
 
@@ -225,9 +226,6 @@ const determineLevelsToDisplay = computed(() => {
     : settings_hard[settingNumber].levels;
 });
 
-const updateData = (newData: string) => {
-  dataForHomepage.value = newData;
-};
 
 const navigateBack = () => {
   return router.push('/home');
