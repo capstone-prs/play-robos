@@ -40,9 +40,8 @@
           <IconButton
             icon="img:/restart.svg"
             class="col-2 q-ma-md"
-            @click="
-              retry(levelNumber - 1, settingNumber, difficulty as Difficulty)
-            "
+            @click="retry()"
+            v-close-popup
           />
           <IconButton
             icon="img:/next.svg"
@@ -58,11 +57,13 @@
 </template>
 
 <script setup lang="ts">
+import { WorkspaceSvg } from 'blockly';
 import { computed, ref } from 'vue';
 import { soundEffect } from 'src/utils/SoundUtils';
 import { useRouter } from 'vue-router';
 import IconButton from './buttons/IconButton.vue';
-import { Difficulty } from 'src/types/Progress';
+import { useQuasar } from 'quasar';
+const $q = useQuasar();
 
 const elementsArray = computed(() =>
   Array.from(
@@ -81,6 +82,7 @@ const props = defineProps<{
   activityScore: number;
   score: number;
   isRetry: boolean;
+  clear?: WorkspaceSvg;
 }>();
 
 const computeStarsToDisplay = (activityScore: number) => {
@@ -94,24 +96,29 @@ const computeStarsToDisplay = (activityScore: number) => {
     return 1;
   }
 };
-
+const emit = defineEmits<{ (e: 'retry'): void; (e: 'new-life'): void }>();
 const isDialogOpen = ref(false);
-
-const retry = (level: number, setting: number, difficulty: Difficulty) => {
-  return router.push({
-    name: 'studio',
-    params: { param: level + '_' + setting + '_' + difficulty },
+const showLoading = () => {
+  $q.loading.show({
+    spinnerColor: 'white',
+    backgroundColor: 'black',
+    message: 'Setting everthing up...',
   });
+
+  setTimeout(() => {
+    $q.loading.hide();
+  }, 2000);
 };
 
-// const redo = () => {
-//   soundEffect();
-//   // FIXME: Add logic to bring back to the current level
-//   // location.reload();
-// };
+const retry = () => {
+  showLoading();
+  props.clear?.clear();
+  emit('retry');
+  emit('new-life');
+};
+
 const atHome = () => {
   soundEffect();
-  // FIXME: Add logic to bring back to the current level
   return router.push('/home');
 };
 
