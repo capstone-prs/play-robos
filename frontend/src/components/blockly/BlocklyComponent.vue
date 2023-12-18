@@ -3,7 +3,7 @@
     <div class="col">
       <div class="workspace-container" id="blockly">
         <div class="overlay-container">
-          <div class="row q-pt-xs" >
+          <div class="row q-pt-xs">
             <q-btn
               style="margin-left: 57%"
               glossy
@@ -16,7 +16,11 @@
               :label="coinsStorage"
               id="coin-storage"
             />
-            <q-icon class="image-lives" size="250px" :name='arrayOfLives[arrayOfLives.length-1]' />
+            <q-icon
+              class="image-lives"
+              size="250px"
+              :name="arrayOfLives[arrayOfLives.length - 1]"
+            />
           </div>
           <LevelGoalPreview
             v-model="isDialogOpen.preview"
@@ -55,7 +59,13 @@
             :clear="workspace"
             @retry="restartTime"
             v-model="gameover"
-            @new-life="arrayOfLives.push('img:/bat-1.svg', 'img:/bat-2.svg', 'img:/bat-3.svg')"
+            @new-life="
+              arrayOfLives.push(
+                'img:/bat-1.svg',
+                'img:/bat-2.svg',
+                'img:/bat-3.svg'
+              )
+            "
           />
           <ExtraLives
             v-if="extra"
@@ -70,7 +80,6 @@
                   notifyError('NOT ENOUGH COINS!');
                   closeExtraLives();
                   openGameover();
-                  
                 }
               }
             "
@@ -102,8 +111,8 @@
             :clear="workspace"
             @retry="restartTime"
             @new-life="
-            retryOnCoinsDialog();
-            setDialog('check', false);
+              retryOnCoinsDialog();
+              setDialog('check', false);
             "
           />
           <BadgeDialog
@@ -120,7 +129,7 @@
       </div>
     </div>
 
-    <div class="col-3 q-px-md">
+    <div class="col-3 q-px-md" id="studioSidebar">
       <div class="row q-mt-sm">
         <div class="col q-ma-xs">
           <StudioSideBarButton
@@ -128,6 +137,7 @@
             label="help"
             color="purple"
             @click="startStudioOnboarding"
+            id="studio-help"
           />
         </div>
         <div class="col q-ma-xs">
@@ -135,8 +145,8 @@
             icon="menu"
             label="menu"
             color="teal"
-            id="menu-btn"
             @click="() => setDialog('menu')"
+            id="studio-menu"
           />
         </div>
       </div>
@@ -147,6 +157,7 @@
             icon="undo"
             label="undo"
             @click="undo"
+            id="studio-undo"
           />
         </div>
         <div class="col q-ma-xs">
@@ -155,6 +166,7 @@
             icon="emoji_objects"
             label="hint"
             @click="() => openHints()"
+            id="studio-hint"
           />
         </div>
       </div>
@@ -170,10 +182,10 @@
           </div>
         </div>
       </div>
-      <div class="row justify-center q-my-md">
+      <div class="row justify-center q-my-md" id="stopwatch">
         <StopwatchComponent :initial-time="initialTime" ref="stopwatch" />
       </div>
-      <div class="row justify-center q-ma-md">
+      <div class="row justify-center q-ma-md" id="goal">
         <ImageViewer :pics="thisLevel.gif" id="goal" />
       </div>
 
@@ -188,6 +200,7 @@
           "
           data-cy="check-btn"
           label="upload"
+          id="studio-upload"
         />
       </div>
     </div>
@@ -223,7 +236,6 @@ import {
 } from 'src/utils/bluetoothUtils';
 import isEqualCodes from 'src/utils/compareCode';
 import executeCodes from '../../utils/executeCodes';
-import { localActivityProgress } from '../../utils/activityProgress';
 import { startStudioOnboarding } from '../../onboarding/studioOnboarding';
 import { settings_easy } from '../games/levels-easy';
 import { settings_hard } from '../games/levels-hard';
@@ -239,7 +251,7 @@ import { soundEffect } from '../../utils/SoundUtils';
 import errorSnd from '../../assets/sounds/errorSnd.mp3';
 import success from '../../assets/sounds/success-notify.mp3';
 import victory from '../../assets/sounds/victory-effect.mp3';
-import badgeFx from '../../assets/sounds/badge-fx.mp3'
+import badgeFx from '../../assets/sounds/badge-fx.mp3';
 import '../../css/style.css';
 import 'intro.js/introjs.css';
 
@@ -285,7 +297,12 @@ const stopwatch = ref<InstanceType<typeof StopwatchComponent> | null>(null);
 const initialTime = ref(0);
 const errorNotify = ref<(props?: QNotifyUpdateOptions) => void>();
 const arrayOfLives = ref(
-  ($q.localStorage.getItem('lives') as Array<string>) ?? ['img:/bat-0.svg','img:/bat-1.svg', 'img:/bat-2.svg', 'img:/bat-3.svg']
+  ($q.localStorage.getItem('lives') as Array<string>) ?? [
+    'img:/bat-0.svg',
+    'img:/bat-1.svg',
+    'img:/bat-2.svg',
+    'img:/bat-3.svg',
+  ]
 );
 
 const coinsStorage = ref(0);
@@ -313,13 +330,12 @@ const livesCost = () => {
 };
 
 const retryOnCoinsDialog = () => {
-  if(arrayOfLives.value.length==2){
-    arrayOfLives.value.push( 'img:/bat-2.svg', 'img:/bat-3.svg')
+  if (arrayOfLives.value.length == 2) {
+    arrayOfLives.value.push('img:/bat-2.svg', 'img:/bat-3.svg');
+  } else if (arrayOfLives.value.length == 3) {
+    arrayOfLives.value.push('img:/bat-3.svg');
   }
-  else if(arrayOfLives.value.length==3){
-    arrayOfLives.value.push('img:/bat-3.svg')
-  }
-}
+};
 const extralife = () => {
   arrayOfLives.value.push('img:/bat-1.svg');
   $q.localStorage.set('lives', arrayOfLives.value);
@@ -327,7 +343,6 @@ const extralife = () => {
     updateLocalUserCoins(userID(), -100);
   }
 };
-
 
 const closeExtraLives = () => {
   extra.value = false;
@@ -369,7 +384,7 @@ watch(isDialogOpen.value, () => {
 const setDialog = (key: Dialog, open = true) => {
   if (key != 'preview') {
     soundEffect();
-  } 
+  }
   isDialogOpen.value[key] = open;
 };
 
@@ -491,80 +506,34 @@ const coinsComputed = () => {
         dataToUpdate.duration,
         thisLevel.levelNum,
         settingNum
-      ).then((result) => {
-        activityScore.value = result;
+      ).then(() => {
+        activityScore.value = 0;
       });
     }
   });
-
-  //data progress
-  // const dataToUpdate = localActivityProgress(
-  //   userID(),
-  //   activityData,
-  //   stopwatch.value?.totalTime ?? 0,
-  //   parseInt($q.localStorage.getItem('failed-attemps') || '0'), //TODO: add number of attempts here
-  //   100, // decomposition
-  //   100 // pattern
-  // );
-  // soundEffect(victory); //FIXME: doubled sound
-  // setDialog('coins');
-
-  // getLocalActivities().then((localActivities) => {
-  //   const condition = localActivities.find(
-  //     (activity) =>
-  //       activity.difficulty === ageGroup &&
-  //       activity.setting === settingNum &&
-  //       activity.level === levelNum
-  //   );
-
-  //   if (condition === undefined || localActivities.length === 0) {
-  //     //indexing the data progress to dexie
-  //     addLocalActivityProgress(
-  //       dataToUpdate.userId,
-  //       dataToUpdate.activity,
-  //       dataToUpdate.duration,
-  //       dataToUpdate.attempt,
-  //       dataToUpdate.decomposition,
-  //       dataToUpdate.pattern
-  //     ).then((result) => {
-  //       activityScore.value = result;
-  //     });
-
-  //     updateLocalUserCoins(userID(), thisLevel.reward);
-  //   } else {
-  //     updateLocalActivityProgress(
-  //       dataToUpdate.userId,
-  //       dataToUpdate.decomposition,
-  //       dataToUpdate.attempt,
-  //       dataToUpdate.pattern,
-  //       dataToUpdate.duration,
-  //       thisLevel.levelNum,
-  //       settingNum
-  //     ).then((result) => {
-  //       activityScore.value = result;
-  //     });
-
-  //     retried.value = true;
-  //   }
-  // });
 };
 
 const openHints = () => {
-  getLocalUser(userID()).then((user) => {
-    if ((user?.coins ?? 0) >= 60 && (user?.coins ?? 0 >= 0)) {
-      $q.notify({
-        type: 'positive',
-        message: 'Hints Payment Success!',
-      });
-      updateLocalUserCoins(userID(), -60);
-      setDialog('hint');
-    } else {
-      $q.notify({
-        type: 'negative',
-        message: 'Not enough Coins!',
-      });
-    }
-  });
+  getLocalUser(userID())
+    .then((user) => {
+      blocklyGenerator();
+      return user;
+    })
+    .then((user) => {
+      if ((user?.coins ?? 0) >= 60 && (user?.coins ?? 0 >= 0)) {
+        $q.notify({
+          type: 'positive',
+          message: 'Hints Payment Success!',
+        });
+        updateLocalUserCoins(userID(), -60);
+        setDialog('hint');
+      } else {
+        $q.notify({
+          type: 'negative',
+          message: 'Not enough Coins!',
+        });
+      }
+    });
 };
 
 onMounted(() => {

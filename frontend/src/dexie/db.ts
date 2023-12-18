@@ -300,7 +300,6 @@ export const updateLocalActivityProgress = (
       .where('level')
       .equals(activityNum)
       .and((level) => level.setting === settingNum);
-    console.log(matchActivity);
     matchActivity
       .first()
       .then((activity) => {
@@ -308,36 +307,21 @@ export const updateLocalActivityProgress = (
           throw new Error('No matching activity found.');
         }
 
-        // Update local user score before modifying progress records
-        console.log('Updating user score...');
-        updateLocalUserScore(userID, score);
-
-        // Use a separate promise chain for modifying progress records
-        console.log('Modifying userActivityProgresses...');
-        console.log(activity);
         const x = dexie_db.userActivityProgresses;
         return x
           .where('activityId')
           .equals(activity.id ?? 1)
           .modify((progress) => {
-            console.log('inside modify');
             progress.attempt = attempt;
             progress.duration = duration;
             progress.decomposition = decompScore;
             progress.pattern = patternScore;
-
-            console.log('Progress modified:', progress);
-          })
-          .then((res) => {
-            console.log(res);
           });
       })
       .then(() => {
-        console.log('Resolution with score:', score);
         resolve(score);
       })
       .catch((error) => {
-        console.error('Error:', error);
         reject(error);
       });
   });

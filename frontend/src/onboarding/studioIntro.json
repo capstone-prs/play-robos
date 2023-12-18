@@ -1,29 +1,52 @@
 {
   "steps": [
     {
-      "intro": "<div align='center'><img src='/onboarding/drag-block.svg' width='150px' ></div> <p align='center'>Drag the <b>normal look</b> block to the workspace</p>"
+      "element": "#blockly",
+      "intro": "This is your workspace. You can build your blocks here.",
+      "position": "center"
     },
     {
-      "intro": "<div align='center'><img src='/onboarding/check-btn.svg' width='150px'> </div> <p align='center'> Click the <b>CHECK</b> button</p>"
+      "element": "#studioSidebar",
+      "intro": "This is your studio side bar. View more actions here.",
+      "position": "left"
     },
     {
-      "intro": "<div align='center'><img src='/onboarding/upload-btn.svg' width='150px'> </div> <p align='center'> Click the <b>UPLOAD</b> button</p>"
+      "element": "#studio-help",
+      "intro": "Replay this tutorial if you must.",
+      "position": "left"
     },
     {
-      "element": "#menu-btn",
-      "intro": "Click here for more actions",
+      "element": "#studio-menu",
+      "intro": "Adjust sound and background music here.",
+      "position": "bottom"
+    },
+    {
+      "element": "#studio-undo",
+      "intro": "Click here to undo actions on the workspace.",
+      "position": "bottom"
+    },
+    {
+      "element": "#studio-hint",
+      "intro": "Click here if you want to get a hint of what blocks to use to accomplish the goal.",
+      "position": "bottom"
+    },
+    {
+      "element": "#stopwatch",
+      "intro": "This is your stopwatch to record the amount of time you spent on this activity.",
       "position": "bottom"
     },
     {
       "element": "#goal",
-      "intro": "Click here to view the goal level",
+      "intro": "Click here to replay the goal",
       "position": "bottom"
     },
     {
-      "intro": "<div align='center'><img src='/onboarding/deleting-block.svg' width='150px'></div> <p align='center'> Drag blocks to the trashcan to delete </p>"
+      "element": "#studio-upload",
+      "intro": "Click here to execute your program to Zappy",
+      "position": "bottom"
     },
     {
-      "intro": "<div align='center'><img src='/onboarding/destruct-block.svg' width='150px'></div> <p align='center'> Destructure blocks by dragging on the lower stacks of blocks </p>"
+      "intro": "Now, upload your program to see how it works!"
     }
   ],
   "exitOnOverlayClick": false

@@ -44,7 +44,6 @@
           <div class="col q-pr-sm">
             <MusicButton data-cy="music-btn" />
           </div>
-
         </div>
       </div>
     </q-header>
@@ -64,7 +63,7 @@
                       completedLevel.difficulty === difficulty &&
                       completedLevel.setting === settingNumber &&
                       completedLevel.level === level.levelNum - 1
-                  )?.completed
+                  )?.completed ?? false
             "
             :difficulty="difficulty"
             :setting-num="settingNumber"
@@ -200,13 +199,11 @@ const checkSettingProgress = async () => {
   }
 };
 
-onMounted(()=>{
+onMounted(() => {
   getLocalUser(userID()).then((user) => {
     coinsStorage.value = user?.coins;
   });
-})
-
-const dataForHomepage = ref('8-11');
+});
 
 const getSettingImage = computed(() => {
   return difficulty === 'easy'
@@ -225,7 +222,6 @@ const determineLevelsToDisplay = computed(() => {
     ? settings_easy[settingNumber].levels
     : settings_hard[settingNumber].levels;
 });
-
 
 const navigateBack = () => {
   return router.push('/home');

@@ -11,4 +11,7 @@
     <allow-navigation href="about:*" />
     <preference name="Orientation" value="landscape" />
     <preference name="Fullscreen" value="true" />
+    <platform name="android">
+        <icon src="../src/assets/system-icon.png" />
+    </platform>
 </widget>

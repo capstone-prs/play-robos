@@ -1,7 +1,7 @@
 import lottie from 'lottie-web';
 import { Ref } from 'vue';
 
-export const lottieBackgroundLoader = (src: any, container: Ref<any>) => {
+export const lottieBackgroundLoader = (src: object, container: Ref) => {
   lottie.loadAnimation({
     container: container.value,
     loop: true,

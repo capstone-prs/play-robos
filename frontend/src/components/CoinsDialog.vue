@@ -61,8 +61,8 @@ import { WorkspaceSvg } from 'blockly';
 import { computed, ref } from 'vue';
 import { soundEffect } from 'src/utils/SoundUtils';
 import { useRouter } from 'vue-router';
-import { useQuasar } from 'quasar';
 import IconButton from './buttons/IconButton.vue';
+import { useQuasar } from 'quasar';
 const $q = useQuasar();
 
 const elementsArray = computed(() =>
@@ -72,7 +72,6 @@ const elementsArray = computed(() =>
   )
 );
 
-console.log($q.localStorage.getItem('coin_storage'));
 const router = useRouter();
 const props = defineProps<{
   coins: number;
@@ -97,7 +96,7 @@ const computeStarsToDisplay = (activityScore: number) => {
     return 1;
   }
 };
-const emit = defineEmits<{ (e: 'retry'): void; (e: 'new-life'): void; }>();
+const emit = defineEmits<{ (e: 'retry'): void; (e: 'new-life'): void }>();
 const isDialogOpen = ref(false);
 const showLoading = () => {
   $q.loading.show({
@@ -117,7 +116,6 @@ const retry = () => {
   emit('retry');
   emit('new-life');
 };
-
 
 const atHome = () => {
   soundEffect();

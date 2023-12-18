@@ -142,13 +142,12 @@ const dataForHomepage = ref(
 const router = useRouter();
 const lottieContainer = ref();
 const isLogoutDialogVisible = ref(false);
-
 const coinsStorage = ref();
 onMounted(() => {
   lottieBackgroundLoader(animationData, lottieContainer);
   startOnboarding();
   getLocalUser(userID()).then((user) => {
-    coinsStorage.value = user?.coins;
+    coinsStorage.value = user?.coins ?? 0;
   });
   lottieBackgroundLoader(animationData, lottieContainer);
 });

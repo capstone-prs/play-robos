@@ -41,26 +41,28 @@
 
 <script setup lang="ts">
 import { onBeforeMount, ref } from 'vue';
-import { Badge } from '../types/Progress';
+import { NewBadge } from '../types/Progress';
 import { getLocalBadges } from '../dexie/db';
 import BadgeDetails from './BadgeDetails.vue';
 
 const isDetailOpen = ref(false);
 
-const openDetail = (badge: Badge) => {
+const openDetail = (badge: NewBadge) => {
   selectedBadge.value = badge;
   isDetailOpen.value = true;
 };
 
-const allBadges = ref<Badge[]>([
+const allBadges = ref<NewBadge[]>([
   {
+    userId: '',
     name: '',
     url: '',
     description: '',
   },
 ]);
 
-const selectedBadge = ref<Badge>({
+const selectedBadge = ref<NewBadge>({
+  userId: '',
   name: '',
   url: '',
   description: '',

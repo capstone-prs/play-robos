@@ -33,4 +33,17 @@ export interface Badge {
   description: string;
 }
 
+export interface ScoreSheet {
+  activity: string;
+  difficulty: Difficulty;
+  duration: number;
+  attempt: number;
+  decomposition: number;
+  pattern: number;
+}
+
+export interface AccuracyAndEfficiency {
+  accuracy: number;
+  efficiency: number;
+}
 export type NewBadge = Omit<Badge, 'id'>;
