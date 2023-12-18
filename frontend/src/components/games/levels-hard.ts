@@ -56,8 +56,7 @@ export const settings_hard: Setting[] = [
         levelNum: 1,
         goalTitle: 'Rise and Shine!',
         reward: 400,
-        gif: [
-        ], //robot
+        gif: [], //robot
         hint: [''], //to confirm to paul
         correctCode: [
           { eyes: 'e' },
