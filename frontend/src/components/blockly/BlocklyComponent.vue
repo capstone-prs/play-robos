@@ -3,13 +3,20 @@
     <div class="col">
       <div class="workspace-container" id="blockly">
         <div class="overlay-container">
-          <div class="row">
-            <img
-              class="image"
-              :src="image"
-              v-for="image in arrayOfLives"
-              :key="image"
+          <div class="row q-pt-xs" >
+            <q-btn
+              style="margin-left: 57%"
+              glossy
+              rounded
+              size="18px"
+              color="grey-7"
+              text-color="white"
+              icon="img:/coin-bag.svg"
+              :disable="true"
+              :label="coinsStorage"
+              id="coin-storage"
             />
+            <q-icon class="image-lives" size="250px" :name='arrayOfLives[arrayOfLives.length-1]' />
           </div>
           <LevelGoalPreview
             v-model="isDialogOpen.preview"
@@ -44,7 +51,12 @@
             :user-code="generatedCode"
             :level="thisLevel"
           />
-          <GameOver v-model="gameover" />
+          <GameOver
+            :clear="workspace"
+            @retry="restartTime"
+            v-model="gameover"
+            @new-life="arrayOfLives.push('img:/bat-1.svg', 'img:/bat-2.svg', 'img:/bat-3.svg')"
+          />
           <ExtraLives
             v-if="extra"
             v-model="extra"
@@ -53,11 +65,18 @@
               (isAdd) => {
                 if (isAdd <= coinsStorage) {
                   extralife();
+                  closeExtraLives();
                 } else {
                   notifyError('NOT ENOUGH COINS!');
+                  closeExtraLives();
                   openGameover();
+                  
                 }
               }
+            "
+            @close-dialog="
+              closeExtraLives();
+              openGameover();
             "
             :is-playing="extra"
           />
@@ -80,6 +99,12 @@
             :score="activityScore"
             :activity-score="currentActivityScore"
             :is-retry="retried"
+            :clear="workspace"
+            @retry="restartTime"
+            @new-life="
+            retryOnCoinsDialog();
+            setDialog('check', false);
+            "
           />
           <BadgeDialog
             :badge-name="badge.name"
@@ -203,7 +228,6 @@ import { startStudioOnboarding } from '../../onboarding/studioOnboarding';
 import { settings_easy } from '../games/levels-easy';
 import { settings_hard } from '../games/levels-hard';
 import generator from '../../utils/blockly';
-import lives from '../../assets/PlayRobos1.svg';
 import ExtraLives from '../../components/ExtraLivesDIalog.vue';
 // Types
 import { Activity, Badge, Difficulty } from '../../types/Progress';
@@ -215,6 +239,7 @@ import { soundEffect } from '../../utils/SoundUtils';
 import errorSnd from '../../assets/sounds/errorSnd.mp3';
 import success from '../../assets/sounds/success-notify.mp3';
 import victory from '../../assets/sounds/victory-effect.mp3';
+import badgeFx from '../../assets/sounds/badge-fx.mp3'
 import '../../css/style.css';
 import 'intro.js/introjs.css';
 
@@ -259,10 +284,10 @@ const blocklyContainer = ref<string | Element>('');
 const stopwatch = ref<InstanceType<typeof StopwatchComponent> | null>(null);
 const initialTime = ref(0);
 const errorNotify = ref<(props?: QNotifyUpdateOptions) => void>();
-// const arrayOfLives = ref<Array<string>>([lives, lives, lives]);
 const arrayOfLives = ref(
-  ($q.localStorage.getItem('lives') as Array<string>) ?? [lives, lives, lives]
+  ($q.localStorage.getItem('lives') as Array<string>) ?? ['img:/bat-0.svg','img:/bat-1.svg', 'img:/bat-2.svg', 'img:/bat-3.svg']
 );
+
 const coinsStorage = ref(0);
 const currentActivityScore = ref(0);
 const badge = ref<Badge>({
@@ -273,13 +298,12 @@ const badge = ref<Badge>({
 });
 const activityScore = ref(0);
 const retried = ref(false);
-
 const livesCost = () => {
   if (isEqualCodes(correctCodes, generatedCode.value) === false) {
     arrayOfLives.value.pop();
     $q.localStorage.set('lives', arrayOfLives.value);
   }
-  if (arrayOfLives.value.length == 0) {
+  if (arrayOfLives.value.length == 1) {
     $q.localStorage.set('failed-attemps', (failedAttemps.value += 1));
     setTimeout(() => {
       setDialog('check', false);
@@ -288,16 +312,25 @@ const livesCost = () => {
   }
 };
 
+const retryOnCoinsDialog = () => {
+  if(arrayOfLives.value.length==2){
+    arrayOfLives.value.push( 'img:/bat-2.svg', 'img:/bat-3.svg')
+  }
+  else if(arrayOfLives.value.length==3){
+    arrayOfLives.value.push('img:/bat-3.svg')
+  }
+}
 const extralife = () => {
-  arrayOfLives.value.push(lives);
+  arrayOfLives.value.push('img:/bat-1.svg');
   $q.localStorage.set('lives', arrayOfLives.value);
   if (coinsStorage.value) {
     updateLocalUserCoins(userID(), -100);
   }
-  // localStorage.setItem(
-  //   'coin_storage',
-  //   (Number(coinsStorage.value) - 100).toString()
-  // );
+};
+
+
+const closeExtraLives = () => {
+  extra.value = false;
 };
 
 const routeParam = router.currentRoute.value.params.param as string;
@@ -317,6 +350,12 @@ const stopTime = () => {
 
 const startTime = () => stopwatch.value?.start();
 
+const restartTime = () => {
+  stopwatch.value?.stop();
+  initialTime.value = 0;
+  startTime();
+};
+
 watch(isDialogOpen.value, () => {
   const { menu, check, preview, reconnect } = isDialogOpen.value;
 
@@ -328,9 +367,9 @@ watch(isDialogOpen.value, () => {
 });
 
 const setDialog = (key: Dialog, open = true) => {
-  if(key!= 'preview'){
+  if (key != 'preview') {
     soundEffect();
-  }
+  } 
   isDialogOpen.value[key] = open;
 };
 
@@ -387,6 +426,7 @@ const badgeReward = () => {
       isDialogOpen.value.badge = false;
     } else {
       isDialogOpen.value.badge = true;
+      soundEffect(badgeFx);
     }
   });
 };
@@ -673,5 +713,11 @@ const hideLoadingUpload = () => {
   max-width: 25%;
   max-height: 25%;
   margin-left: 65%;
+}
+.image-lives {
+  max-width: 25%;
+  max-height: 25%;
+  margin-left: 65%;
+  margin-top: -30%;
 }
 </style>
