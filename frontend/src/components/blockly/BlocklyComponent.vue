@@ -341,6 +341,7 @@ const extralife = () => {
   $q.localStorage.set('lives', arrayOfLives.value);
   if (coinsStorage.value) {
     updateLocalUserCoins(userID(), -100);
+    coinsStorage.value -= 100;
   }
 };
 
@@ -526,6 +527,7 @@ const openHints = () => {
           message: 'Hints Payment Success!',
         });
         updateLocalUserCoins(userID(), -60);
+        coinsStorage.value-=60;
         setDialog('hint');
       } else {
         $q.notify({
